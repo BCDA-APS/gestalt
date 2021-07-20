@@ -1,6 +1,6 @@
 from lxml.etree import ElementTree, TreeBuilder
 
-from gestalt.Stylesheet import *
+from gestalt.Type import *
 
 name_numbering = {}
 
