@@ -24,7 +24,7 @@ class DataType(object):
 		tree.end(self.typ)
 		
 	def merge(self, other):
-		return type(self)(self.typ, other.val)
+		return type(self)(other.val)
 
 		
 
@@ -115,7 +115,12 @@ class Color(DataType):
 		self.defaultvalue = 0
 		
 		if len(args) == 0:
-			self.alpha = a
+			
+			if a is None:
+				self.alpha = 255
+			else:
+				self.alpha = a
+				
 			self.val = {"red" : r, "green" : g, "blue" : b}
 			return
 		
@@ -130,7 +135,7 @@ class Color(DataType):
 				"blue"  : params.get("b", params.get("blue", None)) }
 			
 		elif isinstance(data, list) or isinstance(data, tuple):
-			temp = [None, None, None, None]
+			temp = [None, None, None, 255]
 			
 			for i in range(len(params)):
 				temp[i] = params[i]
@@ -157,7 +162,7 @@ class Color(DataType):
 
 				
 	def write(self, tree):
-		tree.start(self.typ, {"alpha" : str(self.alpha or 255)})
+		tree.start(self.typ, {"alpha" : str(self.alpha)})
 		
 		for key, item in self.val.items():
 			tree.start(key, {})
