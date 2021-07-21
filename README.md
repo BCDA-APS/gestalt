@@ -18,7 +18,7 @@ A screen is represented by a Display object containing a graph of children Widge
 are created by providing them with a Qt widget classname and then setting any properties that 
 should be different from the Qt standard.
 
-```
+```python
     a_display = Gestalt.Display()
     a_display.setProperty("geometry", Type.Rect("600x400"))
 
@@ -33,7 +33,7 @@ should be different from the Qt standard.
 For repeated creation of the same style of Widget, multiple properties can be combined into a
 named style within a stylesheet. An example stylesheet might look like:
 
-```
+```yaml
 base_window:
     geometry: 600x400
     
@@ -48,7 +48,7 @@ small_rect:
 Which can then be used to construct Displays and Widgets either through the 'layout' parameter
 in the constructors, or through the 'setLayout' function.
 
-```
+```python
     styles = Stylesheet.parse("layout.yml")
     
     a_display = Gestalt.Display(layout=styles["base_window"])
@@ -69,7 +69,7 @@ names for each cell in each row/column. So a first row of:
 Would parse each subsequent row and provide a dictionary with 'X', 'Y', and 'COLOR' values. Combining
 that with what we've been doing so far gives us:
 
-```
+```python
     styles = Stylesheet.parse("layout.yml")
     
     a_display = Gestalt.Display(layout=styles["base_window"])
