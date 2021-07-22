@@ -180,7 +180,7 @@ class Color(DataType):
 		elif isinstance(data, int):
 			temp = [0, 0, 0, 255]
 					
-			int i = 0
+			i = 0
 			for item in args:
 				temp[i] = item
 				i += 1
