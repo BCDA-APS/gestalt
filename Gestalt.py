@@ -15,8 +15,7 @@ class Widget(object):
 		if name:
 			self.name = name
 		else:
-			num = name_numbering.get(classname, 0)
-			num += 1
+			num = 1 + name_numbering.get(classname, 0)
 			name_numbering[classname] = num
 			
 			self.name = classname + str(num)
@@ -36,7 +35,7 @@ class Widget(object):
 			out_x = args[0]
 			out_y = args[1]
 			
-		elif not x is None:
+		elif x is not None:
 			out_x = x
 			out_y = y
 			
@@ -71,7 +70,7 @@ class Widget(object):
 				to_assign = String(data)
 			
 			
-		if self.attrs.get(key):
+		if key in self.attrs:
 			self.attrs[key] = self.attrs[key].merge(to_assign)
 		else:
 			self.attrs[key] = to_assign

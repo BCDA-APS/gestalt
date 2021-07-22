@@ -58,70 +58,42 @@ class Rect(DataType):
 	def __init__(self, *args, x=None, y=None, width=None, height=None):
 		self.typ = "rect"
 		self.defaultvalue = 0
+		self.labels = ["x", "y", "width", "height"]
 			
 		if len(args) == 0:
 			self.val = {"x" : x, "y" : y, "width" : width, "height" : height }
 			return
 			
-		data = args[0]
+		data = args
+		
+		if len(args) == 1:
+			data = args[0]
 		
 		if isinstance(data, dict):
-			self.val = {
-				"x" : data.get("x", None), 
-				"y" : data.get("y", None),
-				"width" : data.get("width", data.get("wid", None)), 
-				"height" : data.get("height", data.get("hei", None))}
-			
-		elif isinstance(data, list) or isinstance(data, tuple):
-			temp = []
-			
-			for i in range(4 - len(data)):
-				temp.append(None)
-				
-			for item in data:
-				temp.append(item)
-			
-			self.val = {
-				"x" : temp[0],
-				"y" : temp[1],
-				"width" : temp[2],
-				"height" : temp[3] }
-					
+			data = [ data.get(key, None) for key in self.labels ]
+		
 		elif isinstance(data, str):
-			wid, hei = map(int, data.split("x"))
+			data = [ int(item) for item in data.split("x")]
 			
-			self.val = { "width" : wid, "height" : hei }
-					
-		elif isinstance(data, int):
-			temp = []
-			for i in range(4 - len(args)):
-				temp.append(None)
+		temp = []
+			
+		for i in range(4 - len(data)):
+			temp.append(None)
 				
-			for item in args:
-				temp.append(item)
-				
-			self.val = {
-				"x" : temp[0],
-				"y" : temp[1],
-				"width" : temp[2],
-				"height" : temp[3] }
+		for item in data:
+			temp.append(item)
+			
+		self.val = dict(zip(self.labels, temp))
+
 	
 				
 	def merge(self, other):	
 		output = {}
 		output.update(self.val)
 					
-		if not other.val.get("x") is None:
-			output["x"] = other.val["x"]
-		
-		if not other.val.get("y") is None:
-			output["y"] = other.val["y"]
-				
-		if not other.val.get("width") is None:
-			output["width"] = other.val["width"]
-		
-		if not other.val.get("height") is None:
-			output["height"] = other.val["height"]
+		for key in self.labels:
+			if other.val.get(key) is not None:
+				output[key] = other.val[key]
 			
 		return Rect(output)
 
@@ -133,99 +105,53 @@ class Color(DataType):
 	def __init__(self, *args, r=None, g=None, b=None, a=None):
 		self.typ = "color"
 		self.defaultvalue = 0
+		self.labels = ["red", "green", "blue", "alpha"]
 		
 		if len(args) == 0:
-			
-			if a is None:
-				self.alpha = 255
-			else:
-				self.alpha = a
-				
-			self.val = {"red" : r, "green" : g, "blue" : b}
+			self.val = {"red" : r, "green" : g, "blue" : b, "alpha" : a}
 			return
 		
-		data = args[0]
+		data = args
 		
+		if len(args) == 1:
+			data = args[0]
+			
 		if isinstance(data, dict):
-			self.alpha = params.get("a", params.get("alpha", None))
+			data = [ data.get(key, None) for key in self.labels ]
 		
-			self.val = {
-				"red"   : params.get("r", params.get("red", None)),
-				"green" : params.get("g", params.get("green", None)),
-				"blue"  : params.get("b", params.get("blue", None)) }
-			
-		elif isinstance(data, list) or isinstance(data, tuple):
-			temp = [None, None, None, 255]
-			
-			for i in range(len(params)):
-				temp[i] = params[i]
-				
-			self.alpha = temp[3]
-			self.val = { 
-				"red"   : temp[0],
-				"green" : temp[1], 
-				"blue"  : temp[2] }
-					
 		elif isinstance(data, str):
 			data = data.lstrip("$")
 			
-			temp = [0, 0, 0, 255]
+			# Interpret each 2-char chunk as a hex number
+			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
 			
-			for i in range(0, len(data), 2):
-				temp[int(i/2)] = int(data[i:i+2], 16)
+		temp = [None, None, None, 255]
 			
-			self.alpha = temp[3]
-			self.val = { 
-				"red"   : temp[0],
-				"green" : temp[1], 
-				"blue"  : temp[2] }
-					
-		elif isinstance(data, int):
-			temp = [0, 0, 0, 255]
-					
-			i = 0
-			for item in args:
-				temp[i] = item
-				i += 1
+		for i in range(len(data)):
+			temp[i] = data[i]
 				
-				if i >= 4:
-					break
-
-			self.alpha = temp[3]
-			self.val = {
-				"red"   : temp[0],
-				"green" : temp[1],
-				"blue"  : temp[2] }
+		self.val = dict( zip(self.labels, temp))
 				
 					
 	def write(self, tree):
-		tree.start(self.typ, {"alpha" : str(self.alpha)})
+		tree.start(self.typ, {"alpha" : str(self.val["alpha"])})
 		
 		for key, item in self.val.items():
-			tree.start(key, {})
-			tree.data(str(item))
-			tree.end(key)
+			if key != "alpha":
+				tree.start(key, {})
+				tree.data(str(item))
+				tree.end(key)
 			
 		tree.end(self.typ)
 
 		
 	def merge(self, other):
-		r_out = self.val["red"]
-		g_out = self.val["green"]
-		b_out = self.val["blue"]
-		a_out = self.alpha
-		
-		if not other.val.get("red") is None:
-			r_out = other.val["red"]
-		
-		if not other.val.get("green") is None:
-			g_out = other.val["green"]
-				
-		if not other.val.get("blue") is None:
-			b_out = other.val["blue"]
-		
-		if not other.alpha is None:
-			a_out = other.alpha
+		output = {}
+		output.update(self.val)
+					
+		for key in self.labels:
+			if other.val.get(key) is not None:
+				output[key] = other.val[key]
 			
-		return Color(r=r_out, g=g_out, b=b_out, a=a_out)
+		return Color(output)
 		
