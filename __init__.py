@@ -1,1 +1,1 @@
-__all__ = [ "Data", "Stylesheet", "Gestalt", "Type"]
+__all__ = [ "Spreadsheet", "Stylesheet", "Gestalt", "Type"]

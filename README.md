@@ -59,10 +59,10 @@ in the constructors, or through the 'setLayout' function.
                         
 ```
 
-Finally, spreadsheets can be used to provide data for the Widgets. The Data.rows() and Data.cols()
-functions take an excel spreadsheet and parses it to provide a set of data structures, one for each
-row or column respectively. The first item is excluded from this as it is used to provide parameter
-names for each cell in each row/column. So a first row of:
+Finally, spreadsheets can be used to provide data for the Widgets. The Spreadsheet.rows() and 
+Spreadsheet.cols() functions take an excel spreadsheet and parses it to provide a set of data 
+structures, one for each row or column respectively. The first item is excluded from this as 
+it is used to provide parameter names for each cell in each row/column. So a first row of:
 
 `X    |   Y   |   COLOR`
 
@@ -74,7 +74,7 @@ that with what we've been doing so far gives us:
     
     a_display = Gestalt.Display(layout=styles["base_window"])
     
-    for row in Data.rows("the_data.xlsx"):
+    for row in Spreadsheet.rows("the_data.xlsx"):
         a_display.addChild( Gestalt.Widget("caGraphics")
                 .setLayout(styles["small_rect"])
                 .setProperty("foreground", Type.Color(row["COLOR"]))
