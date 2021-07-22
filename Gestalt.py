@@ -79,12 +79,14 @@ class Widget(object):
 		return self
 
 		
-	def setProperties(self, layout):
-		if not layout:
-			return self
-		
-		for key, val in layout.items():
-			self.setProperty(key, val)
+	def setProperties(self, *args, **kwargs):
+		if len(args) != 0:
+			for key, val in args[0].items():
+				self.setProperty(key, val)
+			
+		if kwargs:
+			for key, val in kwargs.items():
+				self.setProperty(key, val)
 			
 		return self
 		
