@@ -1,22 +1,28 @@
-G enerating  
-E PICS  
-S creens  
-T hrough  
-A ssembling  
-L ayout  
-T emplates  
+**G** enerating  
+**E** PICS  
+**S** creens  
+**T** hrough  
+**A** ssembling  
+**L** ayout  
+**T** emplates  
 
 
 
-Gestalt is a python library to help make it easy to programmatically generate caQtDM '.ui' files
-from user data. Widgets can be created and properties modified without needing to load any Qt
-libraries, default widget parameters can be provided in a YAML stylesheet, and then data can be
-taken from a spreadsheet to position the widgets and provide them with individualized setup.
+Gestalt is a python library to help make it easy to programmatically 
+generate caQtDM '.ui' files from user data. Widgets can be created and 
+properties modified without needing to load any Qt libraries, default 
+widget parameters can be provided in a YAML stylesheet, and then data 
+can be taken from a spreadsheet to position the widgets and provide them 
+with individualized setup.
 
+For a full example, see: https://github.com/keenanlang/gestalt_example
 
-A screen is represented by a Display object containing a graph of children Widget objects. Widgets
-are created by providing them with a Qt widget classname and then setting any properties that 
-should be different from the Qt standard.
+## Using Gestalt
+
+A caQtDM screen to be generated is represented in the code by a Display 
+object containing a graph of children Widget objects. Widgets are created 
+by providing them with a Qt widget classname and then setting any properties 
+that should be different from the Qt standard.
 
 ```python
     a_display = Gestalt.Display()
@@ -30,8 +36,9 @@ should be different from the Qt standard.
     a_display.addChild(a_widget)
 ```
 
-For repeated creation of the same style of Widget, multiple properties can be combined into a
-named style within a stylesheet. An example stylesheet might look like:
+For repeated creation of the same style of Widget, multiple properties can 
+be combined into a named style within a stylesheet. An example stylesheet 
+might look like:
 
 ```yaml
 base_window:
@@ -45,8 +52,8 @@ small_rect:
     background: $000000
 ```
 
-Which can then be used to construct Displays and Widgets either through the 'layout' parameter
-in the constructors, or through the 'setProperties' function.
+Which can then be used to construct Displays and Widgets either through the 
+'layout' parameter in the constructors, or through the 'setProperties' function.
 
 ```python
     styles = Stylesheet.parse("layout.yml")
@@ -59,15 +66,16 @@ in the constructors, or through the 'setProperties' function.
                         
 ```
 
-Finally, spreadsheets can be used to provide data for the Widgets. The Spreadsheet.rows() and 
-Spreadsheet.cols() functions take an excel spreadsheet and parses it to provide a set of data 
-structures, one for each row or column respectively. The first item is excluded from this as 
-it is used to provide parameter names for each cell in each row/column. So a first row of:
+Finally, spreadsheets can be used to provide data for the Widgets. The 
+Spreadsheet.rows() and Spreadsheet.cols() functions take an excel spreadsheet and 
+parses it to provide a set of data structures, one for each row or column respectively. 
+The first item is excluded from this as it is used to provide parameter names for 
+each cell in each row/column. So a first row of:
 
 `X    |   Y   |   COLOR`
 
-Would parse each subsequent row and provide a dictionary with 'X', 'Y', and 'COLOR' values. Combining
-that with what we've been doing so far gives us:
+Would parse each subsequent row and provide a dictionary with 'X', 'Y', and 'COLOR' 
+values. Combining that with what we've been doing so far gives us:
 
 ```python
     styles = Stylesheet.parse("layout.yml")
