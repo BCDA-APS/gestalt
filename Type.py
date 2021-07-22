@@ -43,6 +43,9 @@ class Enum(DataType):
 	def __init__(self, val):
 		super(Enum, self).__init__("enum", val)
 
+class Set(DataType):
+	def __init__(self, val):
+		super(Set, self).__init__("set", val)
 	
 	
 """
