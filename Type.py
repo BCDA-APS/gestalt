@@ -88,6 +88,20 @@ class Rect(DataType):
 			wid, hei = map(int, data.split("x"))
 			
 			self.val = { "width" : wid, "height" : hei }
+					
+		elif isinstance(data, int):
+			temp = []
+			for i in range(4 - len(args)):
+				temp.append(None)
+				
+			for item in args:
+				temp.append(item)
+				
+			self.val = {
+				"x" : temp[0],
+				"y" : temp[1],
+				"width" : temp[2],
+				"height" : temp[3] }
 	
 				
 	def merge(self, other):	
@@ -162,8 +176,25 @@ class Color(DataType):
 				"red"   : temp[0],
 				"green" : temp[1], 
 				"blue"  : temp[2] }
-
+					
+		elif isinstance(data, int):
+			temp = [0, 0, 0, 255]
+					
+			int i = 0
+			for item in args:
+				temp[i] = item
+				i += 1
 				
+				if i >= 4:
+					break
+
+			self.alpha = temp[3]
+			self.val = {
+				"red"   : temp[0],
+				"green" : temp[1],
+				"blue"  : temp[2] }
+				
+					
 	def write(self, tree):
 		tree.start(self.typ, {"alpha" : str(self.alpha)})
 		
