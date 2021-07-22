@@ -59,6 +59,8 @@ class Widget(object):
 			to_assign = String(data)
 		elif isinstance(data, int):
 			to_assign = Number(data)
+		elif isinstance(data, float):
+			to_assign = Double(data)
 		elif isinstance(data, dict):
 			to_assign = DataType(data)
 			

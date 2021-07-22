@@ -38,6 +38,10 @@ class String(DataType):
 class Number(DataType):
 	def __init__(self, val):
 		super(Number, self).__init__("number", val)
+	
+class Double(DataType):
+	def __init__(self, val):
+		super(Double, self).__init__("double", val)
 
 class Enum(DataType):	
 	def __init__(self, val):
@@ -46,7 +50,6 @@ class Enum(DataType):
 class Set(DataType):
 	def __init__(self, val):
 		super(Set, self).__init__("set", val)
-	
 	
 """
 	GEOMETRY DATA TYPE
