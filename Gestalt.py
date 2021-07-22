@@ -25,7 +25,7 @@ class Widget(object):
 		self.children = []
 		
 		if layout:
-			self.setLayout(layout)
+			self.setProperties(layout)
 			
 	def position(self, *args, x=None, y=None):
 			
@@ -79,7 +79,7 @@ class Widget(object):
 		return self
 
 		
-	def setLayout(self, layout):
+	def setProperties(self, layout):
 		if not layout:
 			return self
 		
@@ -115,8 +115,8 @@ class Display(Widget):
 	
 		self.form.addChild(self)
 		
-	def setLayout(self, layout):
-		self.form.setLayout(layout)
+	def setProperties(self, layout):
+		self.form.setProperties(layout)
 		
 	def setProperty(self, key, prop):
 		self.form.setProperty(key, prop)

@@ -46,7 +46,7 @@ small_rect:
 ```
 
 Which can then be used to construct Displays and Widgets either through the 'layout' parameter
-in the constructors, or through the 'setLayout' function.
+in the constructors, or through the 'setProperties' function.
 
 ```python
     styles = Stylesheet.parse("layout.yml")
@@ -54,7 +54,7 @@ in the constructors, or through the 'setLayout' function.
     a_display = Gestalt.Display(layout=styles["base_window"])
     
     a_display.addChild( Gestalt.Widget("caGraphics")
-                        .setLayout(styles["small_rect"])
+                        .setProperties(styles["small_rect"])
                         .position(50, 50) )
                         
 ```
@@ -76,7 +76,7 @@ that with what we've been doing so far gives us:
     
     for row in Spreadsheet.rows("the_data.xlsx"):
         a_display.addChild( Gestalt.Widget("caGraphics")
-                .setLayout(styles["small_rect"])
+                .setProperties(styles["small_rect"])
                 .setProperty("foreground", Type.Color(row["COLOR"]))
                 .position(row["X"], row["Y"]) )
                 
