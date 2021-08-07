@@ -28,9 +28,10 @@ class DataType(object):
 
 		
 
-"""
-	BASIC DATA TYPES
-"""
+###########################
+#     BASIC DATA TYPES    #
+###########################
+
 class String(DataType):
 	def __init__(self, val):
 		super(String, self).__init__("string", val)		
@@ -51,9 +52,12 @@ class Set(DataType):
 	def __init__(self, val):
 		super(Set, self).__init__("set", val)
 	
-"""
-	GEOMETRY DATA TYPE
-"""
+
+###########################
+#    GEOMETRY DATA TYPE   #
+###########################
+
+
 class Rect(DataType):			
 	def __init__(self, *args, x=None, y=None, width=None, height=None):
 		self.typ = "rect"
@@ -98,9 +102,10 @@ class Rect(DataType):
 		return Rect(output)
 
 		
-"""
-	COLOR DATA TYPE
-"""
+#######################
+#   COLOR DATA TYPE   #
+#######################
+
 class Color(DataType):
 	def __init__(self, *args, r=None, g=None, b=None, a=None):
 		self.typ = "color"
