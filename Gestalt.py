@@ -111,8 +111,14 @@ class Group(Widget):
 	def __init__(self, initial_children, layout=None):
 		super(Group, self).__init__("caFrame")
 	
-		for child in initial_children:
-			self.addChild(child)
+		if isinstance(initial_children, dict):
+			for name, child in initial_children.items():
+				child.name = name
+				self.addChild(child)
+		
+		elif isinstance(initial_children, list) or isinstance(initial_children, tuple):
+			for child in initial_children:
+				self.addChild(child)
 		
 		
 

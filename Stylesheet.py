@@ -57,9 +57,14 @@ yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 
 
 def create_group(loader, node):
-	children = loader.construct_sequence(node)
+	try:
+		children = loader.construct_sequence(node)
+		return Group(children)
+	except:
+		children = loader.construct_mapping(node)
+		return Group(children)
 	
-	return Group(children)
+	
 	
 
 def read_widget(typ, loader, node):
