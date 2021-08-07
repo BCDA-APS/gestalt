@@ -2,7 +2,7 @@ import re
 import yaml
 
 from gestalt.Type import *
-from gestalt.Gestalt import Widget, Group
+from gestalt.Gestalt import Widget
 
 ##########################
 #    Data Type Parsing   #
@@ -53,24 +53,14 @@ yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 
 #######################
 #    Widget Parsing   #
-#######################
-
-
-def create_group(loader, node):
-	try:
-		children = loader.construct_sequence(node)
-		return Group(children)
-	except:
-		children = loader.construct_mapping(node)
-		return Group(children)
-	
-	
-	
+#######################	
 
 def read_widget(typ, loader, node):
-	params = loader.construct_mapping(node)
+	params = loader.construct_mapping(node, deep=True)
 	
-	return Widget(typ, layout=params)
+	children = params.pop("children", None)
+
+	return Widget(typ, initial=children, layout=params)
 	
 	
 recognized_widgets = (
@@ -82,16 +72,15 @@ recognized_widgets = (
 	'caCircularGauge', 'caMultiLineString', 'caThermo', 'caCartesianPlot',
 	'caStripPlot', 'caByte', 'caTable', 'caWaveTable', 'caBitnames',
 	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
-	'caShellCommand', 'caScriptButton', 'caMimeDisplay'
+	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'caFrame'
 )
 
 for widget_type in recognized_widgets:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_widget(t, l, n)), Loader=yaml.SafeLoader)
-
-
-yaml.add_constructor("!group", create_group, Loader=yaml.SafeLoader)
 	
-
+yaml.add_constructor("!group", (lambda l, n: read_widget("caFrame", l, n)), Loader=yaml.SafeLoader)
+	
+	
 def parse(filename):		
 	with open(filename) as the_file:
 		return yaml.safe_load(the_file)

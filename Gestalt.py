@@ -8,10 +8,10 @@ name_numbering = {}
 
 
 class Widget(object):
-	def __init__(self, classname, name=None, layout=None):
+	def __init__(self, classname, initial=None, name=None, layout=None):
 		self.classname = classname
 		
-		if name:
+		if name is not None:
 			self.name = name
 		else:
 			num = 1 + name_numbering.get(classname, 0)
@@ -22,8 +22,20 @@ class Widget(object):
 		self.attrs = {}
 		self.children = []
 		
-		if layout:
+		if layout is not None:
 			self.setProperties(layout)
+			
+		if initial is not None:			
+			if isinstance(initial, dict):
+				for name, child in initial.items():
+					child.name = name
+					self.addChild(child)
+			
+			elif isinstance(initial, list) or isinstance(initial, tuple):
+				for child in initial:
+					self.addChild(child)
+					
+					
 			
 	def position(self, *args, x=None, y=None):
 			
@@ -105,21 +117,7 @@ class Widget(object):
 			child.write(tree)
 			
 		tree.end("widget")
-		
-		
-class Group(Widget):
-	def __init__(self, initial_children, layout=None):
-		super(Group, self).__init__("caFrame")
-	
-		if isinstance(initial_children, dict):
-			for name, child in initial_children.items():
-				child.name = name
-				self.addChild(child)
-		
-		elif isinstance(initial_children, list) or isinstance(initial_children, tuple):
-			for child in initial_children:
-				self.addChild(child)
-		
+
 		
 
 class Display(Widget):
