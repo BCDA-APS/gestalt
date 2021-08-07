@@ -2,7 +2,11 @@ import re
 import yaml
 
 from gestalt.Type import *
+from gestalt.Gestalt import Widget
 
+##########################
+#    Data Type Parsing   #
+##########################
 
 def read_type(cls, loader, node):
 
@@ -22,8 +26,8 @@ def read_type(cls, loader, node):
 		except:
 			data = loader.construct_scalar(node)
 			return cls(data)
-
-
+			
+			
 yaml.add_constructor("!string", (lambda l, n: read_type(String, l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!number", (lambda l, n: read_type(Number, l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!double", (lambda l, n: read_type(Double, l, n)), Loader=yaml.SafeLoader)
@@ -46,8 +50,34 @@ yaml.add_constructor("!color", (lambda l, n: read_type(Color, l, n)), Loader=yam
 yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 
 
-			
-			
+
+#######################
+#    Widget Parsing   #
+#######################
+
+
+def read_widget(typ, loader, node):
+	params = loader.construct_mapping(node)
+	
+	return Widget(typ, layout=params)
+
+	
+recognized_widgets = (
+	'caLabel', 'caLineEdit', 'caTextEntry', 'caMenu', 'caRelatedDisplay',
+	'caNumeric', 'caApplyNumeric', 'caSlider', 'caChoice', 'caTextEntry',
+	'caMessageButton', 'caToggleButton', 'caSpinbox', 'caByteController',
+	'caLabelVertical', 'caGraphics', 'caPolyLine', 'caImage', 'caInclude',
+	'caDoubleTabWidget', 'caClock', 'caLed', 'caLinearGauge', 'caMeter',
+	'caCircularGauge', 'caMultiLineString', 'caThermo', 'caCartesianPlot',
+	'caStripPlot', 'caByte', 'caTable', 'caWaveTable', 'caBitnames',
+	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
+	'caShellCommand', 'caScriptButton', 'caMimeDisplay'
+)
+
+for widget_type in recognized_widgets:
+	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_widget(t, l, n)), Loader=yaml.SafeLoader)
+
+
 
 def parse(filename):		
 	with open(filename) as the_file:
