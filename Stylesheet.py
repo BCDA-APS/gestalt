@@ -2,7 +2,7 @@ import re
 import yaml
 
 from gestalt.Type import *
-from gestalt.Gestalt import Widget
+from gestalt.Gestalt import Widget, Group
 
 ##########################
 #    Data Type Parsing   #
@@ -56,11 +56,17 @@ yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 #######################
 
 
+def create_group(loader, node):
+	children = loader.construct_sequence(node)
+	
+	return Group(children)
+	
+
 def read_widget(typ, loader, node):
 	params = loader.construct_mapping(node)
 	
 	return Widget(typ, layout=params)
-
+	
 	
 recognized_widgets = (
 	'caLabel', 'caLineEdit', 'caTextEntry', 'caMenu', 'caRelatedDisplay',
@@ -78,6 +84,8 @@ for widget_type in recognized_widgets:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_widget(t, l, n)), Loader=yaml.SafeLoader)
 
 
+yaml.add_constructor("!group", create_group, Loader=yaml.SafeLoader)
+	
 
 def parse(filename):		
 	with open(filename) as the_file:

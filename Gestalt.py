@@ -2,7 +2,6 @@ from lxml.etree import ElementTree, TreeBuilder
 
 from gestalt.Type import *
 
-import stylesheet
 import yaml
 
 name_numbering = {}
@@ -106,6 +105,15 @@ class Widget(object):
 			child.write(tree)
 			
 		tree.end("widget")
+		
+		
+class Group(Widget):
+	def __init__(self, initial_children, layout=None):
+		super(Group, self).__init__("caFrame")
+	
+		for child in initial_children:
+			self.addChild(child)
+		
 		
 
 class Display(Widget):
