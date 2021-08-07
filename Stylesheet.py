@@ -37,7 +37,7 @@ enum_regex = re.compile(r'^\w+::\w+$')
 yaml.add_constructor("!enum", (lambda l, n: read_type(Enum, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver("!enum", enum_regex, Loader=yaml.SafeLoader)
 			
-rect_regex = re.compile(r'^\d+x\d+$')
+rect_regex = re.compile(r'^\d+\s*(x\d+\s*)+$')
 yaml.add_constructor("!geom", (lambda l, n: read_type(Rect, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver("!geom", rect_regex, Loader=yaml.SafeLoader)
 
