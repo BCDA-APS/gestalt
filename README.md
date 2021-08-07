@@ -66,6 +66,57 @@ Which can then be used to construct Displays and Widgets either through the
                         
 ```
 
+Widgets can also be constructed within the stylesheet itself. Just tag the layout
+data with the widget classname you want to construct.
+
+'''yaml
+   
+small_rect_widget: !caGraphics
+    geometry: 100x100
+    
+    fillstyle: caGraphics::filled
+    
+    background $000000
+'''
+
+This generates a Gestalt.Widget instance, which can be added to a display just like
+the ones you construct in code.
+
+'''python
+    styles = Stylesheet.parse("layout.yml")
+    
+    a_display = Gestalt.Display(layout=styles["base_window"])
+    
+    a_display.addChild( styles["small_rect_widget"].position(50, 50) )
+    
+'''
+
+While individually constructing and adding widgets to your display using yaml doesn't
+save you much effort, you can group widgets together into a single caFrame that can
+be added with a single addChild command. As well, X and Y coordinates of widgets within 
+the group are calculated offset from the position of the frame, which can frequently
+make calculations cleaner.
+
+A group object looks for a specific "children" tag in its mapping and expects to find
+a list of widgets. Those widgets will automatically be put in as a caFrame's children
+widgets.
+
+'''yaml
+
+UI_Header: !group
+    geometry: 100x20
+    
+    children:
+        - !caLabel
+            geometry: 0x0 x 40x20
+            text: "Port"
+            
+        - !caLabel
+            geometry: 60x0 x 40x20
+            text: "RBV"
+'''
+
+
 Finally, spreadsheets can be used to provide data for the Widgets. The 
 Spreadsheet.rows() and Spreadsheet.cols() functions take an excel spreadsheet and 
 parses it to provide a set of data structures, one for each row or column respectively. 
