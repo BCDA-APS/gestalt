@@ -12,7 +12,7 @@ Gestalt is a python library to help make it easy to programmatically
 generate caQtDM '.ui' files from user data. Widgets can be created and 
 properties modified without needing to load any Qt libraries, default 
 widget parameters can be provided in a YAML stylesheet, and then data 
-can be taken from a spreadsheet to position the widgets and provide them 
+can be taken from a comma separated file to provide the widgets with 
 with individualized setup.
 
 For a full example, see: https://github.com/keenanlang/gestalt_example
@@ -117,23 +117,22 @@ UI_Header: !group
 '''
 
 
-Finally, spreadsheets can be used to provide data for the Widgets. The 
-Spreadsheet.rows() and Spreadsheet.cols() functions take an excel spreadsheet and 
-parses it to provide a set of data structures, one for each row or column respectively. 
-The first item is excluded from this as it is used to provide parameter names for 
-each cell in each row/column. So a first row of:
+Finally, csv files can be used to provide data for the Widgets. The Spreadsheet.rows() 
+function takes in a filename and parses it to provide a set of dictionaries, one for 
+each row. The first row is excluded from this as it is used to provide parameter names for 
+each column. So if your first row is:
 
-`X    |   Y   |   COLOR`
+`X,       Y,      COLOR`
 
-Would parse each subsequent row and provide a dictionary with 'X', 'Y', and 'COLOR' 
-values. Combining that with what we've been doing so far gives us:
+Spreadsheet.rows() Will parse each subsequent row and provide a dictionary with 'X', 'Y', 
+and 'COLOR' values. Combining that with what we've been doing so far gives us:
 
 ```python
     styles = Stylesheet.parse("layout.yml")
     
     a_display = Gestalt.Display(layout=styles["base_window"])
     
-    for row in Spreadsheet.rows("the_data.xlsx"):
+    for row in Spreadsheet.rows("the_data.csv"):
         a_display.addChild( Gestalt.Widget("caGraphics")
                 .setProperties(styles["small_rect"])
                 .setProperty("foreground", Type.Color(row["COLOR"]))
