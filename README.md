@@ -125,18 +125,54 @@ each column. So if your first row is:
 `X,       Y,      COLOR`
 
 Spreadsheet.rows() Will parse each subsequent row and provide a dictionary with 'X', 'Y', 
-and 'COLOR' values. Combining that with what we've been doing so far gives us:
+and 'COLOR' values. These can either individually be accessed and processed to provide
+specific configuration of a widget, or alternately, the addChild function optionally takes 
+in a  'macros' parameter which will apply the python string formatting function onto the
+properties of the widget being added and any children that it contains. Note: this currently
+only applies to String datatypes, so it's useful for setting pv channel names, label text,
+and some other purposes, but changing positioning, sizing, or coloring will have to be done 
+manually. 
+
+
+Combining everything together you could have a csv file:
+
+```csv
+Label,       PV
+Port,        Port
+Temperature, Temp 
+Val,         RBV
+
+```
+
+and a yaml file like:
+
+```yaml
+UI_Row: !group
+    geometry: 200x25
+    
+    children:
+        - !caLabel
+            geometry: 0x0 x 100x20
+            text: "{Label}"
+            
+        - !caLineEdit
+            geometry: 100x0 x 100x20
+            channel: "$(P)$(R){PV}
+```
+
+which is then used in the python with:
 
 ```python
     styles = Stylesheet.parse("layout.yml")
     
     a_display = Gestalt.Display(layout=styles["base_window"])
     
+    y_val = 0
+    
     for row in Spreadsheet.rows("the_data.csv"):
-        a_display.addChild( Gestalt.Widget("caGraphics")
-                .setProperties(styles["small_rect"])
-                .setProperty("foreground", Type.Color(row["COLOR"]))
-                .position(row["X"], row["Y"]) )
+        a_display.addChild( styles["UI_Row"].position(0, y_val), macros=row)
+        
+        y_val += 25
                 
 ```
 
