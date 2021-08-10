@@ -2,14 +2,16 @@ from lxml.etree import ElementTree, TreeBuilder
 
 from gestalt.Type import *
 
+import copy
 import yaml
 
 name_numbering = {}
 
 
 class Widget(object):
-	def __init__(self, classname, initial=None, name=None, layout=None):
+	def __init__(self, classname, initial=None, name=None, layout=None, macros={}):
 		self.classname = classname
+		self.macros = macros
 		
 		if name is not None:
 			self.name = name
@@ -101,20 +103,34 @@ class Widget(object):
 		return self
 		
 		
-	def addChild(self, child):
-		self.children.append(child)
+	def addChild(self, child, macros={}, keep_original=False):
+		if not keep_original:
+			cpy = copy.deepcopy(child)
+		
+			cpy.macros.update(macros)
+		
+			self.children.append(cpy)
+			
+		else:
+			child.macros.update(macros)
+			self.children.append(child)
+			
 		return self
 	
-	def write(self, tree):
+	def write(self, tree, in_macros):
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
+		
+		out_macros = {}
+		out_macros.update(in_macros)
+		out_macros.update(self.macros)
 		
 		for key, item in self.attrs.items():
 			tree.start("property", {"name" : key})
-			item.write(tree)
+			item.write(tree, out_macros)
 			tree.end("property")
 						
 		for child in self.children:
-			child.write(tree)
+			child.write(tree, out_macros)
 			
 		tree.end("widget")
 
@@ -126,7 +142,7 @@ class Display(Widget):
 		
 		self.form = Widget("QWidget", name="Form", layout=layout)
 	
-		self.form.addChild(self)
+		self.form.addChild(self, keep_original=True)
 		
 	def setProperties(self, layout):
 		self.form.setProperties(layout)
@@ -143,7 +159,7 @@ class Display(Widget):
 		tree.data("Form")
 		tree.end("class")
 		
-		self.form.write(tree)
+		self.form.write(tree, {})
 		
 		tree.end("ui")
 		

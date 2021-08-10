@@ -5,7 +5,7 @@ class DataType(object):
 		self.defaultvalue = ""
 		
 				
-	def write(self, tree):
+	def write(self, tree, macros):
 		tree.start(self.typ, {})
 		
 		if (type(self.val) is dict):
@@ -15,11 +15,11 @@ class DataType(object):
 				if item is None:
 					tree.data(str(self.defaultvalue))
 				else:	
-					tree.data(str(item))
+					tree.data(str(item).format(**macros))
 					
 				tree.end(key)
 		else:
-			tree.data(str(self.val))
+			tree.data(str(self.val).format(**macros))
 			
 		tree.end(self.typ)
 		
@@ -138,7 +138,7 @@ class Color(DataType):
 		self.val = dict( zip(self.labels, temp))
 				
 					
-	def write(self, tree):
+	def write(self, tree, macros):
 		tree.start(self.typ, {"alpha" : str(self.val["alpha"])})
 		
 		for key, item in self.val.items():
