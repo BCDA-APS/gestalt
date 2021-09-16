@@ -14,12 +14,20 @@ class DataType(object):
 				
 				if item is None:
 					tree.data(str(self.defaultvalue))
-				else:	
-					tree.data(str(item).format(**macros))
+				else:
+					try:
+						fmt = str(item).format(**macros)
+						tree.data(fmt)
+					except:
+						tree.data(str(item))
 					
 				tree.end(key)
 		else:
-			tree.data(str(self.val).format(**macros))
+			try:
+				fmt = str(self.val).format(**macros)
+				tree.data(fmt)
+			except:
+				tree.data(str(self.val))
 			
 		tree.end(self.typ)
 		
