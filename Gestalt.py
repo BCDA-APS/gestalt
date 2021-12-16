@@ -70,6 +70,8 @@ class Widget(object):
 		
 		if isinstance(data, DataType):
 			to_assign = data
+		elif isinstance(data, bool):
+			to_assign = Bool(data)
 		elif isinstance(data, int):
 			to_assign = Number(data)
 		elif isinstance(data, float):

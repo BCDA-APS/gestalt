@@ -31,7 +31,7 @@ def read_type(cls, loader, node):
 yaml.add_constructor("!string", (lambda l, n: read_type(String, l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!number", (lambda l, n: read_type(Number, l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!double", (lambda l, n: read_type(Double, l, n)), Loader=yaml.SafeLoader)
-
+yaml.add_constructor("!bool",   (lambda l, n: read_type(Bool,   l, n)), Loader=yaml.SafeLoader)
 
 set_regex = re.compile(r'^[a-zA-Z0-9_:]+(\s*\|\s*[a-zA-Z0-9_:]+)+$')
 yaml.add_constructor("!set",    (lambda l, n: read_type(Set, l, n)),    Loader=yaml.SafeLoader)
@@ -79,7 +79,7 @@ for widget_type in recognized_widgets:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_widget(t, l, n)), Loader=yaml.SafeLoader)
 	
 yaml.add_constructor("!group", (lambda l, n: read_widget("caFrame", l, n)), Loader=yaml.SafeLoader)
-	
+
 	
 def parse(filename):		
 	with open(filename) as the_file:

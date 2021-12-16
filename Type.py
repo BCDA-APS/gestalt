@@ -60,6 +60,20 @@ class Set(DataType):
 	def __init__(self, val):
 		super(Set, self).__init__("set", val)
 	
+class Bool(DataType):
+	def __init__(self, val):
+		super(Bool, self).__init__("bool", val)
+	
+	def write(self, tree, macros):
+		tree.start(self.typ, {})
+	
+		if self.val:
+			tree.data("true")
+		else:
+			tree.data("false")
+			
+		tree.end(self.typ)
+	
 
 ###########################
 #    GEOMETRY DATA TYPE   #
