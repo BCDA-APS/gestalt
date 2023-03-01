@@ -86,6 +86,7 @@ yaml.add_constructor("!group", (lambda l, n: read_widget("caFrame", l, n)), Load
 #####################
 
 include_regex = re.compile(r'^#include\s*(.*)$')
+included_files = []
 
 def read_file(filename):
 	the_data_out = ""
@@ -97,13 +98,20 @@ def read_file(filename):
 			check = include_regex.match(line)
 			
 			if check:
-				the_data_out += read_file(check.group(1))
+				include_file = check.group(1).strip()
+				
+				if include_file not in included_files:
+					included_files.append(include_file)
+					the_data_out += read_file(include_file)
 			else:
 				the_data_out += line
 
-				
 	return the_data_out
 	
+	
+	
 def parse(filename):
+	included_files = []
+	
 	return yaml.safe_load(read_file(filename))
 	
