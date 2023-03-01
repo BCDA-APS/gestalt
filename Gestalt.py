@@ -91,7 +91,17 @@ class Widget(object):
 			self.attrs[key] = to_assign
 
 		return self
+		
+	def getProperty(self, key):
+		return self.attrs[key]
 
+		
+	def __setitem__(self, key, data):
+		return self.setProperty(key, data)
+		
+	def __getitem__(self, key):
+		return self.getProperty(key, data)
+		
 		
 	def setProperties(self, *args, **kwargs):
 		if len(args) != 0:

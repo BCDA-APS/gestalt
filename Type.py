@@ -30,6 +30,12 @@ class DataType(object):
 				tree.data(str(self.val))
 			
 		tree.end(self.typ)
+
+	def __setitem__(self, key, data):
+		return self.val[key] = data
+		
+	def __getitem__(self, key):
+		return self.val[key]
 		
 	def merge(self, other):
 		return type(self)(other.val)
@@ -158,7 +164,7 @@ class Color(DataType):
 			temp[i] = data[i]
 				
 		self.val = dict( zip(self.labels, temp))
-				
+			
 					
 	def write(self, tree, macros):
 		tree.start(self.typ, {"alpha" : str(self.val["alpha"])})
