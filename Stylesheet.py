@@ -81,6 +81,29 @@ for widget_type in recognized_widgets:
 yaml.add_constructor("!group", (lambda l, n: read_widget("caFrame", l, n)), Loader=yaml.SafeLoader)
 
 	
-def parse(filename):		
-	with open(filename) as the_file:
-		return yaml.safe_load(the_file)
+#####################
+#   Include Files   #
+#####################
+
+include_regex = re.compile(r'^#include\s*(.*)$')
+
+def read_file(filename):
+	the_data_out = ""
+	
+	with open (filename) as the_file:
+		the_data_in = the_file.readlines()
+		
+		for line in the_data_in:
+			check = include_regex.match(line)
+			
+			if check:
+				the_data_out += read_file(check.group(1))
+			else:
+				the_data_out += line
+
+				
+	return the_data_out
+	
+def parse(filename):
+	return yaml.safe_load(read_file(filename))
+	
