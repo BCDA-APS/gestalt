@@ -32,7 +32,7 @@ class DataType(object):
 		tree.end(self.typ)
 
 	def __setitem__(self, key, data):
-		return self.val[key] = data
+		self.val[key] = data
 		
 	def __getitem__(self, key):
 		return self.val[key]
