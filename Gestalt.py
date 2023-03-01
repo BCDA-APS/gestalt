@@ -100,7 +100,7 @@ class Widget(object):
 		return self.setProperty(key, data)
 		
 	def __getitem__(self, key):
-		return self.getProperty(key, data)
+		return self.getProperty(key)
 		
 		
 	def setProperties(self, *args, **kwargs):
