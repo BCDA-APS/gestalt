@@ -2,7 +2,7 @@ import re
 import yaml
 
 from gestalt.Type import *
-from gestalt.Gestalt import Widget
+from gestalt.Gestalt import Node
 
 ##########################
 #    Data Type Parsing   #
@@ -60,10 +60,10 @@ def read_widget(typ, loader, node):
 	
 	children = params.pop("children", None)
 
-	return Widget(typ, initial=children, layout=params)
+	return Node(typ, initial=children, layout=params)
 	
 	
-recognized_widgets = (
+recognized_types = (
 	'caLabel', 'caLineEdit', 'caTextEntry', 'caMenu', 'caRelatedDisplay',
 	'caNumeric', 'caApplyNumeric', 'caSlider', 'caChoice', 'caTextEntry',
 	'caMessageButton', 'caToggleButton', 'caSpinbox', 'caByteController',
@@ -72,14 +72,15 @@ recognized_widgets = (
 	'caCircularGauge', 'caMultiLineString', 'caThermo', 'caCartesianPlot',
 	'caStripPlot', 'caByte', 'caTable', 'caWaveTable', 'caBitnames',
 	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
-	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'caFrame'
+	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'caFrame',
+	'Form'
 )
 
-for widget_type in recognized_widgets:
+for widget_type in recognized_type:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_widget(t, l, n)), Loader=yaml.SafeLoader)
 	
 yaml.add_constructor("!group", (lambda l, n: read_widget("caFrame", l, n)), Loader=yaml.SafeLoader)
-
+	
 	
 #####################
 #   Include Files   #

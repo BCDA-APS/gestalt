@@ -4,7 +4,6 @@ class DataType(object):
 		self.val = val
 		self.defaultvalue = ""
 		
-				
 	def write(self, tree, macros):
 		tree.start(self.typ, {})
 		

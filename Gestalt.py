@@ -8,7 +8,91 @@ import yaml
 name_numbering = {}
 
 
-class Widget(object):
+class Node(object):
+	def __init__(self, classname, initial=None, layout=None):
+		self.classname = classname
+		self.name = None
+		
+		self.attrs = {}
+		self.children = []
+		
+		if name is not None:
+			self.name = name
+		
+		if layout is not None:
+			self.setProperties(layout)
+			
+		if initial is not None:
+			if isinstance(initial, dict):
+				for childname, child in initial.items():
+					child.name = childname
+					self.addChild(child)
+				
+			elif isinstance(initial, list) or isinstance(initial, tuple):
+				for child in initial:
+					self.addChild(child)
+					
+					
+	def setProperty(self, key, data):
+		to_assign = None
+		
+		if isinstance(data, DataType):
+			to_assign = data
+		elif isinstance(data, bool):
+			to_assign = Bool(data)
+		elif isinstance(data, int):
+			to_assign = Number(data)
+		elif isinstance(data, float):
+			to_assign = Double(data)
+		elif isinstance(data, dict):
+			to_assign = DataType(data)
+		elif isinstance(data, str):
+			to_assign = yaml.safe_load(data)
+			
+			if not isinstance(to_assign, DataType):
+				to_assign = String(data)
+			
+			
+		if key in self.attrs:
+			self.attrs[key] = self.attrs[key].merge(to_assign)
+		else:
+			self.attrs[key] = to_assign
+
+		return self
+		
+		
+	def getProperty(self, key):
+		return self.attrs[key]
+					
+	def __setitem__(self, key, data):
+		self.setProperty(key, data)			
+					
+	def __getitem__(self, key):
+		return self.getProperty(key)
+
+		
+	def append(self, child, keep_original=False):
+		if not keep_original:
+			cpy = copy.deepcopy(child)
+		
+			self.children.append(cpy)
+			
+		else:
+			self.children.append(child)
+			
+		return self
+		
+
+	def generateQt (self, data={}):
+		
+		
+		
+		output = QtWidget(self.classname, name=self.name, layout=self.attrs
+		
+		
+
+
+class QtWidget(object):
 	def __init__(self, classname, initial=None, name=None, layout=None, macros={}):
 		self.classname = classname
 		self.macros = macros
