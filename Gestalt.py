@@ -277,13 +277,13 @@ class QtDisplay(QtWidget):
 def generateQtFile(stylesheet="", datafile="", outputfile=""):
 	a_display = QtDisplay()
 	styles = Stylesheet.parse(stylesheet)
-	data = Spreadsheet.parse(datafile)
+	data = Datasheet.parse(datafile)
 	
 	for key, item in styles.items():
 		if type(item) is Node:
 			if item.classname == "Form":
 				a_display.setProperties(item.attrs)
 			else:
-				a_display.append(item.generateQt({}))
+				a_display.append(item.generateQt(data))
 				
 	a_display.writeQt(outputfile)
