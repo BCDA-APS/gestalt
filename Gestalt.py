@@ -9,7 +9,7 @@ name_numbering = {}
 
 
 class Node(object):
-	def __init__(self, classname, initial=None, layout=None):
+	def __init__(self, classname, name=None, initial=None, layout=None):
 		self.classname = classname
 		self.name = None
 		
@@ -26,11 +26,11 @@ class Node(object):
 			if isinstance(initial, dict):
 				for childname, child in initial.items():
 					child.name = childname
-					self.addChild(child)
+					self.append(child)
 				
 			elif isinstance(initial, list) or isinstance(initial, tuple):
 				for child in initial:
-					self.addChild(child)
+					self.append(child)
 					
 					
 	def setProperty(self, key, data):
@@ -59,7 +59,18 @@ class Node(object):
 			self.attrs[key] = to_assign
 
 		return self
-		
+	
+	def setProperties(self, *args, **kwargs):
+		if len(args) != 0:
+			for key, val in args[0].items():
+				self.setProperty(key, val)
+			
+		if kwargs:
+			for key, val in kwargs.items():
+				self.setProperty(key, val)
+			
+		return self
+	
 		
 	def getProperty(self, key):
 		return self.attrs[key]
@@ -84,12 +95,12 @@ class Node(object):
 		
 
 	def generateQt (self, data={}):
+		output = QtWidget(self.classname, name=self.name, layout=self.attrs, macros=data)
 		
+		for childnode in self.children:
+			output.append(childnode.generateQt(data))
 		
-		
-		output = QtWidget(self.classname, name=self.name, layout=self.attrs
-		
-		
+		return output
 
 
 class QtWidget(object):
@@ -115,11 +126,11 @@ class QtWidget(object):
 			if isinstance(initial, dict):
 				for name, child in initial.items():
 					child.name = name
-					self.addChild(child)
+					self.append(child)
 			
 			elif isinstance(initial, list) or isinstance(initial, tuple):
 				for child in initial:
-					self.addChild(child)
+					self.append(child)
 					
 					
 			
@@ -199,7 +210,7 @@ class QtWidget(object):
 		return self
 		
 		
-	def addChild(self, child, macros={}, keep_original=False):
+	def append(self, child, macros={}, keep_original=False):
 		if not keep_original:
 			cpy = copy.deepcopy(child)
 		
@@ -213,32 +224,29 @@ class QtWidget(object):
 			
 		return self
 	
-	def write(self, tree, in_macros):
-		tree.start("widget", {"class" : self.classname, "name" : self.name})
 		
-		out_macros = {}
-		out_macros.update(in_macros)
-		out_macros.update(self.macros)
+	def write(self, tree):
+		tree.start("widget", {"class" : self.classname, "name" : self.name})
 		
 		for key, item in self.attrs.items():
 			tree.start("property", {"name" : key})
-			item.write(tree, out_macros)
+			item.write(tree, self.macros)
 			tree.end("property")
 						
 		for child in self.children:
-			child.write(tree, out_macros)
+			child.write(tree)
 			
 		tree.end("widget")
 
 		
 
-class Display(Widget):
+class QtDisplay(QtWidget):
 	def __init__(self, layout=None):
-		super(Display, self).__init__("QWidget", name="centralwidget")
+		super(QtDisplay, self).__init__("QWidget", name="centralwidget")
 		
-		self.form = Widget("QWidget", name="Form", layout=layout)
+		self.form = QtWidget("QWidget", name="Form", layout=layout)
 	
-		self.form.addChild(self, keep_original=True)
+		self.form.append(self, keep_original=True)
 		
 	def setProperties(self, layout):
 		self.form.setProperties(layout)
@@ -255,7 +263,7 @@ class Display(Widget):
 		tree.data("Form")
 		tree.end("class")
 		
-		self.form.write(tree, {})
+		self.form.write(tree)
 		
 		tree.end("ui")
 		

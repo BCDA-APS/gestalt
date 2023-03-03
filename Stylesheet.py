@@ -76,7 +76,7 @@ recognized_types = (
 	'Form'
 )
 
-for widget_type in recognized_type:
+for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_widget(t, l, n)), Loader=yaml.SafeLoader)
 	
 yaml.add_constructor("!group", (lambda l, n: read_widget("caFrame", l, n)), Loader=yaml.SafeLoader)
