@@ -269,3 +269,21 @@ class QtDisplay(QtWidget):
 		
 		writer = ElementTree(element=tree.close())
 		writer.write(filename, pretty_print=True)
+
+		
+		
+		
+		
+def generateQtFile(stylesheet="", datafile="", outputfile=""):
+	a_display = QtDisplay()
+	styles = Stylesheet.parse(stylesheet)
+	data = Spreadsheet.parse(datafile)
+	
+	for key, item in styles.items():
+		if type(item) is Node:
+			if item.classname == "Form":
+				a_display.setProperties(item.attrs)
+			else:
+				a_display.append(item.generateQt({}))
+				
+	a_display.writeQt(outputfile)
