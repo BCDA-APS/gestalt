@@ -2,7 +2,7 @@ import re
 import yaml
 
 from gestalt.Type import *
-from gestalt.Gestalt import Node, RepeatNode
+from gestalt.Gestalt import Node, GroupNode, RepeatNode
 
 ##########################
 #    Data Type Parsing   #
@@ -57,18 +57,26 @@ yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 
 def read_node(typ, loader, node):
 	params = loader.construct_mapping(node, deep=True)
-	
+
+	return Node(typ, layout=params)
+
+
+def read_group_node(typ, loader, node):
+	params = loader.construct_mapping(node, deep=True)
+
 	children = params.pop("children", None)
 
-	return Node(typ, initial=children, layout=params)
-	
+	return GroupNode(typ, initial=children, layout=params)
+
+
 def read_repeat_node(loader, node):
 	params = loader.construct_mapping(node, deep=True)
 
 	children = params.pop("children", None)
 	repeat_over = params.pop("repeat_over", None)
+	padding = params.pop("padding", 0)
 
-	return RepeatNode(initial=children, layout=params, repeat=repeat_over)
+	return RepeatNode(initial=children, layout=params, repeat=repeat_over, padding=padding)
 
 	
 recognized_types = (
@@ -80,14 +88,13 @@ recognized_types = (
 	'caCircularGauge', 'caMultiLineString', 'caThermo', 'caCartesianPlot',
 	'caStripPlot', 'caByte', 'caTable', 'caWaveTable', 'caBitnames',
 	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
-	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'caFrame',
-	'Form'
+	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form'
 )
 
 for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
-yaml.add_constructor("!group", (lambda l, n: read_node("caFrame", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!group", (lambda l, n: read_group_node("caFrame", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!repeat", read_repeat_node, Loader=yaml.SafeLoader)	
 	
 #####################

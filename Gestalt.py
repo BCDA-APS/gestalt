@@ -11,30 +11,18 @@ name_numbering = {}
 
 
 class Node(object):
-	def __init__(self, classname, name=None, initial=None, layout=None, expands=False):
+	def __init__(self, classname, name=None, initial=None, layout=None):
 		self.classname = classname
 		self.name = None
-		self.expands = expands
 		
 		self.attrs = {"geometry" : Rect(x=0, y=0, width=0, height=0)}
-		self.children = []
 		
 		if name is not None:
 			self.name = name
 		
 		if layout is not None:
 			self.setProperties(layout)
-			
-		if initial is not None:
-			if isinstance(initial, dict):
-				for childname, child in initial.items():
-					child.name = childname
-					self.append(child)
-				
-			elif isinstance(initial, list) or isinstance(initial, tuple):
-				for child in initial:
-					self.append(child)
-					
+						
 					
 	def setProperty(self, key, data):
 		to_assign = None
@@ -78,35 +66,14 @@ class Node(object):
 		
 	def getProperty(self, key):
 		return self.attrs[key]
-					
+		
+		
 	def __setitem__(self, key, data):
 		self.setProperty(key, data)			
-					
+		
+		
 	def __getitem__(self, key):
 		return self.getProperty(key)
-
-		
-	def append(self, child, keep_original=False):
-		if not keep_original:
-			cpy = copy.deepcopy(child)
-		
-			self.children.append(cpy)
-			
-		else:
-			self.children.append(child)
-			
-		if self.expands:
-			right_edge  = child["geometry"]["x"] + child["geometry"]["width"]
-			bottom_edge = child["geometry"]["y"] + child["geometry"]["height"]
-			
-			if right_edge > self["geometry"]["width"]:
-				self["geometry"]["width"] = right_edge
-				
-			if bottom_edge > self["geometry"]["height"]:
-				self["geometry"]["height"] = bottom_edge
-				
-			
-		return self
 		
 		
 	def position(self, *args, x=None, y=None):
@@ -135,33 +102,72 @@ class Node(object):
 
 		
 	def generateQt (self, data={}):
+		return QtWidget(self.classname, name=self.name, layout=self.attrs, macros=data)
+		
+		
+		
+class GroupNode(Node):
+	def __init__(self, classname, initial=None, name=None, layout=None):
+		super(GroupNode, self).__init__(classname, name=name, layout=layout)
+	
+		self.children = []
+		
+		if initial is not None:
+			if isinstance(initial, dict):
+				for childname, child in initial.items():
+					child.name = childname
+					self.append(child)
+				
+			elif isinstance(initial, list) or isinstance(initial, tuple):
+				for child in initial:
+					self.append(child)
+	
+					
+	def append(self, child, keep_original=False):	
+		if not keep_original:
+			self.children.append(copy.deepcopy(child))
+		else:
+			self.children.append(child)
+			
+		return self
+		
+	
+	def generateQt (self, data={}):
 		output = QtWidget(self.classname, name=self.name, layout=self.attrs, macros=data)
 		
-		for childnode in self.children:
-			output.append(childnode.generateQt(data))
-		
+		for child in self.children:
+			output.append(child.generateQt(data))
+			
 		return output
-
 		
-class RepeatNode(Node):
-	def __init__(self, initial=None, name=None, layout=None, repeat=None):
-		super(RepeatNode, self).__init__("caFrame", initial=initial, name=name, layout=layout, expands=False)
+		
+		
+class RepeatNode(GroupNode):
+	def __init__(self, initial=None, name=None, layout=None, repeat=None, padding=0):
+		super(RepeatNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
 		
 		self.repeat_over = repeat
+		self.padding = padding
 	
 		
 	def generateQt (self, data={}):		
 		macrolist = data.get(self.repeat_over, None)
 		
-		output = QtWidget("caFrame", name=self.name, layout=self.attrs, macros=data, expands=True)
+		output = QtWidget("caFrame", name=self.name, layout=self.attrs, macros=data)
+		
+		first = True
 		
 		for macroset in macrolist:
-			line = QtWidget("caFrame", expands=True)
+			line = QtWidget("caFrame")
 			
 			for childnode in self.children:
 				line.append(childnode.generateQt(macroset))
 			
-			line.position(x=0, y=output["geometry"]["height"])
+			if first:
+				line.position(x=0, y=output["geometry"]["height"])
+				first = False
+			else:
+				line.position(x=0, y=output["geometry"]["height"] + self.padding)
 				
 			output.append(line)
 			
@@ -169,9 +175,9 @@ class RepeatNode(Node):
 
 		
 		
-class QtWidget(Node):
-	def __init__(self, classname, initial=None, name=None, layout=None, macros={}, expands=False):
-		super(QtWidget, self).__init__(classname, initial=initial, name=name, layout=layout, expands=expands)
+class QtWidget(GroupNode):
+	def __init__(self, classname, initial=None, name=None, layout=None, macros={}):
+		super(QtWidget, self).__init__(classname, initial=initial, name=name, layout=layout)
 	
 		self.macros = macros
 		
@@ -184,7 +190,19 @@ class QtWidget(Node):
 			
 			self.name = classname + str(num)
 	
+	def append(self, child, keep_original=True):
+		super(QtWidget, self).append(child, keep_original=keep_original)
+			
+		right_edge  = child["geometry"]["x"] + child["geometry"]["width"]
+		bottom_edge = child["geometry"]["y"] + child["geometry"]["height"]
 		
+		if right_edge > self["geometry"]["width"]:
+			self["geometry"]["width"] = right_edge
+			
+		if bottom_edge > self["geometry"]["height"]:
+			self["geometry"]["height"] = bottom_edge
+			
+			
 	def write(self, tree):
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
 		
@@ -207,6 +225,7 @@ class QtDisplay(QtWidget):
 		self.form = QtWidget("QWidget", name="Form", layout=layout)
 	
 		self.form.append(self, keep_original=True)
+	
 		
 	def setProperties(self, layout):
 		self.form.setProperties(layout)
@@ -216,6 +235,8 @@ class QtDisplay(QtWidget):
 		
 		
 	def writeQt(self, filename):
+		self.form["geometry"] = self["geometry"]
+		
 		tree = TreeBuilder()
 		
 		tree.start("ui", {"version" : "4.0"})
@@ -234,7 +255,7 @@ class QtDisplay(QtWidget):
 		
 		
 		
-def generateQtFile(stylesheet="", datafile="", outputfile=""):
+def generateQtFile(stylesheet="", datafile="", outputfile=""):	
 	a_display = QtDisplay()
 	styles = Stylesheet.parse(stylesheet)
 	data = Datasheet.parse(datafile)
