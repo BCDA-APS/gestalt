@@ -105,12 +105,7 @@ yaml.add_constructor("!repeat", read_repeat_node, Loader=yaml.SafeLoader)
 include_regex = re.compile(r'^#include\s*(.*)$')
 included_files = []
 
-def read_file(filename, searchpath):
-	search_path = ".:" + os.environ.get("GESTALTPATH", "")
-	
-	includes_locations = search_path.split(":")
-	
-	
+def read_file(filename, includes_locations):
 	the_data_out = ""
 	
 	with open (filename) as the_file:
@@ -137,7 +132,7 @@ def read_file(filename, searchpath):
 				
 				if include_file not in included_files:
 					included_files.append(include_file)
-					the_data_out += read_file(include_file_path)
+					the_data_out += read_file(include_file_path, includes_locations)
 			else:
 				the_data_out += line
 
@@ -146,7 +141,9 @@ def read_file(filename, searchpath):
 	
 	
 def parse(filename):
-	included_files = []
+	search_path = ".:" + os.environ.get("GESTALTPATH", "")
 	
-	return yaml.safe_load(read_file(filename))
+	includes_locations = search_path.split(":")
+	
+	return yaml.safe_load(read_file(filename, includes_locations))
 	
