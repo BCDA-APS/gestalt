@@ -118,14 +118,14 @@ def read_file(filename, includes_locations):
 				include_file = check.group(1).strip()
 				include_file_path = ""
 				
-				for check_dir in includes_location:
+				for check_dir in includes_locations:
 					test_path = os.path.abspath(check_dir + "/" + include_file)
 					
 					if os.path.exists(test_path):
 						include_file_path = test_path
 						break
 					
-				if include_file_path.empty():
+				if not include_file_path:
 					print( "Include file does not exist in path (" + include_file + ")")
 					continue
 				
