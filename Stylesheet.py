@@ -1,3 +1,4 @@
+import os
 import re
 import yaml
 
@@ -104,7 +105,12 @@ yaml.add_constructor("!repeat", read_repeat_node, Loader=yaml.SafeLoader)
 include_regex = re.compile(r'^#include\s*(.*)$')
 included_files = []
 
-def read_file(filename):
+def read_file(filename, searchpath):
+	search_path = ".:" + os.environ.get("GESTALTPATH", "")
+	
+	includes_locations = search_path.split(":")
+	
+	
 	the_data_out = ""
 	
 	with open (filename) as the_file:
@@ -115,10 +121,23 @@ def read_file(filename):
 			
 			if check:
 				include_file = check.group(1).strip()
+				include_file_path = ""
+				
+				for check_dir in includes_location:
+					test_path = os.path.abspath(check_dir + "/" + include_file)
+					
+					if os.path.exists(test_path):
+						include_file_path = test_path
+						break
+					
+				if include_file_path.empty():
+					print( "Include file does not exist in path (" + include_file + ")")
+					continue
+				
 				
 				if include_file not in included_files:
 					included_files.append(include_file)
-					the_data_out += read_file(include_file)
+					the_data_out += read_file(include_file_path)
 			else:
 				the_data_out += line
 
