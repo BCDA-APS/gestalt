@@ -1,4 +1,4 @@
-import yml
+import yaml
 import csv
 
 
@@ -15,4 +15,5 @@ def rows(filename):
 		
 
 def parse(filename):
-	return yaml.safe_load(filename)
+	with open(filename) as the_file:
+		return yaml.safe_load(the_file)
