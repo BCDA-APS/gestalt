@@ -14,6 +14,9 @@ def rows(filename):
 	return output
 		
 
-def parse(filename):
+def parseFile(filename):
 	with open(filename) as the_file:
 		return yaml.safe_load(the_file)
+
+def parseString(data):
+	return yaml.safe_load(data)

@@ -125,7 +125,8 @@ def read_file(filename, includes_locations):
 						include_file_path = test_path
 						break
 					
-				if not include_file_path:
+				
+				if include_file_path == "":
 					print( "Include file does not exist in path (" + include_file + ")")
 					continue
 				
@@ -133,17 +134,16 @@ def read_file(filename, includes_locations):
 				if include_file not in included_files:
 					included_files.append(include_file)
 					the_data_out += read_file(include_file_path, includes_locations)
+					
 			else:
 				the_data_out += line
-
+				
 	return the_data_out
 	
 	
 	
-def parse(filename):
-	search_path = ".:" + os.environ.get("GESTALTPATH", "")
+def parse(filename, includes_dirs):	
+	included_files = []
 	
-	includes_locations = search_path.split(":")
-	
-	return yaml.safe_load(read_file(filename, includes_locations))
+	return yaml.safe_load(read_file(filename, includes_dirs))
 	

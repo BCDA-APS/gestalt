@@ -4,6 +4,8 @@ from gestalt import Stylesheet
 from gestalt import Datasheet
 from gestalt.Type import *
 
+import string
+
 import copy
 import yaml
 
@@ -262,11 +264,19 @@ class QtDisplay(QtWidget):
 		
 		
 		
-def generateQtFile(stylesheet="", datafile="", outputfile=""):	
+def generateQtFile(stylesheet="", datafile="", datastr="", outputfile="", searchpath=""):	
 	a_display = QtDisplay()
-	styles = Stylesheet.parse(stylesheet)
-	data = Datasheet.parse(datafile)
 	
+	includes_dirs = str.split(".:" + searchpath, ":")
+	
+	styles = Stylesheet.parse(stylesheet, includes_dirs)
+	data = None
+	
+	if datafile != "":
+		data = Datasheet.parseFile(datafile)
+	else:
+		data = Datasheet.parseString(datastr)
+		
 	for key, item in styles.items():
 		if isinstance(item, Node):
 			if item.classname == "Form":
