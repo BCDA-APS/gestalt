@@ -12,7 +12,7 @@ Gestalt is a python library to help make it easy to programmatically
 generate caQtDM '.ui' files from user data. Widgets can be created and 
 properties modified without needing to load any Qt libraries, default 
 widget parameters can be provided in a YAML stylesheet, and then data 
-can be taken from a comma separated file to provide the widgets with 
+can be taken from a separate YAML file to provide the widgets with 
 with individualized setup.
 
 For a full example, see: https://github.com/keenanlang/gestalt_example
@@ -99,12 +99,13 @@ make calculations cleaner.
 
 A group object looks for a specific "children" tag in its mapping and expects to find
 a list of widgets. Those widgets will automatically be put in as a caFrame's children
-widgets.
+widgets. While you can set the width and height for a group object, the default behavior
+will expand the geometry to accomodate any child widget that it contained within.
 
 ```yaml
 
 UI_Header: !group
-    geometry: 100x20
+    geometry: 0x40 x 0x0
     
     children:
         - !caLabel
@@ -117,65 +118,53 @@ UI_Header: !group
 ```
 
 
-Finally, csv files can be used to provide data for the Widgets. The Spreadsheet.rows() 
-function takes in a filename and parses it to provide a set of dictionaries, one for 
-each row. The first row is excluded from this as it is used to provide parameter names for 
-each column. So if your first row is:
+Additionally, you can have a repeater object, which will generate a copy of every one
+of its child widgets for each index of a provided list. The special tag "repeat_over"
+can be set to the name of a key in a data file that will contain a list of items. For
+each item in that list, it will be passed off to the widget copies to be used as a 
+macro list.
 
-`X,       Y,      COLOR`
-
-Spreadsheet.rows() Will parse each subsequent row and provide a dictionary with 'X', 'Y', 
-and 'COLOR' values. These can either individually be accessed and processed to provide
-specific configuration of a widget, or alternately, the addChild function optionally takes 
-in a  'macros' parameter which will apply the python string formatting function onto the
-properties of the widget being added and any children that it contains. Note: this currently
-only applies to String datatypes, so it's useful for setting pv channel names, label text,
-and some other purposes, but changing positioning, sizing, or coloring will have to be done 
-manually. 
-
-
-Combining everything together you could have a csv file:
-
-```csv
-Label,       PV
-Port,        Port
-Temperature, Temp 
-Val,         RBV
-
-```
-
-and a yaml file like:
+There are two types of repeaters, vertical and horizontal, indicating the direction in
+which copies of the given widgets will be offset. Another special key, "padding" gives
+the number of extra pixels to offset those copies beyond just touching as close as 
+possible. Horizontal repeaters are created with the !hrepeat class, while vertical
+repeaters can be created with either !vrepeat or just !repeat.
 
 ```yaml
-UI_Row: !group
-    geometry: 200x25
+
+UI_Row: !repeat
+    repeat_over: "PLUGINS"
+    
+    geometry: 0x71 x 0x0
+    
+    padding: 6
     
     children:
-        - !caLabel
-            geometry: 0x0 x 100x20
-            text: "{Label}"
-            
-        - !caLineEdit
-            geometry: 100x0 x 100x20
-            channel: "$(P)$(R){PV}
-```
-
-which is then used in the python with:
-
-```python
-    styles = Stylesheet.parse("layout.yml")
-    
-    a_display = Gestalt.Display(layout=styles["base_window"])
-    
-    y_val = 0
-    
-    for row in Spreadsheet.rows("the_data.csv"):
-        a_display.addChild( styles["UI_Row"].position(0, y_val), macros=row)
+        - !caLindeEdit
+        geometry: 10x1 x 110x18
+        channel: $(P){Instance}:PortName_RBV
         
-        y_val += 25
-                
+        - !caRelatedDisplay            
+            label: -More
+            
+            geometry: 865x0 x 60x20
+            
+            labels: "{Instance}"
+            files: "{Displays}"
+            args: "{Args}"
 ```
+        
 
-And then, to write out the ui file, call the 'writeQt' method
 
-`a_display.writeQt("example.ui")`
+Finally, yaml files can also be used to provide data for the Widgets. The Datasheet.parseFile()
+and Datasheet.parseString() functions takes in a filename or a string containing yaml data
+respectively, and parses it to provide a data structure that can be used in construction.
+
+
+Largely, all of this can be left behind the scenes and the Gestalt.generateQtFile() function
+can be used. This automates a lot of the above steps. It takes in the named argument, stylesheet,
+parses it into the template stylesheet. Then, either datafile or datastr will be parsed with
+Datasheet.parseFile or Datasheet.parseString respectively to generate a macro dictionary. Each
+top-level widget in the template stylesheet is added to a QtDisplay and then the data macros
+are fed to the resulting structure to write out the qt file. With the parameter, outputfile 
+providing the location where to write the file.
