@@ -145,11 +145,12 @@ class GroupNode(Node):
 		
 		
 class RepeatNode(GroupNode):
-	def __init__(self, initial=None, name=None, layout=None, repeat=None, padding=0):
+	def __init__(self, initial=None, name=None, layout=None, repeat=None, padding=0, flow="vertical"):
 		super(RepeatNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
 		
 		self.repeat_over = repeat
 		self.padding = padding
+		self.flow = flow
 	
 		
 	def generateQt (self, data={}):		
@@ -165,11 +166,19 @@ class RepeatNode(GroupNode):
 			for childnode in self.children:
 				line.append(childnode.generateQt(macroset))
 			
-			if first:
-				line.position(x=0, y=output["geometry"]["height"])
-				first = False
-			else:
-				line.position(x=0, y=output["geometry"]["height"] + self.padding)
+			if self.flow == "vertical":
+				if first:
+					line.position(x=0, y=output["geometry"]["height"])
+					first = False
+				else:
+					line.position(x=0, y=output["geometry"]["height"] + self.padding)
+				
+			elif self.flow == "horizontal":
+				if first:
+					line.position(x=output["geometry"]["width"], y=0)
+					first = False
+				else:
+					line.position(x=output["geometry"]["width"] + self.padding, y=0)
 				
 			output.append(line)
 			
