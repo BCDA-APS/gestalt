@@ -161,10 +161,14 @@ class RepeatNode(GroupNode):
 		first = True
 		
 		for macroset in macrolist:
+			child_macros = copy.deepcopy(data)
+			
+			child_macros.update(macroset)
+			
 			line = QtWidget("caFrame")
 			
 			for childnode in self.children:
-				line.append(childnode.generateQt(macroset))
+				line.append(childnode.generateQt(child_macros))
 			
 			if self.flow == "vertical":
 				if first:
