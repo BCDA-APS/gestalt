@@ -3,7 +3,7 @@ import re
 import yaml
 
 from gestalt.Type import *
-from gestalt.Gestalt import Node, GroupNode, RepeatNode
+from gestalt.Gestalt import Node, GroupNode, RepeatNode, StretchNode, CenterNode
 
 ##########################
 #    Data Type Parsing   #
@@ -42,7 +42,7 @@ enum_regex = re.compile(r'^\w+::\w+$')
 yaml.add_constructor("!enum", (lambda l, n: read_type(Enum, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver("!enum", enum_regex, Loader=yaml.SafeLoader)
 			
-rect_regex = re.compile(r'^\d+\s*(x\s*\d+\s*)+$')
+rect_regex = re.compile(r'^-?\d+\s*(x\s*-?\d+\s*)+$')
 yaml.add_constructor("!geom", (lambda l, n: read_type(Rect, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver("!geom", rect_regex, Loader=yaml.SafeLoader)
 
@@ -79,7 +79,17 @@ def read_repeat_node(flow, loader, node):
 
 	return RepeatNode(initial=children, layout=params, repeat=repeat_over, padding=padding, flow=flow)
 
+def read_stretch_node(flow, loader, node):
+	params = loader.construct_mapping(node, deep=True)
+
+	return StretchNode(flow=flow, subnode=next(iter(params.values())))
+
+def read_center_node(flow, loader, node):
+	params = loader.construct_mapping(node, deep=True)
 	
+	return CenterNode(flow=flow, subnode=next(iter(params.values())))
+
+
 recognized_types = (
 	'caLabel', 'caLineEdit', 'caTextEntry', 'caMenu', 'caRelatedDisplay',
 	'caNumeric', 'caApplyNumeric', 'caSlider', 'caChoice', 'caTextEntry',
@@ -96,9 +106,18 @@ for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
 yaml.add_constructor("!group", (lambda l, n: read_group_node("caFrame", l, n)), Loader=yaml.SafeLoader)
+
 yaml.add_constructor("!repeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!hrepeat", (lambda l, n: read_repeat_node("horizontal", l, n)), Loader=yaml.SafeLoader)
+
+yaml.add_constructor("!stretch",  (lambda l, n: read_stretch_node("vertical", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!vstretch", (lambda l, n: read_stretch_node("vertical", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!hstretch", (lambda l, n: read_stretch_node("horizontal", l, n)), Loader=yaml.SafeLoader)
+
+yaml.add_constructor("!center",  (lambda l, n: read_center_node("vertical", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!vcenter", (lambda l, n: read_center_node("vertical", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!hcenter", (lambda l, n: read_center_node("horizontal", l, n)), Loader=yaml.SafeLoader)
 	
 #####################
 #   Include Files   #

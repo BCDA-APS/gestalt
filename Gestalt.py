@@ -136,9 +136,17 @@ class GroupNode(Node):
 	
 	def generateQt (self, data={}):
 		output = QtWidget(self.classname, name=self.name, layout=self.attrs, macros=data)
+				
+		child_macros = copy.deepcopy(data)
 		
 		for child in self.children:
-			output.append(child.generateQt(data))
+			child_macros.update({
+				"__parentx__" : output["geometry"]["x"],
+				"__parenty__" : output["geometry"]["y"],
+				"__parentwidth__" : output["geometry"]["width"],
+				"__parentheight__" : output["geometry"]["height"]})
+				
+			output.append(child.generateQt(child_macros))
 			
 		return output
 		
@@ -168,6 +176,12 @@ class RepeatNode(GroupNode):
 			line = QtWidget("caFrame")
 			
 			for childnode in self.children:
+				child_macros.update({
+					"__parentx__" : self["geometry"]["x"],
+					"__parenty__" : self["geometry"]["y"],
+					"__parentwidth__" : self["geometry"]["width"],
+					"__parentheight__" : self["geometry"]["height"]})
+					
 				line.append(childnode.generateQt(child_macros))
 			
 			if self.flow == "vertical":
@@ -187,6 +201,39 @@ class RepeatNode(GroupNode):
 			output.append(line)
 			
 		return output
+
+		
+class StretchNode(Node):
+	def __init__(self, initial=None, name=None, layout=None, flow="vertical", subnode=None):
+		super(StretchNode, self).__init__("Stretch", initial=initial, name=name, layout=layout)
+		
+		self.subnode = subnode
+		self.flow = flow
+		
+	def generateQt (self, data={}):		
+		if self.flow == "vertical":
+			self.subnode["geometry"]["height"] = data["__parentheight__"]
+		elif self.flow == "horizontal":
+			self.subnode["geometry"]["width"] = data["__parentwidth__"]
+		
+		return self.subnode.generateQt(data)
+
+class CenterNode(Node):
+	def __init__(self, initial=None, name=None, layout=None, flow="vertical", subnode=None):
+		super(CenterNode, self).__init__("Center", initial=initial, name=name, layout=layout)
+		
+		self.subnode = subnode
+		self.flow = flow
+		
+	def generateQt (self, data={}):
+		qtnode = self.subnode.generateQt(data)
+			
+		if self.flow == "vertical":
+			qtnode.position(qtnode["geometry"]["x"], int(data["__parentheight__"] / 2) - int(qtnode["geometry"]["height"] / 2))
+		elif self.flow == "horizontal":
+			qtnode.position(int(data["__parentwidth__"] / 2) - int(qtnode["geometry"]["width"] / 2), qtnode["geometry"]["y"])
+					
+		return qtnode
 
 		
 		
@@ -295,6 +342,12 @@ def generateQtFile(stylesheet="", datafile="", datastr="", outputfile="", search
 			if item.classname == "Form":
 				a_display.setProperties(item.attrs)
 			else:
+				data.update({
+					"__parentx__" : a_display["geometry"]["x"],
+					"__parenty__" : a_display["geometry"]["y"],
+					"__parentwidth__" : a_display["geometry"]["width"],
+					"__parentheight__" : a_display["geometry"]["height"]})
+			
 				a_display.append(item.generateQt(data))
 				
 	a_display.writeQt(outputfile)
