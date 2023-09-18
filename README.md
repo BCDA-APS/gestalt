@@ -76,7 +76,7 @@ small_rect_widget: !caGraphics
     
     fillstyle: caGraphics::filled
     
-    background $000000
+    background: $000000
 ```
 
 This generates a Gestalt.Widget instance, which can be added to a display just like
