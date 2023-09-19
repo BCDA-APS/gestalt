@@ -1,0 +1,102 @@
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    <<: *form_default
+
+    
+OnOff: !caChoice
+    geometry: 215x20
+    
+    channel: "$(P)userCalcEnable.VAL"
+    foreground: *black
+    background: *edit_blue
+    colorMode: caChoice::Static
+    stackingMode: !enum Column
+    
+            
+UIRow: !repeat
+    repeat_over: "INDICES"
+
+    geometry: 0x20 x 0x0
+    
+    padding: 0
+        
+    children:
+        - !caRelatedDisplay
+            geometry: 0x0 x 25x20
+            
+            label: "-{N}"
+            
+            foreground: *white
+            background: *menu_green
+            
+            removeParent: false
+            stackingMode: !enum Menu
+            
+            labels: "user Calc {N};user Calc {N} (full)"
+            files: "userCalc.ui;userCalc_full.ui"
+            args: "P=$(P),N={N},C=userCalc{N};P=$(P),N={N},C=userCalc{N}"
+            
+            
+        - !caChoice
+            geometry: 25x0 x 40x20
+            
+            colorMode: caChoice::Static
+            stackingMode: !enum Column
+            
+            foreground: *black
+            background: *edit_blue
+            
+            channel: "$(P)userCalc{N}Enable"
+            
+        - !caTextEntry
+            geometry: 65x0 x 120x20
+            
+            colorMode: caLineEdit::Static
+            
+            channel: "$(P)userCalc{N}.DESC"
+            
+            foreground: $0A00B8
+            background: *grey_lighter
+            
+        - !caGraphics
+            geometry: 185x0 x 10x20
+            
+            foreground: *black
+            
+            form: caGraphics::Rectangle
+            lineColor: *black
+            linestyle: !enum Solid
+            fillstyle: !enum Filled
+            
+            visibility: caGraphics::Calc
+            visibilityCalc: "a=0"
+            
+            channel: "$(P)userCalc{N}EnableCalc"
+            
+        - !caLabel
+            geometry: 195x10 x 20x10
+            
+            text: "PUT"
+            alignment: Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter
+            
+            foreground: *black
+            background: *transparent
+            
+            visibility: caLabel::IfZero
+            
+            channel: "$(P)userCalc{N}.OUTV"
+            
+        - !caLabel
+            geometry: 195x0 x 20x10
+            
+            text: "ON"
+            alignment: Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter
+            
+            foreground: *black
+            background: *transparent
+            
+            visibility: caLabel::IfNotZero
+            
+            channel: "$(P)userCalc{N}.SCAN"

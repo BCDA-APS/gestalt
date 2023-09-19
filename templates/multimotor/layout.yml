@@ -1,0 +1,251 @@
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    <<: *form_default
+
+    margins: 5x5x5x5
+    
+    
+motor_grid: !grid
+
+    repeat_over: "MOTORS"
+    
+    aspect_ratio: 2.0
+    
+    padding: 20
+    
+    children:
+        - !group
+            geometry: 160x204
+            
+            background: $003584
+            
+            frameShape: QFrame::Box
+            lineWidth: 3
+            backgroundMode: caFrame::Outline
+            
+            children:
+                - !caCalc
+                    variable: "$(P)$(M{M}):HighLimits"
+                    calc: "((D=0)&&(B=1))*3+A*(B=1)+2*C"
+                    channel: "$(P)$(M{M}).LVIO"
+                    channelB: "$(P)$(M{M}).DIR"
+                    channelC: "$(P)$(M{M}).HLS"
+                    channelD: "$(P)$(M{M}).DMOV"
+                    
+                    eventSignal: caCalc::onAnyChange
+                    
+                    geometry: 0x0 x 0x0
+                    
+                - !caCalc
+                    variable: "$(P)$(M{M}):LowLimits"
+                    calc: "((D=0)&&(B=1))*3+A*(B=1)+2*C"
+                    channel: "$(P)$(M{M}).LVIO"
+                    channelB: "$(P)$(M{M}).DIR"
+                    channelC: "$(P)$(M{M}).LLS"
+                    channelD: "$(P)$(M{M}).DMOV"
+                    
+                    eventSignal: caCalc::onAnyChange
+                    
+                    geometry: 0x0 x 0x0
+                
+                
+                - !caLineEdit
+                    background: *header_blue
+                    foreground: *white
+                    colorMode: caLineEdit::Static
+                    
+                    geometry: 3x1 x 154x21
+                    
+                    channel: "$(P)$(M{M}).DESC"
+                    
+                    
+                - !caRelatedDisplay
+                    background: *edit_blue
+                    foreground: *black
+                    
+                    geometry: 10x30 x 140x17
+                    label: "-($(P)$(M{M}))"
+                    
+                    stackingMode: !enum Menu
+                    
+                    labels: "Help;More;Setup;All;Setup Scan Parameters"
+                    files: "motorx_help.ui;motorx_more.ui;motorx_setup.ui;motorx_all.ui;scanParms.ui"
+                    args: "P=$(P),M=$(M{M});P=$(P),M=$(M{M});P=$(P),M=$(M{M});P=$(P),M=$(M{M});P=$(P),Q=$(M{M}),PV=$(M{M})"
+                    removeParent: "false;false;false;false;false"
+                    
+                    
+                - !caLineEdit
+                    background: *transparent
+                    foreground: *header_blue
+                    colorMode: caLineEdit::Static
+                    
+                    geometry: 20x50 x 120x17
+                    alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter
+                    
+                    channel: "$(P)$(M{M}).EGU"
+                
+        
+                - !caMessageButton
+                    background: *edit_blue
+                    colorMode: caMessageButton::Static
+                    
+                    geometry: 10x140 x 24x24
+                    pressMessage: "1"
+                    channel: "$(P)$(M{M}).TWR"
+                    label: "<"
+                    
+                - !caTextEntry
+                    background: *edit_blue
+                    colorMode: caLineEdit::Static
+                    
+                    geometry: 38x142 x 85x24
+                    
+                    channel: "$(P)$(M{M}).TWV"
+                
+                - !caMessageButton
+                    background: *edit_blue
+                    colorMode: caMessageButton::Static
+                    
+                    geometry: 126x140 x 24x24
+                    pressMessage: "1"
+                    channel: "$(P)$(M{M}).TWF"
+                    label: ">"
+        
+                    
+                - !caMessageButton
+                    background: *alarm_red
+                    foreground: *alarm_yellow
+                    colorMode: caMessageButton::Static
+                    
+                    geometry: 10x170 x 140x26
+                    channel: "$(P)$(M{M}).STOP"
+                    pressMessage: "1"
+                    label: "STOP"
+                    
+                
+                - !group
+                    channel: "$(P)$(M{M}):LowLimits"
+                    visibility: caFrame::IfNotZero
+                    
+                    geometry: 10x50 x 6x88
+                    
+                    children:
+                
+                        - !caLed
+                            channel: "$(P)$(M{M}):LowLimits"
+                            falseColor: *alarm_yellow
+                            trueColor: *alarm_red
+                            undefinedColor: *alarm_green
+                            
+                            borderColor: *transparent
+                            
+                            rectangular: true
+                            scaleContents: true
+                            gradientEnabled: false
+                            
+                            trueValue: 2
+                            falseValue: 1
+                            
+                            geometry: 0x0 x 6x88
+                
+                - !group
+                    channel: "$(P)$(M{M}):HighLimits"
+                    visibility: caFrame::IfNotZero
+                    
+                    geometry: 144x50 x 6x88
+                    
+                    children:
+                        - !caLed
+                            channel: "$(P)$(M{M}):HighLimits"
+                            falseColor: *alarm_yellow
+                            trueColor: *alarm_red
+                            undefinedColor: *alarm_green
+                            
+                            borderColor: *transparent
+                            
+                            rectangular: true
+                            scaleContents: true
+                            gradientEnabled: false
+                            
+                            trueValue: 2
+                            falseValue: 1
+                            
+                            geometry: 0x0 x 6x88
+                    
+                    
+                - !group
+                    background: *black
+                    backgroundMode: caFrame::Filled
+                    visibilityMode: caFrame::Background
+                    visibility: caFrame::IfNotZero
+                    
+                    channel: "$(P)$(M{M}).SET"
+                    
+                    geometry: 18x65 x 124x35
+                    
+                    
+                    children:
+                        
+                        - !group
+                            background: *alarm_yellow
+                            
+                            backgroundMode: caFrame::Filled
+                            visibilityMode: caFrame::Background
+                            visibility: caFrame::IfNotZero
+        
+                            channel: "$(P)$(M{M}).SET"
+                            
+                            geometry: 2x2 x 120x31
+                            
+                            children:
+                                
+                                - !caLineEdit
+                                    background: *gray_lighter
+                                    foreground: *header_blue
+                                    
+                                    colorMode: caLineEdit::Static
+                                    
+                                    channel: "$(P)$(M{M}).RBV"
+                                    
+                                    geometry: 2x2 x 116x27
+                    
+                - !group
+                    background: *alarm_red
+                    
+                    backgroundMode: caFrame::Filled
+                    visibilityMode: caFrame::Background
+                    visibility: caFrame::IfNotZero
+                    
+                    channel: "$(P)$(M{M})_able.VAL"
+                    
+                    geometry: 18x100 x 124x35
+                    
+                    
+                    children:
+                        
+                        - !group
+                            background: *black
+                            
+                            backgroundMode: caFrame::Filled
+                            visibilityMode: caFrame::Background
+                            visibility: caFrame::IfNotZero
+                            
+                            channel: "$(P)$(M{M})_able.VAL"
+                            
+                            frameShape: QFrame::NoFrame
+                            lineWidth: 1
+                            
+                            geometry: 3x3 x 118x29
+                    
+                            children:
+                                
+                                - !caTextEntry
+                                    background: *edit_blue
+                                    foreground: *black
+                                    colorMode: caLineEdit::Static
+                                    
+                                    geometry: 2x2 x 114x25
+                                
+                                    channel: "$(P)$(M{M}).VAL"

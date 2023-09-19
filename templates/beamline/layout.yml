@@ -1,0 +1,208 @@
+#include colors.yml
+#include widgets.yml
+
+link_display: &link_display
+    removeParent: false
+    stackingMode: !enum Menu
+    background: $BBC187
+
+
+
+Form: !Form
+    <<: *form_default
+    
+    margins: 5x5x5x5
+    
+
+Hutches: !hrepeat
+    repeat_over: "HUTCHES"
+    
+    padding: 20
+    
+    geometry: 0x40 x 0x0
+    
+    children:
+        - !group
+            geometry: 0x15 x 230x170
+            
+            frameShape: QFrame::Box
+            lineWidth: 4
+            
+            background: *grey_darker
+            
+            children:
+                - !caPolyLine
+                    geometry: 15x55 x 205x1
+                    
+                    foreground: *alarm_red
+                    
+                    linestyle: caPolyLine::Solid
+                    lineSize: 1
+                    lineColor: *alarm_red
+                    
+                    xyPairs: "0,0;204,0"
+                    visibility: caPolyLine::IfNotZero
+                    
+                - !group
+                    geometry: 135x95 x 82x26
+                    
+                    children:
+                        - !caLabel
+                            text: "Moving"
+                            geometry: 1x0 x 78x23
+                            
+                            foreground: *header_blue
+                            background: *transparent
+                            
+                            alignment: Qt::AlignLeft|Qt::AlignVCenter
+                            
+                            channel: !string "{PREFIX}:alldone.VAL"
+                            visibility: caLabel::IfZero
+                            
+                        - !caLabel
+                            text: "Moving"
+                            geometry: 2x1 x 78x23
+                            
+                            foreground: *header_blue
+                            background: *transparent
+                            
+                            alignment: Qt::AlignLeft|Qt::AlignVCenter
+                            
+                            channel: !string "{PREFIX}:alldoneBlink.VAL"
+                            visibility: caLabel::IfNotZero
+                            
+                        - !caLabel
+                            text: "Moving"
+                            geometry: 1x0 x 78x23
+                            
+                            foreground: *edit_blue
+                            background: *transparent
+                            
+                            alignment: Qt::AlignLeft|Qt::AlignVCenter
+                            
+                            channel: !string "{PREFIX}:alldone.VAL"
+                            visibility: caLabel::IfZero
+                    
+                - !caMessageButton
+                    geometry: 135x125 x 85x30
+                    
+                    foreground: *alarm_yellow
+                    background: *alarm_red
+                    
+                    pressMessage: "1"
+                    colorMode: caMessageButton::Static
+                    
+                    channel: !string "{PREFIX}:allstop.VAL"
+                    label: "All Stop"
+                    
+                - !caRelatedDisplay
+                    <<: *link_display
+                    geometry: 10x92 x 55x20
+                    
+                    label: "-"
+                    
+                - !caRelatedDisplay
+                    <<: *link_display
+                    geometry: 70x92 x 55x20
+                    
+                    label: "-"
+                    
+                - !caRelatedDisplay
+                    <<: *link_display
+                    geometry: 10x115 x 55x20
+                    
+                    label: "-Scans"
+                    
+                    labels: "Scan1 (for all scans);Scan2 (for 2D &amp; higher scans);Scan3 (for 3D &amp; higher scans);Scan4 (for 4D scans);ScanH (hardware assisted scans);saveData controls"
+                    files: "scan.ui;scan.ui;scan.ui;scan.ui;scan.ui;scan_saveData.ui"
+                    args: "P={PREFIX}:,N=1,S=scan1;P={PREFIX}:,N=2,S=scan2;P={PREFIX}:,N=3,S=scan3;P={PREFIX}:,N=4,S=scan4;{PREFIX}:,N=H,S=scanH;P={PREFIX}:"
+                    
+                - !caRelatedDisplay
+                    <<: *link_display
+                    geometry: 70x115 x 55x20
+                    
+                    label: "-Calcs"
+                    
+                    labels: "user calculation 1;user calculation 2;user calculation 3;user calculation 4;user calculation 5;user calcs 1-10"
+                    files: "userCalc.ui;userCalc.ui;userCalc.ui;userCalc.ui;userCalc.ui;userCalcs10.ui"
+                    args: "P={PREFIX}:,C=userCalc1;P={PREFIX}:,C=userCalc2;P={PREFIX}:,C=userCalc3;P={PREFIX}:,C=userCalc4;P={PREFIX}:,C=userCalc5;P={PREFIX}:"
+                    
+                - !caRelatedDisplay
+                    <<: *link_display
+                    geometry: 10x138 x 55x20
+                    
+                    label: "-Serial"
+                    
+                    labels: ""
+                    files: ""
+                    args: ""
+                    
+                - !caRelatedDisplay
+                    <<: *link_display
+                    geometry: 70x138 x 55x20
+                    
+                    label: "-Motors"
+                    
+                    labels: "1-8;9-16;17-24;25-32;33-40"
+                    files: "topMotors8.ui;topMotors8.ui;topMotors8.ui;topMotors8.ui;topMotors8.ui"
+                    args: "P={PREFIX}:,M1=m1,M2=m2,M3=m3,M4=m4,M5=m5,M6=m6,M7=m7,M8=m8;P={PREFIX}:,M1=m9,M2=m10,M3=m11,M4=m12,M5=m13,M6=m14,M7=m15,M8=m16;P={PREFIX}:,M1=m17,M2=m18,M3=m19,M4=m20,M5=m21,M6=m22,M7=m23,M8=m24;P={PREFIX}:,M1=m25,M2=m26,M3=m27,M4=m28,M5=m29,M6=m30,M7=m31,M8=m32;P={PREFIX}:,M1=m33,M2=m34,M3=m35,M4=m36,M5=m37,M6=m38,M7=m39,M8=m40"
+                    
+
+                    
+        - !caRelatedDisplay
+            geometry: 75x0 x 80x30
+            background: *header_blue
+            foreground: *white
+            
+            label: "-{SECTOR}-{TYPE}-{ID}"
+            stackingMode: !enum Menu
+            removeParent: false
+            
+            labels: "IOC Debug"
+            files: !string "{PREFIX}.ui"
+            args: ""
+
+                    
+StretchOut: !hstretch
+    UITitle: !caLabel
+        geometry: 0x0 x 0x32
+        foreground: *white
+        background: *header_blue
+        borderColor: *black
+        borderWidth: 3
+        
+        text: "Beamline {SECTOR}-{TYPE}"
+        alignment: Qt::AlignLeft|Qt::AlignVCenter
+
+        
+Centering: !hcenter
+    OPSElements: !group
+        geometry: 0x7 x 0x0
+        
+        children:
+            - !caLineEdit
+                geometry: 0x0 x 50x20
+                foreground: *alarm_yellow
+                background: *transparent
+                colorMode: caLineEdit::Static
+                alignment: Qt::AlignRight|Qt::AlignVCenter
+                channel: "S:SRcurrentAI"
+                
+            - !caLabel
+                geometry: 55x0 x 25x20
+                foreground: *alarm_yellow
+                alignment: Qt::AlignLeft|Qt::AlignVCenter
+                text: "mA"
+                
+            - !caRelatedDisplay
+                geometry: 85x0 x 80x17
+                background: *edit_blue
+                foreground: *black
+                
+                label: "-APS OPS"
+                stackingMode: !enum Menu
+                removeParent: false
+                
+                labels: "24 hr. Beam History;24 hr beam history, etc;Beam Quality Report;Gap Control (Upstream);Gap Control (Downstream)"
+                files: "beamHistory.ui;beamHistory_full.ui;beamQualityReport.ui;IDControl.ui;IDControl.ui"
+                args: ";;name={SECTOR}{TYPE},pv={TYPE}{SECTOR};ID={SECTOR}us;ID={SECTOR}ds"

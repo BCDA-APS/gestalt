@@ -1,0 +1,126 @@
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    <<: *form_default
+    
+    margins: 5x5x5x5
+
+    
+UILabel: !caLabel
+    <<: *centered_label
+    geometry: 0x6 x 935x25
+    
+    text: "$(P) Common Plugins"
+    
+
+UIHeader: !group
+    geometry: 0x40 x 0x0
+    
+    children:
+        - !caLabel
+            <<: *centered_label
+            geometry: 10x0 x 110x20
+            text: "Plugin Name"
+            
+        - !caLabel
+            <<: *centered_label
+            geometry: 150x0 x 110x20
+            text: "Plugin Type"
+            
+        - !caLabel
+            <<: *centered_label
+            geometry: 300x0 x 40x20
+            text: "Port"
+        
+        - !caLabel
+            <<: *centered_label
+            geometry: 407x0 x 60x20
+            text: "Enable"
+            
+        - !caLabel
+            <<: *centered_label
+            geometry: 525x0 x 80x20
+            text: "Blocking"
+            
+        - !caLabel
+            <<: *centered_label
+            geometry: 615x0 x 75x20
+            text: "Dropped"
+            
+        - !caLabel
+            <<: *centered_label
+            geometry: 715x0 x 40x20
+            text: "Free"
+            
+        - !caLabel
+            <<: *centered_label
+            geometry: 800x0 x 40x20
+            text: "Rate"
+
+            
+UIRow: !repeat
+    repeat_over: "PLUGINS"
+
+    geometry: 0x71 x 0x0
+    
+    padding: 6
+        
+    children:
+        - !caLineEdit
+            <<: *string_display
+            geometry: 10x1 x 110x18
+            channel: $(P){Instance}:PortName_RBV
+            
+        - !caLineEdit
+            <<: *string_display
+            geometry: 125x1 x 160x18
+            channel: $(P){Instance}:PluginType_RBV
+            
+        - !caTextEntry
+            <<: *text_edit
+            geometry: 290x0 x 60x20
+            channel: $(P){Instance}:NDArrayPort
+            
+        - !caMenu
+            <<: *menu_select
+            geometry: 355x0 x 80x20
+            channel: $(P){Instance}:EnableCallbacks
+            
+        - !caLineEdit
+            <<: *data_display
+            geometry: 440x1 x 80x18
+            channel: $(P){Instance}:EnableCallbacks_RBV
+            
+        - !caMenu
+            <<: *menu_select
+            geometry: 525x0 x 80x20
+            channel: $(P){Instance}:BlockingCallbacks
+
+        - !caLineEdit
+            <<: *string_display
+            alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter    
+            geometry: 610x1 x 80x18
+            channel: $(P){Instance}:DroppedArrays_RBV
+            
+        - !caLineEdit
+            <<: *data_display
+            geometry: 695x1 x 80x18
+            channel: $(P){Instance}:QueueFree
+            
+        - !caLineEdit
+            <<: *string_display
+            alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter    
+            geometry: 780x1 x 80x18
+            channel: $(P){Instance}:ArrayRate_RBV
+            
+        - !caRelatedDisplay
+            <<: *related_display
+            
+            label: -More
+            
+            geometry: 865x0 x 60x20
+            
+            labels: "{Instance}"
+            files: "{Displays}"
+            args: "{Args}"
