@@ -42,7 +42,7 @@ styling.
 Creating a new template only requires you to add a new folder into the
 templates directory containing three files. Those files are:
 
-* An '__init__.py' file that tells Gestalt what information to display
+* An '\_\_init\_\_.py' file that tells Gestalt what information to display
 about your template.
 
 * A 'thumbnail.png' file to give a visual representation of what a
@@ -52,7 +52,7 @@ generated file might look like.
 screen to generate.
 
 
-### __init__.py
+### \_\_init\_\_.py
 
 On loadup, Gestalt automatically runs through the folders in the
 templates directory and runs the init files found within. These
@@ -73,7 +73,7 @@ the name to use for this template within the drop-down menu, followed
 by three keyword arguments. 
 
 'path' provides the path to the given template folder and can always be 
-left as the python variable '__path__'. 
+left as the python variable '\_\_path\_\_'. 
 
 'required_inputs' is a list of tuples that will describe to the user the
 meaning of the parameters that are required by the template. Each represents
