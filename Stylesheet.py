@@ -3,7 +3,7 @@ import re
 import yaml
 
 from gestalt.Type import *
-from gestalt.Gestalt import Node, GroupNode, RepeatNode, StretchNode, CenterNode
+from gestalt.Gestalt import Node, GroupNode, RepeatNode, StretchNode, CenterNode, GridNode
 
 ##########################
 #    Data Type Parsing   #
@@ -69,6 +69,15 @@ def read_group_node(typ, loader, node):
 
 	return GroupNode(typ, initial=children, layout=params)
 
+def read_grid_node(loader, node):
+	params = loader.construct_mapping(node, deep=True)
+
+	children = params.pop("children", None)
+	repeat_over = params.pop("repeat_over", None)
+	padding = params.pop("padding", 0)
+	ratio = params.pop("aspect_ratio", 1.0)
+
+	return GridNode(initial=children, layout=params, repeat=repeat_over, padding=padding, ratio=ratio)
 
 def read_repeat_node(flow, loader, node):
 	params = loader.construct_mapping(node, deep=True)
@@ -106,6 +115,8 @@ for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
 yaml.add_constructor("!group", (lambda l, n: read_group_node("caFrame", l, n)), Loader=yaml.SafeLoader)
+	
+yaml.add_constructor("!grid", (lambda l, n: read_grid_node(l, n)), Loader=yaml.SafeLoader)
 
 yaml.add_constructor("!repeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)

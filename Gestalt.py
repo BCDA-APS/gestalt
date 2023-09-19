@@ -4,6 +4,7 @@ from gestalt import Stylesheet
 from gestalt import Datasheet
 from gestalt.Type import *
 
+import math
 import string
 
 import copy
@@ -149,7 +150,62 @@ class GroupNode(Node):
 			output.append(child.generateQt(child_macros))
 			
 		return output
+
 		
+class GridNode(GroupNode):
+	def __init__(self, initial=None, name=None, layout=None, padding=0, repeat=None, ratio=1.0):
+		super(GridNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
+		
+		self.ratio = ratio
+		self.repeat_over = repeat
+		self.padding = padding
+		
+		
+	def generateQt (self, data={}):
+		macrolist = data.get(self.repeat_over, {})
+		
+		output = QtWidget("caFrame", name=self.name, layout=self.attrs, macros=data)
+		
+		num_items = len(macrolist)
+		
+		rows = round(math.sqrt(num_items * self.ratio))
+		cols = round(math.sqrt(num_items / self.ratio))
+		
+		index = 0
+		index_x = 0
+		index_y = 0
+		
+		for macroset in macrolist:
+			child_macros = copy.deepcopy(data)
+			child_macros.update(macroset)
+			child_macros.update({"__index__" : index})
+			
+			element = QtWidget("caFrame")
+			
+			for childnode in self.children:
+				child_macros.update({
+					"__parentx__" : self["geometry"]["x"],
+					"__parenty__" : self["geometry"]["y"],
+					"__parentwidth__" : self["geometry"]["width"],
+					"__parentheight__" : self["geometry"]["height"]})
+					
+				element.append(childnode.generateQt(child_macros))
+			
+			pos_x = index_x * (element["geometry"]["width"] + self.padding)
+			pos_y = index_y * (element["geometry"]["height"] + self.padding)
+				
+			element.position(pos_x, pos_y)
+			
+			index += 1
+			index_x += 1
+			
+			if index_x >= cols:
+				index_x = 0
+				index_y += 1
+		
+			output.append(element)
+			
+		return output
 		
 		
 class RepeatNode(GroupNode):
