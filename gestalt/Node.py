@@ -139,7 +139,7 @@ class GroupNode(Node):
 		
 	
 	def apply (self, generator, data={}):
-		output = generator.generateWidget(self, macros=data)
+		output = generator.generateGroup(self, macros=data)
 				
 		child_macros = copy.deepcopy(data)
 		
@@ -167,7 +167,7 @@ class GridNode(GroupNode):
 	def apply (self, generator, data={}):
 		macrolist = data.get(self.repeat_over, {})
 		
-		output = generator.generateWidget(self, macros=data)
+		output = generator.generateGroup(self, macros=data)
 		
 		num_items = len(macrolist)
 		
@@ -183,7 +183,7 @@ class GridNode(GroupNode):
 			child_macros.update(macroset)
 			child_macros.update({"__index__" : index})
 			
-			element = generator.generateGroup()
+			element = generator.generateAnonymousGroup()
 			
 			for childnode in self.children:
 				child_macros.update({
@@ -223,7 +223,7 @@ class RepeatNode(GroupNode):
 	def apply (self, generator, data={}):		
 		macrolist = data.get(self.repeat_over, None)
 		
-		output = generator.generateWidget(self, macros=data)
+		output = generator.generateGroup(self, macros=data)
 		
 		index = 0
 		
@@ -232,7 +232,7 @@ class RepeatNode(GroupNode):
 			
 			child_macros.update(macroset)
 			
-			line = generator.generateGroup()
+			line = generator.generateAnonymousGroup()
 			
 			for childnode in self.children:
 				child_macros.update({

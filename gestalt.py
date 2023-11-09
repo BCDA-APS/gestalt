@@ -7,6 +7,9 @@ import traceback
 from templates import *
 from gestalt import *
 
+from gestalt.convert.qt.QtGenerator import generateQtFile
+from gestalt.convert.phoebus.CSSGenerator import generateCSSFile
+
 from PyQt5 import uic
 from PyQt5 import QtGui
 
@@ -20,15 +23,27 @@ class UI(QMainWindow):
 		uic.loadUi(".data/Form.ui", self)
 		
 		self.setWindowTitle("GESTALT")
-		
+			
 		self.TemplateSelect.currentIndexChanged.connect(self.template_selected)
-		self.TemplateSelect.addItems(registry.templates.keys())
+		#self.TemplateSelect.addItems(registry.templates.keys())
+		
+		self.TemplateType.currentIndexChanged.connect(self.type_selected)
+		self.TemplateType.addItems(["Qt", "CSS"])
 		
 		self.LoadButton.clicked.connect(self.load_data)
 		self.WriteButton.clicked.connect(self.write_data)
 		
 		self.show()
 
+		
+	def type_selected(self, selection):
+		self.TemplateSelect.currentIndexChanged.disconnect(self.template_selected)
+		self.TemplateSelect.clear()
+		self.TemplateSelect.currentIndexChanged.connect(self.template_selected)
+		
+		for key, item in registry.templates.items():		
+			if item["template_type"] == self.TemplateType.itemText(selection):
+				self.TemplateSelect.addItem(key)
 		
 	def template_selected(self, selection):
 		module_selected = registry.templates[self.TemplateSelect.itemText(selection)]
@@ -61,17 +76,36 @@ class UI(QMainWindow):
 		
 		
 	def write_data(self):
-		output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.ui")[0]
+		output_type = self.TemplateType.itemText(self.TemplateType.currentIndex())
+		
+		output_file = ""
+		
+		
+		if output_type == "CSS":
+			output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.bob")[0]
+		elif output_type == "Qt":
+			output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.ui")[0]
+		
 		
 		if output_file == "":
 			return
+		
 		
 		module_selected = registry.templates[self.TemplateSelect.itemText(self.TemplateSelect.currentIndex())]
 		
 		current_stylesheet = module_selected["stylesheet"]
 		
 		try:
-			Gestalt.generateFile(stylesheet=current_stylesheet, datastr=self.InputData.toPlainText(), outputfile=output_file, searchpath="./templates")
+			includes_dirs = str.split(".:./templates", ":")
+			styles = Stylesheet.parse(current_stylesheet, includes_dirs)
+			data = Datasheet.parseString(self.InputData.toPlainText())
+		
+				
+			if output_type == "CSS":
+				generateCSSFile(styles, data, outputfile=output_file)
+			if output_type == "Qt":
+				generateQtFile(styles, data, outputfile=output_file)
+
 			self.Status.setText("File Generated")
 			
 		except Exception as e:

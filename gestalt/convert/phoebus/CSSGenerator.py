@@ -2,24 +2,27 @@ from gestalt.Node import *
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
 
-from gestalt.convert.qt.QtWidget import QtWidget
-from gestalt.convert.qt.QtDisplay import QtDisplay
+from phoebusgen import screen
+
+from gestalt.convert.phoebus.CSSWidget  import CSSWidget
+from gestalt.convert.phoebus.CSSGroup   import CSSGroup
+from gestalt.convert.phoebus.CSSDisplay import CSSDisplay
 
 
-class QtGenerator(GestaltGenerator):
+class CSSGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
-		return QtWidget(original.classname, name=original.name, layout=original.attrs, macros=macros)
+		return CSSWidget(original.classname, name=original.name, layout=original.attrs, macros=macros)
 		
 	def generateGroup(self, original, macros={}):
-		return QtWidget("caFrame", name=original.name, layout=original.attrs, macros=macros)
+		return CSSGroup(layout=original.attrs, macros=macros)
 	
 	def generateAnonymousGroup(self, macros={}):
-		return QtWidget("caFrame")
+		return CSSGroup()
 
 
-def generateQtFile(template, data, outputfile=""):
-	a_display = QtDisplay()
-	the_generator = QtGenerator()
+def generateCSSFile(template, data, outputfile=""):
+	a_display = CSSDisplay()
+	the_generator = CSSGenerator()
 	
 	for key, item in template.items():
 		if isinstance(item, Node):
@@ -35,4 +38,4 @@ def generateQtFile(template, data, outputfile=""):
 				a_display.append(item.apply(the_generator, data=data))
 
 						
-	a_display.writeQt(outputfile)
+	a_display.writeCSS(outputfile)

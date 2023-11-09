@@ -108,7 +108,16 @@ recognized_types = (
 	'caCircularGauge', 'caMultiLineString', 'caThermo', 'caCartesianPlot',
 	'caStripPlot', 'caByte', 'caTable', 'caWaveTable', 'caBitnames',
 	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
-	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form'
+	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form',
+	
+	"ActionButton", "Arc", "Array", "BooleanButton", "ByteMonitor",
+	"CheckBox", "ChoiceButton", "ComboBox", "DataBrowser", "Ellipse",
+	"EmbeddedDisplay", "FileSelector", "Group", "Image", "LED",
+	"LEDMultiState", "Label", "Meter", "NavigationTabs", "Picture",
+	"Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle",
+	"ScaledSlider", "Scrollbar", "SlideButton", "Spinner", "StripChart",
+	"Symbol", "Table", "Tabs", "Tank", "TextEntry", "TextSymbol",
+	"TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", "XYPlot"
 )
 
 for widget_type in recognized_types:
