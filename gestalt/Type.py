@@ -19,20 +19,7 @@ class DataType(object):
 				self.val = str(self.val).format(**macros)
 			except:
 				pass
-		
-	def write(self, tree, macros):
-		tree.start(self.typ, {})
-		
-		if (type(self.val) is dict):
-			for key, item in self.val.items():
-				tree.start(key, {})
-				tree.data(str(item))
-				tree.end(key)
-		else:
-			tree.data(str(self.val))
-			
-		tree.end(self.typ)
-
+	
 	def __setitem__(self, key, data):
 		self.val[key] = data
 		
@@ -71,17 +58,7 @@ class Set(DataType):
 class Bool(DataType):
 	def __init__(self, val):
 		super(Bool, self).__init__("bool", val)
-	
-	def write(self, tree, macros):
-		tree.start(self.typ, {})
-	
-		if self.val:
-			tree.data("true")
-		else:
-			tree.data("false")
-			
-		tree.end(self.typ)
-	
+
 
 ###########################
 #    GEOMETRY DATA TYPE   #
@@ -168,19 +145,6 @@ class Color(DataType):
 			temp[i] = data[i]
 				
 		self.val = dict( zip(self.labels, temp))
-			
-					
-	def write(self, tree, macros):
-		tree.start(self.typ, {"alpha" : str(self.val["alpha"])})
-		
-		for key, item in self.val.items():
-			if key != "alpha":
-				tree.start(key, {})
-				tree.data(str(item))
-				tree.end(key)
-			
-		tree.end(self.typ)
-
 		
 	def merge(self, other):
 		output = {}
