@@ -131,6 +131,15 @@ class GroupNode(Node):
 			self.children.append(copy.deepcopy(child))
 		else:
 			self.children.append(child)
+		
+		right_edge  = child["geometry"]["x"] + child["geometry"]["width"]
+		bottom_edge = child["geometry"]["y"] + child["geometry"]["height"]
+		
+		if right_edge > self["geometry"]["width"]:
+			self["geometry"]["width"] = right_edge
+			
+		if bottom_edge > self["geometry"]["height"]:
+			self["geometry"]["height"] = bottom_edge
 			
 		return self
 		
@@ -222,7 +231,7 @@ class RepeatNode(GroupNode):
 		
 		output = QtWidget("caFrame", name=self.name, layout=self.attrs, macros=data)
 		
-		first = True
+		index = 0
 		
 		for macroset in macrolist:
 			child_macros = copy.deepcopy(data)
@@ -240,21 +249,15 @@ class RepeatNode(GroupNode):
 					
 				line.append(childnode.generateQt(child_macros))
 			
+				
 			if self.flow == "vertical":
-				if first:
-					line.position(x=0, y=output["geometry"]["height"])
-					first = False
-				else:
-					line.position(x=0, y=output["geometry"]["height"] + self.padding)
+				line.position(x=0, y=(index * (line["geometry"]["height"] + self.padding)))
 				
 			elif self.flow == "horizontal":
-				if first:
-					line.position(x=output["geometry"]["width"], y=0)
-					first = False
-				else:
-					line.position(x=output["geometry"]["width"] + self.padding, y=0)
+				line.position(x=(index * (line["geometry"]["width"] + self.padding)), y=0)
 				
 			output.append(line)
+			index += 1
 			
 		return output
 
@@ -307,19 +310,7 @@ class QtWidget(GroupNode):
 			name_numbering[classname] = num
 			
 			self.name = classname + str(num)
-	
-	def append(self, child, keep_original=True):
-		super(QtWidget, self).append(child, keep_original=keep_original)
-			
-		right_edge  = child["geometry"]["x"] + child["geometry"]["width"]
-		bottom_edge = child["geometry"]["y"] + child["geometry"]["height"]
-		
-		if right_edge > self["geometry"]["width"]:
-			self["geometry"]["width"] = right_edge
-			
-		if bottom_edge > self["geometry"]["height"]:
-			self["geometry"]["height"] = bottom_edge
-			
+						
 			
 	def write(self, tree):
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
