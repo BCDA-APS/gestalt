@@ -3,6 +3,22 @@ class DataType(object):
 		self.typ = typ
 		self.val = val
 		self.defaultvalue = ""
+
+	def apply(self, macros):
+		if (type(self.val) is dict):
+			for key, item in self.val.items():
+				if item is None:
+					self.val[key] = self.defaultvalue
+				else:
+					try:
+						self.val[key] = str(item).format(**macros)
+					except:
+						pass
+		else:
+			try:
+				self.val = str(self.val).format(**macros)
+			except:
+				pass
 		
 	def write(self, tree, macros):
 		tree.start(self.typ, {})
@@ -10,23 +26,10 @@ class DataType(object):
 		if (type(self.val) is dict):
 			for key, item in self.val.items():
 				tree.start(key, {})
-				
-				if item is None:
-					tree.data(str(self.defaultvalue))
-				else:
-					try:
-						fmt = str(item).format(**macros)
-						tree.data(fmt)
-					except:
-						tree.data(str(item))
-					
+				tree.data(str(item))
 				tree.end(key)
 		else:
-			try:
-				fmt = str(self.val).format(**macros)
-				tree.data(fmt)
-			except:
-				tree.data(str(self.val))
+			tree.data(str(self.val))
 			
 		tree.end(self.typ)
 
@@ -116,7 +119,9 @@ class Rect(DataType):
 			
 		self.val = dict(zip(self.labels, temp))
 
-	
+			
+	def __getitem__(self, key):
+		return int(self.val[key])
 				
 	def merge(self, other):	
 		output = {}
