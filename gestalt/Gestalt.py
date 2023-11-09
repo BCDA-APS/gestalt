@@ -177,8 +177,8 @@ class GridNode(GroupNode):
 		
 		num_items = len(macrolist)
 		
-		rows = round(math.sqrt(num_items * self.ratio))
-		cols = round(math.sqrt(num_items / self.ratio))
+		cols = round(math.sqrt(num_items * self.ratio))
+		rows = round(math.sqrt(num_items / self.ratio))
 		
 		index = 0
 		index_x = 0
