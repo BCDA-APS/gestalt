@@ -1,0 +1,16 @@
+#include colors.yml
+#include widgets.yml
+
+Form:
+    geometry: 1000x1000
+
+
+Test: !vrepeat
+    repeat_over: "INDICES"
+    
+    children:
+        - !Label
+            geometry: 120x20
+            
+            text: "Label {N}"
+
