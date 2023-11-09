@@ -19,6 +19,7 @@ with individualized setup.
 
 The following python packages are required in order to run gestalt:
 
+* lxml
 * PyQT5
 * phoebusgen
 
