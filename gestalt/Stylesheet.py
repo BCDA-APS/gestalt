@@ -2,8 +2,8 @@ import os
 import re
 import yaml
 
+from gestalt.Node import *
 from gestalt.Type import *
-from gestalt.Gestalt import Node, GroupNode, RepeatNode, StretchNode, CenterNode, GridNode
 
 ##########################
 #    Data Type Parsing   #

@@ -7,7 +7,6 @@ import traceback
 from templates import *
 from gestalt import *
 
-
 from PyQt5 import uic
 from PyQt5 import QtGui
 
@@ -72,7 +71,7 @@ class UI(QMainWindow):
 		current_stylesheet = module_selected["stylesheet"]
 		
 		try:
-			Gestalt.generateQtFile(stylesheet=current_stylesheet, datastr=self.InputData.toPlainText(), outputfile=output_file, searchpath="./templates")
+			Gestalt.generateFile(stylesheet=current_stylesheet, datastr=self.InputData.toPlainText(), outputfile=output_file, searchpath="./templates")
 			self.Status.setText("File Generated")
 			
 		except Exception as e:
