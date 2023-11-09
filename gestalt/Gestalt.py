@@ -14,7 +14,7 @@ name_numbering = {}
 
 
 class Node(object):
-	def __init__(self, classname, name=None, initial=None, layout=None):
+	def __init__(self, classname, name=None, layout=None):
 		self.classname = classname
 		self.name = None
 		
@@ -260,8 +260,8 @@ class RepeatNode(GroupNode):
 
 		
 class StretchNode(Node):
-	def __init__(self, initial=None, name=None, layout=None, flow="vertical", subnode=None):
-		super(StretchNode, self).__init__("Stretch", initial=initial, name=name, layout=layout)
+	def __init__(self, name=None, layout=None, flow="vertical", subnode=None):
+		super(StretchNode, self).__init__("Stretch", name=name, layout=layout)
 		
 		self.subnode = subnode
 		self.flow = flow
@@ -275,8 +275,8 @@ class StretchNode(Node):
 		return self.subnode.generateQt(data)
 
 class CenterNode(Node):
-	def __init__(self, initial=None, name=None, layout=None, flow="vertical", subnode=None):
-		super(CenterNode, self).__init__("Center", initial=initial, name=name, layout=layout)
+	def __init__(self, name=None, layout=None, flow="vertical", subnode=None):
+		super(CenterNode, self).__init__("Center", name=name, layout=layout)
 		
 		self.subnode = subnode
 		self.flow = flow
