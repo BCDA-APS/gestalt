@@ -15,6 +15,13 @@ widget parameters can be provided in a YAML stylesheet, and then data
 can be taken from a separate YAML file to provide the widgets with 
 with individualized setup.
 
+## Requirements
+
+The following python packages are required in order to run gestalt:
+
+* PyQT5
+
+
 ## Using Gestalt
 
 Running the top-level gestalt.py will load up all the existing templates

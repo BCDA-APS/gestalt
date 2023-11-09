@@ -1,4 +1,4 @@
-#! /APSshare/anaconda3/x86_64/bin/python3
+#! /usr/bin/env python3
 
 import os
 import tempfile
