@@ -98,10 +98,7 @@ class Node(object):
 		return self
 
 		
-	def apply (self, generator, data={}):
-		for key, item in self.attrs.items():
-			item.apply(data)
-		
+	def apply (self, generator, data={}):		
 		return generator.generateWidget(self, macros=data)
 		
 		
