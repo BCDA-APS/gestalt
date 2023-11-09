@@ -1,6 +1,7 @@
 from .. import registry
 
 registry.add("AreaDetector Common Plugins", path=__path__,
+	template_type = "Qt",
 	required_inputs=[
 ("PLUGINS", 
 """List of plugin data dictionaries:

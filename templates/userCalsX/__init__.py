@@ -1,6 +1,7 @@
 from .. import registry
 
 registry.add("userCalc breakout", path=__path__,
+	template_type = "Qt",
 	required_inputs=[
 ("INDICES", 
 """List of numbers indicating each userCalc to link:

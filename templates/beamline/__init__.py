@@ -1,6 +1,7 @@
 from .. import registry
 
 registry.add("Beamline Overview", path=__path__,
+	template_type = "Qt",
 	required_inputs=[
 ("SECTOR", "Sector Number"),
 ("TYPE",   "ID or BM"),

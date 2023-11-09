@@ -7,11 +7,12 @@ class Input:
 
 templates = {}
 
-def add(name, path='', required_inputs=[], example=''):
+def add(name, path='', template_type='', required_inputs=[], example=''):
 	data = {}
 	data["path"] = path[0]
 	data["stylesheet"] = path[0] + "/layout.yml"
 	data["thumbnail"] = path[0] + "/thumbnail.png"
+	data["template_type"] = template_type
 	data["required_inputs"] = required_inputs
 	data["example"] = example
 
