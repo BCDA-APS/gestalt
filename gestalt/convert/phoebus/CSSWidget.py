@@ -3,6 +3,7 @@ from gestalt.Type import *
 from gestalt.Node import GroupNode
 
 from phoebusgen import widget
+from phoebusgen.widget import properties as _p
 
 name_numbering = {}
 
@@ -121,6 +122,13 @@ class CSSWidget(GroupNode):
 				
 			if "tool_tip" in self.attrs:
 				self.widget.tool_tip(self["tool_tip"])
+				
+			if isinstance(self.widget, _p._PVName) and "pv_name" in self.attrs:
+				self.widget.pv_name(self["pv_name"].val)
+				
+			if isinstance(self.widget, _p._Text) and "text" in self.attrs:
+				self.widget.text(self["text"].val)
+				
 				
 		for child in self.children:
 			child.write(self.widget)
