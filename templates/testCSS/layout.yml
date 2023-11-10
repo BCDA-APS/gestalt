@@ -13,5 +13,6 @@ Test: !vrepeat
             geometry: 120x20
             
             text: "Label {N}"
-            transparent: !bool false
+            transparent: false
             background_color: *header_blue
+            foreground_color: Attention
