@@ -1,7 +1,7 @@
 #include colors.yml
 #include widgets.yml
 
-Form:
+Form: !Form
     geometry: 1000x1000
 
 

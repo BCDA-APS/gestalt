@@ -26,7 +26,7 @@ def generateCSSFile(template, data, outputfile=""):
 	
 	for key, item in template.items():
 		if isinstance(item, Node):
-			if item.classname == "Form":
+			if item.classname == "Form":			
 				a_display.setProperties(item.attrs)
 			else:
 				data.update({
