@@ -114,7 +114,10 @@ class CSSWidget(GroupNode):
 		if isinstance(self.widget, check_class) and attribute in self.attrs:
 			col = self[attribute]
 			
-			getattr(self.widget, set_fun)(col.val["red"], col.val["green"], col.val["blue"], col.val["alpha"])
+			if isinstance(col, Color):
+				getattr(self.widget, set_fun)(col.val["red"], col.val["green"], col.val["blue"], col.val["alpha"])
+			elif isinstance(col, String):
+				getattr(self.widget, "predefined_" + set_fun)(col.val)
 		
 		
 	def write(self, screen):
@@ -165,6 +168,11 @@ class CSSWidget(GroupNode):
 			self.setBasicParam("select_rows",      "row_selection_mode", check_class=_p._SelectRows)
 			self.setBasicParam("unsigned_data",    "unsigned",           check_class=_p._UnsignedData)
 			self.setBasicParam("log_scale",        "log_scale",          check_class=_p._LogScale)
+			self.setBasicParam("show_hihi",        "show_hihi",          check_class=_p._LevelsAndShow)
+			self.setBasicParam("show_high",        "show_high",          check_class=_p._LevelsAndShow)
+			self.setBasicParam("show_low",         "show_low",           check_class=_p._LevelsAndShow)
+			self.setBasicParam("show_lolo",        "show_lolo",          check_class=_p._LevelsAndShow)
+			self.setBasicParam("cursor_crosshair", "cursor_crosshair",   check_class=_p._Cursor)
 			
 			
 			self.setBasicParam("buttons_on_left", "buttons_on_left",           check_class=_p._ButtonsOnLeft)
@@ -174,21 +182,26 @@ class CSSWidget(GroupNode):
 			#  Strings  #
 			#############
 								
-			self.setBasicParam("pv_name",      "pv_name",      check_class=_p._PVName)
-			self.setBasicParam("text",         "text",         check_class=_p._Text)
-			self.setBasicParam("format",       "format",       check_class=_p._Format)
-			self.setBasicParam("title",        "title",        check_class=_p._Title)
-			self.setBasicParam("time_range",   "time_range",   check_class=_p._TimeRange)
-			self.setBasicParam("scale_format", "scale_format", check_class=_p._ScaleFormat)
-			self.setBasicParam("off_label",    "off_label",    check_class=_p._Off)
-			self.setBasicParam("off_image",    "off_image",    check_class=_p._OffImage)
-			self.setBasicParam("on_label",     "on_label",     check_class=_p._On)
-			self.setBasicParam("on_image",     "on_image",     check_class=_p._OnImage)
-			self.setBasicParam("url",          "url",          check_class=_p._URL)
-			self.setBasicParam("file",         "file",         check_class=_p._File)
-			self.setBasicParam("label",        "label",        check_class=_p._Label)
-			self.setBasicParam("group_name",   "group_name",   check_class=_p._GroupName)
-			self.setBasicParam("selection_pv", "selection_pv", check_class=_p._SelectionPV)
+			self.setBasicParam("pv_name",        "pv_name",        check_class=_p._PVName)
+			self.setBasicParam("tab",            "tab",            check_class=_p._Tabs)
+			self.setBasicParam("text",           "text",           check_class=_p._Text)
+			self.setBasicParam("format",         "format",         check_class=_p._Format)
+			self.setBasicParam("title",          "title",          check_class=_p._Title)
+			self.setBasicParam("time_range",     "time_range",     check_class=_p._TimeRange)
+			self.setBasicParam("scale_format",   "scale_format",   check_class=_p._ScaleFormat)
+			self.setBasicParam("off_label",      "off_label",      check_class=_p._Off)
+			self.setBasicParam("off_image",      "off_image",      check_class=_p._OffImage)
+			self.setBasicParam("on_label",       "on_label",       check_class=_p._On)
+			self.setBasicParam("on_image",       "on_image",       check_class=_p._OnImage)
+			self.setBasicParam("url",            "url",            check_class=_p._URL)
+			self.setBasicParam("file",           "file",           check_class=_p._File)
+			self.setBasicParam("label",          "label",          check_class=_p._Label)
+			self.setBasicParam("group_name",     "group_name",     check_class=_p._GroupName)
+			self.setBasicParam("selection_pv",   "selection_pv",   check_class=_p._SelectionPV)
+			self.setBasicParam("fallback_label", "fallback_label", check_class=_p._Fallback)  
+			self.setBasicParam("cursor_info_pv", "cursor_info_pv", check_class=_p._Cursor)
+			self.setBasicParam("cursor_x_pv",    "x_pv",           check_class=_p._Cursor)
+			self.setBasicParam("cursor_y_pv",    "y_pv",           check_class=_p._Cursor)
 			
 			self.setBasicParam("selection_value_pv", "selection_value_pv", check_class=_p._SelectionValuePV)
 			
@@ -210,6 +223,19 @@ class CSSWidget(GroupNode):
 			self.setBasicParam("tab_spacing",   "tab_spacing",   check_class=_p._TabSpacing)
 			self.setBasicParam("array_index",   "array_index",   check_class=_p._ArrayIndex)
 			self.setBasicParam("initial_index", "initial_index", check_class=_p._InitialIndex)
+			self.setBasicParam("border_width",  "border_width",  check_class=_p._Border)
+			self.setBasicParam("corner_height", "corner_height", check_class=_p._Corner)
+			self.setBasicParam("corner_width",  "corner_width",  check_class=_p._Corner)
+			self.setBasicParam("angle_start",   "start_angle",   check_class=_p._Angle)
+			self.setBasicParam("angle_size",    "total_angle",   check_class=_p._Angle)
+			self.setBasicParam("data_height",   "data_height",   check_class=_p._Corner)
+			self.setBasicParam("data_width",    "data_width",    check_class=_p._Corner)
+			self.setBasicParam("minimum",       "minimum",       check_class=_p._MinMax)
+			self.setBasicParam("maximum",       "maximum",       check_class=_p._MinMax)
+			self.setBasicParam("level_hihi",    "level_hihi",    check_class=_p._LevelsAndShow)
+			self.setBasicParam("level_high",    "level_high",    check_class=_p._LevelsAndShow)
+			self.setBasicParam("level_low",     "level_low",     check_class=_p._LevelsAndShow)
+			self.setBasicParam("level_lolo",    "level_lolo",    check_class=_p._LevelsAndShow)
 			
 			self.setBasicParam("major_ticks_pixel_dist", "major_tick_step_hint", check_class=_p._MajorTicksPixelDist)
 				
@@ -228,6 +254,8 @@ class CSSWidget(GroupNode):
 			self.setColorParam("selected_color",   "selected_color",   check_class=_p._SelectedColor)
 			self.setColorParam("deselected_color", "deselected_color", check_class=_p._DeselectedColor)
 			self.setColorParam("grid_color",       "grid_color",       check_class=_p._GridColor)
+			self.setColorParam("border_color",     "border_color",     check_class=_p._Border)
+			self.setColorParam("fallback_color",   "fallback_color",   check_class=_p._Fallback)
 			
 				
 		for child in self.children:
