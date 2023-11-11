@@ -281,9 +281,19 @@ class CSSWidget(GroupNode):
 			self.setEnumParam("_add_resize_behavior",      "resize",               "Resize",              check_class=_p._ResizeBehavior)
 			self.setEnumParam("_add_file_component",       "component",            "FileComponent",       check_class=_p._FileComponent)
 			self.setEnumParam("_add_interpolation",        "interpolation",        "Interpolation",       check_class=_p._Interpolation)			
-								
+		
+			if isinstance(self.widget, _p._Font) and "font" in self.attrs:
+				my_font = self["font"]
+				
+				self.widget.font_family(my_font["family"])
+				
+				if my_font["size"]:
+					self.widget.font_size(int(my_font["size"]))
+				
+				if my_font["style"]:
+					getattr(self.widget, "font_style_" + my_font["style"])()
 					
-					
+			
 		for child in self.children:
 			child.write(self.widget)
 			

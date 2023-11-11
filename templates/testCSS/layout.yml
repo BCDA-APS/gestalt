@@ -16,10 +16,4 @@ Test: !vrepeat
             transparent: false
             background_color: *header_blue
             foreground_color: Attention
-
-Test2: !TextUpdate
-    geometry: 500x500 x 100x100
-    
-    background_color: *edit_blue
-    
-    horizontal_alignment: "right"
+            font: -Liberation Sans - bold - 12
