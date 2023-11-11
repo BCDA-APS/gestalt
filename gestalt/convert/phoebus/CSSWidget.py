@@ -119,6 +119,17 @@ class CSSWidget(GroupNode):
 			elif isinstance(col, String):
 				getattr(self.widget, "predefined_" + set_fun)(col.val)
 		
+	def setEnumParam(self, set_fun, attribute, enum_class, check_class=object):
+		if isinstance(self.widget, check_class) and attribute in self.attrs:
+			enumer = self[attribute]
+			
+			if isinstance(enumer, Number):
+				# self.widget.<function>(<enumeration>(<given value>))
+				getattr(self.widget, set_fun)(getattr(self.widget._shared, enum_class)(int(enumer.val)))
+			elif isinstance(enumer, String):
+				# self.widget.<function>((getattr(<enumeration>, <given value>)
+				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val))
+				
 		
 	def write(self, screen):
 		for key, item in self.attrs.items():
@@ -257,7 +268,22 @@ class CSSWidget(GroupNode):
 			self.setColorParam("border_color",     "border_color",     check_class=_p._Border)
 			self.setColorParam("fallback_color",   "fallback_color",   check_class=_p._Fallback)
 			
-				
+			
+			###########
+			#  Enums  #
+			###########
+			
+			self.setEnumParam("_add_horizontal_alignment", "horizontal_alignment", "HorizontalAlignment", check_class=_p._HorizontalAlignment)
+			self.setEnumParam("_add_vertical_alignment",   "vertical_alignment",   "VerticalAlignment",   check_class=_p._VerticalAlignment)
+			self.setEnumParam("_add_rotation_step",        "rotation_step",        "RotationStep",        check_class=_p._RotationStep)
+			self.setEnumParam("_add_mode",                 "mode",                 "Mode",                check_class=_p._Mode)
+			self.setEnumParam("_add_style",                "style",                "GroupStyle",          check_class=_p._Style)
+			self.setEnumParam("_add_resize_behavior",      "resize",               "Resize",              check_class=_p._ResizeBehavior)
+			self.setEnumParam("_add_file_component",       "component",            "FileComponent",       check_class=_p._FileComponent)
+			self.setEnumParam("_add_interpolation",        "interpolation",        "Interpolation",       check_class=_p._Interpolation)			
+								
+					
+					
 		for child in self.children:
 			child.write(self.widget)
 			
