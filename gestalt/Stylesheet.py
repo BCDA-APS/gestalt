@@ -50,6 +50,9 @@ color_regex = re.compile(r'^\$([0-9A-Fa-f][0-9A-Fa-f])+$')
 yaml.add_constructor("!color", (lambda l, n: read_type(Color, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 
+font_regex = re.compile(r'^-[a-zA-Z][\w\s]*(-[a-zA-Z\s]+)(-[0-9\s]+)$')
+yaml.add_constructor("!font", (lambda l, n: read_type(Font, l, n)), Loader=yaml.SafeLoader)
+yaml.add_implicit_resolver(u'!font', font_regex, Loader=yaml.SafeLoader)
 
 
 ######################

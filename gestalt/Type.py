@@ -156,3 +156,50 @@ class Color(DataType):
 			
 		return Color(output)
 		
+
+		
+######################
+#   FONT DATA TYPE   #
+######################
+
+class Font(DataType):
+	def __init__(self, *args, family=None, style=None, size=None):
+		self.typ = "font"
+		self.defaultvalue = ""
+		self.labels = ["family", "style", "size"]
+		
+		if len(args) == 0:
+			self.val = {"family" : family, "style" : style, "size" : size}
+			return
+		
+		data = args
+		
+		if len(args) == 1:
+			data = args[0]
+			
+		if isinstance(data, dict):
+			data = [ data.get(key, None) for key in self.labels ]
+		
+		elif isinstance(data, str):			
+			data = [ item.strip() for item in data.lstrip("-").split("-") ]
+
+		
+		temp = [None, None, None]
+			
+		for i in range(len(data)):
+			temp[i] = data[i]
+			
+		self.val = dict(zip(self.labels, temp))
+		
+			
+	def merge(self, other):
+		output = {}
+		output.update(self.val)
+		
+		for key in self.labels:
+			if other.val.get(key) is not None:
+				output[key] = other.val[key]
+				
+		return Font(output)
+		
+		

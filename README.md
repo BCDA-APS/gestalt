@@ -149,6 +149,9 @@ implicit parsing are listed here:
 * '!color' - A color value, will recognize a set of hexadecimal digits after a '$'
 character. Either '$RRGGBB' or '$RRGGBBAA'
 
+* '!font' - A Font specification, will recognize a dash followed by a font name.
+Optionally, extra dashes can also specify font style and size. '-DejaVu Sans Mono - regular - 16'
+
 * '!enum' - A menu selection, will recognize a value that contains a double-colon within
 
 * '!geom' - A rectangle geometry, will recognize numbers separated by an 'x' character.
