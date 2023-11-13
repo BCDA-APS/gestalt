@@ -8,12 +8,17 @@
 
 
 
-Gestalt is a python application to help make it easy to programmatically 
-generate caQtDM '.ui' files from user data. Widgets can be created and 
-properties modified without needing to load any Qt libraries, default 
-widget parameters can be provided in a YAML stylesheet, and then data 
-can be taken from a separate YAML file to provide the widgets with 
-with individualized setup.
+Gestalt is a python application to interface with generative UI libraries.
+
+
+Established templates are combined with structured user data to create a 
+series of command calls that will build up a screen, arrange widgets, and set
+their properties. Layouts are provided to repeat batches of widgets along
+a variety of arrangements with specified macros being mapped to user-given 
+inputs.
+
+Currently, caQtDM and CSS-Phoebus are supported.
+
 
 ## Requirements
 
@@ -70,6 +75,7 @@ files only need to contain a single call to the registration function
 
 ```python
     registry.add("Display Name", path=__path__,
+        template_type= "Qt",
         required_inputs=[("Param1", "Desc1"), ("Param2", "Desc2")],
         example="""
             Param1: 'abc'
@@ -77,12 +83,14 @@ files only need to contain a single call to the registration function
         """)
 ```
 
-This function takes four parameters. A positional argument which denotes 
+This function takes five parameters. A positional argument which denotes 
 the name to use for this template within the drop-down menu, followed
 by three keyword arguments. 
 
 'path' provides the path to the given template folder and can always be 
 left as the python variable '\_\_path\_\_'. 
+
+'template_type' tells gestalt which UI generator the template will be using.
 
 'required_inputs' is a list of tuples that will describe to the user the
 meaning of the parameters that are required by the template. Each represents
@@ -103,9 +111,9 @@ should use transparent padding, vertically or horizontally as needed.
 
 ### layout.yml
 
-A caQtDM screen to be generated is represented by a yaml file containing
-a graph of children Widget objects. Widgets are created by providing them 
-with a Qt widget classname and then setting any properties that should be 
+A screen to be generated is represented by a yaml file containing a graph 
+of children Widget objects. Widgets are created by providing them with a 
+Qt or CSS widget classname and then setting any properties that should be 
 different from the Qt standard.
 
 ```yaml
@@ -116,6 +124,16 @@ small_rect_widget: !caGraphics
     fillstyle: caGraphics::filled
     
     background: $000000
+```
+
+```yaml
+
+small_rect_widget: !Rectangle
+    geometry: 100x100
+    
+    line_color: $000000
+    background_color: $000000
+
 ```
 
 #### Data Types
@@ -163,9 +181,9 @@ character
 
 #### Base Widgets
 
-All the caQtDM widgets are supported and can be specified as types using yaml's typing
-system. Just put an exclamation mark character before the widget's classname to identify
-it to the parser.
+All the caQtDM and CSS-Phoebus widgets are supported and can be specified as types using 
+yaml's typing system. Just put an exclamation mark character before the widget's classname 
+to identify it to the parser.
 
 ```yaml
 TweakVal: !caTextEntry            
@@ -217,8 +235,9 @@ to the group. Groups can be nested if need be and a group will automatically exp
 its width and height properties to accomodate the total of all widgets within. 
 
 
-The basic group is just a '!group'. This type does nothing other than provide a
-caFrame.
+The basic group is just a '!group', which provides a caFrame when used within a
+caQtDM template, but for CSS, a group doesn't represent any generated widget type.
+Aside from logical structure, a basic group isn't all that useful.
 
 
 ```yaml
@@ -250,7 +269,7 @@ UI_Row: !repeat
     padding: 6
     
     children:
-        - !caLindeEdit
+        - !caLineEdit
         geometry: 10x1 x 110x18
         channel: $(P){Instance}:PortName_RBV
         
