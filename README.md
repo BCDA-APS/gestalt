@@ -62,7 +62,7 @@ about your template.
 * A 'thumbnail.png' file to give a visual representation of what a
 generated file might look like.
 
-* And a 'layout.yml' file which describes the actual templating of the
+* And at least a single yml file which describes the actual templating of the
 screen to generate.
 
 
@@ -75,7 +75,7 @@ files only need to contain a single call to the registration function
 
 ```python
     registry.add("Display Name", path=__path__,
-        template_type= "Qt",
+        qt_stylesheet= "layout.yml",
         required_inputs=[("Param1", "Desc1"), ("Param2", "Desc2")],
         example="""
             Param1: 'abc'
@@ -83,14 +83,15 @@ files only need to contain a single call to the registration function
         """)
 ```
 
-This function takes five parameters. A positional argument which denotes 
-the name to use for this template within the drop-down menu, followed
-by three keyword arguments. 
+This function takes up to six parameters. A positional argument which 
+denotes the name to use for this template within the drop-down menu, 
+followed by a set of keyword arguments. 
 
 'path' provides the path to the given template folder and can always be 
 left as the python variable '\_\_path\_\_'. 
 
-'template_type' tells gestalt which UI generator the template will be using.
+'qt_stylesheet' and/or 'css_stylesheet' tells gestalt which file to use
+as the stylesheet for given conversion type.
 
 'required_inputs' is a list of tuples that will describe to the user the
 meaning of the parameters that are required by the template. Each represents
