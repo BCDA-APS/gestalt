@@ -4,11 +4,11 @@ from phoebusgen import screen
 
 from gestalt.Type import *
 
-from gestalt.convert.phoebus.CSSAnonGroup import CSSAnonGroup
+from gestalt.Node import GroupNode
 
-class CSSDisplay(CSSAnonGroup):
+class CSSDisplay(GroupNode):
 	def __init__(self, layout=None):
-		super(CSSDisplay, self).__init__()
+		super(CSSDisplay, self).__init__("")
 	
 		self.form = screen.Screen("Form")
 		
@@ -22,6 +22,12 @@ class CSSDisplay(CSSAnonGroup):
 		self["geometry"]["x"] = margins["x"]
 		self["geometry"]["y"] = margins["y"]
 		
-		self.write(self.form)
+		for child in self.children:
+			child["geometry"]["x"] = child["geometry"]["x"] + self["geometry"]["x"]
+			child["geometry"]["y"] = child["geometry"]["y"] + self["geometry"]["y"]
+			
+			child.write(self.form)
+		
+		#self.write(self.form)
 		self.form.write_screen(file_name=filename)
 		

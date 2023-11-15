@@ -5,7 +5,6 @@ from gestalt.Generator import GestaltGenerator
 from phoebusgen import screen
 
 from gestalt.convert.phoebus.CSSWidget    import CSSWidget
-from gestalt.convert.phoebus.CSSAnonGroup import CSSAnonGroup
 from gestalt.convert.phoebus.CSSDisplay   import CSSDisplay
 
 

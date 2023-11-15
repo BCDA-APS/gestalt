@@ -134,10 +134,10 @@ class CSSWidget(GroupNode):
 		if isinstance(self.widget, check_class) and attribute in self.attrs:
 			my_font = self[attribute]
 			
-			get_attr(self.widget, prefix + "font_family")(my_font["family"])
+			getattr(self.widget, prefix + "font_family")(my_font["family"])
 				
 			if my_font["size"]:
-				get_attr(self.widget, prefix + "font_size")(int(my_font["size"]))
+				getattr(self.widget, prefix + "font_size")(int(my_font["size"]))
 				
 			if my_font["style"]:
 				getattr(self.widget, prefix + "font_style_" + my_font["style"])()
