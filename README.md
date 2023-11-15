@@ -234,10 +234,9 @@ There are a few different group types, but all of them share the special paramet
 to the group. Groups can be nested if need be and a group will automatically expand
 its width and height properties to accomodate the total of all widgets within. 
 
-
 The basic group is just a '!group', which provides a caFrame when used within a
-caQtDM template, but for CSS, a group doesn't represent any generated widget type.
-Aside from logical structure, a basic group isn't all that useful.
+caQtDM template, and Group widget when used within a CSS template. Aside from 
+logical structure, a basic group isn't all that useful.
 
 
 ```yaml
