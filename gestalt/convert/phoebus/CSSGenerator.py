@@ -4,9 +4,9 @@ from gestalt.Generator import GestaltGenerator
 
 from phoebusgen import screen
 
-from gestalt.convert.phoebus.CSSWidget  import CSSWidget
-from gestalt.convert.phoebus.CSSGroup   import CSSGroup
-from gestalt.convert.phoebus.CSSDisplay import CSSDisplay
+from gestalt.convert.phoebus.CSSWidget    import CSSWidget
+from gestalt.convert.phoebus.CSSAnonGroup import CSSAnonGroup
+from gestalt.convert.phoebus.CSSDisplay   import CSSDisplay
 
 
 class CSSGenerator(GestaltGenerator):
@@ -14,10 +14,15 @@ class CSSGenerator(GestaltGenerator):
 		return CSSWidget(original.classname, name=original.name, layout=original.attrs, macros=macros)
 		
 	def generateGroup(self, original, macros={}):
-		return CSSGroup(layout=original.attrs, macros=macros)
+		output = CSSWidget("Group", name=original.name, layout=original.attrs, macros=macros)
+	
+		output.widget.transparent(True)
+		output.widget.no_style()
+	
+		return output
 	
 	def generateAnonymousGroup(self, macros={}):
-		return CSSGroup()
+		return CSSAnonGroup()
 
 
 def generateCSSFile(template, data, outputfile=""):

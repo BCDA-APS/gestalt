@@ -136,6 +136,7 @@ class CSSWidget(GroupNode):
 			item.apply(self.macros)
 			
 		if self.widget:
+			self.widget.name(self.name)
 			self.widget.x(self["geometry"]["x"])
 			self.widget.y(self["geometry"]["y"])
 			self.widget.width(self["geometry"]["width"])
