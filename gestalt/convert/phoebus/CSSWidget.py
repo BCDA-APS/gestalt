@@ -129,6 +129,18 @@ class CSSWidget(GroupNode):
 			elif isinstance(enumer, String):
 				# self.widget.<function>((getattr(<enumeration>, <given value>)
 				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val))
+			
+	def setFontParam(self, attribute, prefix, check_class=object):
+		if isinstance(self.widget, check_class) and attribute in self.attrs:
+			my_font = self[attribute]
+			
+			get_attr(self.widget, prefix + "font_family")(my_font["family"])
+				
+			if my_font["size"]:
+				get_attr(self.widget, prefix + "font_size")(int(my_font["size"]))
+				
+			if my_font["style"]:
+				getattr(self.widget, prefix + "font_style_" + my_font["style"])()
 				
 		
 	def write(self, screen):
@@ -282,18 +294,17 @@ class CSSWidget(GroupNode):
 			self.setEnumParam("_add_resize_behavior",      "resize",               "Resize",              check_class=_p._ResizeBehavior)
 			self.setEnumParam("_add_file_component",       "component",            "FileComponent",       check_class=_p._FileComponent)
 			self.setEnumParam("_add_interpolation",        "interpolation",        "Interpolation",       check_class=_p._Interpolation)			
-		
-			if isinstance(self.widget, _p._Font) and "font" in self.attrs:
-				my_font = self["font"]
-				
-				self.widget.font_family(my_font["family"])
-				
-				if my_font["size"]:
-					self.widget.font_size(int(my_font["size"]))
-				
-				if my_font["style"]:
-					getattr(self.widget, "font_style_" + my_font["style"])()
-					
+
+			
+			###########
+			#  Fonts  #
+			###########
+			
+			self.setFontParam("font",       "", check_class=_p._Font)
+			self.setFontParam("title_font", "title_", check_class=_p._TitleFont)
+			self.setFontParam("scale_font", "scale_", check_class=_p._ScaleFont)
+			self.setFontParam("label_font", "label_", check_class=_p._LabelFont)
+			
 			
 		for child in self.children:
 			child.write(self.widget)
