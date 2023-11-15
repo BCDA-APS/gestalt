@@ -7,7 +7,7 @@ from phoebusgen import widget
 
 class CSSAnonGroup(GroupNode):
 	def __init__(self, layout=None, macros={}):
-		super(CSSGroup, self).__init__("", layout=layout)
+		super(CSSAnonGroup, self).__init__("", layout=layout)
 	
 		self.macros = macros
 		
