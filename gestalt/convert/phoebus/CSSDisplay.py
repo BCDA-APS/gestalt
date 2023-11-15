@@ -4,9 +4,9 @@ from phoebusgen import screen
 
 from gestalt.Type import *
 
-from gestalt.convert.phoebus.CSSGroup import CSSGroup
+from gestalt.convert.phoebus.CSSAnonGroup import CSSAnonGroup
 
-class CSSDisplay(CSSGroup):
+class CSSDisplay(CSSAnonGroup):
 	def __init__(self, layout=None):
 		super(CSSDisplay, self).__init__()
 	
