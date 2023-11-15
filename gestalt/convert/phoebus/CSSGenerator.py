@@ -20,9 +20,14 @@ class CSSGenerator(GestaltGenerator):
 		output.widget.no_style()
 	
 		return output
-	
+		
 	def generateAnonymousGroup(self, macros={}):
-		return CSSAnonGroup()
+		output = CSSWidget("Group")
+		
+		output.widget.transparent(True)
+		output.widget.no_style()
+	
+		return output
 
 
 def generateCSSFile(template, data, outputfile=""):
