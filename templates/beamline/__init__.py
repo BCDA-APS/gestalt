@@ -1,7 +1,8 @@
 from .. import registry
 
 registry.add("Beamline Overview", path=__path__,
-	template_type = "Qt",
+	qt_stylesheet = "layout.yml",
+	css_stylesheet = "css_beamline.yml",
 	required_inputs=[
 ("SECTOR", "Sector Number"),
 ("TYPE",   "ID or BM"),

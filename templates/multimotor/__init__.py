@@ -1,7 +1,7 @@
 from .. import registry
 
 registry.add("Multimotor Display", path=__path__,
-	template_type = "Qt",
+	qt_stylesheet = "layout.yml",
 	required_inputs=[
 ("MOTORS", 
 """Motor index list:

@@ -1,7 +1,7 @@
 from .. import registry
 
 registry.add("CSS Test", path=__path__,
-	template_type = "CSS",
+	css_stylesheet = "layout.yml",
 	required_inputs=[
 ("INDICES", 
 """List of numbers indicating each userCalc to link:

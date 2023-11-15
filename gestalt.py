@@ -41,8 +41,17 @@ class UI(QMainWindow):
 		self.TemplateSelect.clear()
 		self.TemplateSelect.currentIndexChanged.connect(self.template_selected)
 		
-		for key, item in registry.templates.items():		
-			if item["template_type"] == self.TemplateType.itemText(selection):
+		output_type = self.TemplateType.itemText(selection)
+		
+		check_attr = ""
+		
+		if output_type == "Qt":
+			check_attr = "qt_stylesheet"
+		elif output_type == "CSS":
+			check_attr = "css_stylesheet"
+		
+		for key, item in registry.templates.items():
+			if check_attr in item:
 				self.TemplateSelect.addItem(key)
 		
 	def template_selected(self, selection):
@@ -79,21 +88,20 @@ class UI(QMainWindow):
 		output_type = self.TemplateType.itemText(self.TemplateType.currentIndex())
 		
 		output_file = ""
+		current_stylesheet = ""
 		
+		module_selected = registry.templates[self.TemplateSelect.itemText(self.TemplateSelect.currentIndex())]
 		
 		if output_type == "CSS":
+			current_stylesheet = module_selected["css_stylesheet"]
 			output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.bob")[0]
 		elif output_type == "Qt":
+			current_stylesheet = module_selected["qt_stylesheet"]
 			output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.ui")[0]
 		
 		
 		if output_file == "":
 			return
-		
-		
-		module_selected = registry.templates[self.TemplateSelect.itemText(self.TemplateSelect.currentIndex())]
-		
-		current_stylesheet = module_selected["stylesheet"]
 		
 		try:
 			includes_dirs = str.split(".:./templates", ":")

@@ -7,12 +7,17 @@ class Input:
 
 templates = {}
 
-def add(name, path='', template_type='', required_inputs=[], example=''):
+def add(name, path='', qt_stylesheet=None, css_stylesheet=None, required_inputs=[], example=''):
 	data = {}
 	data["path"] = path[0]
-	data["stylesheet"] = path[0] + "/layout.yml"
+	
+	if qt_stylesheet:
+		data["qt_stylesheet"] = path[0] + "/" + str(qt_stylesheet)
+	
+	if css_stylesheet:
+		data["css_stylesheet"] = path[0] + "/" + str(css_stylesheet)
+		
 	data["thumbnail"] = path[0] + "/thumbnail.png"
-	data["template_type"] = template_type
 	data["required_inputs"] = required_inputs
 	data["example"] = example
 
