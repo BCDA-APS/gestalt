@@ -104,7 +104,8 @@ class CSSWidget(GroupNode):
 			self.widget = widget.WebBrowser(self.name, "", 0, 0, 0, 0)
 		elif (self.classname == "XYPlot"):
 			self.widget = widget.XYPlot(self.name, 0, 0, 0, 0)	
-		
+		else:
+			raise Exception("Unknown widget type: " + self.classname)
 			
 	def setBasicParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self.attrs:
@@ -128,7 +129,7 @@ class CSSWidget(GroupNode):
 				getattr(self.widget, set_fun)(getattr(self.widget._shared, enum_class)(int(enumer.val)))
 			elif isinstance(enumer, String):
 				# self.widget.<function>((getattr(<enumeration>, <given value>)
-				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val))
+				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val.lower()))
 			
 	def setFontParam(self, attribute, prefix, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self.attrs:
