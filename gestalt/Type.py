@@ -14,7 +14,7 @@ class DataType(object):
 						self.val[key] = str(item).format(**macros)
 					except:
 						pass
-		else:
+		elif isinstance(self.val, str):
 			try:
 				self.val = str(self.val).format(**macros)
 			except:
