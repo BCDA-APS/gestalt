@@ -86,10 +86,10 @@ class Node(object):
 			out_y = y
 			
 		elif len(args) == 1:
-			if instanceof(args[0], list) or instanceof(args[0], tuple):
+			if isinstance(args[0], list) or isinstance(args[0], tuple):
 				out_x = args[0][0]
 				out_y = args[0][1]
-			elif instanceof(args[0], dict):
+			elif isinstance(args[0], dict):
 				out_x = args[0]["x"]
 				out_y = args[0]["y"]				
 		
@@ -227,10 +227,16 @@ class RepeatNode(GroupNode):
 		
 		index = 0
 		
+		if not isinstance(macrolist, list):
+			if isinstance(macrolist, DataType):
+				macrolist = [ {"N" : x} for x in range(int(macrolist.val)) ]
+			else:
+				macrolist = [ {"N" : x} for x in range(int(macrolist)) ]
+		
 		for macroset in macrolist:
 			child_macros = copy.deepcopy(data)
-			
 			child_macros.update(macroset)
+			child_macros.update({"__index__" : index})
 			
 			line = generator.generateAnonymousGroup()
 			
