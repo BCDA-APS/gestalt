@@ -42,7 +42,7 @@ class QtWidget(GroupNode):
 			elif isinstance(item, Bool):
 				tree.start("bool", {})
 				
-				if item.val:
+				if bool(item):
 					tree.data("true")
 				else:
 					tree.data("false")
