@@ -91,6 +91,14 @@ def read_repeat_node(flow, loader, node):
 
 	return RepeatNode(initial=children, layout=params, repeat=repeat_over, padding=padding, flow=flow)
 
+def read_conditional_node(loader, node):
+	params = loader.construct_mapping(node, deep=True)
+
+	children = params.pop("children", None)
+	condition = params.pop("condition", None)
+
+	return ConditionalNode(initial=children, layout=params, condition=condition)
+
 def read_stretch_node(flow, loader, node):
 	params = loader.construct_mapping(node, deep=True)
 
@@ -130,6 +138,8 @@ yaml.add_constructor("!group", (lambda l, n: read_group_node("caFrame", l, n)), 
 	
 yaml.add_constructor("!grid", (lambda l, n: read_grid_node(l, n)), Loader=yaml.SafeLoader)
 
+yaml.add_constructor("!conditional", (lambda l, n: read_conditional_node(l, n)), Loader=yaml.SafeLoader)
+	
 yaml.add_constructor("!repeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!hrepeat", (lambda l, n: read_repeat_node("horizontal", l, n)), Loader=yaml.SafeLoader)

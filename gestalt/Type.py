@@ -25,6 +25,9 @@ class DataType(object):
 		
 	def __getitem__(self, key):
 		return self.val[key]
+
+	def __bool__(self):
+		return bool(self.val)
 		
 	def merge(self, other):
 		return type(self)(other.val)
@@ -37,7 +40,18 @@ class DataType(object):
 
 class String(DataType):
 	def __init__(self, val):
-		super(String, self).__init__("string", val)		
+		super(String, self).__init__("string", val)	
+	
+	def __bool__(self):
+		output = super(String, self).__bool__()
+		
+		if output:
+			try:
+				output = bool(int(self.val.lower()))
+			except:
+				output = not ( self.val.lower() == "false" )
+				
+		return output
 	
 class Number(DataType):
 	def __init__(self, val):

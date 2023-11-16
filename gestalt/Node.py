@@ -261,6 +261,32 @@ class RepeatNode(GroupNode):
 			
 		return output
 
+
+class ConditionalNode(GroupNode):
+	def __init__(self, initial=None, name=None, layout=None, condition=None):
+		super(ConditionalNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
+		
+		self.condition = condition
+		
+	def apply(self, generator, data={}):
+		output = generator.generateAnonymousGroup()
+		
+		conditional = data.get(self.condition, None)
+		
+		if bool(conditional):
+			child_macros = copy.deepcopy(data)
+			
+			for childnode in self.children:
+				child_macros.update({
+					"__parentx__" : self["geometry"]["x"],
+					"__parenty__" : self["geometry"]["y"],
+					"__parentwidth__" : self["geometry"]["width"],
+					"__parentheight__" : self["geometry"]["height"]})
+				
+				output.append(childnode.apply(generator, data=data))
+		
+		return output
+		
 		
 class StretchNode(Node):
 	def __init__(self, name=None, layout=None, flow="vertical", subnode=None):
