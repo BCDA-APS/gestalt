@@ -104,7 +104,9 @@ class UI(QMainWindow):
 			return
 		
 		try:
-			includes_dirs = str.split(".:./templates", ":")
+			includes_dirs = str.split(".:./templates:" + module_selected["path"], ":")
+				
+			
 			styles = Stylesheet.parse(current_stylesheet, includes_dirs)
 			data = Datasheet.parseString(self.InputData.toPlainText())
 		

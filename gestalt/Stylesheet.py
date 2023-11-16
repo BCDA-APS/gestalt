@@ -162,8 +162,9 @@ def read_file(filename, includes_locations, included_files):
 				include_file_path = ""
 				
 				for check_dir in includes_locations:
-					test_path = os.path.abspath(check_dir + "/" + include_file)
 					
+					test_path = os.path.abspath(check_dir + "/" + include_file)
+						
 					if os.path.exists(test_path):
 						include_file_path = test_path
 						break
