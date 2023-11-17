@@ -123,17 +123,16 @@ class GroupNode(Node):
 					self.append(child)
 	
 					
-	def append(self, child, keep_original=False):	
+	def append(self, child, keep_original=False):
+		to_append = child			
+					
 		if not keep_original:
-			self.children.append(copy.deepcopy(child))
-		else:
-			self.children.append(child)
+			to_append = copy.deepcopy(child)
 		
-		child["geometry"]["x"] = child["geometry"]["x"] + self.margins["x"]
-		child["geometry"]["y"] = child["geometry"]["y"] + self.margins["y"]
+		self.children.append(to_append)
 			
-		right_edge  = child["geometry"]["x"] + child["geometry"]["width"] + self.margins["width"]
-		bottom_edge = child["geometry"]["y"] + child["geometry"]["height"] + self.margins["height"]
+		right_edge  = to_append["geometry"]["x"] + to_append["geometry"]["width"] + self.margins["width"]
+		bottom_edge = to_append["geometry"]["y"] + to_append["geometry"]["height"] + self.margins["height"]
 		
 		if right_edge > self["geometry"]["width"]:
 			self["geometry"]["width"] = right_edge
@@ -155,7 +154,9 @@ class GroupNode(Node):
 				"__parenty__" : output["geometry"]["y"],
 				"__parentwidth__" : output["geometry"]["width"],
 				"__parentheight__" : output["geometry"]["height"]})
-				
+			
+			child.position(child["geometry"]["x"] + self.margins["x"], child["geometry"]["y"] + self.margins["y"])
+					
 			output.append(child.apply(generator, data=child_macros))
 			
 		return output
@@ -302,6 +303,9 @@ class StretchNode(Node):
 		self.flow = flow
 		
 	def apply (self, generator, data={}):
+		self.subnode["geometry"]["x"] = self.subnode["geometry"]["x"] + self["geometry"]["x"]
+		self.subnode["geometry"]["y"] = self.subnode["geometry"]["y"] + self["geometry"]["y"]
+		
 		if self.flow == "vertical":
 			self.subnode["geometry"]["height"] = data["__parentheight__"]
 		elif self.flow == "horizontal":
@@ -321,8 +325,8 @@ class CenterNode(Node):
 		applied_node = self.subnode.apply(generator, data=data)
 			
 		if self.flow == "vertical":
-			applied_node.position(applied_node["geometry"]["x"], int(data["__parentheight__"] / 2) - int(applied_node["geometry"]["height"] / 2))
+			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(data["__parentheight__"] / 2) - int(applied_node["geometry"]["height"] / 2))
 		elif self.flow == "horizontal":
-			applied_node.position(int(data["__parentwidth__"] / 2) - int(applied_node["geometry"]["width"] / 2), applied_node["geometry"]["y"])
+			applied_node.position(int(data["__parentwidth__"] / 2) - int(applied_node["geometry"]["width"] / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
 					
 		return applied_node	
