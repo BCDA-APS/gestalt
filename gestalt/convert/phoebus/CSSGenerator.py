@@ -44,7 +44,7 @@ def generateCSSFile(template, data, outputfile=""):
 					"__parentwidth__" : a_display["geometry"]["width"],
 					"__parentheight__" : a_display["geometry"]["height"]})
 			
-				a_display.append(item.apply(the_generator, data=data))
+				a_display.place(item.apply(the_generator, data=data))
 
 						
 	a_display.writeCSS(outputfile)

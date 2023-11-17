@@ -123,24 +123,38 @@ class GroupNode(Node):
 					self.append(child)
 	
 					
-	def append(self, child, keep_original=False):
-		to_append = child			
-					
+	def append(self, child, keep_original=False):					
 		if not keep_original:
-			to_append = copy.deepcopy(child)
-		
-		self.children.append(to_append)
+			self.children.append(copy.deepcopy(child))
+		else:
+			self.children.append(child)
 			
-		right_edge  = to_append["geometry"]["x"] + to_append["geometry"]["width"] + self.margins["width"]
-		bottom_edge = to_append["geometry"]["y"] + to_append["geometry"]["height"] + self.margins["height"]
+		return self
+		
+		
+	def place(self, child, x=None, y=None, keep_original=False):
+		self.append(child, keep_original=keep_original)
+		
+		child_node = self.children[-1]
+		
+		if x:
+			child_node["geometry"]["x"] = x + self.margins["x"]
+		else:
+			child_node["geometry"]["x"] = child_node["geometry"]["x"] + self.margins["x"]
+			
+		if y:
+			child_node["geometry"]["y"] = y + self.margins["y"]
+		else:
+			child_node["geometry"]["y"] = child_node["geometry"]["y"] + self.margins["y"]
+		
+		right_edge  = child_node["geometry"]["x"] + child_node["geometry"]["width"] + self.margins["width"]
+		bottom_edge = child_node["geometry"]["y"] + child_node["geometry"]["height"] + self.margins["height"]
 		
 		if right_edge > self["geometry"]["width"]:
 			self["geometry"]["width"] = right_edge
 			
 		if bottom_edge > self["geometry"]["height"]:
 			self["geometry"]["height"] = bottom_edge
-			
-		return self
 		
 	
 	def apply (self, generator, data={}):
@@ -154,10 +168,8 @@ class GroupNode(Node):
 				"__parenty__" : output["geometry"]["y"],
 				"__parentwidth__" : output["geometry"]["width"],
 				"__parentheight__" : output["geometry"]["height"]})
-			
-			child.position(child["geometry"]["x"] + self.margins["x"], child["geometry"]["y"] + self.margins["y"])
-					
-			output.append(child.apply(generator, data=child_macros))
+						
+			output.place(child.apply(generator, data=child_macros))
 			
 		return output
 
@@ -199,7 +211,7 @@ class GridNode(GroupNode):
 					"__parentwidth__" : output["geometry"]["width"],
 					"__parentheight__" : output["geometry"]["height"]})
 					
-				element.append(childnode.apply(generator, data=child_macros))
+				element.place(childnode.apply(generator, data=child_macros))
 			
 			pos_x = index_x * (element["geometry"]["width"] + self.padding)
 			pos_y = index_y * (element["geometry"]["height"] + self.padding)
@@ -213,7 +225,7 @@ class GridNode(GroupNode):
 				index_x = 0
 				index_y += 1
 		
-			output.append(element)
+			output.place(element)
 			
 		return output
 		
@@ -253,17 +265,16 @@ class RepeatNode(GroupNode):
 					"__parenty__" : self["geometry"]["y"],
 					"__parentwidth__" : self["geometry"]["width"],
 					"__parentheight__" : self["geometry"]["height"]})
-					
-				line.append(childnode.apply(generator, data=child_macros))
-			
-				
+						
+				line.place(childnode.apply(generator, data=child_macros))
+							
 			if self.flow == "vertical":
 				line.position(x=0, y=(index * (line["geometry"]["height"] + self.padding)))
 				
 			elif self.flow == "horizontal":
 				line.position(x=(index * (line["geometry"]["width"] + self.padding)), y=0)
-				
-			output.append(line)
+			
+			output.place(line)
 			index += 1
 			
 		return output
@@ -290,7 +301,7 @@ class ConditionalNode(GroupNode):
 					"__parentwidth__" : self["geometry"]["width"],
 					"__parentheight__" : self["geometry"]["height"]})
 				
-				output.append(childnode.apply(generator, data=data))
+				output.place(childnode.apply(generator, data=data))
 		
 		return output
 		
