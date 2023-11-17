@@ -107,6 +107,9 @@ class GroupNode(Node):
 	def __init__(self, classname, initial=None, name=None, layout=None):
 		super(GroupNode, self).__init__(classname, name=name, layout=layout)
 	
+		self.margins = Rect(x=0, y=0, width=0, height=0)
+		self.margins = self.margins.merge(self.attrs.get("margins", Rect(x=0, y=0, width=0, height=0)))
+	
 		self.children = []
 		
 		if initial is not None:
@@ -126,8 +129,11 @@ class GroupNode(Node):
 		else:
 			self.children.append(child)
 		
-		right_edge  = child["geometry"]["x"] + child["geometry"]["width"]
-		bottom_edge = child["geometry"]["y"] + child["geometry"]["height"]
+		child["geometry"]["x"] = child["geometry"]["x"] + self.margins["x"]
+		child["geometry"]["y"] = child["geometry"]["y"] + self.margins["y"]
+			
+		right_edge  = child["geometry"]["x"] + child["geometry"]["width"] + self.margins["width"]
+		bottom_edge = child["geometry"]["y"] + child["geometry"]["height"] + self.margins["height"]
 		
 		if right_edge > self["geometry"]["width"]:
 			self["geometry"]["width"] = right_edge
