@@ -74,15 +74,18 @@ class Node(object):
 		
 		
 	def position(self, *args, x=None, y=None):
-		out_x = 0
-		out_y = 0
+		out_x = None
+		out_y = None
 			
 		if len(args) == 2:
 			out_x = args[0]
 			out_y = args[1]
 			
-		elif x is not None:
+		
+		if x is not None:
 			out_x = x
+			
+		if y is not None:
 			out_y = y
 			
 		elif len(args) == 1:
@@ -255,10 +258,10 @@ class FlowNode(GroupNode):
 			element = childnode.apply(generator, data=child_macros)
 
 			if self.flow == "vertical":
-				element.position(x=0, y=output["geometry"]["height"] + (first*self.padding))
+				element.position(x=None, y=output["geometry"]["height"] + (first*self.padding))
 				
 			elif self.flow == "horizontal":
-				element.position(x=output["geometry"]["width"] + (first * self.padding), y=0)
+				element.position(x=output["geometry"]["width"] + (first * self.padding), y=None)
 			
 			output.place(element)
 			first = 1
@@ -305,10 +308,10 @@ class RepeatNode(GroupNode):
 				line.place(childnode.apply(generator, data=child_macros))
 							
 			if self.flow == "vertical":
-				line.position(x=0, y=(index * (line["geometry"]["height"] + self.padding)))
+				line.position(x=None, y=(index * (line["geometry"]["height"] + self.padding)))
 				
 			elif self.flow == "horizontal":
-				line.position(x=(index * (line["geometry"]["width"] + self.padding)), y=0)
+				line.position(x=(index * (line["geometry"]["width"] + self.padding)), y=None)
 			
 			output.place(line)
 			index += 1
