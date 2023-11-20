@@ -228,6 +228,39 @@ class GridNode(GroupNode):
 			output.place(element)
 			
 		return output
+
+		
+class FlowNode(GroupNode):
+	def __init__(self, initial=None, name=None, layout=None, padding=0, flow="vertical"):
+		super(FlowNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
+		
+		self.padding = padding
+		self.flow = flow
+		
+		
+	def apply (self, generator, data={}):		
+		output = generator.generateGroup(self, macros=data)
+		
+		child_macros = copy.deepcopy(data)
+		
+		for childnode in self.children:			
+			child_macros.update({
+				"__parentx__" : output["geometry"]["x"],
+				"__parenty__" : output["geometry"]["y"],
+				"__parentwidth__" : output["geometry"]["width"],
+				"__parentheight__" : output["geometry"]["height"]})
+			
+			element = childnode.apply(generator, data=child_macros)
+
+			if self.flow == "vertical":
+				element.position(x=0, y=output["geometry"]["height"] + self.padding)
+				
+			elif self.flow == "horizontal":
+				element.position(x=output["geometry"]["width"] + self.padding, y=0)
+			
+			output.place(element)
+			
+		return output
 		
 		
 class RepeatNode(GroupNode):

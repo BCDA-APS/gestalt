@@ -84,6 +84,14 @@ def read_grid_node(loader, node):
 
 	return GridNode(initial=children, layout=params, repeat=repeat_over, padding=padding, ratio=ratio)
 
+def read_flow_node(flow, loader, node):
+	params = loader.construct_mapping(node, deep=True)
+
+	children = params.pop("children", None)
+	padding = params.pop("padding", 0)
+
+	return FlowNode(initial=children, layout=params, padding=padding, flow=flow)
+
 def read_repeat_node(flow, loader, node):
 	params = loader.construct_mapping(node, deep=True)
 
@@ -141,6 +149,10 @@ yaml.add_constructor("!group", (lambda l, n: read_group_node("caFrame", l, n)), 
 yaml.add_constructor("!grid", (lambda l, n: read_grid_node(l, n)), Loader=yaml.SafeLoader)
 
 yaml.add_constructor("!conditional", (lambda l, n: read_conditional_node(l, n)), Loader=yaml.SafeLoader)
+
+yaml.add_constructor("!flow", (lambda l, n: read_flow_node("vertical", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!vflow", (lambda l, n: read_flow_node("vertical", l, n)), Loader=yaml.SafeLoader)
+yaml.add_constructor("!hflow", (lambda l, n: read_flow_node("horizontal", l, n)), Loader=yaml.SafeLoader)
 	
 yaml.add_constructor("!repeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
