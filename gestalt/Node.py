@@ -243,6 +243,8 @@ class FlowNode(GroupNode):
 		
 		child_macros = copy.deepcopy(data)
 		
+		first = 0
+		
 		for childnode in self.children:			
 			child_macros.update({
 				"__parentx__" : output["geometry"]["x"],
@@ -253,12 +255,13 @@ class FlowNode(GroupNode):
 			element = childnode.apply(generator, data=child_macros)
 
 			if self.flow == "vertical":
-				element.position(x=0, y=output["geometry"]["height"] + self.padding)
+				element.position(x=0, y=output["geometry"]["height"] + (first*self.padding))
 				
 			elif self.flow == "horizontal":
-				element.position(x=output["geometry"]["width"] + self.padding, y=0)
+				element.position(x=output["geometry"]["width"] + (first * self.padding), y=0)
 			
 			output.place(element)
+			first = 1
 			
 		return output
 		
@@ -321,6 +324,7 @@ class ConditionalNode(GroupNode):
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
+		output.position(self["geometry"]["x"], self["geometry"]["y"])
 		
 		conditional = data.get(self.condition, None)
 		
@@ -329,10 +333,10 @@ class ConditionalNode(GroupNode):
 			
 			for childnode in self.children:
 				child_macros.update({
-					"__parentx__" : self["geometry"]["x"],
-					"__parenty__" : self["geometry"]["y"],
-					"__parentwidth__" : self["geometry"]["width"],
-					"__parentheight__" : self["geometry"]["height"]})
+					"__parentx__" : output["geometry"]["x"],
+					"__parenty__" : output["geometry"]["y"],
+					"__parentwidth__" : output["geometry"]["width"],
+					"__parentheight__" : output["geometry"]["height"]})
 				
 				output.place(childnode.apply(generator, data=data))
 		
