@@ -2,6 +2,8 @@ import os
 import re
 import yaml
 
+import pprint
+
 from gestalt.Node import *
 from gestalt.Type import *
 
@@ -50,7 +52,7 @@ color_regex = re.compile(r'^\$([0-9A-Fa-f][0-9A-Fa-f])+$')
 yaml.add_constructor("!color", (lambda l, n: read_type(Color, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
 
-font_regex = re.compile(r'^-[a-zA-Z][\w\s]*(-\s*[a-z][a-z_]+\s*)(-[0-9\s]+)$')
+font_regex = re.compile(r'^-[a-zA-Z][\w\s]*(-\s*[a-zA-Z][a-zA-Z_]+\s*)(-[0-9\s]+)$')
 yaml.add_constructor("!font", (lambda l, n: read_type(Font, l, n)), Loader=yaml.SafeLoader)
 yaml.add_implicit_resolver(u'!font', font_regex, Loader=yaml.SafeLoader)
 
@@ -91,7 +93,7 @@ def read_repeat_node(flow, loader, node):
 
 	return RepeatNode(initial=children, layout=params, repeat=repeat_over, padding=padding, flow=flow)
 
-def read_conditional_node(loader, node):
+def read_conditional_node(loader, node):	
 	params = loader.construct_mapping(node, deep=True)
 
 	children = params.pop("children", None)
@@ -196,6 +198,5 @@ def read_file(filename, includes_locations, included_files):
 	
 	
 	
-def parse(filename, includes_dirs):		
+def parse(filename, includes_dirs):
 	return yaml.safe_load(read_file(filename, includes_dirs, []))
-	

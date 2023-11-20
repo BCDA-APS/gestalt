@@ -183,7 +183,7 @@ class Font(DataType):
 		self.labels = ["family", "style", "size"]
 		
 		if len(args) == 0:
-			self.val = {"family" : family, "style" : style, "size" : size}
+			self.val = {"family" : family, "style" : style.lower(), "size" : size}
 			return
 		
 		data = args

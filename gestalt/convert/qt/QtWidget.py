@@ -50,25 +50,25 @@ class QtWidget(GroupNode):
 				tree.end("bool")
 				
 			elif isinstance(item, Font):
-				tree.start("font")
+				tree.start("font", {})
 				
-				tree.start("family")
+				tree.start("family", {})
 				tree.data(str(item["family"]))
 				tree.end("family")
 				
 				if item["size"]:
-					tree.start("pointsize")
+					tree.start("pointsize", {})
 					tree.data(str(item["size"]))
 					tree.end("pointsize")
 					
-				if item["style"]:
+				if item["style"]:					
 					if "bold" in item["style"]:
-						tree.start("bold")
+						tree.start("bold", {})
 						tree.data("true")
 						tree.end("bold")
 						
 					if "italic" in item["style"]:
-						tree.start("italic")
+						tree.start("italic", {})
 						tree.data("true")
 						tree.end("italic")
 					
