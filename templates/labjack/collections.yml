@@ -119,7 +119,7 @@ AIn_Line: &AIn_Slot
             files: "LabJack_T7_AIStripChart.ui"
             args: "AI=$(P)AI{__index__}"
             
-            stackingMode: caRelatedDisplay::Menu
+            stackingMode: !enum Menu
             
             
 AOut_Line: &AOut_Slot

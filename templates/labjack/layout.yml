@@ -241,7 +241,7 @@ IO: !hflow
                                                 label: "-Configure"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: caRelatedDisplay::Menu
+                                                stackingMode: !enum Menu
                                                 
                                                 labels: "AI Setup"
                                                 files: "LabJack_T7_AiSetup.ui"
@@ -252,7 +252,7 @@ IO: !hflow
                                                 label: "-Waveform Digitizer"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: caRelatedDisplay::Menu
+                                                stackingMode: !enum Menu
                                                 
                                                 labels: "Waveform Digitizer"
                                                 files: "LabJackWaveDig.ui"
