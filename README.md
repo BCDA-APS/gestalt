@@ -284,7 +284,7 @@ Aside from providing some structure to the resulting file, a basic group isn't a
 helpful. More usefully, are the group types that provide logical or layout functions.
 
 
-### Logical Groups
+#### Logical Groups
 
 Logical groups perform some form of calculation upon their children widgets. Currently,
 the only logical group used is the '!conditional' type. A conditional group uses a 
@@ -297,7 +297,7 @@ are included in the resulting UI screen. Otherwise, the conditional is treated l
 basic group.
 
 
-### Layout Groups
+#### Layout Groups
 
 Layout groups take a group of widgets and automatically position them, so that specific
 x and y values don't need to be provided to each element. The basic layout group type
