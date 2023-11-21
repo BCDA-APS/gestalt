@@ -17,7 +17,7 @@ example=
 """TITLE: "LabJack T8 Box $(P)"
 ANALOG_INPUTS: 14
 ANALOG_OUTPUTS: 6
-	
+
 FIO:
   - { Label: "0", N: 0, Enabled: 1 }
   - { Label: "1", N: 1, Enabled: 1 }
