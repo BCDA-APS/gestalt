@@ -1,0 +1,500 @@
+#include colors.yml
+#include widgets.yml
+
+#include collections.yml
+
+Form: !Form
+    <<: *form_default
+    
+    margins: 5x0x5x5
+
+
+Thin_Bordered_Group: &ThinBorderedGroup
+    margins: 10x5x10x5
+    
+    background: *black
+    
+    frameShape: QFrame::Box
+    lineWidth: 1    
+    
+    
+    
+IO: !hflow
+    geometry: 0x170x0x0
+    
+    padding: 5
+    
+    children:
+        
+        - !group
+            <<: *ThinBorderedGroup
+        
+            margins: 5x10x5x5
+            
+            children:
+                - !vflow
+                    geometry: 0x35 x 0x0
+                    padding: 5
+                    
+                    children:        
+                        - !group
+                            <<: *ThinBorderedGroup
+                        
+                            children: 
+                                - !caLabel
+                                    geometry: 25x55 x 20x20
+                                    text: "In"
+                                    
+                                - !caLabel
+                                    geometry: 15x90 x 30x20
+                                    text: "Out"
+                                    
+                                - !caLabel
+                                    geometry: 5x130 x 40x20
+                                    text: "Dir."
+                                    
+                                - !caLabel
+                                    geometry: 0x160 x 45x20
+                                    text: "Desc."
+                                    
+                                - !hrepeat
+                                    repeat_over: "FIO"
+                                
+                                    geometry: 55x30 x 0x0
+                                    
+                                    padding: 5
+                                    
+                                    <<: *DIO_Slot
+                                    
+                                - !hcenter
+                                    FIO_Title: !group
+                                        geometry: 0x2 x 0x0
+                                        
+                                        children:
+                                            - !caLabel
+                                                geometry: 70x20
+                                                text: "FIO 0-7"
+                                                
+                                            - !caLineEdit
+                                                geometry: 75x0 x 80x20
+                                                background: *edit_blue
+                                                foreground: *black
+                                                colorMode: caLineEdit::Static
+                                                
+                                                channel: !string "$(P)FIOIn"
+                            
+                        - !group
+                            <<: *ThinBorderedGroup
+                        
+                            children: 
+                                - !caLabel
+                                    geometry: 25x55 x 20x20
+                                    text: "In"
+                                    
+                                - !caLabel
+                                    geometry: 15x90 x 30x20
+                                    text: "Out"
+                                    
+                                - !caLabel
+                                    geometry: 5x130 x 40x20
+                                    text: "Dir."
+                                    
+                                - !caLabel
+                                    geometry: 0x160 x 45x20
+                                    text: "Desc."
+                                    
+                                - !hrepeat
+                                    repeat_over: "EIO"
+                                
+                                    geometry: 55x30 x 0x0
+                                    
+                                    padding: 5
+                                    
+                                    <<: *DIO_Slot
+                                    
+                                - !hcenter
+                                    EIO_Title: !group
+                                        geometry: 0x2 x 0x0
+                                        
+                                        children:
+                                            - !caLabel
+                                                geometry: 70x20
+                                                text: "EIO 0-7"
+                                                
+                                            - !caLineEdit
+                                                geometry: 75x0 x 80x20
+                                                background: *edit_blue
+                                                foreground: *black
+                                                colorMode: caLineEdit::Static
+                                                
+                                                channel: !string "$(P)EIOIn"
+                            
+                        - !hstretch
+                            CIOMIO: !group
+                                <<: *ThinBorderedGroup
+                            
+                                children: 
+                                    - !caLabel
+                                        geometry: 25x55 x 20x20
+                                        text: "In"
+                                        
+                                    - !caLabel
+                                        geometry: 15x90 x 30x20
+                                        text: "Out"
+                                        
+                                    - !caLabel
+                                        geometry: 5x130 x 40x20
+                                        text: "Dir."
+                                        
+                                    - !caLabel
+                                        geometry: 0x160 x 45x20
+                                        text: "Desc."
+                                        
+                                    - !hflow
+                                        geometry: 55x30 x 0x0
+                                        
+                                        padding: 5
+                                        
+                                        children:
+                                            - !hrepeat
+                                                repeat_over: "CIO"
+                                                
+                                                padding: 5
+                                                
+                                                <<: *DIO_Slot
+                                    
+                                                                    
+                                            - !hrepeat
+                                                repeat_over: "MIO"
+                                                
+                                                padding: 5
+                                                
+                                                <<: *DIO_Slot
+                                                
+                                    - !hcenter
+                                        CIO_Title: !hflow
+                                            geometry: 0x2 x 0x0
+                                            padding: 5
+                                            
+                                            children:                            
+                                                - !caLabel
+                                                    geometry: 70x20
+                                                    text: "CIO 0-3"
+                                                    
+                                                - !caLineEdit
+                                                    geometry: 80x20
+                                                    background: *edit_blue
+                                                    foreground: *black
+                                                    colorMode: caLineEdit::Static
+                                                    
+                                                    channel: !string "$(P)CIOIn"
+                                                    
+                                                - !caLabel
+                                                    geometry: 90x20
+                                                    text: "MIO 0-2"
+                                                    
+                                                - !caLineEdit
+                                                    geometry: 80x20
+                                                    background: *edit_blue
+                                                    foreground: *black
+                                                    colorMode: caLineEdit::Static
+                                                    
+                                                    channel: !string "$(P)MIOIn"
+        
+                                                    
+                - !hcenter
+                    DigitalIOTitle: !caLabel
+                        geometry: 130x25
+                        text: "Digital I/O"
+                        alignment: Qt::AlignHCenter|Qt::AlignVCenter
+                
+        
+        - !vflow
+            padding: 5
+            
+            children:
+                - !group
+                    <<: *ThinBorderedGroup
+                    
+                    margins: 10x5x10x10
+                    
+                    children:
+                        
+                        - !vflow
+                            geometry: 0x45 x 0x0
+                            padding: 10
+                        
+                            children:
+                                - !vrepeat
+                                    repeat_over: "NUM_ANALOG_INPUTS"
+                                    padding: 5
+                                    
+                                    <<: *AIn_Slot
+                                    
+                                - !hcenter
+                                    Links: !hflow
+                                        padding: 10
+                                    
+                                        children:
+                                            - !caRelatedDisplay
+                                                geometry: 100x20
+                                                label: "-Configure"
+                                                background: *edit_blue
+                                                foreground: *black
+                                                stackingMode: caRelatedDisplay::Menu
+                                                
+                                                labels: "AI Setup"
+                                                files: "LabJack_T7_AiSetup.ui"
+                                                args: "P=$(P)"
+                                            
+                                            - !caRelatedDisplay
+                                                geometry: 150x20
+                                                label: "-Waveform Digitizer"
+                                                background: *edit_blue
+                                                foreground: *black
+                                                stackingMode: caRelatedDisplay::Menu
+                                                
+                                                labels: "Waveform Digitizer"
+                                                files: "LabJackWaveDig.ui"
+                                                args: "P=$(P)"
+                        
+                        - !hcenter
+                            AnalogTitle: !caLabel
+                                geometry: 0x5 x 150x25
+                                font: -Cantarell -regular -15
+                                fontScaleMode: ESimpleLabel::None
+                                text: "Analog Input"
+                                alignment: Qt::AlignHCenter|Qt::AlignVCenter
+        
+                                
+                - !group
+                    <<: *ThinBorderedGroup
+                    
+                    margins: 10x5x10x10
+                    
+                    children:
+                        
+                        - !vflow
+                            geometry: 0x45 x 0x0
+                            padding: 10
+                        
+                            children:
+                                - !vrepeat
+                                    repeat_over: "NUM_ANALOG_OUTPUTS"
+                                    padding: 15
+                                    
+                                    <<: *AOut_Slot
+                                    
+                                - !hcenter
+                                    Links: !hflow
+                                        padding: 10
+                                    
+                                        children:
+                                            - !caRelatedDisplay
+                                                geometry: 100x20
+                                                label: "-Configure"
+                                                background: *edit_blue
+                                                foreground: *black
+                                                stackingMode: caRelatedDisplay::Menu
+                                                
+                                                labels: "AO Setup"
+                                                files: "LabJack_T7_AoSetup.ui"
+                                                args: "P=$(P)"
+                                            
+                                            - !caRelatedDisplay
+                                                geometry: 150x20
+                                                label: "-Waveform Generator"
+                                                background: *edit_blue
+                                                foreground: *black
+                                                stackingMode: caRelatedDisplay::Menu
+                                                
+                                                labels: "Waveform Generator"
+                                                files: "LabJackWaveGen2.ui"
+                                                args: "P=$(P)"
+                        
+                        - !hcenter
+                            AnalogTitle: !caLabel
+                                geometry: 0x5 x 150x25
+                                font: -Cantarell -regular -15
+                                fontScaleMode: ESimpleLabel::None
+                                text: "Analog Out"
+                                alignment: Qt::AlignHCenter|Qt::AlignVCenter
+                                
+                
+Status: !hcenter
+    StatusGroup: !hflow
+        geometry: 20x65 x 0x0
+        padding: 20
+    
+        children:
+            - !vflow
+                padding: 5
+            
+                children:
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 100x20
+                                text: "Model Name"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)ModelName"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static
+                                
+                                
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 100x20
+                                text: "Serial Num"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)Serial Number"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static            
+                    
+                                
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 100x20
+                                text: "LJM Version"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)LJMVersion"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static
+    
+            
+            - !vflow
+                padding: 5
+            
+                children:
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 200x20
+                                text: "Firmware Version"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)FirmwareVersion"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static
+                                
+                                
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 200x20
+                                text: "Temperature (C)"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)DeviceTemperature"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static            
+                    
+                                
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 200x20
+                                text: "Driver Version"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)DriverVersion"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static
+    
+    
+            - !vflow
+                padding: 5
+            
+                children:
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 250x20
+                                text: "Poll Sleep Time (ms)"
+                                
+                            - !caTextEntry
+                                geometry: 100x20
+                                channel: !string "$(P)PollSleepMS"
+                                foreground: *black
+                                background: *edit_blue
+                                colorMode: caLineEdit::Static
+                                
+                                
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 250x20
+                                text: "Poll Cycle Time (ms)"
+                                
+                            - !caLineEdit
+                                geometry: 100x20
+                                channel: !string "$(P)PollTimeMS"
+                                foreground: *header_blue
+                                background: *transparent
+                                colorMode: caLineEdit::Static            
+                    
+                                
+                    - !hflow
+                        padding: 10
+                    
+                        children:
+                            - !caLabel
+                                geometry: 250x20
+                                text: "Reset Device on Exit"
+                                
+                            - !caMessageButton
+                                geometry: 100x20
+                                channel: !string "$(P)DeviceReset"
+                                foreground: *black
+                                background: *alarm_red
+                                colorMode: caMessageButton::Static
+                                pressMessage: "1"
+                                text: "Reset!"
+                                
+
+                            
+UITitle: !hstretch
+    Header: !caLabel
+        geometry: 0x0 x 0x45
+        foreground: *white
+        background: *header_blue
+        borderColor: *black
+        borderWidth: 3
+                
+        text: "{TITLE}"
+        font: -Cantarell - Regular - 16
+        alignment: Qt::AlignHCenter|Qt::AlignVCenter
+        fontScaleMode: ESimpleLabel::None

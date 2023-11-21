@@ -1,0 +1,188 @@
+#include colors.yml
+
+DIO_Item: &DIO_Slot
+    children:
+        - !caLabel
+            font: -Sans Serif - Regular - 8
+            
+            geometry: 0x0 x 50x15
+            
+            alignment: Qt::AlignHCenter|Qt::AlignVCenter
+            fontScaleMode: ESimpleLabel::None
+            
+            text: !string "{Label}"
+        
+        - !conditional
+            condition: "Enabled"
+            
+            geometry: 0x20 x 0x0
+            
+            children:
+                - !caLed
+                    channel: !string "$(P)Bi{N}.VAL"
+                    trueColor: *alarm_red
+                    falseColor: *alarm_green
+                    
+                    borderColor: *transparent
+                    
+                    gradientEnabled: false
+                    
+                    geometry: 15x0 x 22x22
+                    
+                - !caChoice
+                    geometry: 0x30 x 50x35
+                    
+                    channel: !string "$(P)Bo{N}"
+                    
+                    foreground: *black
+                    background: *edit_blue
+                    
+                    colorMode: caChoice::Static
+                    
+                - !caChoice
+                    geometry: 0x70 x 50x35
+                    
+                    channel: !string "$(P)Bd{N}"
+                    
+                    foreground: *black
+                    background: *edit_blue
+                    
+                    colorMode: caChoice::Static
+                    
+                
+                - !caTextEntry
+                    geometry: 0x110 x 50x18
+                
+                    channel: !string "$(P)Bi{N}.DESC"
+                    
+                    font: -Monospace - Regular - 8
+                    
+                    foreground: *black
+                    background: *gainsboro
+                    
+                    colorMode: caLineEdit::Static
+
+                    
+AIn_Line: &AIn_Slot
+    children:
+        - !caLabel
+            geometry: 0x0 x 20x20
+            text: !string "{__index__}"
+            fontScaleMode: ESimpleLabel::None
+            font: -Sans Serif -regular -8
+            alignment: Qt::AlignHCenter|Qt::AlignVCenter
+            
+        
+        - !caLineEdit
+            geometry: 30x0 x 90x20
+            channel: !string "$(P)Ai{__index__}"
+            foreground: *header_blue
+            background: *transparent
+            
+            colorMode: caLineEdit::Static
+            
+            fontScaleMode: caLineEdit::None
+            font: -Monospace -regular -12
+            
+        - !caMenu
+            geometry: 140x1 x 90x18
+            channel: !string "$(P)Ai{__index__}.SCAN"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caMenu::Static
+            
+        - !caMessageButton
+            geometry: 240x0 x 65x20
+            text: "Read"
+            channel: !string "$(P)Ai{__index__}.PROC"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caMessageButton::Static
+            pressMessage: "1"
+            
+        - !caTextEntry
+            geometry: 320x0 x 100x20
+            font: -Monospace -regular -9
+            fontScaleMode: caLineEdit::None
+            channel: !string "$(P)Ai{__index__}.DESC"
+            background: *gainsboro
+            foreground: *black
+            colorMode: caLineEdit::Static
+            
+        - !caRelatedDisplay
+            geometry: 430x0 x 50x20
+            label: "-Chart"
+            background: *edit_blue
+            foreground: *black
+            
+            labels: "Strip Chart"
+            files: "LabJack_T7_AIStripChart.ui"
+            args: "AI=$(P)AI{__index__}"
+            
+            stackingMode: caRelatedDisplay::Menu
+            
+            
+AOut_Line: &AOut_Slot
+    children:
+        - !caLabel
+            geometry: 0x0 x 20x20
+            text: !string "{__index__}"
+            fontScaleMode: ESimpleLabel::None
+            font: -Sans Serif -regular -8
+            alignment: Qt::AlignHCenter|Qt::AlignVCenter
+
+        - !caTextEntry
+            geometry: 30x0 x 90x20
+            channel: !string "$(P)Ao{__index__}"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caLineEdit::Static
+            font: -Monospace -regular -9
+            
+        - !caSlider
+            geometry: 140x0 x 120x20
+            channel: !string "$(P)Ao{__index__}"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caSlider::Static
+            direction: caSlider::Right
+            scaleValueEnabled: False
+            autoFocus: True
+            
+            scalePosition: QwtSlider::NoScale
+
+            
+        - !caMessageButton
+            geometry: 270x0 x 15x20
+            channel: !string "$(P)Ao{__index__}TweakDown.PROC"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caMessageButton::Static
+            label: "<"
+            pressMessage: "1"
+            
+        - !caTextEntry
+            geometry: 290x0 x 60x20
+            channel: !string "$(P)Ao{__index__}TweakVal"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caLineEdit::Static
+            font: -Monospace -regular -9
+            
+        - !caMessageButton
+            geometry: 355x0 x 15x20
+            channel: !string "$(P)Ao{__index__}TweakUp.PROC"
+            background: *edit_blue
+            foreground: *black
+            colorMode: caMessageButton::Static
+            label: ">"
+            pressMessage: "1"
+            
+        - !caTextEntry
+            geometry: 380x0 x 100x20
+            font: -Monospace -regular -9
+            fontScaleMode: caLineEdit::None
+            channel: !string "$(P)Ao{__index__}.DESC"
+            background: *gainsboro
+            foreground: *black
+            colorMode: caLineEdit::Static
