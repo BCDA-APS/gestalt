@@ -295,7 +295,7 @@ IO: !hflow
                                                 label: "-Configure"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: caRelatedDisplay::Menu
+                                                stackingMode: !enum Menu
                                                 
                                                 labels: "AO Setup"
                                                 files: "LabJack_T7_AoSetup.ui"
@@ -306,7 +306,7 @@ IO: !hflow
                                                 label: "-Waveform Generator"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: caRelatedDisplay::Menu
+                                                stackingMode: !enum Menu
                                                 
                                                 labels: "Waveform Generator"
                                                 files: "LabJackWaveGen2.ui"
