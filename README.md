@@ -236,8 +236,7 @@ to the group. Groups can be nested if need be and a group will automatically exp
 its width and height properties to accomodate the total of all widgets within. 
 
 The basic group is just a '!group', which provides a caFrame when used within a
-caQtDM template, and Group widget when used within a CSS template. Aside from 
-logical structure, a basic group isn't all that useful.
+caQtDM template, and Group widget when used within a CSS template.
 
 
 ```yaml
@@ -255,9 +254,130 @@ UI_Header: !group
             text: "RBV"
 ```
 
-More usefully, are the group types that provide a layout function. There are three of
-these: the '!vrepeat', the '!hrepeat', and the '!grid'. These add on two additional
-special parameters, 'repeat_over' and 'padding'.
+In addition to the 'children' attribute, all groups also have the additional attribute
+'margins'. This specifies a number of pixels to keep clear along the various sides of
+the group. Margins are specified with a !geom type, with the x, y, width, and height
+values corresponding to the left, top, right, and bottom margins respectively.
+
+```yaml
+UI_Header: !group
+    geometry: 0x40 x 0x0
+    margins: 5x0x5x0
+    
+    children:
+        - !caLabel
+            geometry: 0x0 x 40x20
+            text: "Port"
+            
+        - !caLabel
+            geometry: 60x0 x 40x20
+            text: "RBV"
+
+```
+
+Elements within the group have their X and Y coordinates shifted according to the left
+and top margins. And if that would extend the widget's area into the group's right or
+bottom margin, the group's width or height is then adjusted accordingly.
+
+
+Aside from providing some structure to the resulting file, a basic group isn't all that 
+helpful. More usefully, are the group types that provide logical or layout functions.
+
+
+### Logical Groups
+
+Logical groups perform some form of calculation upon their children widgets. Currently,
+the only logical group used is the '!conditional' type. A conditional group uses a 
+boolean value to decide whether to add their contents to the screen or not. Within the
+template file, a conditional group will have the 'condition' attribute specified as the
+name of a macro within the data file.
+
+If the macro's value is equivalent to a false value, then none of the group's contents
+are included in the resulting UI screen. Otherwise, the conditional is treated like a
+basic group.
+
+
+### Layout Groups
+
+Layout groups take a group of widgets and automatically position them, so that specific
+x and y values don't need to be provided to each element. The basic layout group type
+is the '!flow'. A flow arranges successive widgets in a list, one after another, in a 
+single direction. 
+
+```yaml
+NumberedLED: !flow
+    children:
+        - !caLabel
+            font: -Sans Serif - Regular - 8
+            
+            geometry: 50x15
+            
+            alignment: Qt::AlignHCenter|Qt::AlignVCenter
+            fontScaleMode: ESimpleLabel::None
+            
+            text: "Input 1"
+        
+        - !caLed
+            channel: !string "$(P)Bi1.VAL"
+            trueColor: *alarm_red
+            falseColor: *alarm_green
+            
+            borderColor: *transparent
+            
+            gradientEnabled: false
+            
+            geometry: 22x22
+
+```
+
+By default, a '!flow' will arrange items along a vertical axis. This can be made
+explicit by using the '!vflow' type, or can be made to use a horizontal axis with
+the '!hflow' type.
+
+The flow type also introduces a new attribute 'padding' which is used in all successive
+groups. Padding is the number of pixels to space out each successive element in the
+flow. 
+
+```yaml
+CIO_Title: !hflow
+    geometry: 0x2 x 0x0
+    padding: 5
+    
+    children:                            
+        - !caLabel
+            geometry: 70x20
+            text: "CIO 0-3"
+            
+        - !caLineEdit
+            geometry: 80x20
+            background: *edit_blue
+            foreground: *black
+            colorMode: caLineEdit::Static
+            
+            channel: !string "$(P)CIOIn"
+            
+        - !caLabel
+            geometry: 90x20
+            text: "MIO 0-2"
+            
+        - !caLineEdit
+            geometry: 80x20
+            background: *edit_blue
+            foreground: *black
+            colorMode: caLineEdit::Static
+            
+            channel: !string "$(P)MIOIn"
+```
+
+Flows are good for setting up basic formatting, but you are still having to specify
+every element that goes into a screen. Frequently, you will have multiples of the
+exact same group of widgets, just with changes in the text of labels or in the PV's 
+to connect to. For this, there is an extension of the flow group, which is the 
+'!repeat' type. 
+
+A repeat group has another new attribute, 'repeat_over', which links the group to a
+specific parameter in the data. That parameter should either be a number or a list of 
+dictionaries.
 
 ```yaml
 
@@ -270,8 +390,8 @@ UI_Row: !repeat
     
     children:
         - !caLineEdit
-        geometry: 10x1 x 110x18
-        channel: $(P){Instance}:PortName_RBV
+            geometry: 10x1 x 110x18
+            channel: $(P){Instance}:PortName_RBV
         
         - !caRelatedDisplay            
             label: -More
@@ -284,17 +404,28 @@ UI_Row: !repeat
 ```
 
 
-'repeat_over' links the group to a specific parameter in the data file. That parameter
-should be a list of dictionaries. These layout groups will then create a copy of their
-children widgets for every dictionary that is in the data file's list. Each dictionary
-in the list is used to provide additional macros that only the given copy can access.
-Each copy is then arranged based off of which layout is being applied.
+The repeat iterates over the given parameter, generates a copy of all its children
+widgets, applies a set of macros to the group, and then positions the entire group
+of widgets according to either a horizontal or vertical flow. The default flow is
+vertical, and can be specified or switch by using the '!vrepeat' or '!hrepeat' types.
 
-A '!vrepeat' will arrange the successive copies in a vertical flow, the '!hrepeat'
-arranges them horizontally across the screen, and the '!grid' tiles the children in a
-grid pattern. Between each instance of the children widgets, the 'padding' parameter
-sets the number of pixels provide as an offset. For the grid layout, 'padding' applies
-in both the vertical and the horizontal direction.
+The macros that get applied to the widgets are based upon the type of the parameter
+that is listed in the repeat_over attribute. If the user specifies a single number,
+that represents the number of iterations that the repeat will loop. Starting at zero,
+the loop will increment up to "VALUE - 1". On each loop, the macro 'N' will
+be set to the current value and provided to the widgets generated in that loop. The
+current loop index is also always available in the macro '__index__', regardless of 
+the data type used for repeat_over.
+
+If the specified parameter is instead a list of dictionaries, then the dictionaries
+will be treated as the macros to supply the widgets. The loop will iterate over each
+of the specified mappings and will provide the children elements of the group with
+those macros (alongside the macros in the data file).
+
+
+The final group is the '!grid' which tiles children in grid pattern. In this type,
+the padding parameter specifies the padding between groups in both the vertical as
+well as the horizontal direction.
 
 The '!grid' group also uses a third parameter 'aspect_ratio' to control the overall
 height and width of the layout. The value defaults to 1.0 and is the ratio between
@@ -349,6 +480,8 @@ used conventions in MEDM. These colors are specified as aliases, so can be used 
 widget properties using the '*' dereference character.
 
 ```yaml
+#include colors.yml
+
 UITitle: !caLabel
     geometry: 0x0 x 0x32
     foreground: *white
