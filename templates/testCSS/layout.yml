@@ -10,7 +10,7 @@ Test: !vrepeat
     
     children:
         - !Label
-            geometry: 120x20
+            geometry: 5x0 x 120x20
             
             text: "Label {N}"
             transparent: false
