@@ -16,7 +16,7 @@ OnOff: !caChoice
     
             
 UIRow: !repeat
-    repeat_over: "INDICES"
+    repeat_over: "NUM_CALCS"
 
     geometry: 0x20 x 0x0
     
