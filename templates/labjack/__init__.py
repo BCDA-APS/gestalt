@@ -3,11 +3,21 @@ from .. import registry
 registry.add("LabJack DAQ Screen", path=__path__,
 	qt_stylesheet = "layout.yml",
 	required_inputs=[
-("", 
-"""
+("TITLE", "Header Text"),
+("ANALOG_INPUTS", "Number of Ai records"),
+("ANALOG_OUTPUTS", "Number of Ao records"),
+("*IO",
+"""Data dictionaries specifying digital I/O
+
+	Label: Display Name
+	N: Index used for PV name
+	Enabled: Show I/O Slotsor not
 """)], 
 example=
 """TITLE: "LabJack T8 Box $(P)"
+ANALOG_INPUTS: 14
+ANALOG_OUTPUTS: 6
+	
 FIO:
   - { Label: "0", N: 0, Enabled: 1 }
   - { Label: "1", N: 1, Enabled: 1 }
@@ -38,7 +48,4 @@ MIO:
   - { Label: "20",  N: 20, Enabled: 1 }
   - { Label: "21",  N: 21, Enabled: 1 }
   - { Label: "22",  N: 22, Enabled: 1 }
-
-NUM_ANALOG_INPUTS: 14
-NUM_ANALOG_OUTPUTS: 6
 """)

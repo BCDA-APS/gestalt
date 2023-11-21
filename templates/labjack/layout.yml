@@ -226,7 +226,7 @@ IO: !hflow
                         
                             children:
                                 - !vrepeat
-                                    repeat_over: "NUM_ANALOG_INPUTS"
+                                    repeat_over: "ANALOG_INPUTS"
                                     padding: 5
                                     
                                     <<: *AIn_Slot
@@ -280,7 +280,7 @@ IO: !hflow
                         
                             children:
                                 - !vrepeat
-                                    repeat_over: "NUM_ANALOG_OUTPUTS"
+                                    repeat_over: "ANALOG_OUTPUTS"
                                     padding: 15
                                     
                                     <<: *AOut_Slot
