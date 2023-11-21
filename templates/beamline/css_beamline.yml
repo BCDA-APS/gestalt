@@ -1,11 +1,6 @@
 #include colors.yml
 #include widgets.yml
 
-link_display: &link_display
-    background_color: $BBC187
-
-
-
 Form: !Form
     background_color: $BBBBBB
     
@@ -78,19 +73,19 @@ Hutches: !hrepeat
                     text: "All Stop"
                     
                 - !ActionButton
-                    <<: *link_display
+                    background_color: $BBC187
                     geometry: 10x92 x 55x20
                     
                     text: "-"
                     
                 - !ActionButton
-                    <<: *link_display
+                    background_color: $BBC187
                     geometry: 70x92 x 55x20
                     
                     text: "-"
                     
                 - !ActionButton
-                    <<: *link_display
+                    background_color: $BBC187
                     geometry: 10x115 x 55x20
                     
                     text: "Scans"
@@ -100,7 +95,7 @@ Hutches: !hrepeat
                     args: "P={PREFIX}:,N=1,S=scan1;P={PREFIX}:,N=2,S=scan2;P={PREFIX}:,N=3,S=scan3;P={PREFIX}:,N=4,S=scan4;{PREFIX}:,N=H,S=scanH;P={PREFIX}:"
                     
                 - !ActionButton
-                    <<: *link_display
+                    background_color: $BBC187
                     geometry: 70x115 x 55x20
                     
                     text: "Calcs"
@@ -110,7 +105,7 @@ Hutches: !hrepeat
                     args: "P={PREFIX}:,C=userCalc1;P={PREFIX}:,C=userCalc2;P={PREFIX}:,C=userCalc3;P={PREFIX}:,C=userCalc4;P={PREFIX}:,C=userCalc5;P={PREFIX}:"
                     
                 - !ActionButton
-                    <<: *link_display
+                    background_color: $BBC187
                     geometry: 10x138 x 55x20
                     
                     text: "Serial"
@@ -120,7 +115,7 @@ Hutches: !hrepeat
                     args: ""
                     
                 - !ActionButton
-                    <<: *link_display
+                    background_color: $BBC187
                     geometry: 70x138 x 55x20
                     
                     text: "Motors"
@@ -137,8 +132,6 @@ Hutches: !hrepeat
             foreground_color: *white
             
             text: !string "{SECTOR}-{TYPE}-{ID}"
-            stackingMode: !enum Menu
-            removeParent: false
             
             labels: "IOC Debug"
             files: !string "{PREFIX}.ui"
@@ -181,7 +174,7 @@ Centering: !hcenter
                 background_color: *edit_blue
                 foreground_color: *black
                 
-                text: "-APS OPS"
+                text: "APS OPS"
                 
                 labels: "24 hr. Beam History;24 hr beam history, etc;Beam Quality Report;Gap Control (Upstream);Gap Control (Downstream)"
                 files: "beamHistory.ui;beamHistory_full.ui;beamQualityReport.ui;IDControl.ui;IDControl.ui"
