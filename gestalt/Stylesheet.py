@@ -31,31 +31,24 @@ def read_type(cls, loader, node):
 			return cls(data)
 			
 			
-yaml.add_constructor("!string", (lambda l, n: read_type(String, l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!number", (lambda l, n: read_type(Number, l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!double", (lambda l, n: read_type(Double, l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!bool",   (lambda l, n: read_type(Bool,   l, n)), Loader=yaml.SafeLoader)
-
-set_regex = re.compile(r'^[a-zA-Z0-9_:]+(\s*\|\s*[a-zA-Z0-9_:]+)+$')
-yaml.add_constructor("!set",    (lambda l, n: read_type(Set, l, n)),    Loader=yaml.SafeLoader)
-yaml.add_implicit_resolver("!set", set_regex, Loader=yaml.SafeLoader)
+def add_constructors(typ_name, typ_func, regex=None):
+	yaml.add_constructor("!" + typ_name,              typ_func, Loader=yaml.SafeLoader)
+	yaml.add_constructor("!" + typ_name.lower(),      typ_func, Loader=yaml.SafeLoader)
+	yaml.add_constructor("!" + typ_name.upper(),      typ_func, Loader=yaml.SafeLoader)
+	yaml.add_constructor("!" + typ_name.capitalize(), typ_func, Loader=yaml.SafeLoader)
 			
-enum_regex = re.compile(r'^\w+::\w+$')
-yaml.add_constructor("!enum", (lambda l, n: read_type(Enum, l, n)), Loader=yaml.SafeLoader)
-yaml.add_implicit_resolver("!enum", enum_regex, Loader=yaml.SafeLoader)
+	if regex:
+		yaml.add_implicit_resolver(u"!" + typ_name, regex, Loader=yaml.SafeLoader)
 			
-rect_regex = re.compile(r'^-?\d+\s*(x\s*-?\d+\s*)+$')
-yaml.add_constructor("!geom", (lambda l, n: read_type(Rect, l, n)), Loader=yaml.SafeLoader)
-yaml.add_implicit_resolver("!geom", rect_regex, Loader=yaml.SafeLoader)
-
-color_regex = re.compile(r'^\$([0-9A-Fa-f][0-9A-Fa-f])+$')
-yaml.add_constructor("!color", (lambda l, n: read_type(Color, l, n)), Loader=yaml.SafeLoader)
-yaml.add_implicit_resolver(u'!color', color_regex, Loader=yaml.SafeLoader)
-
-font_regex = re.compile(r'^-[a-zA-Z][\w\s]*(-\s*[a-zA-Z][a-zA-Z_]+\s*)(-[0-9\s]+)$')
-yaml.add_constructor("!font", (lambda l, n: read_type(Font, l, n)), Loader=yaml.SafeLoader)
-yaml.add_implicit_resolver(u'!font', font_regex, Loader=yaml.SafeLoader)
-
+add_constructors("string", (lambda l, n: read_type(String, l, n)))
+add_constructors("number", (lambda l, n: read_type(Number, l, n)))
+add_constructors("double", (lambda l, n: read_type(Double, l, n)))
+add_constructors("bool",   (lambda l, n: read_type(Bool,   l, n)))
+add_constructors("set",    (lambda l, n: read_type(Set,    l, n)), regex= re.compile(r'^[a-zA-Z0-9_:]+(\s*\|\s*[a-zA-Z0-9_:]+)+$'))
+add_constructors("enum",   (lambda l, n: read_type(Enum,   l, n)), regex= re.compile(r'^\w+::\w+$'))
+add_constructors("geom",   (lambda l, n: read_type(Rect,   l, n)), regex= re.compile(r'^-?\d+\s*(x\s*-?\d+\s*)+$'))
+add_constructors("color",  (lambda l, n: read_type(Color,  l, n)), regex= re.compile(r'^\$([0-9A-Fa-f][0-9A-Fa-f])+$'))
+add_constructors("font",   (lambda l, n: read_type(Font,   l, n)), regex= re.compile(r'^-[a-zA-Z][\w\s]*(-\s*[a-zA-Z][a-zA-Z_]+\s*)(-[0-9\s]+)$'))
 
 ######################
 #    Node Parsing    #
@@ -149,29 +142,29 @@ recognized_types = (
 for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
-yaml.add_constructor("!group", (lambda l, n: read_group_node("caFrame", l, n)), Loader=yaml.SafeLoader)
+add_constructors("group", (lambda l, n: read_group_node("caFrame", l, n)))
 	
-yaml.add_constructor("!grid", (lambda l, n: read_grid_node(l, n)), Loader=yaml.SafeLoader)
+add_constructors("grid", (lambda l, n: read_grid_node(l, n)))
 
-yaml.add_constructor("!conditional", (lambda l, n: read_conditional_node(l, n)), Loader=yaml.SafeLoader)
+add_constructors("conditional", (lambda l, n: read_conditional_node(l, n)))
 
-yaml.add_constructor("!spacer", (lambda l, n: read_spacer_node(l, n)), Loader=yaml.SafeLoader)
+add_constructors("spacer", (lambda l, n: read_spacer_node(l, n)))
 	
-yaml.add_constructor("!flow", (lambda l, n: read_flow_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!vflow", (lambda l, n: read_flow_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!hflow", (lambda l, n: read_flow_node("horizontal", l, n)), Loader=yaml.SafeLoader)
+add_constructors("flow", (lambda l, n: read_flow_node("vertical", l, n)))
+add_constructors("vflow", (lambda l, n: read_flow_node("vertical", l, n)))
+add_constructors("hflow", (lambda l, n: read_flow_node("horizontal", l, n)))
 	
-yaml.add_constructor("!repeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!hrepeat", (lambda l, n: read_repeat_node("horizontal", l, n)), Loader=yaml.SafeLoader)
+add_constructors("repeat", (lambda l, n: read_repeat_node("vertical", l, n)))
+add_constructors("vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)))
+add_constructors("hrepeat", (lambda l, n: read_repeat_node("horizontal", l, n)))
 
-yaml.add_constructor("!stretch",  (lambda l, n: read_stretch_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!vstretch", (lambda l, n: read_stretch_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!hstretch", (lambda l, n: read_stretch_node("horizontal", l, n)), Loader=yaml.SafeLoader)
+add_constructors("stretch",  (lambda l, n: read_stretch_node("vertical", l, n)))
+add_constructors("vstretch", (lambda l, n: read_stretch_node("vertical", l, n)))
+add_constructors("hstretch", (lambda l, n: read_stretch_node("horizontal", l, n)))
 
-yaml.add_constructor("!center",  (lambda l, n: read_center_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!vcenter", (lambda l, n: read_center_node("vertical", l, n)), Loader=yaml.SafeLoader)
-yaml.add_constructor("!hcenter", (lambda l, n: read_center_node("horizontal", l, n)), Loader=yaml.SafeLoader)
+add_constructors("center",  (lambda l, n: read_center_node("vertical", l, n)))
+add_constructors("vcenter", (lambda l, n: read_center_node("vertical", l, n)))
+add_constructors("hcenter", (lambda l, n: read_center_node("horizontal", l, n)))
 	
 #####################
 #   Include Files   #
