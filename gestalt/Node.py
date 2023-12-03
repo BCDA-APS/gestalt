@@ -289,9 +289,9 @@ class RepeatNode(GroupNode):
 		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
-				macrolist = [ {"N" : x} for x in range(int(macrolist.val)) ]
+				macrolist = [ {"N" : x} for x in range(self.start_at.val, self.start_at.val + int(macrolist.val)) ]
 			else:
-				macrolist = [ {"N" : x} for x in range(int(macrolist)) ]
+				macrolist = [ {"N" : x} for x in range(self.start_at.val, self.start_at.val + int(macrolist)) ]
 		
 		for macroset in macrolist:
 			child_macros = copy.deepcopy(data)
