@@ -184,14 +184,21 @@ class GridNode(GroupNode):
 	
 		self.ratio = self.attrs.pop("aspect_ratio", Number(1.0))
 		self.repeat_over = self.attrs.pop("repeat_over", String(""))
+		self.start_at = self.attrs.pop("start_at", Number(0))
 		self.padding = self.attrs.pop("padding", Number(0))
 		
 		
 	def apply (self, generator, data={}):
 		macrolist = data.get(str(self.repeat_over), {})
-		
+	
 		output = generator.generateGroup(self, macros=data)
 		
+		if not isinstance(macrolist, list):
+			if isinstance(macrolist, DataType):
+				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
+			else:
+				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
+	
 		num_items = len(macrolist)
 		
 		cols = round(math.sqrt(num_items * float(self.ratio)))
@@ -205,6 +212,8 @@ class GridNode(GroupNode):
 			child_macros = copy.deepcopy(data)
 			child_macros.update(macroset)
 			child_macros.update({"__index__" : index})
+			child_macros.update({"__col__" : index_x})
+			child_macros.update({"__row__" : index_y})
 			
 			element = generator.generateAnonymousGroup()
 			

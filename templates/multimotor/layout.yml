@@ -10,6 +10,7 @@ Form: !Form
 motor_grid: !grid
 
     repeat_over: "MOTORS"
+    start_at: 1
     
     aspect_ratio: 2.0
     
@@ -27,24 +28,24 @@ motor_grid: !grid
             
             children:
                 - !caCalc
-                    variable: "$(P)$(M{M}):HighLimits"
+                    variable: "$(P)$(M{N}):HighLimits"
                     calc: "((D=0)&&(B=1))*3+A*(B=1)+2*C"
-                    channel: "$(P)$(M{M}).LVIO"
-                    channelB: "$(P)$(M{M}).DIR"
-                    channelC: "$(P)$(M{M}).HLS"
-                    channelD: "$(P)$(M{M}).DMOV"
+                    channel: "$(P)$(M{N}).LVIO"
+                    channelB: "$(P)$(M{N}).DIR"
+                    channelC: "$(P)$(M{N}).HLS"
+                    channelD: "$(P)$(M{N}).DMOV"
                     
                     eventSignal: caCalc::onAnyChange
                     
                     geometry: 0x0 x 0x0
                     
                 - !caCalc
-                    variable: "$(P)$(M{M}):LowLimits"
+                    variable: "$(P)$(M{N}):LowLimits"
                     calc: "((D=0)&&(B=1))*3+A*(B=1)+2*C"
-                    channel: "$(P)$(M{M}).LVIO"
-                    channelB: "$(P)$(M{M}).DIR"
-                    channelC: "$(P)$(M{M}).LLS"
-                    channelD: "$(P)$(M{M}).DMOV"
+                    channel: "$(P)$(M{N}).LVIO"
+                    channelB: "$(P)$(M{N}).DIR"
+                    channelC: "$(P)$(M{N}).LLS"
+                    channelD: "$(P)$(M{N}).DMOV"
                     
                     eventSignal: caCalc::onAnyChange
                     
@@ -58,7 +59,7 @@ motor_grid: !grid
                     
                     geometry: 3x1 x 154x21
                     
-                    channel: "$(P)$(M{M}).DESC"
+                    channel: "$(P)$(M{N}).DESC"
                     
                     
                 - !caRelatedDisplay
@@ -66,13 +67,13 @@ motor_grid: !grid
                     foreground: *black
                     
                     geometry: 10x30 x 140x17
-                    label: "-($(P)$(M{M}))"
+                    label: "-($(P)$(M{N}))"
                     
                     stackingMode: !enum Menu
                     
                     labels: "Help;More;Setup;All;Setup Scan Parameters"
                     files: "motorx_help.ui;motorx_more.ui;motorx_setup.ui;motorx_all.ui;scanParms.ui"
-                    args: "P=$(P),M=$(M{M});P=$(P),M=$(M{M});P=$(P),M=$(M{M});P=$(P),M=$(M{M});P=$(P),Q=$(M{M}),PV=$(M{M})"
+                    args: "P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),Q=$(M{N}),PV=$(M{N})"
                     removeParent: "false;false;false;false;false"
                     
                     
@@ -84,7 +85,7 @@ motor_grid: !grid
                     geometry: 20x50 x 120x17
                     alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter
                     
-                    channel: "$(P)$(M{M}).EGU"
+                    channel: "$(P)$(M{N}).EGU"
                 
         
                 - !caMessageButton
@@ -93,7 +94,7 @@ motor_grid: !grid
                     
                     geometry: 10x140 x 24x24
                     pressMessage: "1"
-                    channel: "$(P)$(M{M}).TWR"
+                    channel: "$(P)$(M{N}).TWR"
                     label: "<"
                     
                 - !caTextEntry
@@ -102,7 +103,7 @@ motor_grid: !grid
                     
                     geometry: 38x142 x 85x24
                     
-                    channel: "$(P)$(M{M}).TWV"
+                    channel: "$(P)$(M{N}).TWV"
                 
                 - !caMessageButton
                     background: *edit_blue
@@ -110,7 +111,7 @@ motor_grid: !grid
                     
                     geometry: 126x140 x 24x24
                     pressMessage: "1"
-                    channel: "$(P)$(M{M}).TWF"
+                    channel: "$(P)$(M{N}).TWF"
                     label: ">"
         
                     
@@ -120,13 +121,13 @@ motor_grid: !grid
                     colorMode: caMessageButton::Static
                     
                     geometry: 10x170 x 140x26
-                    channel: "$(P)$(M{M}).STOP"
+                    channel: "$(P)$(M{N}).STOP"
                     pressMessage: "1"
                     label: "STOP"
                     
                 
                 - !group
-                    channel: "$(P)$(M{M}):LowLimits"
+                    channel: "$(P)$(M{N}):LowLimits"
                     visibility: caFrame::IfNotZero
                     
                     geometry: 10x50 x 6x88
@@ -134,7 +135,7 @@ motor_grid: !grid
                     children:
                 
                         - !caLed
-                            channel: "$(P)$(M{M}):LowLimits"
+                            channel: "$(P)$(M{N}):LowLimits"
                             falseColor: *alarm_yellow
                             trueColor: *alarm_red
                             undefinedColor: *alarm_green
@@ -151,14 +152,14 @@ motor_grid: !grid
                             geometry: 0x0 x 6x88
                 
                 - !group
-                    channel: "$(P)$(M{M}):HighLimits"
+                    channel: "$(P)$(M{N}):HighLimits"
                     visibility: caFrame::IfNotZero
                     
                     geometry: 144x50 x 6x88
                     
                     children:
                         - !caLed
-                            channel: "$(P)$(M{M}):HighLimits"
+                            channel: "$(P)$(M{N}):HighLimits"
                             falseColor: *alarm_yellow
                             trueColor: *alarm_red
                             undefinedColor: *alarm_green
@@ -181,7 +182,7 @@ motor_grid: !grid
                     visibilityMode: caFrame::Background
                     visibility: caFrame::IfNotZero
                     
-                    channel: "$(P)$(M{M}).SET"
+                    channel: "$(P)$(M{N}).SET"
                     
                     geometry: 18x65 x 124x35
                     
@@ -195,7 +196,7 @@ motor_grid: !grid
                             visibilityMode: caFrame::Background
                             visibility: caFrame::IfNotZero
         
-                            channel: "$(P)$(M{M}).SET"
+                            channel: "$(P)$(M{N}).SET"
                             
                             geometry: 2x2 x 120x31
                             
@@ -207,7 +208,7 @@ motor_grid: !grid
                                     
                                     colorMode: caLineEdit::Static
                                     
-                                    channel: "$(P)$(M{M}).RBV"
+                                    channel: "$(P)$(M{N}).RBV"
                                     
                                     geometry: 2x2 x 116x27
                     
@@ -218,7 +219,7 @@ motor_grid: !grid
                     visibilityMode: caFrame::Background
                     visibility: caFrame::IfNotZero
                     
-                    channel: "$(P)$(M{M})_able.VAL"
+                    channel: "$(P)$(M{N})_able.VAL"
                     
                     geometry: 18x100 x 124x35
                     
@@ -232,7 +233,7 @@ motor_grid: !grid
                             visibilityMode: caFrame::Background
                             visibility: caFrame::IfNotZero
                             
-                            channel: "$(P)$(M{M})_able.VAL"
+                            channel: "$(P)$(M{N})_able.VAL"
                             
                             frameShape: QFrame::NoFrame
                             lineWidth: 1
@@ -248,4 +249,4 @@ motor_grid: !grid
                                     
                                     geometry: 2x2 x 114x25
                                 
-                                    channel: "$(P)$(M{M}).VAL"
+                                    channel: "$(P)$(M{N}).VAL"

@@ -4,18 +4,8 @@ registry.add("Multimotor Display", path=__path__,
 	qt_stylesheet = "layout.yml",
 	required_inputs=[
 ("MOTORS", 
-"""Motor index list:
-	
-  M: Motor number 
+"""Number of motors on screen
 """)], 
 example=
-"""MOTORS:
-    - M: 1
-    - M: 2
-    - M: 3
-    - M: 4
-    - M: 5
-    - M: 6
-    - M: 7
-    - M: 8
+"""MOTORS: 8
 """)
