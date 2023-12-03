@@ -5,8 +5,8 @@ from gestalt.Node import GroupNode
 name_numbering = {}
 
 class QtWidget(GroupNode):
-	def __init__(self, classname, initial=None, name=None, layout=None, macros={}):
-		super(QtWidget, self).__init__(classname, initial=initial, name=name, layout=layout)
+	def __init__(self, classname, name=None, layout={}, macros={}):
+		super(QtWidget, self).__init__(classname, name=name, layout=layout)
 	
 		self.macros = macros
 		

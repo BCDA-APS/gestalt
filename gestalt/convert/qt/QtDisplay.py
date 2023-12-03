@@ -5,7 +5,7 @@ from gestalt.Type import *
 from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtDisplay(QtWidget):
-	def __init__(self, layout=None):
+	def __init__(self, layout={}):
 		super(QtDisplay, self).__init__("QWidget", name="centralwidget")
 	
 		self.form = QtWidget("QWidget", name="Form", layout=layout)

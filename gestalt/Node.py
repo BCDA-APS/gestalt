@@ -8,7 +8,7 @@ from gestalt.Type import *
 
 
 class Node(object):
-	def __init__(self, classname, name=None, layout=None):
+	def __init__(self, classname, name=None, layout={}):
 		self.classname = classname
 		self.name = None
 		
@@ -18,10 +18,10 @@ class Node(object):
 			self.name = name
 		
 		if layout is not None:
-			self.setProperties(layout)
+			Node.setProperties(self, layout)
 						
 					
-	def setProperty(self, key, data):
+	def setProperty(self, key, data):			
 		to_assign = None
 		
 		if isinstance(data, DataType):
@@ -107,7 +107,9 @@ class Node(object):
 		
 		
 class GroupNode(Node):
-	def __init__(self, classname, initial=None, name=None, layout=None):
+	def __init__(self, classname, name=None, layout={}):
+		initial = layout.pop("children", {})
+	
 		super(GroupNode, self).__init__(classname, name=name, layout=layout)
 	
 		self.margins = Rect(x=0, y=0, width=0, height=0)
@@ -115,15 +117,14 @@ class GroupNode(Node):
 	
 		self.children = []
 		
-		if initial is not None:
-			if isinstance(initial, dict):
-				for childname, child in initial.items():
-					child.name = childname
-					self.append(child)
-				
-			elif isinstance(initial, list) or isinstance(initial, tuple):
-				for child in initial:
-					self.append(child)
+		if isinstance(initial, dict):
+			for childname, child in initial.items():
+				child.name = childname
+				self.append(child)
+			
+		elif isinstance(initial, list) or isinstance(initial, tuple):
+			for child in initial:
+				self.append(child)
 	
 					
 	def append(self, child, keep_original=False):					
@@ -178,23 +179,23 @@ class GroupNode(Node):
 
 		
 class GridNode(GroupNode):
-	def __init__(self, initial=None, name=None, layout=None, padding=0, repeat=None, ratio=1.0):
-		super(GridNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
-		
-		self.ratio = ratio
-		self.repeat_over = repeat
-		self.padding = padding
+	def __init__(self, name=None, layout={}):
+		super(GridNode, self).__init__("caFrame", layout=layout)
+	
+		self.ratio = self.attrs.pop("aspect_ratio", Number(1.0))
+		self.repeat_over = self.attrs.pop("repeat_over", String(""))
+		self.padding = self.attrs.pop("padding", Number(0))
 		
 		
 	def apply (self, generator, data={}):
-		macrolist = data.get(self.repeat_over, {})
+		macrolist = data.get(self.repeat_over.val, {})
 		
 		output = generator.generateGroup(self, macros=data)
 		
 		num_items = len(macrolist)
 		
-		cols = round(math.sqrt(num_items * self.ratio))
-		rows = round(math.sqrt(num_items / self.ratio))
+		cols = round(math.sqrt(num_items * self.ratio.val))
+		rows = round(math.sqrt(num_items / self.ratio.val))
 		
 		index = 0
 		index_x = 0
@@ -216,8 +217,8 @@ class GridNode(GroupNode):
 					
 				element.place(childnode.apply(generator, data=child_macros))
 			
-			pos_x = index_x * (element["geometry"]["width"] + self.padding)
-			pos_y = index_y * (element["geometry"]["height"] + self.padding)
+			pos_x = index_x * (element["geometry"]["width"] + self.padding.val)
+			pos_y = index_y * (element["geometry"]["height"] + self.padding.val)
 				
 			element.position(pos_x, pos_y)
 			
@@ -234,10 +235,10 @@ class GridNode(GroupNode):
 
 		
 class FlowNode(GroupNode):
-	def __init__(self, initial=None, name=None, layout=None, padding=0, flow="vertical"):
-		super(FlowNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
-		
-		self.padding = padding
+	def __init__(self, layout={}, flow="vertical"):
+		super(FlowNode, self).__init__("caFrame", layout=layout)
+	
+		self.padding = self.attrs.pop("padding", Number(0))
 		self.flow = flow
 		
 		
@@ -258,10 +259,10 @@ class FlowNode(GroupNode):
 			element = childnode.apply(generator, data=child_macros)
 
 			if self.flow == "vertical":
-				element.position(x=None, y=output["geometry"]["height"] + (first*self.padding))
+				element.position(x=None, y=output["geometry"]["height"] + (first*self.padding.val))
 				
 			elif self.flow == "horizontal":
-				element.position(x=output["geometry"]["width"] + (first * self.padding), y=None)
+				element.position(x=output["geometry"]["width"] + (first * self.padding.val), y=None)
 			
 			output.place(element)
 			first = 1
@@ -270,16 +271,17 @@ class FlowNode(GroupNode):
 		
 		
 class RepeatNode(GroupNode):
-	def __init__(self, initial=None, name=None, layout=None, repeat=None, padding=0, flow="vertical"):
-		super(RepeatNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
-		
-		self.repeat_over = repeat
-		self.padding = padding
+	def __init__(self, layout={}, flow="vertical"):
+		super(RepeatNode, self).__init__("caFrame", layout=layout)
+	
+		self.repeat_over = self.attrs.pop("repeat_over", String(""))
+		self.start_at = self.attrs.pop("start_at", Number(0))
+		self.padding = self.attrs.pop("padding", Number(0))
 		self.flow = flow
 	
 		
 	def apply (self, generator, data={}):		
-		macrolist = data.get(self.repeat_over, None)
+		macrolist = data.get(self.repeat_over.val, None)
 		
 		output = generator.generateGroup(self, macros=data)
 		
@@ -308,10 +310,10 @@ class RepeatNode(GroupNode):
 				line.place(childnode.apply(generator, data=child_macros))
 							
 			if self.flow == "vertical":
-				line.position(x=None, y=(index * (line["geometry"]["height"] + self.padding)))
+				line.position(x=None, y=(index * (line["geometry"]["height"] + self.padding.val)))
 				
 			elif self.flow == "horizontal":
-				line.position(x=(index * (line["geometry"]["width"] + self.padding)), y=None)
+				line.position(x=(index * (line["geometry"]["width"] + self.padding.val)), y=None)
 			
 			output.place(line)
 			index += 1
@@ -320,16 +322,16 @@ class RepeatNode(GroupNode):
 
 
 class ConditionalNode(GroupNode):
-	def __init__(self, initial=None, name=None, layout=None, condition=None):
-		super(ConditionalNode, self).__init__("caFrame", initial=initial, name=name, layout=layout)
+	def __init__(self, layout={}):
+		super(ConditionalNode, self).__init__("caFrame", layout=layout)
 		
-		self.condition = condition
+		self.condition = self.attrs.get("condition", String(""))
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
 		output.position(self["geometry"]["x"], self["geometry"]["y"])
 		
-		conditional = data.get(self.condition, None)
+		conditional = data.get(self.condition.val, None)
 		
 		if bool(conditional):
 			child_macros = copy.deepcopy(data)
@@ -347,7 +349,7 @@ class ConditionalNode(GroupNode):
 
 		
 class SpacerNode(Node):
-	def __init__(self, layout=None):
+	def __init__(self, layout={}):
 		super(SpacerNode, self).__init__("Spacer", layout=layout)
 	
 	def apply(self, generator, data={}):
@@ -358,7 +360,7 @@ class SpacerNode(Node):
 		
 		
 class StretchNode(Node):
-	def __init__(self, name=None, layout=None, flow="vertical", subnode=None):
+	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
 		super(StretchNode, self).__init__("Stretch", name=name, layout=layout)
 		
 		self.subnode = subnode
@@ -377,7 +379,7 @@ class StretchNode(Node):
 
 		
 class CenterNode(Node):
-	def __init__(self, name=None, layout=None, flow="vertical", subnode=None):
+	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
 		super(CenterNode, self).__init__("Center", name=name, layout=layout)
 		
 		self.subnode = subnode

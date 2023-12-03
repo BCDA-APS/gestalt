@@ -59,60 +59,23 @@ def read_node(typ, loader, node):
 
 	return Node(typ, layout=params)
 
-
 def read_group_node(typ, loader, node):
 	params = loader.construct_mapping(node, deep=True)
 
-	children = params.pop("children", None)
+	return GroupNode(typ, layout=params)
 
-	return GroupNode(typ, initial=children, layout=params)
 
-def read_grid_node(loader, node):
+def read_special_node(node_type, loader, node, **kwargs):
 	params = loader.construct_mapping(node, deep=True)
 
-	children = params.pop("children", None)
-	repeat_over = params.pop("repeat_over", None)
-	padding = params.pop("padding", 0)
-	ratio = params.pop("aspect_ratio", 1.0)
+	return node_type(layout=params, **kwargs)
 
-	return GridNode(initial=children, layout=params, repeat=repeat_over, padding=padding, ratio=ratio)
-
-def read_flow_node(flow, loader, node):
-	params = loader.construct_mapping(node, deep=True)
-
-	children = params.pop("children", None)
-	padding = params.pop("padding", 0)
-
-	return FlowNode(initial=children, layout=params, padding=padding, flow=flow)
-
-def read_repeat_node(flow, loader, node):
-	params = loader.construct_mapping(node, deep=True)
-
-	children = params.pop("children", None)
-	repeat_over = params.pop("repeat_over", None)
-	padding = params.pop("padding", 0)
-
-	return RepeatNode(initial=children, layout=params, repeat=repeat_over, padding=padding, flow=flow)
-
-def read_conditional_node(loader, node):	
-	params = loader.construct_mapping(node, deep=True)
-
-	children = params.pop("children", None)
-	condition = params.pop("condition", None)
-
-	return ConditionalNode(initial=children, layout=params, condition=condition)
-
-def read_spacer_node(loader, node):
-	params = loader.construct_mapping(node, deep=True)
-
-	return SpacerNode(layout=params)
-
-def read_stretch_node(flow, loader, node):
+def read_stretch_node(loader, node, flow="vertical"):
 	params = loader.construct_mapping(node, deep=True)
 
 	return StretchNode(flow=flow, subnode=next(iter(params.values())))
 
-def read_center_node(flow, loader, node):
+def read_center_node(loader, node, flow="vertical"):
 	params = loader.construct_mapping(node, deep=True)
 	
 	return CenterNode(flow=flow, subnode=next(iter(params.values())))
@@ -144,27 +107,27 @@ for widget_type in recognized_types:
 	
 add_constructors("group", (lambda l, n: read_group_node("caFrame", l, n)))
 	
-add_constructors("grid", (lambda l, n: read_grid_node(l, n)))
+add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 
-add_constructors("conditional", (lambda l, n: read_conditional_node(l, n)))
+add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
 
-add_constructors("spacer", (lambda l, n: read_spacer_node(l, n)))
+add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))
 	
-add_constructors("flow", (lambda l, n: read_flow_node("vertical", l, n)))
-add_constructors("vflow", (lambda l, n: read_flow_node("vertical", l, n)))
-add_constructors("hflow", (lambda l, n: read_flow_node("horizontal", l, n)))
+add_constructors("flow",  (lambda l, n: read_special_node(FlowNode, l, n, flow="vertical")))
+add_constructors("vflow", (lambda l, n: read_special_node(FlowNode, l, n, flow="vertical")))
+add_constructors("hflow", (lambda l, n: read_special_node(FlowNode, l, n, flow="horizontal")))
 	
-add_constructors("repeat", (lambda l, n: read_repeat_node("vertical", l, n)))
-add_constructors("vrepeat", (lambda l, n: read_repeat_node("vertical", l, n)))
-add_constructors("hrepeat", (lambda l, n: read_repeat_node("horizontal", l, n)))
+add_constructors("repeat",  (lambda l, n: read_special_node(RepeatNode, l, n,  flow="vertical")))
+add_constructors("vrepeat", (lambda l, n: read_special_node(RepeatNode, l, n,  flow="vertical")))
+add_constructors("hrepeat", (lambda l, n: read_special_node(RepeatNode, l, n,  flow="horizontal")))
 
-add_constructors("stretch",  (lambda l, n: read_stretch_node("vertical", l, n)))
-add_constructors("vstretch", (lambda l, n: read_stretch_node("vertical", l, n)))
-add_constructors("hstretch", (lambda l, n: read_stretch_node("horizontal", l, n)))
+add_constructors("stretch",  (lambda l, n: read_stretch_node(l, n, flow="vertical")))
+add_constructors("vstretch", (lambda l, n: read_stretch_node(l, n, flow="vertical")))
+add_constructors("hstretch", (lambda l, n: read_stretch_node(l, n, flow="horizontal")))
 
-add_constructors("center",  (lambda l, n: read_center_node("vertical", l, n)))
-add_constructors("vcenter", (lambda l, n: read_center_node("vertical", l, n)))
-add_constructors("hcenter", (lambda l, n: read_center_node("horizontal", l, n)))
+add_constructors("center",  (lambda l, n: read_center_node(l, n, flow="vertical")))
+add_constructors("vcenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
+add_constructors("hcenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
 	
 #####################
 #   Include Files   #
