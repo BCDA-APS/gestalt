@@ -344,6 +344,17 @@ class ConditionalNode(GroupNode):
 				output.place(childnode.apply(generator, data=data))
 		
 		return output
+
+		
+class SpacerNode(Node):
+	def __init__(self, layout=None):
+		super(SpacerNode, self).__init__("Spacer", layout=layout)
+	
+	def apply(self, generator, data={}):
+		output = generator.generateAnonymousGroup()
+		output["geometry"] = self["geometry"]
+		
+		return output
 		
 		
 class StretchNode(Node):

@@ -109,6 +109,11 @@ def read_conditional_node(loader, node):
 
 	return ConditionalNode(initial=children, layout=params, condition=condition)
 
+def read_spacer_node(loader, node):
+	params = loader.construct_mapping(node, deep=True)
+
+	return SpacerNode(layout=params)
+
 def read_stretch_node(flow, loader, node):
 	params = loader.construct_mapping(node, deep=True)
 
@@ -150,6 +155,8 @@ yaml.add_constructor("!grid", (lambda l, n: read_grid_node(l, n)), Loader=yaml.S
 
 yaml.add_constructor("!conditional", (lambda l, n: read_conditional_node(l, n)), Loader=yaml.SafeLoader)
 
+yaml.add_constructor("!spacer", (lambda l, n: read_spacer_node(l, n)), Loader=yaml.SafeLoader)
+	
 yaml.add_constructor("!flow", (lambda l, n: read_flow_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!vflow", (lambda l, n: read_flow_node("vertical", l, n)), Loader=yaml.SafeLoader)
 yaml.add_constructor("!hflow", (lambda l, n: read_flow_node("horizontal", l, n)), Loader=yaml.SafeLoader)
