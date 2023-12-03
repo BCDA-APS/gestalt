@@ -29,6 +29,15 @@ class DataType(object):
 	def __bool__(self):
 		return bool(self.val)
 		
+	def __int__(self):
+		return int(self.val)
+		
+	def __str__(self):
+		return str(self.val)
+		
+	def __float__(self):
+		return float(self.val)
+		
 	def merge(self, other):
 		return type(self)(other.val)
 

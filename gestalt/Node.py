@@ -188,14 +188,14 @@ class GridNode(GroupNode):
 		
 		
 	def apply (self, generator, data={}):
-		macrolist = data.get(self.repeat_over.val, {})
+		macrolist = data.get(str(self.repeat_over), {})
 		
 		output = generator.generateGroup(self, macros=data)
 		
 		num_items = len(macrolist)
 		
-		cols = round(math.sqrt(num_items * self.ratio.val))
-		rows = round(math.sqrt(num_items / self.ratio.val))
+		cols = round(math.sqrt(num_items * float(self.ratio)))
+		rows = round(math.sqrt(num_items / float(self.ratio)))
 		
 		index = 0
 		index_x = 0
@@ -217,8 +217,8 @@ class GridNode(GroupNode):
 					
 				element.place(childnode.apply(generator, data=child_macros))
 			
-			pos_x = index_x * (element["geometry"]["width"] + self.padding.val)
-			pos_y = index_y * (element["geometry"]["height"] + self.padding.val)
+			pos_x = index_x * (element["geometry"]["width"] + int(self.padding))
+			pos_y = index_y * (element["geometry"]["height"] + int(self.padding))
 				
 			element.position(pos_x, pos_y)
 			
@@ -259,10 +259,10 @@ class FlowNode(GroupNode):
 			element = childnode.apply(generator, data=child_macros)
 
 			if self.flow == "vertical":
-				element.position(x=None, y=output["geometry"]["height"] + (first*self.padding.val))
+				element.position(x=None, y=output["geometry"]["height"] + (first*int(self.padding)))
 				
 			elif self.flow == "horizontal":
-				element.position(x=output["geometry"]["width"] + (first * self.padding.val), y=None)
+				element.position(x=output["geometry"]["width"] + (first * int(self.padding)), y=None)
 			
 			output.place(element)
 			first = 1
@@ -281,7 +281,7 @@ class RepeatNode(GroupNode):
 	
 		
 	def apply (self, generator, data={}):		
-		macrolist = data.get(self.repeat_over.val, None)
+		macrolist = data.get(str(self.repeat_over), None)
 		
 		output = generator.generateGroup(self, macros=data)
 		
@@ -289,9 +289,9 @@ class RepeatNode(GroupNode):
 		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
-				macrolist = [ {"N" : x} for x in range(self.start_at.val, self.start_at.val + int(macrolist.val)) ]
+				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
 			else:
-				macrolist = [ {"N" : x} for x in range(self.start_at.val, self.start_at.val + int(macrolist)) ]
+				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
 		
 		for macroset in macrolist:
 			child_macros = copy.deepcopy(data)
@@ -310,10 +310,10 @@ class RepeatNode(GroupNode):
 				line.place(childnode.apply(generator, data=child_macros))
 							
 			if self.flow == "vertical":
-				line.position(x=None, y=(index * (line["geometry"]["height"] + self.padding.val)))
+				line.position(x=None, y=(index * (line["geometry"]["height"] + int(self.padding))))
 				
 			elif self.flow == "horizontal":
-				line.position(x=(index * (line["geometry"]["width"] + self.padding.val)), y=None)
+				line.position(x=(index * (line["geometry"]["width"] + int(self.padding))), y=None)
 			
 			output.place(line)
 			index += 1
@@ -331,7 +331,7 @@ class ConditionalNode(GroupNode):
 		output = generator.generateAnonymousGroup()
 		output.position(self["geometry"]["x"], self["geometry"]["y"])
 		
-		conditional = data.get(self.condition.val, None)
+		conditional = data.get(str(self.condition), None)
 		
 		if bool(conditional):
 			child_macros = copy.deepcopy(data)
