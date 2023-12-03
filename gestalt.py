@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import os
+import pathlib
 import tempfile
 import traceback
 
@@ -20,7 +21,10 @@ from PyQt5.QtCore import QStringListModel
 class UI(QMainWindow):
 	def __init__(self):
 		super(UI, self).__init__()
-		uic.loadUi(".data/Form.ui", self)
+		
+		self.curr_dir = str(pathlib.Path(__file__).resolve().parent.resolve())
+		
+		uic.loadUi(self.curr_dir + "/.data/Form.ui", self)
 		
 		self.setWindowTitle("GESTALT")
 			
@@ -103,10 +107,9 @@ class UI(QMainWindow):
 		if output_file == "":
 			return
 		
-		try:
-			includes_dirs = str.split(".:./templates:" + module_selected["path"], ":")
-				
-			
+		try:			
+			includes_dirs = str.split(".:" + self.curr_dir + ":" + self.curr_dir + "/templates:" + module_selected["path"], ":")
+							
 			styles = Stylesheet.parse(current_stylesheet, includes_dirs)
 			data = Datasheet.parseString(self.InputData.toPlainText())
 		
