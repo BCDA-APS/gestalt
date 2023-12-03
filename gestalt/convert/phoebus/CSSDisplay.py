@@ -7,7 +7,7 @@ from gestalt.Type import *
 from gestalt.Node import GroupNode
 
 class CSSDisplay(GroupNode):
-	def __init__(self, layout=None):
+	def __init__(self, layout={}):
 		super(CSSDisplay, self).__init__("")
 	
 		self.form = screen.Screen("Form")

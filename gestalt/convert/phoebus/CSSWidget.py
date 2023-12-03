@@ -8,7 +8,7 @@ from phoebusgen.widget import properties as _p
 name_numbering = {}
 
 class CSSWidget(GroupNode):
-	def __init__(self, classname, name=None, layout=None, macros={}):
+	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
 		
 		self.macros = macros
