@@ -33,14 +33,14 @@ parser.add_argument("-f", "-r", "--from", "--read",
 File parser that should be used for the input data file.
 
 Recognized values are ['yml', 'yaml', 'string', 'str',
-"json", "JSON"] 
+"json", "JSON", "substitutions", "msi"] 
 (Default: 'yml')
 
 
 """, 
 	type=str,
 	default="yml", 
-	choices=["yml", "yaml", "string", "str", "JSON", "json"])
+	choices=["yml", "yaml", "string", "str", "JSON", "json", "substitutions", "msi"])
 		
 parser.add_argument("-t", "-w", "--to", "--write", 
 	metavar="FORMAT",
@@ -119,6 +119,8 @@ def doGenerate(args):
 			data = Datasheet.parseYAMLFile(args.in_filename)
 		elif args.in_format == "json" or args.in_format == "JSON":
 			data = Datasheet.parseJSONFile(args.in_filename)
+		elif args.in_format == "msi" or args.in_format == "substitutions":
+			data = Datasheet.parseSubstitutionFile(args.in_filename)
 	
 	styles = Stylesheet.parse(args.template, include_dirs)
 	
