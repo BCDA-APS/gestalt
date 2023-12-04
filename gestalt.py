@@ -21,6 +21,110 @@ from PyQt5.QtCore import QStringListModel
 	
 curr_dir = str(pathlib.Path(__file__).resolve().parent.resolve())
 
+parser = argparse.ArgumentParser(prog='gestalt', usage='%(prog)s [OPTIONS] [TEMPLATE]', formatter_class=argparse.RawTextHelpFormatter, exit_on_error=False)
+
+parser.add_argument("template", nargs="?", metavar="TEMPLATE", type=str, help="The template file used in constructing the output")
+			
+parser.add_argument("-f", "-r", "--from", "--read", 
+	metavar="FORMAT", 
+	dest="in_format",  
+	action="store", 
+	help="""
+File parser that should be used for the input data file.
+
+Recognized values are ['yml', 'yaml', 'string', 'str'] 
+(Default: 'yml')
+
+
+""", 
+	type=str,
+	default="yml", 
+	choices=["yml", "yaml", "string", "str"])
+		
+parser.add_argument("-t", "-w", "--to", "--write", 
+	metavar="FORMAT",
+	dest="out_format", 
+	action="store", 
+	help="""
+File type conversion that should be used for the output 
+UI file. 
+
+Recognized values are ['qt', 'css', 'ui', 'bob']
+(Default: 'qt')
+
+
+""", 
+	type=str,
+	default="qt", 
+	choices=["qt", "bob", "ui", "css"])
+			
+parser.add_argument("-o", "--output",
+	metavar="FILE",
+	dest="out_filename",
+	action="store",
+	help="""
+Output file name
+
+(Default: Generate from template file and output format)
+
+
+""",
+	type=str)
+
+parser.add_argument('-i', "--input",
+	metavar="FILE",
+	dest='in_filename',
+	action='store', 
+	help="""
+Input data to apply to template file. Either a string
+containing data in a yaml format, or the path to a
+file to be parsed according to the input format.
+
+(Default: Template will be applied with no macros)
+
+
+""",
+	type=str)
+
+parser.add_argument("--include", 
+	metavar="FOLDER", 
+	dest="include_dirs", 
+	action="append", 
+help="""
+Folders to search for any files included by the template.
+Can be applied multiple times, one folder per argument.
+
+By default, the search path includes the current directory 
+and gestalt's template directory (for colors.yml).
+	
+	
+""",
+	type=str)
+
+
+
+def doGenerate(args):
+	include_dirs = [".", curr_dir + "/templates"]
+
+	if args.include_dirs:
+		include_dirs.extend(args.include_dirs)		
+
+	data = {}	
+	
+	if args.in_filename:
+		if args.in_format == "string" or args.in_format == "str":
+			data = Datasheet.parseString(args.in_filename)
+		else:
+			with open(args.in_filename) as the_data:
+				data = Datasheet.parseString(the_data.read())
+	
+	styles = Stylesheet.parse(args.template, include_dirs)
+	
+	if args.out_format == "qt" or args.out_format == "ui":
+		generateQtFile(styles, data, outputfile=args.out_filename)
+	elif args.out_format == "css" or args.out_format == "bob":
+		generateCSSFile(styles, data, outputfile=args.out_filename)
+
 
 class UI(QMainWindow):
 	def __init__(self):
@@ -110,16 +214,21 @@ class UI(QMainWindow):
 			return
 		
 		try:
-			includes_dirs = str.split(".;" + curr_dir + ";" + curr_dir + "/templates;" + module_selected["path"], ";")
-							
-			styles = Stylesheet.parse(current_stylesheet, includes_dirs)
-			data = Datasheet.parseString(self.InputData.toPlainText())
+			constructed_args= [current_stylesheet, "-f",  "string"]
 		
-				
 			if output_type == "CSS":
-				generateCSSFile(styles, data, outputfile=output_file)
-			if output_type == "Qt":
-				generateQtFile(styles, data, outputfile=output_file)
+				constructed_args.extend(["-t", "css"])
+			elif output_type == "Qt":
+				constructed_args.extend(["-t", "qt"])
+		
+			constructed_args.extend(["-o", output_file])
+			constructed_args.extend(["--input", self.InputData.toPlainText()])
+		
+			args = parser.parse_args(constructed_args)
+			
+			args.include_dirs = [".", curr_dir, curr_dir + "/templates", module_selected["path"]]
+	
+			doGenerate(args)
 
 			self.Status.setText("File Generated")
 			
@@ -130,82 +239,6 @@ class UI(QMainWindow):
 			
 
 			
-parser = argparse.ArgumentParser(prog='gestalt', usage='%(prog)s [OPTIONS] [TEMPLATE]', formatter_class=argparse.RawTextHelpFormatter)
-
-parser.add_argument("template", nargs="?", metavar="TEMPLATE", type=str, help="The template file used in constructing the output")
-			
-parser.add_argument("-f", "-r", "--from", "--read", 
-	metavar="FORMAT", 
-	dest="in_format",  
-	action="store", 
-	help="""
-File parser that should be used for the input data file.
-
-Recognized values are ['yml', 'yaml'] (Default: 'yml')
-
-
-""", 
-	type=str,
-	default="yml", 
-	choices=["yml", "yaml"])
-		
-parser.add_argument("-t", "-w", "--to", "--write", 
-	metavar="FORMAT",
-	dest="out_format", 
-	action="store", 
-	help="""
-File type conversion that should be used for the output 
-UI file. 
-
-Recognized values are ['qt', 'css', 'ui', 'bob']
-(Default: 'qt')
-
-
-""", 
-	type=str,
-	default="qt", 
-	choices=["qt", "bob", "ui", "css"])
-			
-parser.add_argument("-o", "--output",
-	metavar="FILE",
-	dest="out_filename",
-	action="store",
-	help="""
-Output file name
-
-(Default: Generate from template file and output format)
-
-
-""",
-	type=str)
-
-parser.add_argument('-i', "--input",
-	metavar="FILE",
-	dest='in_filename',
-	action='store', 
-	help="""
-Input data file to apply to template file
-
-(Default: Template will be applied with no macros)
-
-
-""",
-	type=str)
-
-parser.add_argument("--include", 
-	metavar="FOLDER", 
-	dest="include_dirs", 
-	action="append", 
-help="""
-Folders to search for any files included by the template.
-Can be applied multiple times, one folder per argument.
-
-By default, the search path includes the current directory 
-and gestalt's template directory (for colors.yml).
-	
-	
-""",
-	type=str)
 	
 	
 	
@@ -226,20 +259,4 @@ if __name__ == "__main__":
 		print("Template file required for command-line conversion")
 		
 	else:
-		include_dirs = [".", curr_dir + "/templates"]
-
-		if args.include_dirs:
-			include_dirs.extend(args.include_dirs)		
-
-		data = {}	
-		
-		if args.in_filename:
-			with open(args.in_filename) as the_data:
-				data = Datasheet.parseString(the_data.read())
-		
-		styles = Stylesheet.parse(args.template, include_dirs)
-		
-		if args.out_format == "qt" or args.out_format == "ui":
-			generateQtFile(styles, data, outputfile=args.out_filename)
-		elif args.out_format == "css" or args.out_format == "bob":
-			generateCSSFile(styles, data, outputfile=args.out_filename)
+		doGenerate(args)
