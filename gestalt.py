@@ -113,10 +113,9 @@ def doGenerate(args):
 	
 	if args.in_filename:
 		if args.in_format == "string" or args.in_format == "str":
-			data = Datasheet.parseString(args.in_filename)
+			data = Datasheet.parseYAMLString(args.in_filename)
 		else:
-			with open(args.in_filename) as the_data:
-				data = Datasheet.parseString(the_data.read())
+			data = Datasheet.parseYAMLFile(args.in_filename)
 	
 	styles = Stylesheet.parse(args.template, include_dirs)
 	
