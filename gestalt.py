@@ -32,14 +32,15 @@ parser.add_argument("-f", "-r", "--from", "--read",
 	help="""
 File parser that should be used for the input data file.
 
-Recognized values are ['yml', 'yaml', 'string', 'str'] 
+Recognized values are ['yml', 'yaml', 'string', 'str',
+"json", "JSON"] 
 (Default: 'yml')
 
 
 """, 
 	type=str,
 	default="yml", 
-	choices=["yml", "yaml", "string", "str"])
+	choices=["yml", "yaml", "string", "str", "JSON", "json"])
 		
 parser.add_argument("-t", "-w", "--to", "--write", 
 	metavar="FORMAT",
@@ -114,8 +115,10 @@ def doGenerate(args):
 	if args.in_filename:
 		if args.in_format == "string" or args.in_format == "str":
 			data = Datasheet.parseYAMLString(args.in_filename)
-		else:
+		elif args.in_format == "yaml" or args.in_format == "yml":
 			data = Datasheet.parseYAMLFile(args.in_filename)
+		elif args.in_format == "json" or args.in_format == "JSON":
+			data = Datasheet.parseJSONFile(args.in_filename)
 	
 	styles = Stylesheet.parse(args.template, include_dirs)
 	
@@ -235,19 +238,10 @@ class UI(QMainWindow):
 			traceback.print_exc()
 			QMessageBox.warning(self, "Error Occured", str(e))
 
-			
 
-			
-	
-	
-	
-	
-#parser.add_argument('--out',     dest='output',   action='store', help="File to write out")
-
-args = parser.parse_args()
-
-			
 if __name__ == "__main__":
+	args = parser.parse_args()	
+	
 	if (len(sys.argv) == 1):
 		app = QApplication([])
 		
