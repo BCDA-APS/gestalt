@@ -14,6 +14,6 @@ Test: !vrepeat
             
             text: "Label {N}"
             transparent: false
-            background_color: *header_blue
-            foreground_color: Attention
+            background: *header_blue
+            foreground: Attention
             font: -Liberation Sans - bold - 12

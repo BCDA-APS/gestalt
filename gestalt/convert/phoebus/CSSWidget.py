@@ -112,8 +112,15 @@ class CSSWidget(GroupNode):
 			getattr(self.widget, set_fun)(self[attribute].val)
 
 	def setColorParam(self, set_fun, attribute, check_class=object):
-		if isinstance(self.widget, check_class) and attribute in self.attrs:
-			col = self[attribute]
+		if isinstance(self.widget, check_class):
+			col = None
+			
+			if attribute + "_color" in self.attrs:
+				col = self[attribute + "_color"]
+			elif attribute in self.attrs:
+				col = self[attribute]
+			else:
+				return
 			
 			if isinstance(col, Color):
 				getattr(self.widget, set_fun)(col.val["red"], col.val["green"], col.val["blue"], col.val["alpha"])
@@ -132,9 +139,16 @@ class CSSWidget(GroupNode):
 				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val.lower()))
 			
 	def setFontParam(self, attribute, prefix, check_class=object):
-		if isinstance(self.widget, check_class) and attribute in self.attrs:
-			my_font = self[attribute]
+		if isinstance(self.widget, check_class):
+			my_font = None
 			
+			if attribute + "_font" in self.attrs:
+				my_font = self[attribute + "_font"]
+			elif attribute in self.attrs:
+				my_font = self[attribute]
+			else
+				return
+				
 			getattr(self.widget, prefix + "font_family")(my_font["family"])
 				
 			if my_font["size"]:
@@ -268,19 +282,19 @@ class CSSWidget(GroupNode):
 			#  Colors  #
 			############
 				
-			self.setColorParam("foreground_color", "foreground_color", check_class=_p._ForegroundColor)
-			self.setColorParam("background_color", "background_color", check_class=_p._BackgroundColor)
-			self.setColorParam("on_color",         "on_color",         check_class=_p._OnColor)
-			self.setColorParam("off_color",        "off_color",        check_class=_p._OffColor)
-			self.setColorParam("needle_color",     "needle_color",     check_class=_p._NeedleColor)
-			self.setColorParam("knob_color",       "knob_color",       check_class=_p._KnobColor)
-			self.setColorParam("fill_color",       "fill_color",       check_class=_p._FillColor)
-			self.setColorParam("empty_color",      "empty_color",      check_class=_p._EmptyColor)
-			self.setColorParam("selected_color",   "selected_color",   check_class=_p._SelectedColor)
-			self.setColorParam("deselected_color", "deselected_color", check_class=_p._DeselectedColor)
-			self.setColorParam("grid_color",       "grid_color",       check_class=_p._GridColor)
-			self.setColorParam("border_color",     "border_color",     check_class=_p._Border)
-			self.setColorParam("fallback_color",   "fallback_color",   check_class=_p._Fallback)
+			self.setColorParam("foreground_color", "foreground", check_class=_p._ForegroundColor)
+			self.setColorParam("background_color", "background", check_class=_p._BackgroundColor)
+			self.setColorParam("on_color",         "on",         check_class=_p._OnColor)
+			self.setColorParam("off_color",        "off",        check_class=_p._OffColor)
+			self.setColorParam("needle_color",     "needle",     check_class=_p._NeedleColor)
+			self.setColorParam("knob_color",       "knob",       check_class=_p._KnobColor)
+			self.setColorParam("fill_color",       "fill",       check_class=_p._FillColor)
+			self.setColorParam("empty_color",      "empty",      check_class=_p._EmptyColor)
+			self.setColorParam("selected_color",   "selected",   check_class=_p._SelectedColor)
+			self.setColorParam("deselected_color", "deselected", check_class=_p._DeselectedColor)
+			self.setColorParam("grid_color",       "grid",       check_class=_p._GridColor)
+			self.setColorParam("border_color",     "border",     check_class=_p._Border)
+			self.setColorParam("fallback_color",   "fallback",   check_class=_p._Fallback)
 			
 			
 			###########
@@ -302,9 +316,9 @@ class CSSWidget(GroupNode):
 			###########
 			
 			self.setFontParam("font",       "", check_class=_p._Font)
-			self.setFontParam("title_font", "title_", check_class=_p._TitleFont)
-			self.setFontParam("scale_font", "scale_", check_class=_p._ScaleFont)
-			self.setFontParam("label_font", "label_", check_class=_p._LabelFont)
+			self.setFontParam("title", "title_", check_class=_p._TitleFont)
+			self.setFontParam("scale", "scale_", check_class=_p._ScaleFont)
+			self.setFontParam("label", "label_", check_class=_p._LabelFont)
 			
 			
 		for child in self.children:
