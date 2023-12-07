@@ -146,7 +146,7 @@ class CSSWidget(GroupNode):
 				my_font = self[attribute + "_font"]
 			elif attribute in self.attrs:
 				my_font = self[attribute]
-			else
+			else:
 				return
 				
 			getattr(self.widget, prefix + "font_family")(my_font["family"])
