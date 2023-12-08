@@ -20,7 +20,7 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caRelatedDisplay", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "text" in output.attrs:
-			output["label"] = "-" + str(output["text"])
+			output["label"] = "-" + str(output.attrs.pop("text"))
 		
 		labels = ""
 		files = ""
@@ -39,8 +39,8 @@ class QtGenerator(GestaltGenerator):
 
 		output.attrs["labels"] = String(labels.strip(";"))
 		output.attrs["files"]  = String(files.strip(";"))
-		output.attrs["macros"] = String(args.strip(";"))
-		output.attrs["replaceParent"] = String(replace.strip(";"))
+		output.attrs["args"]   = String(args.strip(";"))
+		output.attrs["removeParent"] = String(replace.strip(";"))
 		
 		return output
 
