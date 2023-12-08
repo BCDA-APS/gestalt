@@ -403,3 +403,22 @@ class CenterNode(Node):
 			applied_node.position(int(data["__parentwidth__"] / 2) - int(applied_node["geometry"]["width"] / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
 					
 		return applied_node	
+
+		
+class RelatedDisplayNode(Node):
+	def __init__(self, name=None, layout={}):
+		self.links = layout.pop("links", [])
+	
+		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
+	
+		if isinstance(self.links, dict):
+			temp = []
+			
+			for key, val in self.items():
+				val["label"] = key
+				temp.append(val)
+				
+			self.links = temp
+			
+	def apply(self, generator, data={}):
+		return generator.generateRelatedDisplay(self, data)

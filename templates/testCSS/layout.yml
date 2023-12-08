@@ -17,3 +17,15 @@ Test: !vrepeat
             background: *header_blue
             foreground: Attention
             font: -Liberation Sans - bold - 12
+
+            
+            
+Maybe: !RelatedDisplay
+    <<: *related_display
+
+    text: "Open xxx"
+    
+    geometry: 10x200 x 100x20
+
+    links:
+        - { label: "File 1", file: "xxx.ui", macros: "P=1,R=A" }

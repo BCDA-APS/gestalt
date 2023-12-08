@@ -129,6 +129,8 @@ add_constructors("center",  (lambda l, n: read_center_node(l, n, flow="vertical"
 add_constructors("vcenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("hcenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
 	
+add_constructors("RelatedDisplay", (lambda l, n: read_special_node(RelatedDisplayNode, l, n)))
+	
 #####################
 #   Include Files   #
 #####################

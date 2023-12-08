@@ -15,7 +15,34 @@ class QtGenerator(GestaltGenerator):
 	
 	def generateAnonymousGroup(self, macros={}):
 		return QtWidget("caFrame")
+		
+	def generateRelatedDisplay(self, node, macros={}):
+		output = QtWidget("caRelatedDisplay", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "text" in output.attrs:
+			output["label"] = "-" + str(output["text"])
+		
+		labels = ""
+		files = ""
+		args = ""
+		replace = ""
+		
+		for item in node.links:
+			labels += item.get("label", "") + ";"
+			files  += item.get("file", "") + ";"
+			args   += item.get("macros", "") + ";"
+			
+			if "replace" in item and item.replace:
+				replace += "true;"
+			else:
+				replace += "false;"
 
+		output.attrs["labels"] = String(labels.strip(";"))
+		output.attrs["files"]  = String(files.strip(";"))
+		output.attrs["macros"] = String(args.strip(";"))
+		output.attrs["replaceParent"] = String(replace.strip(";"))
+		
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

@@ -114,13 +114,12 @@ UIRow: !repeat
             geometry: 780x1 x 80x18
             channel: $(P){Instance}:ArrayRate_RBV
             
-        - !caRelatedDisplay
+        - !RelatedDisplay
             <<: *related_display
             
-            label: -More
+            text: More
             
             geometry: 865x0 x 60x20
             
-            labels: "{Instance}"
-            files: "{Displays}"
-            args: "{Args}"
+            links:
+                - { label: "{Instance}", file: "{Displays}", macros: "{Args}" }

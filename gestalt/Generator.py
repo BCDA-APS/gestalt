@@ -7,3 +7,6 @@ class GestaltGenerator:
 	
 	def generateAnonymousGroup(self, macros={}):
 		pass		
+	
+	def generateRelatedDisplay(self, node, macros={}):
+		pass

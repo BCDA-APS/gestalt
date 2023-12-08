@@ -27,6 +27,28 @@ class CSSGenerator(GestaltGenerator):
 		output.widget.no_style()
 	
 		return output
+		
+	def generateRelatedDisplay(self, node, macros={}):
+		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		
+		for item in node.links:
+			_file = item.get("file", "")
+			_desc = item.get("label", "")
+			_args = item.get("macros", "").split(",")
+			_rep = "window"
+			
+			if "replace" in item and item.replace:
+				_rep = "replace"
+			
+			_macros = {}
+			
+			for arg in _args:
+				key, val = arg.split("=")
+				_macros[key.strip()] = val.strip()
+				
+			output.widget.action_open_display(_file, _rep, description=_desc, macros=_macros)
+		
+		return output
 
 
 def generateCSSFile(template, data, outputfile=""):
