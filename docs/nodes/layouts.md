@@ -209,7 +209,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 * Example
 
 
-```YAML
+```yaml
 UIRow: !repeat
     repeat_over: "NUM_CALCS"
 
@@ -291,7 +291,7 @@ elements a user provides.
 
 * Example
 
-```YAML
+```yaml
 motor_grid: !grid
 
     repeat_over: "MOTORS"
