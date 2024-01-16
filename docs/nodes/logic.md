@@ -16,6 +16,8 @@ nav_order: 2
 
 ### conditional
 
+---
+
 Conditionally adds children widgets into the final output based upon a specified macro in the
 input data.
 
