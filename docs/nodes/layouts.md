@@ -64,7 +64,7 @@ CIO_Title: !hflow
             channel: !string "$(P)MIOIn"
 ```
 
-### vflow
+## vflow
 
 Arranges children widgets along a vertical axis. Each successive widget will have its
 Y position set such that it is a number of pixels away from the end of the previous widget
