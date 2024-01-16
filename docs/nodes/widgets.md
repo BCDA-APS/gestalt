@@ -126,6 +126,7 @@ dictionaries. Within each dictionary, the following values can be defined:
 * macros - Any macros to pass the screen when opening
 * replace - Optional, Whether to replace the parent screen when opening, False by default
 
+<br>
 
 * **Special Attributes**
 
