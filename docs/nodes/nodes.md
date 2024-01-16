@@ -5,8 +5,15 @@ nav_order: 3
 has_children: true
 ---
 
+## Table of contents
+{: .no_toc .text-delta }
 
-# Nodes
+- TOC
+{:toc}
+
+
+
+## Nodes
 
 The default element underlying the generation of any output files in Gestalt is
 the Node. When a template file is parsed, it is turned into a graph of these Nodes.
