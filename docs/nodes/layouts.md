@@ -16,6 +16,7 @@ nav_order: 3
 
 
 ## hflow
+---
 
 Arranges children widgets along a horizontal axis. Each successive widget will have its
 X position set such that it is a number of pixels away from the end of the previous widget
@@ -65,6 +66,7 @@ CIO_Title: !hflow
 ```
 
 ## vflow
+---
 
 Arranges children widgets along a vertical axis. Each successive widget will have its
 Y position set such that it is a number of pixels away from the end of the previous widget
@@ -110,6 +112,7 @@ NumberedLED: !flow
 
 
 ## hrepeat
+---
 
 Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
 a copy of all children widgets as a group. Configures each such group according to the input 
@@ -169,6 +172,7 @@ UI_Row: !hrepeat
 
 
 ## vrepeat
+---
 
 Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
 a copy of all children widgets as a group. Configures each such group according to the input 
@@ -245,6 +249,7 @@ UIRow: !repeat
 
 
 ## grid
+---
 
 Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
 a copy of all children widgets as a group. Configures each such group according to the input 
