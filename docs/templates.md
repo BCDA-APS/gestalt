@@ -73,8 +73,11 @@ implicit parsing are listed here:
 
 
 * '!bool' - A python boolean value, see yaml specification for implicit resolution
+
 * '!double' - A double value, see yaml specification for implicit resolution
+
 * '!number' - An integer value, see yaml specification for implicit resolution
+
 * '!string' - A string of characters, see yaml specification for implicit resolution
 
 * '!color' - A color value, will recognize a set of hexadecimal digits after a '$'
