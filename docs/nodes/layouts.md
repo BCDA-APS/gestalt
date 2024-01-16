@@ -73,7 +73,9 @@ CIO_Title: !hflow
 Arranges children widgets along a vertical axis. Each successive widget will have its
 Y position set such that it is a number of pixels away from the end of the previous widget
 according to the value of the attribute `padding`. A widget's position on the X axis is not
-changed. You may also use the alias "flow" to reference the vflow node.
+changed. 
+
+You may also use the alias "flow" to reference the vflow node.
 
 
 * **Special Attributes**
