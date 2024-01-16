@@ -26,8 +26,7 @@ The basic element of a template file is a Widget node. These are YAML elements t
 have been tagged with a supported widget type from Qt or CSS-Phoebus. Properties of
 the Widget can then be set within the element.
 
-```yaml
-   
+```yaml 
 small_rect_widget: !caGraphics
     geometry: 100x100
     
@@ -37,7 +36,6 @@ small_rect_widget: !caGraphics
 ```
 
 ```yaml
-
 small_rect_widget: !Rectangle
     geometry: 100x100
     
@@ -67,7 +65,6 @@ you may need to provide an explicit specifier. A primary example of this would b
 enumeration that does not use the double-colon standard.
 
 ```yaml
-
 more_screens: !caRelatedDisplay
     stackingMode: !enum Menu
     
