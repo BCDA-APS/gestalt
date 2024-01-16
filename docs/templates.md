@@ -72,26 +72,26 @@ The full list of explicit data type tags that are currently recognized and their
 implicit parsing are listed here:
 
 
-* '!bool' - A python boolean value, see yaml specification for implicit resolution
+* **'!bool'** - A python boolean value, see yaml specification for implicit resolution
 
-* '!double' - A double value, see yaml specification for implicit resolution
+* **'!double'** - A double value, see yaml specification for implicit resolution
 
-* '!number' - An integer value, see yaml specification for implicit resolution
+* **'!number'** - An integer value, see yaml specification for implicit resolution
 
-* '!string' - A string of characters, see yaml specification for implicit resolution
+* **'!string'** - A string of characters, see yaml specification for implicit resolution
 
-* '!color' - A color value, will recognize a set of hexadecimal digits after a '$'
+* **'!color'** - A color value, will recognize a set of hexadecimal digits after a '$'
 character. Either '$RRGGBB' or '$RRGGBBAA'
 
-* '!font' - A Font specification, will recognize a dash followed by a font name.
+* **'!font'** - A Font specification, will recognize a dash followed by a font name.
 Optionally, extra dashes can also specify font style and size. '-DejaVu Sans Mono - regular - 16'
 
-* '!enum' - A menu selection, will recognize a value that contains a double-colon within
+* **'!enum'** - A menu selection, will recognize a value that contains a double-colon within
 
-* '!geom' - A rectangle geometry, will recognize numbers separated by an 'x' character.
+* **'!geom'** - A rectangle geometry, will recognize numbers separated by an 'x' character.
 Either 'Width x Height' or 'X x Y x Width x Height'
 
-* '!set' - A grouped enumeration, will recognize multiple enums separated by the '|'
+* **'!set'** - A grouped enumeration, will recognize multiple enums separated by the '|'
 character
 
 
