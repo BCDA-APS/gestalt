@@ -25,7 +25,7 @@ according to the value of the attribute `padding`. A widget's position on the Y 
 changed.
 
 
-* Special Attributes
+* **Special Attributes**
 
 |   Name   |  Type  | Description|
 |----------|--------|------------|
@@ -33,7 +33,7 @@ changed.
 | padding  | Number | The number of pixels between each widget |
 
 
-* Example
+* **Example**
 
 ```yaml
 CIO_Title: !hflow
@@ -76,7 +76,7 @@ according to the value of the attribute `padding`. A widget's position on the X 
 changed. You may also use the alias "flow" to reference the vflow node.
 
 
-* Special Attributes
+* **Special Attributes**
 
 |   Name   |  Type  | Description|
 |----------|--------|------------|
@@ -84,7 +84,7 @@ changed. You may also use the alias "flow" to reference the vflow node.
 | padding  | Number | The number of pixels between each widget |
 
 
-* Example
+* **Example**
 
 ```yaml
 NumberedLED: !flow
@@ -136,7 +136,7 @@ group with those macros (alongside any other macros in the data file). The `__in
 mentioned above will also be included.
 
 
-* Special Attributes
+* **Special Attributes**
 
 |     Name    |  Type  | Description|
 |-------------|--------|------------|
@@ -146,7 +146,7 @@ mentioned above will also be included.
 | padding     | Number | The number of pixels between each widget group |
 
 
-* Example
+* **Example**
 
 ```yaml
 UI_Row: !hrepeat
@@ -198,7 +198,7 @@ mentioned above will also be included.
 You may also use the alias "repeat" to reference the vrepeat node.
 
 
-* Special Attributes
+* **Special Attributes**
 
 |     Name    |  Type  | Description|
 |-------------|--------|------------|
@@ -208,7 +208,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 | padding     | Number | The number of pixels between each widget group |
 
 
-* Example
+* **Example**
 
 
 ```yaml
@@ -281,7 +281,7 @@ an idealized ratio and it may not be possible to exactly match the ratio as give
 elements a user provides.
 
 
-* Special Attributes
+* **Special Attributes**
 
 |      Name    |  Type  | Description|
 |--------------|--------|------------|
@@ -292,7 +292,7 @@ elements a user provides.
 | aspect_ratio | Double | A ratio indicating the relative number of columns to the number of rows in the grid |
 
 
-* Example
+* **Example**
 
 ```yaml
 motor_grid: !grid
