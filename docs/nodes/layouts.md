@@ -15,7 +15,7 @@ nav_order: 3
 {:toc}
 
 
-### hflow
+> ## hflow
 ---
 
 Arranges children widgets along a horizontal axis. Each successive widget will have its
@@ -65,7 +65,7 @@ CIO_Title: !hflow
             channel: !string "$(P)MIOIn"
 ```
 
-### vflow
+> ## vflow
 ---
 
 Arranges children widgets along a vertical axis. Each successive widget will have its
@@ -111,7 +111,7 @@ NumberedLED: !flow
 ```
 
 
-### hrepeat
+> ## hrepeat
 ---
 
 Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
@@ -171,7 +171,7 @@ UI_Row: !hrepeat
 ```
 
 
-### vrepeat
+> ## vrepeat
 ---
 
 Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
@@ -248,7 +248,7 @@ UIRow: !repeat
 
 
 
-### grid
+> ## grid
 ---
 
 Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
