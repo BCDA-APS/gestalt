@@ -5,6 +5,10 @@ nav_order: 3
 has_children: true
 ---
 
+# Nodes
+{: .no_toc}
+
+
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -13,14 +17,14 @@ has_children: true
 
 
 
-## Nodes
+## About
 
 The default element underlying the generation of any output files in Gestalt is
 the Node. When a template file is parsed, it is turned into a graph of these Nodes.
 Providing the graph with a set of input data and traversing the Nodes is then used
 to construct the proper output.
 
-There are four major categories of Nodes; Widgets, Logical Groups, Layouts, and 
+There are four major categories of Nodes: Widgets, Logical Groups, Layouts, and 
 Positioners. Nodes contain a set of attribute data describing their configuration and 
 the logic of how to apply those attributes to a given output data format.
 
