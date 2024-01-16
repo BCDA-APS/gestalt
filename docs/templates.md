@@ -4,7 +4,14 @@ title: Templates
 nav_order: 2
 ---
 
-# Template Files
+## Table of contents
+{: .no_toc .text-delta }
+
+- TOC
+{:toc}
+
+
+## Template Files
 
 Templates are YAML files that describe the structure of the UI file to be generated.
 These files are parsed by Gestalt into a graph of nodes which can represent individual
