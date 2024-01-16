@@ -109,7 +109,6 @@ NumberedLED: !flow
             gradientEnabled: false
             
             geometry: 22x22
-
 ```
 
 
@@ -150,7 +149,6 @@ mentioned above will also be included.
 * Example
 
 ```yaml
-
 UI_Row: !hrepeat
     repeat_over: "PLUGINS"
     
