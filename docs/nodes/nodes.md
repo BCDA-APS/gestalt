@@ -36,7 +36,7 @@ widget types of each of the output formats. Widget Nodes are created by giving t
 widget name of the caQtDM or CSS widget that will be created and then specifying
 attributes with names and values equivalent to the names and values within their
 equivalent designer programs. Further information about this is described in the 
-[Templates](templates.md) section.
+[Templates](../templates.md) section.
 
 Eventually, a set of output-independent widgets will be created with their own 
 property naming convention that will be capable of converting such properties into
