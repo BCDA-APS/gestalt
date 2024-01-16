@@ -41,7 +41,6 @@ small_rect_widget: !Rectangle
     
     line_color: $000000
     background_color: $000000
-
 ```
 
 All caQtDM-specific and most CSS-Phoebus widgets are supported, only the Image,
@@ -66,8 +65,7 @@ enumeration that does not use the double-colon standard.
 
 ```yaml
 more_screens: !caRelatedDisplay
-    stackingMode: !enum Menu
-    
+    stackingMode: !enum Menu   
 ```
 
 The full list of explicit data type tags that are currently recognized and their 
