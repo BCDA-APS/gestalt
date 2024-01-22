@@ -58,6 +58,11 @@ class QtGenerator(GestaltGenerator):
 			output["pressMessage"] = str(output.attrs.pop("value"))
 			
 		return output
+		
+	def generateText(self, node, macros={}):
+		output = QtWidget("caLabel", name=node.name, layout=node.attrs, macros=macros)
+		
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

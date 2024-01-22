@@ -56,6 +56,14 @@ class CSSGenerator(GestaltGenerator):
 		output.widget.action_write_pv(str(output.attrs.pop("pv")), str(output.attrs.pop("value")))
 		
 		return output
+		
+	def generateText(self, node, macros={}):
+		output = CSSWidget("Label", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "background" in output.attrs and "transparent" not in output.attrs:
+			output["transparent"] = Bool("false")
+		
+		return output
 
 
 def generateCSSFile(template, data, outputfile=""):

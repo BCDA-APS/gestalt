@@ -13,3 +13,6 @@ class GestaltGenerator:
 
 	def generateMessageButton(self, node, macros={}):
 		pass
+
+	def generateText(self, node, macros={}):
+		pass
