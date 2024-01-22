@@ -49,6 +49,13 @@ class CSSGenerator(GestaltGenerator):
 			output.widget.action_open_display(_file, _rep, description=_desc, macros=_macros)
 		
 		return output
+		
+	def generateMessageButton(self, node, macros={}):
+		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.widget.action_write_pv(str(output.attrs.pop("pv")), str(output.attrs.pop("value")))
+		
+		return output
 
 
 def generateCSSFile(template, data, outputfile=""):

@@ -10,3 +10,6 @@ class GestaltGenerator:
 	
 	def generateRelatedDisplay(self, node, macros={}):
 		pass
+
+	def generateMessageButton(self, node, macros={}):
+		pass

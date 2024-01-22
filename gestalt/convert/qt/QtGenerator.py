@@ -43,6 +43,20 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["removeParent"] = String(replace.strip(";"))
 		
 		return output
+		
+	def generateMessageButton(self, node, macros={}):
+		output = QtWidget("caMessageButton", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "text" in output.attrs:
+			output["label"] = str(output.attrs.pop("text"))
+			
+		if "pv" in output.attrs:
+			output["channel"] = str(output.attrs.pop("pv"))
+			
+		if "value" in output.attrs:
+			output["pressMessage"] = str(output.attrs.pop("value"))
+			
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()
