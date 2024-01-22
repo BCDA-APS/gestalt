@@ -425,7 +425,7 @@ class RelatedDisplayNode(Node):
 
 			
 class MessageButtonNode(Node):
-	def __init__(self, name=Node, layout={}):
+	def __init__(self, name=None, layout={}):
 		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout)
 	
 	def apply(self, generator, data={}):
