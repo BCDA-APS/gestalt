@@ -41,6 +41,7 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["files"]  = String(files.strip(";"))
 		output.attrs["args"]   = String(args.strip(";"))
 		output.attrs["removeParent"] = String(replace.strip(";"))
+		output.attrs["stackingMode"] = Enum("Menu")
 		
 		return output
 		
