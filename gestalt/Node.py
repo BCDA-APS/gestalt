@@ -428,6 +428,6 @@ class MessageButtonNode(Node):
 	def __init__(self, name=Node, layout={}):
 		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout)
 	
-	def apply(self.generator, data={}):
+	def apply(self, generator, data={}):
 		return generator.generateMessageButton(self, data)
 	
