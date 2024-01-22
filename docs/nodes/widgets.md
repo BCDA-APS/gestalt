@@ -126,6 +126,7 @@ A widget representing a button that writes a value to a pv when pressed
 | text       | String | The widget's display text |
 | foreground | Color  | Widget foreground color |
 | background | Color  | Widget background color |
+| font       | Font   | Widget display font |
 | pv         | String | The PV that will be written to |
 | value      | String | The value to write to the PV |
 
@@ -170,6 +171,7 @@ dictionaries. Within each dictionary, the following values can be defined:
 | text       | String | The widget's display text |
 | foreground | Color  | Widget foreground color |
 | background | Color  | Widget background color |
+| font       | Font   | Widget display font |
 | links      | List   | A list of dictionaries describing the linked UI screens |
 
 
@@ -186,4 +188,32 @@ dictionaries. Within each dictionary, the following values can be defined:
 
     links:
         - { label: "File 1", file: "xxx.ui", macros: "P=1,R=A" }
+```
+
+
+### Text
+
+---
+
+A widget representing a basic text label.
+
+* **Special Attributes**
+
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| text       | String | The widget's display text |
+| foreground | Color  | Widget foreground color |
+| background | Color  | Widget background color |
+| font       | Font   | Widget display font |
+
+
+* **Example**
+
+```yaml
+- !Text
+    geometry: 5x0 x 120x20
+    
+    text: "Label Text"
+    font: -Liberation Sans - bold - 12
 ```
