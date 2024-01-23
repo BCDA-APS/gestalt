@@ -57,6 +57,8 @@ class QtGenerator(GestaltGenerator):
 		if "value" in output.attrs:
 			output["pressMessage"] = String(output.attrs.pop("value"))
 			
+		output["colorMode"] = Enum("caMessageButton::Static")
+			
 		return output
 		
 	def generateText(self, node, macros={}):
