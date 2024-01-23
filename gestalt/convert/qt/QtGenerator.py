@@ -28,19 +28,19 @@ class QtGenerator(GestaltGenerator):
 		replace = ""
 		
 		for item in node.links:
-			labels += item.get("label", "") + ";"
-			files  += item.get("file", "") + ";"
-			args   += item.get("macros", "") + ";"
+			labels += str(item.get("label", "")) + ";"
+			files  += str(item.get("file", "")) + ";"
+			args   += str(item.get("macros", "")) + ";"
 			
 			if "replace" in item and item.replace:
 				replace += "true;"
 			else:
 				replace += "false;"
 
-		output.attrs["labels"] = String(labels.strip(";"))
-		output.attrs["files"]  = String(files.strip(";"))
-		output.attrs["args"]   = String(args.strip(";"))
-		output.attrs["removeParent"] = String(replace.strip(";"))
+		output.attrs["labels"] = String(labels.rstrip(";"))
+		output.attrs["files"]  = String(files.rstrip(";"))
+		output.attrs["args"]   = String(args.rstrip(";"))
+		output.attrs["removeParent"] = String(replace.rstrip(";"))
 		output.attrs["stackingMode"] = Enum("Menu")
 		
 		return output
