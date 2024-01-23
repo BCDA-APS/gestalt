@@ -217,3 +217,57 @@ A widget representing a basic text label.
     text: "Label Text"
     font: -Liberation Sans - bold - 12
 ```
+
+
+### TextInput
+
+---
+
+A widget representing a text entry field.
+
+* **Special Attributes**
+
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| foreground | Color  | Widget foreground color |
+| background | Color  | Widget background color |
+| font       | Font   | Widget display font |
+| pv         | String | The PV that will be written to |
+
+
+* **Example**
+
+```yaml
+- !TextInput
+    geometry: 5x0 x 120x20
+    
+    pv: "$(P)$(R)Description"
+```
+
+
+### TextMonitor
+
+---
+
+A widget representing a text display field
+
+* **Special Attributes**
+
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| foreground | Color  | Widget foreground color |
+| background | Color  | Widget background color |
+| font       | Font   | Widget display font |
+| pv         | String | The PV to read data from |
+
+
+* **Example**
+
+```yaml
+- !TextMonitor
+    geometry: 5x0 x 120x20
+    
+    pv: "$(P)$(R)Description_RBV"
+```
