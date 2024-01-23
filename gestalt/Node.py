@@ -438,3 +438,17 @@ class TextNode(Node):
 	
 	def apply(self, generator, data={}):
 		return generator.generateText(self, data)
+
+class TextInputNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(TextInputNode, self).__init__("TextInput", name=name, layout=layout)
+	
+	def apply(self, generator, data={}):
+		return generator.generateTextInput(self, data)
+
+class TextMonitorNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
+	
+	def apply(self, generator, data={}):
+		return generator.generateTextMonitor(self, data)

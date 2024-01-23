@@ -64,6 +64,16 @@ class CSSGenerator(GestaltGenerator):
 			output["transparent"] = Bool("false")
 		
 		return output
+		
+	def generateTextInput(self, node, macros={}):
+		output = CSSWidget("TextEntry", name=node.name, layout=node.attrs, macros=macros)
+		
+		return output
+		
+	def generateTextMonitor(self, node, macros={}):
+		output = CSSWidget("TextUpdate", name=node.name, layout=node.attrs, macros=macros)
+		
+		return output
 
 
 def generateCSSFile(template, data, outputfile=""):

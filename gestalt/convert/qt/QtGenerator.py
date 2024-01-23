@@ -63,6 +63,26 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caLabel", name=node.name, layout=node.attrs, macros=macros)
 		
 		return output
+		
+	def generateTextInput(self, node, macros={}):
+		output = QtWidget("caTextEntry", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "pv" in output.attrs:
+			output["channel"] = str(output.attrs.pop("pv"))
+			
+		output["colorMode"] = Enum("caLineEdit::Static")
+		
+		return output
+		
+	def generateTextMonitor(self, node, macros={}):
+		output = QtWidget("caLineEdit", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "pv" in output.attrs:
+			output["channel"] = str(output.attrs.pop("pv"))
+			
+		output["colorMode"] = Enum("caLineEdit::Static")
+		
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

@@ -16,3 +16,9 @@ class GestaltGenerator:
 
 	def generateText(self, node, macros={}):
 		pass
+		
+	def generateText(self, node, macros={}):
+		pass
+		
+	def generateText(self, node, macros={}):
+		pass
