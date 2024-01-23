@@ -49,13 +49,13 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caMessageButton", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "text" in output.attrs:
-			output["label"] = str(output.attrs.pop("text"))
+			output["label"] = String(output.attrs.pop("text"))
 			
 		if "pv" in output.attrs:
-			output["channel"] = str(output.attrs.pop("pv"))
+			output["channel"] = String(output.attrs.pop("pv"))
 			
 		if "value" in output.attrs:
-			output["pressMessage"] = str(output.attrs.pop("value"))
+			output["pressMessage"] = String(output.attrs.pop("value"))
 			
 		return output
 		
@@ -68,7 +68,7 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caTextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "pv" in output.attrs:
-			output["channel"] = str(output.attrs.pop("pv"))
+			output["channel"] = String(output.attrs.pop("pv"))
 			
 		output["colorMode"] = Enum("caLineEdit::Static")
 		
@@ -78,7 +78,7 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caLineEdit", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "pv" in output.attrs:
-			output["channel"] = str(output.attrs.pop("pv"))
+			output["channel"] = String(output.attrs.pop("pv"))
 			
 		output["colorMode"] = Enum("caLineEdit::Static")
 		
