@@ -23,21 +23,17 @@ UIRow: !repeat
     padding: 0
         
     children:
-        - !caRelatedDisplay
+        - !RelatedDisplay
             geometry: 0x0 x 25x20
             
-            label: "-{N}"
+            text: !string "{N}"
             
             foreground: *white
             background: *menu_green
             
-            removeParent: false
-            stackingMode: !enum Menu
-            
-            labels: "user Calc {N};user Calc {N} (full)"
-            files: "userCalc.ui;userCalc_full.ui"
-            args: "P=$(P),N={N},C=userCalc{N};P=$(P),N={N},C=userCalc{N}"
-            
+            links:
+                - { label: "user Calc {N}", file: "userCalc.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
+                - { label: "user Calc {N} (full)", file: "userCalc_full.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
             
         - !caChoice
             geometry: 25x0 x 40x20
@@ -50,12 +46,10 @@ UIRow: !repeat
             
             channel: "$(P)userCalc{N}Enable"
             
-        - !caTextEntry
+        - !TextEntry
             geometry: 65x0 x 120x20
             
-            colorMode: caLineEdit::Static
-            
-            channel: "$(P)userCalc{N}.DESC"
+            pv: "$(P)userCalc{N}.DESC"
             
             foreground: $0A00B8
             background: *grey_lighter

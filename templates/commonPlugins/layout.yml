@@ -67,30 +67,30 @@ UIRow: !repeat
     padding: 6
         
     children:
-        - !caLineEdit
+        - !TextMonitor
             <<: *string_display
             geometry: 10x1 x 110x18
-            channel: $(P){Instance}:PortName_RBV
+            pv: $(P){Instance}:PortName_RBV
             
-        - !caLineEdit
+        - !TextMonitor
             <<: *string_display
             geometry: 125x1 x 160x18
-            channel: $(P){Instance}:PluginType_RBV
+            pv: $(P){Instance}:PluginType_RBV
             
-        - !caTextEntry
+        - !TextEntry
             <<: *text_edit
             geometry: 290x0 x 60x20
-            channel: $(P){Instance}:NDArrayPort
+            pv: $(P){Instance}:NDArrayPort
             
         - !caMenu
             <<: *menu_select
             geometry: 355x0 x 80x20
             channel: $(P){Instance}:EnableCallbacks
             
-        - !caLineEdit
+        - !TextMonitor
             <<: *data_display
             geometry: 440x1 x 80x18
-            channel: $(P){Instance}:EnableCallbacks_RBV
+            pv: $(P){Instance}:EnableCallbacks_RBV
             
         - !caMenu
             <<: *menu_select
@@ -103,10 +103,10 @@ UIRow: !repeat
             geometry: 610x1 x 80x18
             channel: $(P){Instance}:DroppedArrays_RBV
             
-        - !caLineEdit
+        - !TextMonitor
             <<: *data_display
             geometry: 695x1 x 80x18
-            channel: $(P){Instance}:QueueFree
+            pv: $(P){Instance}:QueueFree
             
         - !caLineEdit
             <<: *string_display

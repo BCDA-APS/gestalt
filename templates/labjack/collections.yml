@@ -50,17 +50,15 @@ DIO_Item: &DIO_Slot
                     colorMode: caChoice::Static
                     
                 
-                - !caTextEntry
+                - !TextEntry
                     geometry: 0x110 x 50x18
                 
-                    channel: !string "$(P)Bi{N}.DESC"
+                    pv: !string "$(P)Bi{N}.DESC"
                     
                     font: -Monospace - Regular - 8
                     
                     foreground: *black
                     background: *gainsboro
-                    
-                    colorMode: caLineEdit::Static
 
                     
 AIn_Line: &AIn_Slot
@@ -109,17 +107,14 @@ AIn_Line: &AIn_Slot
             foreground: *black
             colorMode: caLineEdit::Static
             
-        - !caRelatedDisplay
+        - !RelatedDisplay
             geometry: 430x0 x 50x20
-            label: "-Chart"
+            text: "Chart"
             background: *edit_blue
             foreground: *black
             
-            labels: "Strip Chart"
-            files: "LabJack_T7_AIStripChart.ui"
-            args: "AI=$(P)AI{__index__}"
-            
-            stackingMode: !enum Menu
+            links:
+                - { label: "Strip Chart", file: "LabJack_T7_AIStripChart.ui", args: "AI=$(P)AI{__index__}" }
             
             
 AOut_Line: &AOut_Slot
@@ -131,12 +126,11 @@ AOut_Line: &AOut_Slot
             font: -Sans Serif -regular -8
             alignment: Qt::AlignHCenter|Qt::AlignVCenter
 
-        - !caTextEntry
+        - !TextEntry
             geometry: 30x0 x 90x20
-            channel: !string "$(P)Ao{__index__}"
+            pv: !string "$(P)Ao{__index__}"
             background: *edit_blue
             foreground: *black
-            colorMode: caLineEdit::Static
             font: -Monospace -regular -9
             
         - !caSlider
@@ -152,31 +146,28 @@ AOut_Line: &AOut_Slot
             scalePosition: QwtSlider::NoScale
 
             
-        - !caMessageButton
+        - !MessageButton
             geometry: 270x0 x 15x20
-            channel: !string "$(P)Ao{__index__}TweakDown.PROC"
+            pv: !string "$(P)Ao{__index__}TweakDown.PROC"
             background: *edit_blue
             foreground: *black
-            colorMode: caMessageButton::Static
-            label: "<"
-            pressMessage: "1"
+            text: "<"
+            value: "1"
             
-        - !caTextEntry
+        - !TextEntry
             geometry: 290x0 x 60x20
-            channel: !string "$(P)Ao{__index__}TweakVal"
+            pv: !string "$(P)Ao{__index__}TweakVal"
             background: *edit_blue
             foreground: *black
-            colorMode: caLineEdit::Static
             font: -Monospace -regular -9
             
-        - !caMessageButton
+        - !MessageButton
             geometry: 355x0 x 15x20
-            channel: !string "$(P)Ao{__index__}TweakUp.PROC"
+            pv: !string "$(P)Ao{__index__}TweakUp.PROC"
             background: *edit_blue
             foreground: *black
-            colorMode: caMessageButton::Static
-            label: ">"
-            pressMessage: "1"
+            text: ">"
+            value: "1"
             
         - !caTextEntry
             geometry: 380x0 x 100x20

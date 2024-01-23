@@ -52,30 +52,28 @@ motor_grid: !grid
                     geometry: 0x0 x 0x0
                 
                 
-                - !caLineEdit
+                - !TextMonitor
                     background: *header_blue
                     foreground: *white
-                    colorMode: caLineEdit::Static
                     
                     geometry: 3x1 x 154x21
                     
-                    channel: "$(P)$(M{N}).DESC"
+                    pv: "$(P)$(M{N}).DESC"
                     
                     
-                - !caRelatedDisplay
+                - !RelatedDisplay
                     background: *edit_blue
                     foreground: *black
                     
                     geometry: 10x30 x 140x17
-                    label: "-($(P)$(M{N}))"
+                    text: "($(P)$(M{N}))"
                     
-                    stackingMode: !enum Menu
-                    
-                    labels: "Help;More;Setup;All;Setup Scan Parameters"
-                    files: "motorx_help.ui;motorx_more.ui;motorx_setup.ui;motorx_all.ui;scanParms.ui"
-                    args: "P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),Q=$(M{N}),PV=$(M{N})"
-                    removeParent: "false;false;false;false;false"
-                    
+                    links:
+                        - { label: "Help",  file: "motorx_help.ui",  macros: "P=$(P),M=$(M{N})" }
+                        - { label: "More",  file: "motorx_more.ui",  macros: "P=$(P),M=$(M{N})" }
+                        - { label: "Setup", file: "motorx_setup.ui", macros: "P=$(P),M=$(M{N})" }
+                        - { label: "All",   file: "motorx_all.ui",   macros: "P=$(P),M=$(M{N})" }
+                        - { label: "Setup Scan Parameters", file: "scanParms.ui", macros: "P=$(P),Q=$(M{N}),PV=$(M{N})" }
                     
                 - !caLineEdit
                     background: *transparent
@@ -88,42 +86,37 @@ motor_grid: !grid
                     channel: "$(P)$(M{N}).EGU"
                 
         
-                - !caMessageButton
+                - !MessageButton
                     background: *edit_blue
-                    colorMode: caMessageButton::Static
                     
                     geometry: 10x140 x 24x24
-                    pressMessage: "1"
-                    channel: "$(P)$(M{N}).TWR"
-                    label: "<"
+                    value: "1"
+                    pv: "$(P)$(M{N}).TWR"
+                    text: "<"
                     
-                - !caTextEntry
+                - !TextEntry
                     background: *edit_blue
-                    colorMode: caLineEdit::Static
                     
                     geometry: 38x142 x 85x24
                     
-                    channel: "$(P)$(M{N}).TWV"
+                    pv: "$(P)$(M{N}).TWV"
                 
-                - !caMessageButton
+                - !MessageButton
                     background: *edit_blue
-                    colorMode: caMessageButton::Static
                     
                     geometry: 126x140 x 24x24
-                    pressMessage: "1"
-                    channel: "$(P)$(M{N}).TWF"
-                    label: ">"
+                    value: "1"
+                    pv: "$(P)$(M{N}).TWF"
+                    text: ">"
         
-                    
-                - !caMessageButton
+                - !MessageButton
                     background: *alarm_red
                     foreground: *alarm_yellow
-                    colorMode: caMessageButton::Static
                     
                     geometry: 10x170 x 140x26
-                    channel: "$(P)$(M{N}).STOP"
-                    pressMessage: "1"
-                    label: "STOP"
+                    pv: "$(P)$(M{N}).STOP"
+                    value: "1"
+                    text: "STOP"
                     
                 
                 - !group
@@ -202,13 +195,11 @@ motor_grid: !grid
                             
                             children:
                                 
-                                - !caLineEdit
+                                - !TextMonitor
                                     background: *gray_lighter
                                     foreground: *header_blue
                                     
-                                    colorMode: caLineEdit::Static
-                                    
-                                    channel: "$(P)$(M{N}).RBV"
+                                    pv: "$(P)$(M{N}).RBV"
                                     
                                     geometry: 2x2 x 116x27
                     
@@ -242,11 +233,10 @@ motor_grid: !grid
                     
                             children:
                                 
-                                - !caTextEntry
+                                - !TextEntry
                                     background: *edit_blue
                                     foreground: *black
-                                    colorMode: caLineEdit::Static
                                     
                                     geometry: 2x2 x 114x25
                                 
-                                    channel: "$(P)$(M{N}).VAL"
+                                    pv: "$(P)$(M{N}).VAL"

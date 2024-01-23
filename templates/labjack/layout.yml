@@ -41,19 +41,19 @@ IO: !hflow
                             <<: *ThinBorderedGroup
                         
                             children: 
-                                - !caLabel
+                                - !Text
                                     geometry: 25x55 x 20x20
                                     text: "In"
                                     
-                                - !caLabel
+                                - !Text
                                     geometry: 15x90 x 30x20
                                     text: "Out"
                                     
-                                - !caLabel
+                                - !Text
                                     geometry: 5x130 x 40x20
                                     text: "Dir."
                                     
-                                - !caLabel
+                                - !Text
                                     geometry: 0x160 x 45x20
                                     text: "Desc."
                                     
@@ -75,7 +75,7 @@ IO: !hflow
                                                 geometry: 70x20
                                                 text: "FIO 0-7"
                                                 
-                                            - !caLineEdit
+                                            - !TextMonitor
                                                 geometry: 75x0 x 80x20
                                                 background: *edit_blue
                                                 foreground: *black
@@ -87,19 +87,19 @@ IO: !hflow
                             <<: *ThinBorderedGroup
                         
                             children: 
-                                - !caLabel
+                                - !Text
                                     geometry: 25x55 x 20x20
                                     text: "In"
                                     
-                                - !caLabel
+                                - !Text
                                     geometry: 15x90 x 30x20
                                     text: "Out"
                                     
-                                - !caLabel
+                                - !Text
                                     geometry: 5x130 x 40x20
                                     text: "Dir."
                                     
-                                - !caLabel
+                                - !Text
                                     geometry: 0x160 x 45x20
                                     text: "Desc."
                                     
@@ -117,36 +117,35 @@ IO: !hflow
                                         geometry: 0x2 x 0x0
                                         
                                         children:
-                                            - !caLabel
+                                            - !Text
                                                 geometry: 70x20
                                                 text: "EIO 0-7"
                                                 
-                                            - !caLineEdit
+                                            - !TextMonitor
                                                 geometry: 75x0 x 80x20
                                                 background: *edit_blue
                                                 foreground: *black
-                                                colorMode: caLineEdit::Static
                                                 
-                                                channel: !string "$(P)EIOIn"
+                                                pv: !string "$(P)EIOIn"
                             
                         - !hstretch
                             CIOMIO: !group
                                 <<: *ThinBorderedGroup
                             
                                 children: 
-                                    - !caLabel
+                                    - !Text
                                         geometry: 25x55 x 20x20
                                         text: "In"
                                         
-                                    - !caLabel
+                                    - !Text
                                         geometry: 15x90 x 30x20
                                         text: "Out"
                                         
-                                    - !caLabel
+                                    - !Text
                                         geometry: 5x130 x 40x20
                                         text: "Dir."
                                         
-                                    - !caLabel
+                                    - !Text
                                         geometry: 0x160 x 45x20
                                         text: "Desc."
                                         
@@ -177,29 +176,27 @@ IO: !hflow
                                             padding: 5
                                             
                                             children:                            
-                                                - !caLabel
+                                                - !Text
                                                     geometry: 70x20
                                                     text: "CIO 0-3"
                                                     
-                                                - !caLineEdit
+                                                - !TextMonitor
                                                     geometry: 80x20
                                                     background: *edit_blue
                                                     foreground: *black
-                                                    colorMode: caLineEdit::Static
                                                     
-                                                    channel: !string "$(P)CIOIn"
+                                                    pv: !string "$(P)CIOIn"
                                                     
-                                                - !caLabel
+                                                - !Text
                                                     geometry: 90x20
                                                     text: "MIO 0-2"
                                                     
-                                                - !caLineEdit
+                                                - !TextMonitor
                                                     geometry: 80x20
                                                     background: *edit_blue
                                                     foreground: *black
-                                                    colorMode: caLineEdit::Static
                                                     
-                                                    channel: !string "$(P)MIOIn"
+                                                    pv: !string "$(P)MIOIn"
         
                                                     
                 - !hcenter
@@ -236,28 +233,24 @@ IO: !hflow
                                         padding: 10
                                     
                                         children:
-                                            - !caRelatedDisplay
+                                            - !RelatedDisplay
                                                 geometry: 100x20
-                                                label: "-Configure"
+                                                text: "Configure"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: !enum Menu
                                                 
-                                                labels: "AI Setup"
-                                                files: "LabJack_T7_AiSetup.ui"
-                                                args: "P=$(P)"
-                                            
-                                            - !caRelatedDisplay
+                                                links:
+                                                    - { label: "AI Setup", file: "LabJack_T7_AiSetup.ui", macros: "P=$(P)" }
+                                                
+                                            - !RelatedDisplay
                                                 geometry: 150x20
-                                                label: "-Waveform Digitizer"
+                                                text: "Waveform Digitizer"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: !enum Menu
                                                 
-                                                labels: "Waveform Digitizer"
-                                                files: "LabJackWaveDig.ui"
-                                                args: "P=$(P)"
-                        
+                                                links:
+                                                    - { label: "Waveform Digitizer", file: "LabJackWaveDig.ui", macros: "P=$(P)" }
+                                                
                         - !hcenter
                             AnalogTitle: !caLabel
                                 geometry: 0x5 x 150x25
@@ -290,28 +283,24 @@ IO: !hflow
                                         padding: 10
                                     
                                         children:
-                                            - !caRelatedDisplay
+                                            - !RelatedDisplay
                                                 geometry: 100x20
-                                                label: "-Configure"
+                                                text: "Configure"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: !enum Menu
                                                 
-                                                labels: "AO Setup"
-                                                files: "LabJack_T7_AoSetup.ui"
-                                                args: "P=$(P)"
-                                            
-                                            - !caRelatedDisplay
+                                                links:
+                                                    - { label: "AO Setup", file: "LabJack_T7_AoSetup.ui", macros: "P=$(P)" }
+                                                
+                                            - !RelatedDisplay
                                                 geometry: 150x20
-                                                label: "-Waveform Generator"
+                                                text: "Waveform Generator"
                                                 background: *edit_blue
                                                 foreground: *black
-                                                stackingMode: !enum Menu
                                                 
-                                                labels: "Waveform Generator"
-                                                files: "LabJackWaveGen2.ui"
-                                                args: "P=$(P)"
-                        
+                                                links:
+                                                    - { label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }
+                                                
                         - !hcenter
                             AnalogTitle: !caLabel
                                 geometry: 0x5 x 150x25
@@ -335,48 +324,45 @@ Status: !hcenter
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 100x20
                                 text: "Model Name"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)ModelName"
+                                pv: !string "$(P)ModelName"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static
                                 
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 100x20
                                 text: "Serial Num"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)Serial Number"
+                                pv: !string "$(P)Serial Number"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static            
                     
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 100x20
                                 text: "LJM Version"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)LJMVersion"
+                                pv: !string "$(P)LJMVersion"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static
     
             
             - !vflow
@@ -387,48 +373,45 @@ Status: !hcenter
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 200x20
                                 text: "Firmware Version"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)FirmwareVersion"
+                                pv: !string "$(P)FirmwareVersion"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static
                                 
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 200x20
                                 text: "Temperature (C)"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)DeviceTemperature"
+                                pv: !string "$(P)DeviceTemperature"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static            
                     
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 200x20
                                 text: "Driver Version"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)DriverVersion"
+                                pv: !string "$(P)DriverVersion"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static
     
     
             - !vflow
@@ -439,49 +422,46 @@ Status: !hcenter
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 250x20
                                 text: "Poll Sleep Time (ms)"
                                 
-                            - !caTextEntry
+                            - !TextEntry
                                 geometry: 100x20
-                                channel: !string "$(P)PollSleepMS"
+                                pv: !string "$(P)PollSleepMS"
                                 foreground: *black
                                 background: *edit_blue
-                                colorMode: caLineEdit::Static
                                 
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 250x20
                                 text: "Poll Cycle Time (ms)"
                                 
-                            - !caLineEdit
+                            - !TextMonitor
                                 geometry: 100x20
-                                channel: !string "$(P)PollTimeMS"
+                                pv: !string "$(P)PollTimeMS"
                                 foreground: *header_blue
                                 background: *transparent
-                                colorMode: caLineEdit::Static            
                     
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !caLabel
+                            - !Text
                                 geometry: 250x20
                                 text: "Reset Device on Exit"
                                 
-                            - !caMessageButton
+                            - !MessageButton
                                 geometry: 100x20
-                                channel: !string "$(P)DeviceReset"
+                                pv: !string "$(P)DeviceReset"
                                 foreground: *black
                                 background: *alarm_red
-                                colorMode: caMessageButton::Static
-                                pressMessage: "1"
+                                value: "1"
                                 text: "Reset!"
                                 
 

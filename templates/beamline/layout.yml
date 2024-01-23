@@ -1,13 +1,6 @@
 #include colors.yml
 #include widgets.yml
 
-link_display: &link_display
-    removeParent: false
-    stackingMode: !enum Menu
-    background: $BBC187
-
-
-
 Form: !Form
     <<: *form_default
     
@@ -83,84 +76,84 @@ Hutches: !hrepeat
                             channel: !string "{PREFIX}:alldone.VAL"
                             visibility: caLabel::IfZero
                     
-                - !caMessageButton
+                - !MessageButton
                     geometry: 135x125 x 85x30
                     
                     foreground: *alarm_yellow
                     background: *alarm_red
                     
-                    pressMessage: "1"
-                    colorMode: caMessageButton::Static
+                    value: "1"
+                    pv: !string "-{PREFIX}:allstop.VAL"
+                    text: "All Stop"
                     
-                    channel: !string "{PREFIX}:allstop.VAL"
-                    label: "All Stop"
-                    
-                - !caRelatedDisplay
-                    <<: *link_display
+                - !RelatedDisplay
+                    background: $BBC187
                     geometry: 10x92 x 55x20
                     
-                    label: "-"
+                    text: ""
                     
-                - !caRelatedDisplay
-                    <<: *link_display
+                - !RelatedDisplay
+                    background: $BBC187
                     geometry: 70x92 x 55x20
                     
-                    label: "-"
+                    text: ""
                     
-                - !caRelatedDisplay
-                    <<: *link_display
+                - !RelatedDisplay
+                    background: $BBC187
                     geometry: 10x115 x 55x20
                     
-                    label: "-Scans"
+                    text: "Scans"
                     
-                    labels: "Scan1 (for all scans);Scan2 (for 2D &amp; higher scans);Scan3 (for 3D &amp; higher scans);Scan4 (for 4D scans);ScanH (hardware assisted scans);saveData controls"
-                    files: "scan.ui;scan.ui;scan.ui;scan.ui;scan.ui;scan_saveData.ui"
-                    args: "P={PREFIX}:,N=1,S=scan1;P={PREFIX}:,N=2,S=scan2;P={PREFIX}:,N=3,S=scan3;P={PREFIX}:,N=4,S=scan4;{PREFIX}:,N=H,S=scanH;P={PREFIX}:"
+                    links:
+                        - { label: "Scan1 (for all scans)",             file: "scan.ui", macros: "P={PREFIX}:,N=1,S=scan1" }
+                        - { label: "Scan2 (for 2D &amp; higher scans)", file: "scan.ui", macros: "P={PREFIX}:,N=2,S=scan2" }
+                        - { label: "Scan3 (for 3D &amp; higher scans)", file: "scan.ui", macros: "P={PREFIX}:,N=3,S=scan3" }
+                        - { label: "Scan4 (for 4D scans)",              file: "scan.ui", macros: "P={PREFIX}:,N=4,S=scan4" }
+                        - { label: "ScanH (hardware assisted scans)",   file: "scan.ui", macros: "P={PREFIX}:,N=H,S=scanH" }
+                        - { label: "saveData.ui", file: "scan_saveData.ui", macros: "P={PREFIX}" }            
                     
-                - !caRelatedDisplay
-                    <<: *link_display
+                - !RelatedDisplay
+                    background: $BBC187
                     geometry: 70x115 x 55x20
                     
-                    label: "-Calcs"
+                    text: "Calcs"
                     
-                    labels: "user calculation 1;user calculation 2;user calculation 3;user calculation 4;user calculation 5;user calcs 1-10"
-                    files: "userCalc.ui;userCalc.ui;userCalc.ui;userCalc.ui;userCalc.ui;userCalcs10.ui"
-                    args: "P={PREFIX}:,C=userCalc1;P={PREFIX}:,C=userCalc2;P={PREFIX}:,C=userCalc3;P={PREFIX}:,C=userCalc4;P={PREFIX}:,C=userCalc5;P={PREFIX}:"
+                    links: 
+                        - { label: "user calculation 1", file: "userCalc.ui", macros: "P={PREFIX}:,C=userCalc1" }
+                        - { label: "user calculation 2", file: "userCalc.ui", macros: "P={PREFIX}:,C=userCalc2" }
+                        - { label: "user calculation 3", file: "userCalc.ui", macros: "P={PREFIX}:,C=userCalc3" }
+                        - { label: "user calculation 4", file: "userCalc.ui", macros: "P={PREFIX}:,C=userCalc4" }
+                        - { label: "user calculation 5", file: "userCalc.ui", macros: "P={PREFIX}:,C=userCalc5" }
+                        - { label: "user calcs 1-10", file: "userCalcs10.ui", macros: "P={PREFIX}:" }
                     
-                - !caRelatedDisplay
-                    <<: *link_display
+                - !RelatedDisplay
+                    background: $BBC187
                     geometry: 10x138 x 55x20
                     
-                    label: "-Serial"
+                    text: "Serial"
                     
-                    labels: ""
-                    files: ""
-                    args: ""
-                    
-                - !caRelatedDisplay
-                    <<: *link_display
+                - !RelatedDisplay
+                    background: $BBC187
                     geometry: 70x138 x 55x20
                     
-                    label: "-Motors"
+                    text: "Motors"
                     
-                    labels: "1-8;9-16;17-24;25-32;33-40"
-                    files: "topMotors8.ui;topMotors8.ui;topMotors8.ui;topMotors8.ui;topMotors8.ui"
-                    args: "P={PREFIX}:,M1=m1,M2=m2,M3=m3,M4=m4,M5=m5,M6=m6,M7=m7,M8=m8;P={PREFIX}:,M1=m9,M2=m10,M3=m11,M4=m12,M5=m13,M6=m14,M7=m15,M8=m16;P={PREFIX}:,M1=m17,M2=m18,M3=m19,M4=m20,M5=m21,M6=m22,M7=m23,M8=m24;P={PREFIX}:,M1=m25,M2=m26,M3=m27,M4=m28,M5=m29,M6=m30,M7=m31,M8=m32;P={PREFIX}:,M1=m33,M2=m34,M3=m35,M4=m36,M5=m37,M6=m38,M7=m39,M8=m40"
+                    links:
+                        - { label: "1-8",   file: "topMotors8.ui", macros: "P={PREFIX}:,M1=m1,M2=m2,M3=m3,M4=m4,M5=m5,M6=m6,M7=m7,M8=m8" }
+                        - { label: "9-16",  file: "topMotors8.ui", macros: "P={PREFIX}:,M1=m9,M2=m10,M3=m11,M4=m12,M5=m13,M6=m14,M7=m15,M8=m16" }
+                        - { label: "17-24", file: "topMotors8.ui", macros: "P={PREFIX}:,M1=m17,M2=m18,M3=m19,M4=m20,M5=m21,M6=m22,M7=m23,M8=m24" }
+                        - { label: "25-32", file: "topMotors8.ui", macros: "P={PREFIX}:,M1=m25,M2=m26,M3=m27,M4=m28,M5=m29,M6=m30,M7=m31,M8=m32" }
+                        - { label: "33-40", file: "topMotors8.ui", macros: "P={PREFIX}:,M1=m33,M2=m34,M3=m35,M4=m36,M5=m37,M6=m38,M7=m38,M8=m40" }
                     
-
-                    
-        - !caRelatedDisplay
+        - !RelatedDisplay
             geometry: 75x0 x 80x30
             background: *header_blue
             foreground: *white
             
-            label: "-{SECTOR}-{TYPE}-{ID}"
-            stackingMode: !enum Menu
-            removeParent: false
+            text: !string "{SECTOR}-{TYPE}-{ID}"
             
-            labels: "IOC Debug"
-            files: !string "{PREFIX}.ui"
-            args: ""
+            links:
+                - { label: "IOC Debug", file: !string "{PREFIX}.ui" }
 
                     
 StretchOut: !hstretch
@@ -194,15 +187,16 @@ Centering: !hcenter
                 alignment: Qt::AlignLeft|Qt::AlignVCenter
                 text: "mA"
                 
-            - !caRelatedDisplay
+            - !RelatedDisplay
                 geometry: 85x0 x 80x17
                 background: *edit_blue
                 foreground: *black
                 
-                label: "-APS OPS"
-                stackingMode: !enum Menu
-                removeParent: false
+                text: "APS OPS"
                 
-                labels: "24 hr. Beam History;24 hr beam history, etc;Beam Quality Report;Gap Control (Upstream);Gap Control (Downstream)"
-                files: "beamHistory.ui;beamHistory_full.ui;beamQualityReport.ui;IDControl.ui;IDControl.ui"
-                args: ";;name={SECTOR}{TYPE},pv={TYPE}{SECTOR};ID={SECTOR}us;ID={SECTOR}ds"
+                links:
+                    - { label: "24 hr. Beam History",      file: "beamHistory.ui" }
+                    - { label: "24 hr beam history, etc",  file: "beamHistory_full.ui" }
+                    - { label: "Beam Quality Report",      file: "beamQualityReport.ui", macros: "name={SECTOR}{TYPE},pv={TYPE}{SECTOR}" }
+                    - { label: "Gap Control (Upstream)",   file: "IDControl.ui", macros: "ID={SECTOR}us" }
+                    - { label: "Gap Control (Downstream)", file: "IDControl.ui", macros: "ID={SECTOR}ds" }
