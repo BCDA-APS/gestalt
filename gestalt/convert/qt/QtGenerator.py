@@ -64,7 +64,7 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
-	def generateTextInput(self, node, macros={}):
+	def generateTextEntry(self, node, macros={}):
 		output = QtWidget("caTextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "pv" in output.attrs:

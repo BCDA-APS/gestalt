@@ -17,8 +17,8 @@ class GestaltGenerator:
 	def generateText(self, node, macros={}):
 		pass
 		
-	def generateText(self, node, macros={}):
+	def generateTextEntry(self, node, macros={}):
 		pass
 		
-	def generateText(self, node, macros={}):
+	def generateTextMonitor(self, node, macros={}):
 		pass

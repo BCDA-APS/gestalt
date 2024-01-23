@@ -94,11 +94,11 @@ recognized_types = (
 	
 	"ActionButton", "Arc", "Array", "BooleanButton", "ByteMonitor",
 	"CheckBox", "ChoiceButton", "ComboBox", "DataBrowser", "Ellipse",
-	"EmbeddedDisplay", "FileSelector", "Group", "Image", "LED",
-	"LEDMultiState", "Label", "Meter", "NavigationTabs", "Picture",
+	"EmbeddedDisplay", "FileSelector", "Image", "Label", "LED",
+	"LEDMultiState", "Meter", "NavigationTabs", "Picture",
 	"Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle",
 	"ScaledSlider", "Scrollbar", "SlideButton", "Spinner", "StripChart",
-	"Symbol", "Table", "Tabs", "Tank", "TextEntry", "TextSymbol",
+	"Symbol", "Table", "Tabs", "Tank", "TextSymbol",
 	"TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", "XYPlot"
 )
 
@@ -132,7 +132,7 @@ add_constructors("hcenter", (lambda l, n: read_center_node(l, n, flow="horizonta
 add_constructors("RelatedDisplay", (lambda l, n: read_special_node(RelatedDisplayNode, l, n)))
 add_constructors("MessageButton", (lambda l, n: read_special_node(MessageButtonNode, l, n)))
 add_constructors("Text", (lambda l, n: read_special_node(TextNode, l, n)))
-add_constructors("TextInput", (lambda l, n: read_special_node(TextInputNode, l, n)))
+add_constructors("TextEntry", (lambda l, n: read_special_node(TextEntryNode, l, n)))
 add_constructors("TextMonitor", (lambda l, n: read_special_node(TextMonitorNode, l, n)))
 	
 #####################

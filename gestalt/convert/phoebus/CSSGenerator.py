@@ -65,7 +65,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		return output
 		
-	def generateTextInput(self, node, macros={}):
+	def generateTextEntry(self, node, macros={}):
 		output = CSSWidget("TextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
 		return output

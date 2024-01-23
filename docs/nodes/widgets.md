@@ -219,7 +219,7 @@ A widget representing a basic text label.
 ```
 
 
-### TextInput
+### TextEntry
 
 ---
 
@@ -239,7 +239,7 @@ A widget representing a text entry field.
 * **Example**
 
 ```yaml
-- !TextInput
+- !TextEntry
     geometry: 5x0 x 120x20
     
     pv: "$(P)$(R)Description"
