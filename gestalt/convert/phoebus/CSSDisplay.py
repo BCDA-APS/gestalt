@@ -19,10 +19,16 @@ class CSSDisplay(GroupNode):
 		self.form.width(  self["geometry"]["width"] + margins["x"] + margins["width"] )
 		self.form.height( self["geometry"]["height"] + margins["y"] + margins["height"] )
 		
+		col = None
+		
 		if "background_color" in self.attrs:
-			the_color = self["background_color"].val
-			
-			self.form.background_color(the_color["red"], the_color["green"], the_color["blue"], the_color["alpha"])
+			col = self["background_color"].val
+		elif "background" in self.attrs:
+			col = self["background"].val
+		else:
+			col = Color("$BBBBBB").val
+		
+		self.form.background_color(col["red"], col["green"], col["blue"], col["alpha"])
 		
 		self["geometry"]["x"] = margins["x"]
 		self["geometry"]["y"] = margins["y"]
