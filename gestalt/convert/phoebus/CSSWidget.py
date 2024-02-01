@@ -11,6 +11,16 @@ class CSSWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
 		
+		if "alignment" in self.attrs:
+			data = self.attrs.pop("alignment")
+			
+			self.attrs["horizontal_alignment"] = String(data.get("horizontal", "Left"))
+			self.attrs["vertical_alignment"] = String(data.get("vertical", "Middle"))
+			
+		if "vertical_alignment" in self.attrs:
+			if str(self.attrs["vertical_alignment"]).lower() == "center":
+				self.attrs["vertical_alignment"] = String("Middle")
+				
 		self.macros = macros
 		
 		if name:
@@ -220,8 +230,12 @@ class CSSWidget(GroupNode):
 			#############
 			#  Strings  #
 			#############
-								
-			self.setBasicParam("pv_name",        "pv_name",        check_class=_p._PVName)
+			
+			if "pv" in self.attrs:
+				self.setBasicParam("pv_name",    "pv",             check_class=_p._PVName)
+			else:
+				self.setBasicParam("pv_name",    "pv_name",        check_class=_p._PVName)
+			
 			self.setBasicParam("tab",            "tab",            check_class=_p._Tabs)
 			self.setBasicParam("text",           "text",           check_class=_p._Text)
 			self.setBasicParam("format",         "format",         check_class=_p._Format)

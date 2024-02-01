@@ -32,14 +32,14 @@ class Node(object):
 			to_assign = Number(data)
 		elif isinstance(data, float):
 			to_assign = Double(data)
-		elif isinstance(data, dict):
-			to_assign = DataType(data)
 		elif isinstance(data, str):
 			to_assign = yaml.safe_load(data)
 			
 			if not isinstance(to_assign, DataType):
 				to_assign = String(data)
-			
+		else:
+			to_assign = data
+				
 			
 		if key in self.attrs:
 			self.attrs[key] = self.attrs[key].merge(to_assign)

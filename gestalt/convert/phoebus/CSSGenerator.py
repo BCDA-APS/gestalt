@@ -29,7 +29,7 @@ class CSSGenerator(GestaltGenerator):
 		return output
 		
 	def generateRelatedDisplay(self, node, macros={}):
-		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)			
 		
 		for item in node.links:
 			_file = item.get("file", "")
@@ -47,7 +47,7 @@ class CSSGenerator(GestaltGenerator):
 				_macros[key.strip()] = val.strip()
 				
 			output.widget.action_open_display(_file, _rep, description=_desc, macros=_macros)
-		
+				
 		return output
 		
 	def generateMessageButton(self, node, macros={}):
@@ -61,7 +61,7 @@ class CSSGenerator(GestaltGenerator):
 		output = CSSWidget("Label", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "background" in output.attrs and "transparent" not in output.attrs:
-			output["transparent"] = Bool("false")
+			output.attrs["transparent"] = Bool("false")
 		
 		return output
 		

@@ -20,7 +20,7 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caRelatedDisplay", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "text" in output.attrs:
-			output["label"] = "-" + str(output.attrs.pop("text"))
+			output.attrs["label"] = String("-" + str(output.attrs.pop("text")))
 		
 		labels = ""
 		files = ""
@@ -49,15 +49,15 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caMessageButton", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "text" in output.attrs:
-			output["label"] = String(output.attrs.pop("text"))
+			output.attrs["label"] = String(output.attrs.pop("text"))
 			
 		if "pv" in output.attrs:
-			output["channel"] = String(output.attrs.pop("pv"))
+			output.attrs["channel"] = String(output.attrs.pop("pv"))
 			
 		if "value" in output.attrs:
-			output["pressMessage"] = String(output.attrs.pop("value"))
+			output.attrs["pressMessage"] = String(output.attrs.pop("value"))
 			
-		output["colorMode"] = Enum("caMessageButton::Static")
+		output.attrs["colorMode"] = Enum("caMessageButton::Static")
 			
 		return output
 		
@@ -70,9 +70,9 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caTextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "pv" in output.attrs:
-			output["channel"] = String(output.attrs.pop("pv"))
+			output.attrs["channel"] = String(output.attrs.pop("pv"))
 			
-		output["colorMode"] = Enum("caLineEdit::Static")
+		output.attrs["colorMode"] = Enum("caLineEdit::Static")
 		
 		return output
 		
@@ -80,9 +80,9 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caLineEdit", name=node.name, layout=node.attrs, macros=macros)
 		
 		if "pv" in output.attrs:
-			output["channel"] = String(output.attrs.pop("pv"))
+			output.attrs["channel"] = String(output.attrs.pop("pv"))
 			
-		output["colorMode"] = Enum("caLineEdit::Static")
+		output.attrs["colorMode"] = Enum("caLineEdit::Static")
 		
 		return output
 

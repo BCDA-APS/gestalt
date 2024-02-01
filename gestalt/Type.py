@@ -4,7 +4,7 @@ class DataType(object):
 		self.val = val
 		self.defaultvalue = ""
 
-	def apply(self, macros):
+	def apply(self, macros):		
 		if (type(self.val) is dict):
 			for key, item in self.val.items():
 				if item is None:
@@ -17,7 +17,7 @@ class DataType(object):
 		elif isinstance(self.val, str):
 			try:
 				self.val = str(self.val).format(**macros)
-			except:
+			except KeyError:
 				pass
 	
 	def __setitem__(self, key, data):
@@ -49,7 +49,7 @@ class DataType(object):
 
 class String(DataType):
 	def __init__(self, val):
-		super(String, self).__init__("string", val)	
+		super(String, self).__init__("string", str(val))	
 	
 	def __bool__(self):
 		output = super(String, self).__bool__()
@@ -64,23 +64,23 @@ class String(DataType):
 	
 class Number(DataType):
 	def __init__(self, val):
-		super(Number, self).__init__("number", val)
+		super(Number, self).__init__("number", int(val))
 	
 class Double(DataType):
 	def __init__(self, val):
-		super(Double, self).__init__("double", val)
+		super(Double, self).__init__("double", double(val))
 
 class Enum(DataType):	
 	def __init__(self, val):
-		super(Enum, self).__init__("enum", val)
+		super(Enum, self).__init__("enum", str(val))
 
 class Set(DataType):
 	def __init__(self, val):
-		super(Set, self).__init__("set", val)
+		super(Set, self).__init__("set", str(val))
 	
 class Bool(DataType):
 	def __init__(self, val):
-		super(Bool, self).__init__("bool", val)
+		super(Bool, self).__init__("bool", bool(val))
 
 
 ###########################
@@ -108,6 +108,9 @@ class Rect(DataType):
 		
 		elif isinstance(data, str):
 			data = [ int(item) for item in data.split("x")]
+			
+		elif isinstance(data, Rect):
+			data = data.val
 			
 		temp = []
 			
@@ -161,6 +164,9 @@ class Color(DataType):
 			
 			# Interpret each 2-char chunk as a hex number
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
+				
+		elif isinstance(data, Color):
+			data = data.val
 			
 		temp = [None, None, None, 255]
 			
@@ -206,6 +212,8 @@ class Font(DataType):
 		elif isinstance(data, str):			
 			data = [ item.strip() for item in data.lstrip("-").split("-") ]
 
+		elif isinstance(data, Font):
+			data = data.val
 		
 		temp = [None, None, None]
 			
