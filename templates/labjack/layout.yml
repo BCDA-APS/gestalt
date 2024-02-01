@@ -4,8 +4,6 @@
 #include collections.yml
 
 Form: !Form
-    <<: *form_default
-    
     margins: 5x0x5x5
 
 

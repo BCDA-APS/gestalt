@@ -2,8 +2,6 @@
 #include widgets.yml
 
 Form: !Form
-    <<: *form_default
-
     margins: 5x5x5x5
     
     

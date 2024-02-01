@@ -1,8 +1,5 @@
 #include colors.yml
 
-form_default: &form_default
-    styleSheet: !string "QWidget#Form {background: rgba(187, 187, 187, 255);}\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
-
 menu_select: &menu_select
     colorMode: caMenu::Static
     foreground: *black

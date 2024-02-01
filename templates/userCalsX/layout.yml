@@ -1,9 +1,6 @@
 #include colors.yml
 #include widgets.yml
 
-Form: !Form
-    <<: *form_default
-
     
 OnOff: !caChoice
     geometry: 215x20
