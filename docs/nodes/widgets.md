@@ -206,6 +206,7 @@ A widget representing a basic text label.
 | foreground | Color  | Widget foreground color |
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
+| alignment  | Dict   | Display text alignment. Contains two optional keys; horizontal and vertical. Valid values for horizontal are Left, Right, or Center. Valid values for vertical are Top, Bottom, or Center. |
 
 
 * **Example**
@@ -216,6 +217,10 @@ A widget representing a basic text label.
     
     text: "Label Text"
     font: -Liberation Sans - bold - 12
+    
+    alignment:
+        horizontal: Center
+        vertical: Center
 ```
 
 
@@ -233,6 +238,7 @@ A widget representing a text entry field.
 | foreground | Color  | Widget foreground color |
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
+| alignment  | Dict   | Entry text alignment. Contains two optional keys; horizontal and vertical. Valid values for horizontal are Left, Right, or Center. Valid values for vertical are Top, Bottom, or Center. |
 | pv         | String | The PV that will be written to |
 
 
@@ -243,6 +249,8 @@ A widget representing a text entry field.
     geometry: 5x0 x 120x20
     
     pv: "$(P)$(R)Description"
+    
+    alignment: { vertical: bottom }
 ```
 
 
@@ -260,6 +268,7 @@ A widget representing a text display field
 | foreground | Color  | Widget foreground color |
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
+| alignment  | Dict   | Display text alignment. Contains two optional keys; horizontal and vertical. Valid values for horizontal are Left, Right, or Center. Valid values for vertical are Top, Bottom, or Center. |
 | pv         | String | The PV to read data from |
 
 
@@ -270,4 +279,6 @@ A widget representing a text display field
     geometry: 5x0 x 120x20
     
     pv: "$(P)$(R)Description_RBV"
+    
+    alignment: { horizontal: right }
 ```
