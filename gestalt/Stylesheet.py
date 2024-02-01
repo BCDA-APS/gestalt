@@ -134,6 +134,7 @@ add_constructors("MessageButton", (lambda l, n: read_special_node(MessageButtonN
 add_constructors("Text", (lambda l, n: read_special_node(TextNode, l, n)))
 add_constructors("TextEntry", (lambda l, n: read_special_node(TextEntryNode, l, n)))
 add_constructors("TextMonitor", (lambda l, n: read_special_node(TextMonitorNode, l, n)))
+add_constructors("Menu", (lambda l, n: read_special_node(MenuNode, l, n)))
 	
 #####################
 #   Include Files   #

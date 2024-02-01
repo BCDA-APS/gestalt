@@ -22,3 +22,6 @@ class GestaltGenerator:
 		
 	def generateTextMonitor(self, node, macros={}):
 		pass
+
+	def generateMenu(self, node, macros={}):
+		pass

@@ -85,6 +85,16 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["colorMode"] = Enum("caLineEdit::Static")
 		
 		return output
+		
+	def generateMenu(self, node, macros={}):
+		output = QtWidget("caMenu", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "pv" in output.attrs:
+			output.attrs["channel"] = String(output.attrs.pop("pv"))
+			
+		output.attrs["colorMode"] = Enum("caMenu::Static")
+		
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

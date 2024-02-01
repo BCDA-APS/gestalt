@@ -452,3 +452,11 @@ class TextMonitorNode(Node):
 	
 	def apply(self, generator, data={}):
 		return generator.generateTextMonitor(self, data)
+
+class MenuNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(MenuNode, self).__init__("Menu", name=name, layout=layout)
+	
+	def apply(self, generator, data={}):
+		return generator.generateMenu(self, data)
+	

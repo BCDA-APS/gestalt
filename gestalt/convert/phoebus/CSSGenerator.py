@@ -29,12 +29,21 @@ class CSSGenerator(GestaltGenerator):
 		return output
 		
 	def generateRelatedDisplay(self, node, macros={}):
-		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)			
+		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
 		
 		for item in node.links:
-			_file = item.get("file", "")
-			_desc = item.get("label", "")
-			_args = item.get("macros", "").split(",")
+			_file = String(item.get("file", ""))
+			_file.apply(macros)
+			_file = _file.val
+			
+			_desc = String(item.get("label", ""))
+			_desc.apply(macros)
+			_desc = _desc.val
+			
+			_args = String(item.get("macros", ""))
+			_args.apply(macros)
+			_args = _args.val.split(",")
+			
 			_rep = "window"
 			
 			if "replace" in item and item.replace:
@@ -72,6 +81,11 @@ class CSSGenerator(GestaltGenerator):
 		
 	def generateTextMonitor(self, node, macros={}):
 		output = CSSWidget("TextUpdate", name=node.name, layout=node.attrs, macros=macros)
+		
+		return output
+		
+	def generateMenu(self, node, macros={}):
+		output = CSSWidget("ComboBox", name=node.name, layout=node.attrs, macros=macros)
 		
 		return output
 
