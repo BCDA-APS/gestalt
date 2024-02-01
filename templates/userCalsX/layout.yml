@@ -2,14 +2,12 @@
 #include widgets.yml
 
     
-OnOff: !caChoice
+OnOff: !ChoiceButton
     geometry: 215x20
     
-    channel: "$(P)userCalcEnable.VAL"
+    pv: "$(P)userCalcEnable.VAL"
     foreground: *black
     background: *edit_blue
-    colorMode: caChoice::Static
-    stackingMode: !enum Column
     
             
 UIRow: !repeat
@@ -32,16 +30,13 @@ UIRow: !repeat
                 - { label: "user Calc {N}", file: "userCalc.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
                 - { label: "user Calc {N} (full)", file: "userCalc_full.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
             
-        - !caChoice
+        - !ChoiceButton
             geometry: 25x0 x 40x20
-            
-            colorMode: caChoice::Static
-            stackingMode: !enum Column
             
             foreground: *black
             background: *edit_blue
             
-            channel: "$(P)userCalc{N}Enable"
+            pv: "$(P)userCalc{N}Enable"
             
         - !TextEntry
             geometry: 65x0 x 120x20

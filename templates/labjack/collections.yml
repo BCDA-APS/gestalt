@@ -29,25 +29,21 @@ DIO_Item: &DIO_Slot
                     
                     geometry: 15x0 x 22x22
                     
-                - !caChoice
+                - !ChoiceButton
                     geometry: 0x30 x 50x35
                     
-                    channel: !string "$(P)Bo{N}"
+                    pv: !string "$(P)Bo{N}"
                     
                     foreground: *black
                     background: *edit_blue
                     
-                    colorMode: caChoice::Static
-                    
-                - !caChoice
+                - !ChoiceButton
                     geometry: 0x70 x 50x35
                     
-                    channel: !string "$(P)Bd{N}"
+                    pv: !string "$(P)Bd{N}"
                     
                     foreground: *black
                     background: *edit_blue
-                    
-                    colorMode: caChoice::Static
                     
                 
                 - !TextEntry
