@@ -15,6 +15,9 @@ class QtWidget(GroupNode):
 				halign = "Qt::Align" + str(data.get("horizontal", "Left")).lower().capitalize()
 				valign = "Qt::Align" + str(data.get("vertical", "Center")).lower().capitalize()
 				
+				if halign == "Qt::AlignCenter":
+					halign = "Qt::AlignHCenter"
+				
 				if valign == "Qt::AlignCenter":
 					valign = "Qt::AlignVCenter"
 				
