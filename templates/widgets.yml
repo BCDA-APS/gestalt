@@ -34,4 +34,4 @@ related_display: &related_display
 centered_label: &centered_label
     foreground: *black
     background: *transparent
-    alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter 
+    alignment: { horizontal: Center, vertical: Center }

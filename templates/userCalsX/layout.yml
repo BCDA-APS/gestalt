@@ -51,6 +51,8 @@ UIRow: !repeat
             
             pv: "$(P)userCalc{N}.DESC"
             
+            alignment: { horizontal: Right, vertical: Bottom }
+            
             foreground: $0A00B8
             background: *grey_lighter
             

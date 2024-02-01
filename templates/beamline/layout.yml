@@ -173,18 +173,18 @@ Centering: !hcenter
         geometry: 0x7 x 0x0
         
         children:
-            - !caLineEdit
+            - !TextMonitor
                 geometry: 0x0 x 50x20
                 foreground: *alarm_yellow
                 background: *transparent
-                colorMode: caLineEdit::Static
-                alignment: Qt::AlignRight|Qt::AlignVCenter
+
+                alignment: { horizontal: "Right" }
+                    
                 channel: "S:SRcurrentAI"
                 
-            - !caLabel
+            - !Text
                 geometry: 55x0 x 25x20
                 foreground: *alarm_yellow
-                alignment: Qt::AlignLeft|Qt::AlignVCenter
                 text: "mA"
                 
             - !RelatedDisplay

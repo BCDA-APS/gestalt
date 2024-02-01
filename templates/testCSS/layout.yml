@@ -9,23 +9,26 @@ Test: !vrepeat
     repeat_over: "INDICES"
     
     children:
-        - !Label
+        - !TextEntry
             geometry: 5x0 x 120x20
             
-            text: "Label {N}"
-            transparent: false
-            background: *header_blue
-            foreground: Attention
+            background: *edit_blue
+            foreground: *black
+            
+            alignment:
+                horizontal: Right
+                vertical: Bottom
             font: -Liberation Sans - bold - 12
+            pv: "xxx:yyy:zzz"
 
             
             
-Maybe: !RelatedDisplay
+Maybe: !MessageButton
     <<: *related_display
 
     text: "Open xxx"
     
     geometry: 10x200 x 100x20
-
-    links:
-        - { label: "File 1", file: "xxx.ui", macros: "P=1,R=A" }
+    
+    pv: "xxx:yyy:zzz"
+    value: 1

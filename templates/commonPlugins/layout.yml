@@ -7,7 +7,7 @@ Form: !Form
     margins: 5x5x5x5
 
     
-UILabel: !caLabel
+UILabel: !Text
     <<: *centered_label
     geometry: 0x6 x 935x25
     
@@ -18,42 +18,42 @@ UIHeader: !group
     geometry: 0x40 x 0x0
     
     children:
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 10x0 x 110x20
             text: "Plugin Name"
             
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 150x0 x 110x20
             text: "Plugin Type"
             
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 300x0 x 40x20
             text: "Port"
         
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 407x0 x 60x20
             text: "Enable"
             
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 525x0 x 80x20
             text: "Blocking"
             
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 615x0 x 75x20
             text: "Dropped"
             
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 715x0 x 40x20
             text: "Free"
             
-        - !caLabel
+        - !Text
             <<: *centered_label
             geometry: 800x0 x 40x20
             text: "Rate"
