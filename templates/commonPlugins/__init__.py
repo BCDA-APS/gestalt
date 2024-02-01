@@ -2,6 +2,7 @@ from .. import registry
 
 registry.add("AreaDetector Common Plugins", path=__path__,
 	qt_stylesheet = "layout.yml",
+	css_stylesheet = "layout.yml",
 	required_inputs=[
 ("PLUGINS", 
 """List of plugin data dictionaries:

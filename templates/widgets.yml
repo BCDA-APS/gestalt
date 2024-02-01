@@ -17,7 +17,7 @@ string_display: &string_display
     
 data_display: &data_display
     colorMode: caLineEdit::Alarm_Static
-    alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter
+    alignment: { horizontal: Center, vertical: Center }
     background: *gray_darker
     foreground: *alarm_green
 

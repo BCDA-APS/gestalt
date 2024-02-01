@@ -82,12 +82,11 @@ AIn_Line: &AIn_Slot
             fontScaleMode: caLineEdit::None
             font: -Monospace -regular -12
             
-        - !caMenu
+        - !Menu
             geometry: 140x1 x 90x18
-            channel: !string "$(P)Ai{__index__}.SCAN"
+            pv: !string "$(P)Ai{__index__}.SCAN"
             background: *edit_blue
             foreground: *black
-            colorMode: caMenu::Static
             
         - !caMessageButton
             geometry: 240x0 x 65x20

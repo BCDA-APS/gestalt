@@ -80,24 +80,26 @@ UIRow: !repeat
             geometry: 290x0 x 60x20
             pv: $(P){Instance}:NDArrayPort
             
-        - !caMenu
-            <<: *menu_select
+        - !Menu
+            foreground: *black
+            background: *edit_blue
             geometry: 355x0 x 80x20
-            channel: $(P){Instance}:EnableCallbacks
+            pv: $(P){Instance}:EnableCallbacks
             
         - !TextMonitor
             <<: *data_display
             geometry: 440x1 x 80x18
             pv: $(P){Instance}:EnableCallbacks_RBV
             
-        - !caMenu
-            <<: *menu_select
+        - !Menu
+            foreground: *black
+            background: *edit_blue
             geometry: 525x0 x 80x20
-            channel: $(P){Instance}:BlockingCallbacks
+            pv: $(P){Instance}:BlockingCallbacks
 
-        - !caLineEdit
+        - !TextMonitor
             <<: *string_display
-            alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter    
+            alignment: { horizontal: Center, vertical: Center }    
             geometry: 610x1 x 80x18
             channel: $(P){Instance}:DroppedArrays_RBV
             
@@ -106,9 +108,9 @@ UIRow: !repeat
             geometry: 695x1 x 80x18
             pv: $(P){Instance}:QueueFree
             
-        - !caLineEdit
+        - !TextMonitor
             <<: *string_display
-            alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter    
+            alignment: { horizontal: Center, vertical: Center }    
             geometry: 780x1 x 80x18
             channel: $(P){Instance}:ArrayRate_RBV
             
