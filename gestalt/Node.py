@@ -460,3 +460,10 @@ class MenuNode(Node):
 	def apply(self, generator, data={}):
 		return generator.generateMenu(self, data)
 	
+class ChoiceButtonNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(ChoiceButtonNode, self).__init__("ChoiceButton", name=name, layout=layout)
+	
+	def apply(self, generator, data={}):
+		return generator.generateChoiceButton(self, data)
+	

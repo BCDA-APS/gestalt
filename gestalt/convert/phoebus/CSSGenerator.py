@@ -88,6 +88,17 @@ class CSSGenerator(GestaltGenerator):
 		output = CSSWidget("ComboBox", name=node.name, layout=node.attrs, macros=macros)
 		
 		return output
+		
+	def generateChoiceButton(self, node, macros={}):
+		output = CSSWidget("ChoiceButton", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "horizontal" not in output.attrs:
+			output.attrs["horizontal"] = Bool(False);
+			
+		if "selected" not in output.attrs and "background" in output.attrs:
+			output.attrs["selected"] = output.attrs["background"]
+		
+		return output
 
 
 def generateCSSFile(template, data, outputfile=""):

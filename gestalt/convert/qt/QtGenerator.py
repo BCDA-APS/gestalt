@@ -95,6 +95,23 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["colorMode"] = Enum("caMenu::Static")
 		
 		return output
+		
+	def generateChoiceButton(self, node, macros={}):
+		output = QtWidget("caChoice", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "pv" in output.attrs:
+			output.attrs["channel"] = String(output.attrs.pop("pv"))
+			
+		if "horizontal" in output.attrs and output.attrs["horizontal"]:
+			output.attrs.pop("horizontal")
+			output.attrs["stackingMode"] = Enum("Row")
+			
+		if "selected" in output.attrs:
+			output.attrs["bordercolor"] = output.attrs.pop("selected")
+			
+		output.attrs["colorMode"] = Enum("caChoice::Static")
+		
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

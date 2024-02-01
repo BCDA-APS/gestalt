@@ -93,7 +93,7 @@ recognized_types = (
 	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form',
 	
 	"ActionButton", "Arc", "Array", "BooleanButton", "ByteMonitor",
-	"CheckBox", "ChoiceButton", "ComboBox", "DataBrowser", "Ellipse",
+	"CheckBox", "ComboBox", "DataBrowser", "Ellipse",
 	"EmbeddedDisplay", "FileSelector", "Image", "Label", "LED",
 	"LEDMultiState", "Meter", "NavigationTabs", "Picture",
 	"Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle",
@@ -135,6 +135,8 @@ add_constructors("Text", (lambda l, n: read_special_node(TextNode, l, n)))
 add_constructors("TextEntry", (lambda l, n: read_special_node(TextEntryNode, l, n)))
 add_constructors("TextMonitor", (lambda l, n: read_special_node(TextMonitorNode, l, n)))
 add_constructors("Menu", (lambda l, n: read_special_node(MenuNode, l, n)))
+add_constructors("ChoiceButton", (lambda l, n: read_special_node(ChoiceButtonNode, l, n)))
+
 	
 #####################
 #   Include Files   #

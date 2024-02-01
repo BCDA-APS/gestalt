@@ -25,3 +25,6 @@ class GestaltGenerator:
 
 	def generateMenu(self, node, macros={}):
 		pass
+
+	def generateChoiceButton(self, node, macros={}):
+		pass
