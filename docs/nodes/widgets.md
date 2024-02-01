@@ -19,7 +19,7 @@ nav_order: 1
 ---
 
 The list of recognized CSS Widgets is as follows: "ActionButton", "Arc", "Array", "BooleanButton", 
-"ByteMonitor", "CheckBox", "ChoiceButton", "ComboBox", "DataBrowser", "Ellipse", "EmbeddedDisplay", 
+"ByteMonitor", "CheckBox", "ComboBox", "DataBrowser", "Ellipse", "EmbeddedDisplay", 
 "FileSelector", "Group", "Image", "LED", "LEDMultiState", "Label", "Meter", "NavigationTabs", 
 "Picture", "Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle", "ScaledSlider", 
 "Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", "Tank", "TextEntry", 
@@ -85,6 +85,38 @@ caQtDM widgets don't have any special attributes.
 
 
 ## Output-Independent Widgets
+
+
+
+### ChoiceButton
+
+---
+
+A widget representing a set of buttons that gets its options from an enumerable pv
+
+* **Special Attributes**
+
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| foreground | Color  | Widget foreground color |
+| background | Color  | Widget background color |
+| selected   | Color  | Selected item color, defaults to background color |
+| font       | Font   | Widget display font |
+| pv         | String | The PV containing the enumerable value |
+| horizontal | Bool   | Whether to arrange the buttons horizontally, defaults to False |
+
+
+* **Example**
+
+```yaml
+OnOff: !ChoiceButton
+    geometry: 215x20
+    
+    pv: "$(P)userCalcEnable.VAL"
+    foreground: *black
+    background: *edit_blue
+```
 
 
 ### Form
