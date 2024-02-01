@@ -96,18 +96,18 @@ A special widget used to set values for the top-level window.
 
 * **Special Attributes**
 
-|    Name   |  Type  | Description|
-|-----------|--------|------------|
-| geometry  | Rect   | A rectangle describing the position and dimensions of the widget |
-| margins   | Rect   | A set of numbers describing the number of pixels to leave clear on the left, top, right, and bottom of the window respectively |
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| margins    | Rect   | A set of numbers describing the number of pixels to leave clear on the left, top, right, and bottom of the window respectively |
+| background | Color  | The background color for the Form, $BBBBBB by default |
 
 
 * **Example**  
 
 ```yaml
 Form: !Form
-    styleSheet: !string "QWidget#Form {background: rgba(187, 187, 187, 255);}\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
-
+    background: $123456
     margins: 5x5x5x5
 ```
 
