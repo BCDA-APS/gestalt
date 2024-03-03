@@ -1,17 +1,10 @@
 #include colors.yml
 
-menu_select: &menu_select
-    colorMode: caMenu::Static
+editable: &editable
     foreground: *black
     background: *edit_blue
-    
-text_edit: &text_edit
-    colorMode: caLineEdit::Static
-    foreground: *black
-    background: *edit_blue
-    
+        
 string_display: &string_display
-    colorMode: caLineEdit::Static
     foreground: *black
     background: *transparent
     
@@ -20,13 +13,6 @@ data_display: &data_display
     alignment: { horizontal: Center, vertical: Center }
     background: *gray_darker
     foreground: *alarm_green
-
-related_display: &related_display
-    foreground: *black
-    background: *edit_blue
-    
-    removeParent: false
-    stackingMode: !enum Menu
 
 centered_label: &centered_label
     foreground: *black

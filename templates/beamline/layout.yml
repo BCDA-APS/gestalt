@@ -186,9 +186,9 @@ Centering: !hcenter
                 text: "mA"
                 
             - !RelatedDisplay
+                <<: *editable
+                
                 geometry: 85x0 x 80x17
-                background: *edit_blue
-                foreground: *black
                 
                 text: "APS OPS"
                 

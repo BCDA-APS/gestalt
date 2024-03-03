@@ -76,13 +76,12 @@ UIRow: !repeat
             pv: $(P){Instance}:PluginType_RBV
             
         - !TextEntry
-            <<: *text_edit
+            <<: *editable
             geometry: 290x0 x 60x20
             pv: $(P){Instance}:NDArrayPort
             
         - !Menu
-            foreground: *black
-            background: *edit_blue
+            <<: *editable
             geometry: 355x0 x 80x20
             pv: $(P){Instance}:EnableCallbacks
             
@@ -92,8 +91,7 @@ UIRow: !repeat
             pv: $(P){Instance}:EnableCallbacks_RBV
             
         - !Menu
-            foreground: *black
-            background: *edit_blue
+            <<: *editable
             geometry: 525x0 x 80x20
             pv: $(P){Instance}:BlockingCallbacks
 
@@ -115,7 +113,7 @@ UIRow: !repeat
             channel: $(P){Instance}:ArrayRate_RBV
             
         - !RelatedDisplay
-            <<: *related_display
+            <<: *editable
             
             text: More
             

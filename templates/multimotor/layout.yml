@@ -73,13 +73,12 @@ motor_grid: !grid
                         - { label: "All",   file: "motorx_all.ui",   macros: "P=$(P),M=$(M{N})" }
                         - { label: "Setup Scan Parameters", file: "scanParms.ui", macros: "P=$(P),Q=$(M{N}),PV=$(M{N})" }
                     
-                - !caLineEdit
+                - !TextEntry
                     background: *transparent
                     foreground: *header_blue
-                    colorMode: caLineEdit::Static
                     
                     geometry: 20x50 x 120x17
-                    alignment: Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter
+                    alignment: { horizontal: Center, vertical: Center }
                     
                     channel: "$(P)$(M{N}).EGU"
                 

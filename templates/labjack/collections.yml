@@ -2,14 +2,10 @@
 
 DIO_Item: &DIO_Slot
     children:
-        - !caLabel
+        - !Text
             font: -Sans Serif - Regular - 8
-            
-            geometry: 0x0 x 50x15
-            
-            alignment: Qt::AlignHCenter|Qt::AlignVCenter
-            fontScaleMode: ESimpleLabel::None
-            
+            geometry: 0x0 x 50x15            
+            alignment: { horizontal: Center, vertical: Center }
             text: !string "{Label}"
         
         - !conditional
@@ -59,23 +55,18 @@ DIO_Item: &DIO_Slot
                     
 AIn_Line: &AIn_Slot
     children:
-        - !caLabel
+        - !Text
             geometry: 0x0 x 20x20
             text: !string "{__index__}"
-            fontScaleMode: ESimpleLabel::None
             font: -Sans Serif -regular -8
-            alignment: Qt::AlignHCenter|Qt::AlignVCenter
+            alignment: { vertical: Center, horizontal: Center }
             
         
-        - !caLineEdit
+        - !TextMonitor
             geometry: 30x0 x 90x20
-            channel: !string "$(P)Ai{__index__}"
+            pv: !string "$(P)Ai{__index__}"
             foreground: *header_blue
             background: *transparent
-            
-            colorMode: caLineEdit::Static
-            
-            fontScaleMode: caLineEdit::None
             font: -Monospace -regular -12
             
         - !Menu
@@ -84,23 +75,20 @@ AIn_Line: &AIn_Slot
             background: *edit_blue
             foreground: *black
             
-        - !caMessageButton
+        - !MessageButton
             geometry: 240x0 x 65x20
             text: "Read"
-            channel: !string "$(P)Ai{__index__}.PROC"
             background: *edit_blue
             foreground: *black
-            colorMode: caMessageButton::Static
-            pressMessage: "1"
+            pv: !string "$(P)Ai{__index__}.PROC"
+            value: "1"
             
-        - !caTextEntry
+        - !TextEntry
             geometry: 320x0 x 100x20
             font: -Monospace -regular -9
-            fontScaleMode: caLineEdit::None
             channel: !string "$(P)Ai{__index__}.DESC"
             background: *gainsboro
             foreground: *black
-            colorMode: caLineEdit::Static
             
         - !RelatedDisplay
             geometry: 430x0 x 50x20
@@ -114,14 +102,13 @@ AIn_Line: &AIn_Slot
             
 AOut_Line: &AOut_Slot
     children:
-        - !caLabel
+        - !Text
             geometry: 0x0 x 20x20
             text: !string "{__index__}"
-            fontScaleMode: ESimpleLabel::None
             font: -Sans Serif -regular -8
-            alignment: Qt::AlignHCenter|Qt::AlignVCenter
+            alignment: { vertical: Center, horizontal: Center }
 
-        - !TextEntry
+        - !TextMonitor
             geometry: 30x0 x 90x20
             pv: !string "$(P)Ao{__index__}"
             background: *edit_blue
@@ -164,11 +151,10 @@ AOut_Line: &AOut_Slot
             text: ">"
             value: "1"
             
-        - !caTextEntry
+        - !TextEntry
             geometry: 380x0 x 100x20
             font: -Monospace -regular -9
-            fontScaleMode: caLineEdit::None
-            channel: !string "$(P)Ao{__index__}.DESC"
+            pv: !string "$(P)Ao{__index__}.DESC"
             background: *gainsboro
             foreground: *black
-            colorMode: caLineEdit::Static
+            
