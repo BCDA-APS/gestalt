@@ -234,3 +234,75 @@ class Font(DataType):
 		return Font(output)
 		
 		
+###########################
+#   ALIGNMENT DATA TYPE   #
+###########################
+
+class Alignment(DataType):
+	TOP = 0
+	LEFT = 0
+	CENTER = 1
+	RIGHT = 2
+	BOTTOM = 2
+	
+	
+	def __init__(self, *args, horizontal="Center", vertical="Center"):
+		self.typ = "align"
+		self.defaultvalue = "Center"
+		self.labels = [ "vertical", "horizontal" ]
+		
+		data = args
+		
+		if len(args) == 0:
+			data = { "vertical" : vertical, "horizontal" : horizontal }
+		
+		if len(args) == 1:
+			data = args[0]
+			
+		if isinstance(data, str):
+			temp = { "vertical" : vertical, "horizontal" : horizontal }
+				
+			data = data.lower()
+			
+			if "top" in data:
+				temp["vertical"] = "Top"
+			if "bottom" in data:
+				temp["vertical"] = "Bottom"
+			if "left" in data:
+				temp["horizontal"] = "Left"
+			if "right" in data:
+				temp["horizontal"] = "Right"
+			
+			data = temp
+				
+		if isinstance(data, dict):
+			self.val = {}
+			
+			valign = str(data.get("vertical", "Center")).lower()
+			halign = str(data.get("horizontal", "Center")).lower()
+			
+			if "top" in valign:
+				self.val["vertical"] = Alignment.TOP
+			elif "bottom" in valign:
+				self.val["vertical"] = Alignment.BOTTOM
+			else:
+				self.val["vertical"] = Alignment.CENTER
+				
+			if "left" in halign:
+				self.val["horizontal"] = Alignment.LEFT
+			elif "right" in halign:
+				self.val["horizontal"] = Alignment.RIGHT
+			else:
+				self.val["horizontal"] = Alignment.CENTER
+			
+		elif isinstance(data, Alignment):
+			self.val = data.val
+			
+		
+
+	def __str__(self):	
+		valign = [ "Top", "Center", "Bottom" ]
+		halign = [ "Left", "Center", "Right" ]
+		
+		return valign[self.val["vertical"]] + halign[self.val["horizontal"]]
+			

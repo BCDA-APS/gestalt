@@ -49,7 +49,8 @@ add_constructors("enum",   (lambda l, n: read_type(Enum,   l, n)), regex= re.com
 add_constructors("geom",   (lambda l, n: read_type(Rect,   l, n)), regex= re.compile(r'^-?\d+\s*(x\s*-?\d+\s*)+$'))
 add_constructors("color",  (lambda l, n: read_type(Color,  l, n)), regex= re.compile(r'^\$([0-9A-Fa-f][0-9A-Fa-f])+$'))
 add_constructors("font",   (lambda l, n: read_type(Font,   l, n)), regex= re.compile(r'^-[a-zA-Z][\w\s]*(-\s*[a-zA-Z][a-zA-Z_]+\s*)(-[0-9\s]+)$'))
-
+add_constructors("align",  (lambda l, n: read_type(Alignment, l, n)), regex= re.compile(r'^TopLeft|TopMiddle|TopCenter|TopRight|MiddleLeft|MiddleMiddle|Middle|MiddleCenter|MiddleRight|CenterLeft|CenterMiddle|CenterCenter|Center|CenterRight|BottomLeft|BottomMiddle|BottomCenter|BottomRight$', re.IGNORECASE))
+		
 ######################
 #    Node Parsing    #
 ######################	

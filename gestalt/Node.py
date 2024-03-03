@@ -437,6 +437,7 @@ class TextNode(Node):
 		super(TextNode, self).__init__("Text", name=name, layout=layout)
 		
 		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
+		self.attrs["alignment"] = self.attrs.pop("alignment", Alignment("CenterLeft"))
 	
 	def apply(self, generator, data={}):
 		return generator.generateText(self, data)
@@ -446,6 +447,7 @@ class TextEntryNode(Node):
 		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
 	
 		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
+		self.attrs["alignment"] = self.attrs.pop("alignment", Alignment("CenterLeft"))
 	
 	def apply(self, generator, data={}):
 		return generator.generateTextEntry(self, data)
@@ -455,6 +457,7 @@ class TextMonitorNode(Node):
 		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
 	
 		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
+		self.attrs["alignment"] = self.attrs.pop("alignment", Alignment("CenterLeft"))
 	
 	def apply(self, generator, data={}):
 		return generator.generateTextMonitor(self, data)
