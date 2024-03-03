@@ -435,6 +435,8 @@ class MessageButtonNode(Node):
 class TextNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextNode, self).__init__("Text", name=name, layout=layout)
+		
+		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
 	
 	def apply(self, generator, data={}):
 		return generator.generateText(self, data)
@@ -443,12 +445,16 @@ class TextEntryNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
 	
+		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
+	
 	def apply(self, generator, data={}):
 		return generator.generateTextEntry(self, data)
 
 class TextMonitorNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
+	
+		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
 	
 	def apply(self, generator, data={}):
 		return generator.generateTextMonitor(self, data)
