@@ -64,6 +64,8 @@ class QtGenerator(GestaltGenerator):
 	def generateText(self, node, macros={}):
 		output = QtWidget("caLabel", name=node.name, layout=node.attrs, macros=macros)
 		
+		output.attrs["fontScaleMode"] = Enum("ESimpleLabel::None")
+		
 		return output
 		
 	def generateTextEntry(self, node, macros={}):
@@ -73,6 +75,7 @@ class QtGenerator(GestaltGenerator):
 			output.attrs["channel"] = String(output.attrs.pop("pv"))
 			
 		output.attrs["colorMode"] = Enum("caLineEdit::Static")
+		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
 		
 		return output
 		
@@ -83,6 +86,7 @@ class QtGenerator(GestaltGenerator):
 			output.attrs["channel"] = String(output.attrs.pop("pv"))
 			
 		output.attrs["colorMode"] = Enum("caLineEdit::Static")
+		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
 		
 		return output
 		
