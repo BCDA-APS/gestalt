@@ -260,14 +260,14 @@ A widget representing a basic text label.
 
 * **Special Attributes**
 
-|    Name    |  Type  | Description|
-|------------|--------|------------|
-| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
-| text       | String | The widget's display text |
-| foreground | Color  | Widget foreground color |
-| background | Color  | Widget background color |
-| font       | Font   | Widget display font |
-| alignment  | Dict   | Display text alignment. Contains two optional keys; horizontal and vertical. Valid values for horizontal are Left, Right, or Center. Valid values for vertical are Top, Bottom, or Center. |
+|    Name    |    Type   | Description|
+|------------|-----------|------------|
+| geometry   | Rect      | A rectangle describing the position and dimensions of the widget |
+| text       | String    | The widget's display text |
+| foreground | Color     | Widget foreground color |
+| background | Color     | Widget background color |
+| font       | Font      | Widget display font |
+| alignment  | Alignment | Display text alignment. |
 
 
 * **Example**
@@ -293,14 +293,14 @@ A widget representing a text entry field.
 
 * **Special Attributes**
 
-|    Name    |  Type  | Description|
-|------------|--------|------------|
-| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
-| foreground | Color  | Widget foreground color |
-| background | Color  | Widget background color |
-| font       | Font   | Widget display font |
-| alignment  | Dict   | Entry text alignment. Contains two optional keys; horizontal and vertical. Valid values for horizontal are Left, Right, or Center. Valid values for vertical are Top, Bottom, or Center. |
-| pv         | String | The PV that will be written to |
+|    Name    |    Type   | Description|
+|------------|-----------|------------|
+| geometry   | Rect      | A rectangle describing the position and dimensions of the widget |
+| foreground | Color     | Widget foreground color |
+| background | Color     | Widget background color |
+| font       | Font      | Widget display font |
+| alignment  | Alignment | Display text alignment. |
+| pv         | String    | The PV that will be written to |
 
 
 * **Example**
@@ -323,14 +323,14 @@ A widget representing a text display field
 
 * **Special Attributes**
 
-|    Name    |  Type  | Description|
-|------------|--------|------------|
-| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
-| foreground | Color  | Widget foreground color |
-| background | Color  | Widget background color |
-| font       | Font   | Widget display font |
-| alignment  | Dict   | Display text alignment. Contains two optional keys; horizontal and vertical. Valid values for horizontal are Left, Right, or Center. Valid values for vertical are Top, Bottom, or Center. |
-| pv         | String | The PV to read data from |
+|    Name    |    Type   | Description|
+|------------|-----------|------------|
+| geometry   | Rect      | A rectangle describing the position and dimensions of the widget |
+| foreground | Color     | Widget foreground color |
+| background | Color     | Widget background color |
+| font       | Font      | Widget display font |
+| alignment  | Alignment | Display text alignment. |
+| pv         | String    | The PV to read data from |
 
 
 * **Example**

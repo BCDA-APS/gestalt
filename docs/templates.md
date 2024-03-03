@@ -94,6 +94,11 @@ Either 'Width x Height' or 'X x Y x Width x Height'
 * **'!set'** - A grouped enumeration, will recognize multiple enums separated by the '|'
 character
 
+* **'!align'** - A font alignment, will recognize a combined set of words in the form of
+VerticalHorizontal. Vertical can be any of "Top, Bottom, Center, or Middle". Horizontal can
+be any of "Left, Right, Center, or Middle". If both Horizontal and Vertical are to be centered
+you can use just a single instance of Center or Middle.
+
 
 ## Included Files
 
