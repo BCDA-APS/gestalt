@@ -78,7 +78,7 @@ motor_grid: !grid
                     foreground: *header_blue
                     
                     geometry: 20x50 x 120x17
-                    alignment: { horizontal: Center, vertical: Center }
+                    alignment: Center
                     
                     channel: "$(P)$(M{N}).EGU"
                 

@@ -15,9 +15,7 @@ Test: !vrepeat
             background: *edit_blue
             foreground: *black
             
-            alignment:
-                horizontal: Right
-                vertical: Bottom
+            alignment: BottomRight
             font: -Liberation Sans - bold - 12
             pv: "xxx:yyy:zzz"
 

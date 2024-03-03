@@ -45,7 +45,7 @@ Hutches: !hrepeat
                             foreground: *header_blue
                             background: *transparent
                             
-                            alignment: Qt::AlignLeft|Qt::AlignVCenter
+                            alignment: CenterLeft
                             
                             channel: !string "{PREFIX}:alldone.VAL"
                             visibility: caLabel::IfZero
@@ -57,7 +57,7 @@ Hutches: !hrepeat
                             foreground: *header_blue
                             background: *transparent
                             
-                            alignment: Qt::AlignLeft|Qt::AlignVCenter
+                            alignment: CenterLeft
                             
                             channel: !string "{PREFIX}:alldoneBlink.VAL"
                             visibility: caLabel::IfNotZero
@@ -69,7 +69,7 @@ Hutches: !hrepeat
                             foreground: *edit_blue
                             background: *transparent
                             
-                            alignment: Qt::AlignLeft|Qt::AlignVCenter
+                            alignment: CenterLeft
                             
                             channel: !string "{PREFIX}:alldone.VAL"
                             visibility: caLabel::IfZero
@@ -163,7 +163,7 @@ StretchOut: !hstretch
         borderWidth: 3
         
         text: "Beamline {SECTOR}-{TYPE}"
-        alignment: Qt::AlignLeft|Qt::AlignVCenter
+        alignment: CenterLeft
 
         
 Centering: !hcenter
@@ -176,7 +176,7 @@ Centering: !hcenter
                 foreground: *alarm_yellow
                 background: *transparent
 
-                alignment: { horizontal: "Right" }
+                alignment: CenterRight
                     
                 channel: "S:SRcurrentAI"
                 

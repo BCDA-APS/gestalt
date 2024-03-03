@@ -42,18 +42,22 @@ IO: !hflow
                                 - !Text
                                     geometry: 25x55 x 20x20
                                     text: "In"
+                                    alignment: CenterRight
                                     
                                 - !Text
                                     geometry: 15x90 x 30x20
                                     text: "Out"
+                                    alignment: CenterRight
                                     
                                 - !Text
                                     geometry: 5x130 x 40x20
                                     text: "Dir."
+                                    alignment: CenterRight
                                     
                                 - !Text
                                     geometry: 0x160 x 45x20
                                     text: "Desc."
+                                    alignment: CenterRight
                                     
                                 - !hrepeat
                                     repeat_over: "FIO"
@@ -77,9 +81,8 @@ IO: !hflow
                                                 geometry: 75x0 x 80x20
                                                 background: *edit_blue
                                                 foreground: *black
-                                                colorMode: caLineEdit::Static
                                                 
-                                                channel: !string "$(P)FIOIn"
+                                                pv: !string "$(P)FIOIn"
                             
                         - !group
                             <<: *ThinBorderedGroup
@@ -88,18 +91,22 @@ IO: !hflow
                                 - !Text
                                     geometry: 25x55 x 20x20
                                     text: "In"
+                                    alignment: CenterRight
                                     
                                 - !Text
                                     geometry: 15x90 x 30x20
                                     text: "Out"
+                                    alignment: CenterRight
                                     
                                 - !Text
                                     geometry: 5x130 x 40x20
                                     text: "Dir."
+                                    alignment: CenterRight
                                     
                                 - !Text
                                     geometry: 0x160 x 45x20
                                     text: "Desc."
+                                    alignment: CenterRight
                                     
                                 - !hrepeat
                                     repeat_over: "EIO"
@@ -134,18 +141,22 @@ IO: !hflow
                                     - !Text
                                         geometry: 25x55 x 20x20
                                         text: "In"
+                                        alignment: CenterRight
                                         
                                     - !Text
                                         geometry: 15x90 x 30x20
                                         text: "Out"
+                                        alignment: CenterRight
                                         
                                     - !Text
                                         geometry: 5x130 x 40x20
                                         text: "Dir."
+                                        alignment: CenterRight
                                         
                                     - !Text
                                         geometry: 0x160 x 45x20
                                         text: "Desc."
+                                        alignment: CenterRight
                                         
                                     - !hflow
                                         geometry: 55x30 x 0x0
@@ -198,10 +209,10 @@ IO: !hflow
         
                                                     
                 - !hcenter
-                    DigitalIOTitle: !caLabel
+                    DigitalIOTitle: !Text
                         geometry: 130x25
                         text: "Digital I/O"
-                        alignment: Qt::AlignHCenter|Qt::AlignVCenter
+                        alignment: Center
                 
         
         - !vflow
@@ -300,12 +311,11 @@ IO: !hflow
                                                     - { label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }
                                                 
                         - !hcenter
-                            AnalogTitle: !caLabel
+                            AnalogTitle: !Text
                                 geometry: 0x5 x 150x25
                                 font: -Cantarell -regular -15
-                                fontScaleMode: ESimpleLabel::None
                                 text: "Analog Out"
-                                alignment: Qt::AlignHCenter|Qt::AlignVCenter
+                                alignment: { vertical: "Center", horizontal: "Center" }
                                 
                 
 Status: !hcenter

@@ -97,7 +97,7 @@ UIRow: !repeat
 
         - !TextMonitor
             <<: *string_display
-            alignment: { horizontal: Center, vertical: Center }    
+            alignment: Center    
             geometry: 610x1 x 80x18
             channel: $(P){Instance}:DroppedArrays_RBV
             
@@ -108,7 +108,7 @@ UIRow: !repeat
             
         - !TextMonitor
             <<: *string_display
-            alignment: { horizontal: Center, vertical: Center }    
+            alignment: Center    
             geometry: 780x1 x 80x18
             channel: $(P){Instance}:ArrayRate_RBV
             

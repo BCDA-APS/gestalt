@@ -5,7 +5,7 @@ DIO_Item: &DIO_Slot
         - !Text
             font: -Sans Serif - Regular - 8
             geometry: 0x0 x 50x15            
-            alignment: { horizontal: Center, vertical: Center }
+            alignment: Center
             text: !string "{Label}"
         
         - !conditional
@@ -59,7 +59,7 @@ AIn_Line: &AIn_Slot
             geometry: 0x0 x 20x20
             text: !string "{__index__}"
             font: -Sans Serif -regular -8
-            alignment: { vertical: Center, horizontal: Center }
+            alignment: Center
             
         
         - !TextMonitor
@@ -106,7 +106,7 @@ AOut_Line: &AOut_Slot
             geometry: 0x0 x 20x20
             text: !string "{__index__}"
             font: -Sans Serif -regular -8
-            alignment: { vertical: Center, horizontal: Center }
+            alignment: Center
 
         - !TextMonitor
             geometry: 30x0 x 90x20

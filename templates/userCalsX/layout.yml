@@ -43,7 +43,7 @@ UIRow: !repeat
             
             pv: "$(P)userCalc{N}.DESC"
             
-            alignment: { horizontal: Right, vertical: Bottom }
+            alignment: BottomRight
             
             foreground: $0A00B8
             background: *grey_lighter
@@ -67,7 +67,7 @@ UIRow: !repeat
             geometry: 195x10 x 20x10
             
             text: "PUT"
-            alignment: Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter
+            alignment: CenterLeft
             
             foreground: *black
             background: *transparent
@@ -80,7 +80,7 @@ UIRow: !repeat
             geometry: 195x0 x 20x10
             
             text: "ON"
-            alignment: Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter
+            alignment: CenterLeft
             
             foreground: *black
             background: *transparent
