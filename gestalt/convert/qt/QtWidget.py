@@ -8,20 +8,22 @@ class QtWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(QtWidget, self).__init__(classname, name=name, layout=layout)
 	
-		if "alignment" in self.attrs:
-			if isinstance(self.attrs["alignment"], dict):
-				data = self.attrs.pop("alignment")
+		if "alignment" in self.attrs and not isinstance(self.attrs["alignment"], Set):
+			data = str(Alignment(self.attrs.pop("alignment")))
 			
-				halign = "Qt::Align" + str(data.get("horizontal", "Left")).lower().capitalize()
-				valign = "Qt::Align" + str(data.get("vertical", "Center")).lower().capitalize()
+			# Split into two strings based on capitalization
+			data = "".join([(" "+i if i.isupper() else i) for i in data]).strip().split()
+			
+			valign = "Qt::Align" + data[0]
+			halign = "Qt::Align" + data[1]
 				
-				if halign == "Qt::AlignCenter":
-					halign = "Qt::AlignHCenter"
+			if halign == "Qt::AlignCenter":
+				halign = "Qt::AlignHCenter"
 				
-				if valign == "Qt::AlignCenter":
-					valign = "Qt::AlignVCenter"
+			if valign == "Qt::AlignCenter":
+				valign = "Qt::AlignVCenter"
 				
-				self.attrs["alignment"] = Set(halign + "|" + valign)
+			self.attrs["alignment"] = Set(halign + "|" + valign)
 	
 		self.macros = macros
 	

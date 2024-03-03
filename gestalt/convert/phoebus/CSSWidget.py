@@ -12,13 +12,18 @@ class CSSWidget(GroupNode):
 		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
 		
 		if "alignment" in self.attrs:
-			data = self.attrs.pop("alignment")
+			data = str(Alignment(self.attrs.pop("alignment")))
 			
-			self.attrs["horizontal_alignment"] = String(data.get("horizontal", "Left"))
-			self.attrs["vertical_alignment"] = String(data.get("vertical", "Middle"))
+			# Split into two strings based on capitalization
+			data = "".join([(" "+i if i.isupper() else i) for i in data]).strip().split()
+			
+			
+			self.attrs["vertical_alignment"] = data[0]
+			self.attrs["horizontal_alignment"] = data[1]
+			
 			
 		if "vertical_alignment" in self.attrs:
-			if str(self.attrs["vertical_alignment"]).lower() == "center":
+			if isinstance(self.attrs["vertical_alignment"], Alignment) or str(self.attrs["vertical_alignment"]).lower() == "center":
 				self.attrs["vertical_alignment"] = String("Middle")
 				
 		self.macros = macros
