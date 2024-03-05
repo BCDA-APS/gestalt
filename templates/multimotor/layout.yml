@@ -60,9 +60,7 @@ motor_grid: !grid
                     
                     
                 - !RelatedDisplay
-                    background: *edit_blue
-                    foreground: *black
-                    
+                    <<: *editable
                     geometry: 10x30 x 140x17
                     text: "($(P)$(M{N}))"
                     
@@ -231,9 +229,6 @@ motor_grid: !grid
                             children:
                                 
                                 - !TextEntry
-                                    background: *edit_blue
-                                    foreground: *black
-                                    
+                                    <<: *editable
                                     geometry: 2x2 x 114x25
-                                
                                     pv: "$(P)$(M{N}).VAL"

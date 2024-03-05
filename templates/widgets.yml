@@ -9,12 +9,11 @@ string_display: &string_display
     background: *transparent
     
 data_display: &data_display
-    colorMode: caLineEdit::Alarm_Static
-    alignment: { horizontal: Center, vertical: Center }
     background: *gray_darker
     foreground: *alarm_green
+    alignment:  Center
 
 centered_label: &centered_label
     foreground: *black
     background: *transparent
-    alignment: { horizontal: Center, vertical: Center }
+    alignment: Center

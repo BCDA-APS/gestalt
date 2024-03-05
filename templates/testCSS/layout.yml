@@ -10,10 +10,8 @@ Test: !vrepeat
     
     children:
         - !TextEntry
+            <<: *editable
             geometry: 5x0 x 120x20
-            
-            background: *edit_blue
-            foreground: *black
             
             alignment: BottomRight
             font: -Liberation Sans - bold - 12
@@ -22,7 +20,7 @@ Test: !vrepeat
             
             
 Maybe: !MessageButton
-    <<: *related_display
+    <<: *editable
 
     text: "Open xxx"
     

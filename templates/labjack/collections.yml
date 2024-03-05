@@ -26,21 +26,16 @@ DIO_Item: &DIO_Slot
                     geometry: 15x0 x 22x22
                     
                 - !ChoiceButton
+                    <<: *editable
                     geometry: 0x30 x 50x35
                     
                     pv: !string "$(P)Bo{N}"
                     
-                    foreground: *black
-                    background: *edit_blue
-                    
                 - !ChoiceButton
+                    <<: *editable
                     geometry: 0x70 x 50x35
                     
                     pv: !string "$(P)Bd{N}"
-                    
-                    foreground: *black
-                    background: *edit_blue
-                    
                 
                 - !TextEntry
                     geometry: 0x110 x 50x18
@@ -70,16 +65,14 @@ AIn_Line: &AIn_Slot
             font: -Monospace -regular -12
             
         - !Menu
+            <<: *editable
             geometry: 140x1 x 90x18
             pv: !string "$(P)Ai{__index__}.SCAN"
-            background: *edit_blue
-            foreground: *black
             
         - !MessageButton
+            <<: *editable
             geometry: 240x0 x 65x20
             text: "Read"
-            background: *edit_blue
-            foreground: *black
             pv: !string "$(P)Ai{__index__}.PROC"
             value: "1"
             
@@ -91,10 +84,9 @@ AIn_Line: &AIn_Slot
             foreground: *black
             
         - !RelatedDisplay
+            <<: *editable
             geometry: 430x0 x 50x20
             text: "Chart"
-            background: *edit_blue
-            foreground: *black
             
             links:
                 - { label: "Strip Chart", file: "LabJack_T7_AIStripChart.ui", args: "AI=$(P)AI{__index__}" }
@@ -109,17 +101,15 @@ AOut_Line: &AOut_Slot
             alignment: Center
 
         - !TextMonitor
+            <<: *editable
             geometry: 30x0 x 90x20
             pv: !string "$(P)Ao{__index__}"
-            background: *edit_blue
-            foreground: *black
             font: -Monospace -regular -9
             
         - !caSlider
+            <<: *editable
             geometry: 140x0 x 120x20
             channel: !string "$(P)Ao{__index__}"
-            background: *edit_blue
-            foreground: *black
             colorMode: caSlider::Static
             direction: caSlider::Right
             scaleValueEnabled: False
@@ -129,25 +119,22 @@ AOut_Line: &AOut_Slot
 
             
         - !MessageButton
+            <<: *editable
             geometry: 270x0 x 15x20
             pv: !string "$(P)Ao{__index__}TweakDown.PROC"
-            background: *edit_blue
-            foreground: *black
             text: "<"
             value: "1"
             
         - !TextEntry
+            <<: *editable
             geometry: 290x0 x 60x20
             pv: !string "$(P)Ao{__index__}TweakVal"
-            background: *edit_blue
-            foreground: *black
             font: -Monospace -regular -9
             
         - !MessageButton
+            <<: *editable
             geometry: 355x0 x 15x20
             pv: !string "$(P)Ao{__index__}TweakUp.PROC"
-            background: *edit_blue
-            foreground: *black
             text: ">"
             value: "1"
             

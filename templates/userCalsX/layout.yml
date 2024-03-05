@@ -31,11 +31,8 @@ UIRow: !repeat
                 - { label: "user Calc {N} (full)", file: "userCalc_full.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
             
         - !ChoiceButton
+            <<: *editable
             geometry: 25x0 x 40x20
-            
-            foreground: *black
-            background: *edit_blue
-            
             pv: "$(P)userCalc{N}Enable"
             
         - !TextEntry
@@ -64,27 +61,21 @@ UIRow: !repeat
             channel: "$(P)userCalc{N}EnableCalc"
             
         - !caLabel
+            <<: *string_display
             geometry: 195x10 x 20x10
             
             text: "PUT"
             alignment: CenterLeft
-            
-            foreground: *black
-            background: *transparent
-            
             visibility: caLabel::IfZero
             
             channel: "$(P)userCalc{N}.OUTV"
             
         - !caLabel
+            <<: *string_display
             geometry: 195x0 x 20x10
             
             text: "ON"
             alignment: CenterLeft
-            
-            foreground: *black
-            background: *transparent
-            
             visibility: caLabel::IfNotZero
             
             channel: "$(P)userCalc{N}.SCAN"

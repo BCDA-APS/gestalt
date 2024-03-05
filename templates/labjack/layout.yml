@@ -78,10 +78,8 @@ IO: !hflow
                                                 text: "FIO 0-7"
                                                 
                                             - !TextMonitor
-                                                geometry: 75x0 x 80x20
-                                                background: *edit_blue
-                                                foreground: *black
-                                                
+                                                <<: *editable
+                                                geometry: 75x0 x 80x20                                                
                                                 pv: !string "$(P)FIOIn"
                             
                         - !group
@@ -127,10 +125,8 @@ IO: !hflow
                                                 text: "EIO 0-7"
                                                 
                                             - !TextMonitor
+                                                <<: *editable
                                                 geometry: 75x0 x 80x20
-                                                background: *edit_blue
-                                                foreground: *black
-                                                
                                                 pv: !string "$(P)EIOIn"
                             
                         - !hstretch
@@ -190,10 +186,8 @@ IO: !hflow
                                                     text: "CIO 0-3"
                                                     
                                                 - !TextMonitor
+                                                    <<: *editable
                                                     geometry: 80x20
-                                                    background: *edit_blue
-                                                    foreground: *black
-                                                    
                                                     pv: !string "$(P)CIOIn"
                                                     
                                                 - !Text
@@ -202,9 +196,7 @@ IO: !hflow
                                                     
                                                 - !TextMonitor
                                                     geometry: 80x20
-                                                    background: *edit_blue
-                                                    foreground: *black
-                                                    
+                                                    <<: *editable
                                                     pv: !string "$(P)MIOIn"
         
                                                     
@@ -243,30 +235,27 @@ IO: !hflow
                                     
                                         children:
                                             - !RelatedDisplay
+                                                <<: *editable
                                                 geometry: 100x20
                                                 text: "Configure"
-                                                background: *edit_blue
-                                                foreground: *black
                                                 
                                                 links:
                                                     - { label: "AI Setup", file: "LabJack_T7_AiSetup.ui", macros: "P=$(P)" }
                                                 
                                             - !RelatedDisplay
+                                                <<: *editable
                                                 geometry: 150x20
                                                 text: "Waveform Digitizer"
-                                                background: *edit_blue
-                                                foreground: *black
                                                 
                                                 links:
                                                     - { label: "Waveform Digitizer", file: "LabJackWaveDig.ui", macros: "P=$(P)" }
                                                 
                         - !hcenter
-                            AnalogTitle: !caLabel
+                            AnalogTitle: !Text
                                 geometry: 0x5 x 150x25
                                 font: -Cantarell -regular -15
-                                fontScaleMode: ESimpleLabel::None
                                 text: "Analog Input"
-                                alignment: Qt::AlignHCenter|Qt::AlignVCenter
+                                alignment: Center
         
                                 
                 - !group
@@ -293,19 +282,17 @@ IO: !hflow
                                     
                                         children:
                                             - !RelatedDisplay
+                                                <<: *editable
                                                 geometry: 100x20
                                                 text: "Configure"
-                                                background: *edit_blue
-                                                foreground: *black
                                                 
                                                 links:
                                                     - { label: "AO Setup", file: "LabJack_T7_AoSetup.ui", macros: "P=$(P)" }
                                                 
                                             - !RelatedDisplay
+                                                <<: *editable
                                                 geometry: 150x20
                                                 text: "Waveform Generator"
-                                                background: *edit_blue
-                                                foreground: *black
                                                 
                                                 links:
                                                     - { label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }
@@ -315,7 +302,7 @@ IO: !hflow
                                 geometry: 0x5 x 150x25
                                 font: -Cantarell -regular -15
                                 text: "Analog Out"
-                                alignment: { vertical: "Center", horizontal: "Center" }
+                                alignment: Center
                                 
                 
 Status: !hcenter
@@ -435,10 +422,9 @@ Status: !hcenter
                                 text: "Poll Sleep Time (ms)"
                                 
                             - !TextEntry
+                                <<: *editable
                                 geometry: 100x20
                                 pv: !string "$(P)PollSleepMS"
-                                foreground: *black
-                                background: *edit_blue
                                 
                                 
                     - !hflow
