@@ -8,7 +8,7 @@ class QtDisplay(QtWidget):
 	def __init__(self, layout={}):
 		super(QtDisplay, self).__init__("QWidget", name="centralwidget")
 	
-		self.form = QtWidget("QWidget", name="Form", layout=layout)
+		self.form = QtWidget("QMainWindow", name="Form", layout=layout)
 	
 		self.form.append(self, keep_original=True)
 	
@@ -26,7 +26,7 @@ class QtDisplay(QtWidget):
 		
 		if "styleSheet" not in self.form.attrs:
 			bg_col = self.form.attrs["background"]
-			stylesheet_str = "QWidget#Form {background: rgba(" + str(bg_col["red"]) + "," + str(bg_col["green"]) + "," + str(bg_col["blue"]) + "," + str(bg_col["alpha"]) + ");}"
+			stylesheet_str = "QMainWindow#Form {background: rgba(" + str(bg_col["red"]) + "," + str(bg_col["green"]) + "," + str(bg_col["blue"]) + "," + str(bg_col["alpha"]) + ");}"
 			stylesheet_str += "\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
 			self.form.attrs["styleSheet"] = String(stylesheet_str)
 			
