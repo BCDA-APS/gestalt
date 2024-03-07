@@ -325,14 +325,16 @@ A widget representing a text display field
 
 * **Special Attributes**
 
-|    Name    |    Type   | Description|
-|------------|-----------|------------|
-| geometry   | Rect      | A rectangle describing the position and dimensions of the widget |
-| foreground | Color     | Widget foreground color |
-| background | Color     | Widget background color |
-| font       | Font      | Widget display font |
-| alignment  | Alignment | Display text alignment. |
-| pv         | String    | The PV to read data from |
+|     Name     |    Type   | Description|
+|--------------|-----------|------------|
+| geometry     | Rect      | A rectangle describing the position and dimensions of the widget |
+| foreground   | Color     | Widget foreground color |
+| background   | Color     | Widget background color |
+| border-color | Color     | Widget border color |
+| border-width | Number    | Widget border thickness in pixels |
+| font         | Font      | Widget display font |
+| alignment    | Alignment | Display text alignment. |
+| pv           | String    | The PV to read data from |
 
 
 * **Example**

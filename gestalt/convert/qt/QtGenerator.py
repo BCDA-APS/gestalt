@@ -91,6 +91,12 @@ class QtGenerator(GestaltGenerator):
 		if "pv" in output.attrs:
 			output.attrs["channel"] = String(output.attrs.pop("pv"))
 			
+		if "border-color" in output.attrs:
+			output.attrs["frameColor"] = Color(output.attrs.pop("border-color"))
+		
+		if "border-width" in output.attrs:
+			output.attrs["frameWidth"] = Number(output.attrs.pop("border-width"))
+			
 		output.attrs["colorMode"] = Enum("caLineEdit::Static")
 		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
 		
