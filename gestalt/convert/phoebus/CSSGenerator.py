@@ -108,15 +108,15 @@ class CSSGenerator(GestaltGenerator):
 		
 		output.attrs["line"] = Color(output.attrs.pop("border-color", Color("$000000")))
 		
-		falseval = int(output.attrs.pop("false-value", 0))
-		trueval  = int(output.attrs.pop("true-value", 1))
+		falseval = output.attrs.pop("false-value")
+		trueval  = output.attrs.pop("true-value")
 		
-		falsecol = Color(output.attrs.pop("false-color", "$3C643C"))
-		truecol  = Color(output.attrs.pop("true-color", "$00FF00"))
-		undefcol = Color(output.attrs.pop("undefined-color", "$A0A0A4"))
+		falsecol = output.attrs.pop("false-color")
+		truecol  = output.attrs.pop("true-color")
+		undefcol = output.attrs.pop("undefined-color")
 		
-		output.widget.state(falseval, "", falsecol.val["red"], falsecol.val["green"], falsecol.val["blue"], falsecol.val["alpha"])
-		output.widget.state(trueval, "", truecol.val["red"], truecol.val["green"], truecol.val["blue"], truecol.val["alpha"])
+		output.widget.state(falseval.val, "", falsecol.val["red"], falsecol.val["green"], falsecol.val["blue"], falsecol.val["alpha"])
+		output.widget.state(trueval.val, "", truecol.val["red"], truecol.val["green"], truecol.val["blue"], truecol.val["alpha"])
 		
 		output.widget.fallback_label("")
 		output.widget.fallback_color(undefcol.val["red"], undefcol["green"], undefcol.val["blue"], undefcol.val["alpha"])

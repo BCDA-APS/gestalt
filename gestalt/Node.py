@@ -480,6 +480,20 @@ class LEDNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(LEDNode, self).__init__("LED", name=name, layout=layout)
 	
+		self.attrs["false-color"] = Color(self.attrs.pop("false-color", "$3C643C"))
+		self.attrs["true-color"]  = Color(self.attrs.pop("true-color",  "$00FF00"))
+		self.attrs["undefined-color"] = Color(self.attrs.pop("undefined-color", "$A0A0A4"))
+		self.attrs["border-color"] = Color(self.attrs.pop("border-color", "$000000"))
+	
+		self.attrs["false-value"] = Number(self.attrs.pop("false-value", 0))
+		self.attrs["true-value"]  = Number(self.attrs.pop("true-value", 1))
+	
 	def apply(self, generator, data={}):
 		return generator.generateLED(self,data)
+	
+
+	
+	
+	
+	
 	

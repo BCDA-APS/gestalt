@@ -139,24 +139,12 @@ class QtGenerator(GestaltGenerator):
 		if "square" in output.attrs:
 			output.attrs["rectangular"] = Bool(output.attrs.pop("square"))
 			
-		if "false-color" in output.attrs:
-			output.attrs["falseColor"] = Color(output.attrs.pop("false-color"))
-			
-		if "false-value" in output.attrs:
-			output.attrs["falseValue"] = Number(output.attrs.pop("false-value"))
-			
-		if "true-color" in output.attrs:
-			output.attrs["trueColor"] = Color(output.attrs.pop("true-color"))
-			
-		if "true-value" in output.attrs:
-			output.attrs["trueValue"] = Number(output.attrs.pop("true-value"))
-			
-		if "undefined-color" in output.attrs:
-			output.attrs["undefinedColor"] = Color(output.attrs.pop("undefined-color"))
-			
-		if "border-color" in output.attrs:
-			output.attrs["borderColor"] = Color(output.attrs.pop("border-color"))
-			
+		output.attrs["falseColor"] = Color(output.attrs.pop("false-color"))
+		output.attrs["falseValue"] = Number(output.attrs.pop("false-value"))
+		output.attrs["trueColor"] = Color(output.attrs.pop("true-color"))
+		output.attrs["trueValue"] = Number(output.attrs.pop("true-value"))
+		output.attrs["undefinedColor"] = Color(output.attrs.pop("undefined-color"))
+		output.attrs["borderColor"] = Color(output.attrs.pop("border-color"))	
 		output.attrs["gradientEnabled"] = Bool(False)
 		output.attrs["scaleContents"] = Bool(True)
 		
