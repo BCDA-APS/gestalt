@@ -27,10 +27,13 @@ the resulting UI screen. Otherwise, none of the children widgets are included.
 
 * **Special Attributes**
 
-|    Name   |  Type  | Description|
-|-----------|--------|------------|
-| children  | List   | A list of widgets to conditionally include |
-| condition | String | The name of a macro that will determine the children widget's inclusion |
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| children     | List   | A list of widgets to conditionally include |
+| condition    | String | The name of a macro that will determine the children widget's inclusion |
+| background   | Color  | A fill color behind the entirety of all children |
+| border-color | Color  | The color of the group's border surrounding the children widgets |
+| border-width | Number | The thickness of the group's border in pixels |
 
 * **Example**
 

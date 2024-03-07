@@ -20,7 +20,7 @@ nav_order: 1
 
 The list of recognized CSS Widgets is as follows: "ActionButton", "Arc", "Array", "BooleanButton", 
 "ByteMonitor", "CheckBox", "ComboBox", "DataBrowser", "Ellipse", "EmbeddedDisplay", 
-"FileSelector", "Group", "Image", "LED", "LEDMultiState", "Label", "Meter", "NavigationTabs", 
+"FileSelector", "Image", "LED", "LEDMultiState", "Label", "Meter", "NavigationTabs", 
 "Picture", "Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle", "ScaledSlider", 
 "Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", "Tank", "TextEntry", 
 "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", and "XYPlot".

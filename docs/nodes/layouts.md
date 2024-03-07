@@ -27,10 +27,13 @@ changed.
 
 * **Special Attributes**
 
-|   Name   |  Type  | Description|
-|----------|--------|------------|
-| children | List   | A list of widgets to space along the horizontal axis |
-| padding  | Number | The number of pixels between each widget |
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| children     | List   | A list of widgets to space along the horizontal axis |
+| padding      | Number | The number of pixels between each widget |
+| background   | Color  | A fill color behind the entirety of all children |
+| border-color | Color  | The color of the group's border surrounding the children widgets |
+| border-width | Number | The thickness of the group's border in pixels |
 
 
 * **Example**
@@ -80,10 +83,13 @@ You may also use the alias "flow" to reference the vflow node.
 
 * **Special Attributes**
 
-|   Name   |  Type  | Description|
-|----------|--------|------------|
-| children | List   | A list of widgets to space along the vertical axis |
-| padding  | Number | The number of pixels between each widget |
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| children     | List   | A list of widgets to space along the vertical axis |
+| padding      | Number | The number of pixels between each widget |
+| background   | Color  | A fill color behind the entirety of all children |
+| border-color | Color  | The color of the group's border surrounding the children widgets |
+| border-width | Number | The thickness of the group's border in pixels |
 
 
 * **Example**
@@ -140,12 +146,15 @@ mentioned above will also be included.
 
 * **Special Attributes**
 
-|     Name    |  Type  | Description|
-|-------------|--------|------------|
-| children    | List   | A list of widgets to use as a template to copy along the horizontal axis |
-| repeat_over | String | The name of a macro that will be provided within the input data file |
-| start_at    | Number | An offset value to the loop index to provide children widgets |
-| padding     | Number | The number of pixels between each widget group |
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| children     | List   | A list of widgets to use as a template to copy along the horizontal axis |
+| repeat_over  | String | The name of a macro that will be provided within the input data file |
+| start_at     | Number | An offset value to the loop index to provide children widgets |
+| padding      | Number | The number of pixels between each widget group |
+| background   | Color  | A fill color behind the entirety of each template copy |
+| border-color | Color  | The color of the group's border surrounding each template copy |
+| border-width | Number | The thickness of the group's border in pixels |
 
 
 * **Example**
@@ -202,12 +211,15 @@ You may also use the alias "repeat" to reference the vrepeat node.
 
 * **Special Attributes**
 
-|     Name    |  Type  | Description|
-|-------------|--------|------------|
-| children    | List   | A list of widgets to use as a template to copy along the vertical axis |
-| repeat_over | String | The name of a macro that will be provided within the input data file |
-| start_at    | Number | An offset value to the loop index to provide children widgets |
-| padding     | Number | The number of pixels between each widget group |
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| children     | List   | A list of widgets to use as a template to copy along the vertical axis |
+| repeat_over  | String | The name of a macro that will be provided within the input data file |
+| start_at     | Number | An offset value to the loop index to provide children widgets |
+| padding      | Number | The number of pixels between each widget group |
+| background   | Color  | A fill color behind the entirety of each template copy |
+| border-color | Color  | The color of the group's border surrounding each template copy |
+| border-width | Number | The thickness of the group's border in pixels |
 
 
 * **Example**
@@ -292,6 +304,9 @@ elements a user provides.
 | start_at     | Number | An offset value to the loop index to provide children widgets |
 | padding      | Number | The number of pixels between each widget group |
 | aspect_ratio | Double | A ratio indicating the relative number of columns to the number of rows in the grid |
+| background   | Color  | A fill color behind the entirety of each template copy |
+| border-color | Color  | The color of the group's border surrounding each template copy |
+| border-width | Number | The thickness of the group's border in pixels |
 
 
 * **Example**
