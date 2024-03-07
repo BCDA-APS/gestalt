@@ -3,6 +3,7 @@ from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
 
 from gestalt.convert.qt.QtWidget import QtWidget
+from gestalt.convert.qt.QtGroup  import QtGroup
 from gestalt.convert.qt.QtDisplay import QtDisplay
 
 
@@ -11,10 +12,10 @@ class QtGenerator(GestaltGenerator):
 		return QtWidget(original.classname, name=original.name, layout=original.attrs, macros=macros)
 		
 	def generateGroup(self, original, macros={}):
-		return QtWidget("caFrame", name=original.name, layout=original.attrs, macros=macros)
+		return QtGroup(name=original.name, layout=original.attrs, macros=macros)
 	
 	def generateAnonymousGroup(self, macros={}):
-		return QtWidget("caFrame")
+		return QtGroup()
 		
 	def generateRelatedDisplay(self, node, macros={}):
 		output = QtWidget("caRelatedDisplay", name=node.name, layout=node.attrs, macros=macros)

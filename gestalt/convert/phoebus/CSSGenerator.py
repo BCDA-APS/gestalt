@@ -5,6 +5,7 @@ from gestalt.Generator import GestaltGenerator
 from phoebusgen import screen
 
 from gestalt.convert.phoebus.CSSWidget    import CSSWidget
+from gestalt.convert.phoebus.CSSGroup     import CSSGroup
 from gestalt.convert.phoebus.CSSDisplay   import CSSDisplay
 
 
@@ -13,20 +14,10 @@ class CSSGenerator(GestaltGenerator):
 		return CSSWidget(original.classname, name=original.name, layout=original.attrs, macros=macros)
 		
 	def generateGroup(self, original, macros={}):
-		output = CSSWidget("Group", name=original.name, layout=original.attrs, macros=macros)
-	
-		output.widget.transparent(True)
-		output.widget.no_style()
-	
-		return output
+		return CSSGroup(name=original.name, layout=original.attrs, macros=macros)
 		
 	def generateAnonymousGroup(self, macros={}):
-		output = CSSWidget("Group")
-		
-		output.widget.transparent(True)
-		output.widget.no_style()
-	
-		return output
+		return CSSGroup()
 		
 	def generateRelatedDisplay(self, node, macros={}):
 		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)

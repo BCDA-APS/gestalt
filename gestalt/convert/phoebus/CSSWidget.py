@@ -18,8 +18,8 @@ class CSSWidget(GroupNode):
 			data = "".join([(" "+i if i.isupper() else i) for i in data]).strip().split()
 			
 			
-			self.attrs["vertical_alignment"] = data[0]
-			self.attrs["horizontal_alignment"] = data[1]
+			self.attrs["vertical_alignment"] = String(data[0])
+			self.attrs["horizontal_alignment"] = String(data[1])
 			
 			
 		if "vertical_alignment" in self.attrs:
@@ -170,12 +170,16 @@ class CSSWidget(GroupNode):
 				getattr(self.widget, prefix + "font_size")(int(my_font["size"]))
 				
 			if my_font["style"]:
-				getattr(self.widget, prefix + "font_style_" + my_font["style"])()
+				getattr(self.widget, prefix + "font_style_" + my_font["style"].lower())()
 				
 		
 	def write(self, screen):
 		for key, item in self.attrs.items():
-			item.apply(self.macros)
+			try:
+				item.apply(self.macros)
+			except:
+				print(key)
+				print(item)
 			
 		if self.widget:
 			self.widget.name(self.name)
@@ -309,6 +313,7 @@ class CSSWidget(GroupNode):
 			self.setColorParam("knob_color",       "knob",       check_class=_p._KnobColor)
 			self.setColorParam("fill_color",       "fill",       check_class=_p._FillColor)
 			self.setColorParam("empty_color",      "empty",      check_class=_p._EmptyColor)
+			self.setColorParam("line_color",       "line",       check_class=_p._LineColor)
 			self.setColorParam("selected_color",   "selected",   check_class=_p._SelectedColor)
 			self.setColorParam("deselected_color", "deselected", check_class=_p._DeselectedColor)
 			self.setColorParam("grid_color",       "grid",       check_class=_p._GridColor)
