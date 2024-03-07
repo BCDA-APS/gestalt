@@ -20,7 +20,7 @@ nav_order: 1
 
 The list of recognized CSS Widgets is as follows: "ActionButton", "Arc", "Array", "BooleanButton", 
 "ByteMonitor", "CheckBox", "ComboBox", "DataBrowser", "Ellipse", "EmbeddedDisplay", 
-"FileSelector", "Image", "LED", "LEDMultiState", "Label", "Meter", "NavigationTabs", 
+"FileSelector", "Image", "LEDMultiState", "Label", "Meter", "NavigationTabs", 
 "Picture", "Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle", "ScaledSlider", 
 "Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", "Tank", "TextEntry", 
 "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", and "XYPlot".
@@ -141,6 +141,40 @@ A special widget used to set values for the top-level window.
 Form: !Form
     background: $123456
     margins: 5x5x5x5
+```
+
+
+### LED
+
+---
+
+A widget that changes color based upon the value of a given pv. Has one of three states,
+true, false, or undefined based upon a match with values given by the widget.
+
+
+* **Special Attributes**
+
+|       Name      |    Type   | Description|
+|-----------------|-----------|------------|
+| geometry        | Rect      | A rectangle describing the position and dimensions of the widget |
+| square          | Bool      | Change widget shape to rectangular rather than circular |
+| false-value     | Number    | Set widget to false-color when pv value equals false-value, 0 by default |
+| true-value      | Number    | Set widget to true-color when pv value equals true-value, 1 by default |
+| false-color     | Color     | The display color for a false value, $3C643C by default |
+| true-color      | Color     | The display color for a true value, $00FF00 by default |
+| undefined-color | Color     | The display color for any other value, $A0A0A4 by default |
+| border-color    | Color     | Widget border color, $000000 by default |
+| pv              | String    | The PV to read data from |
+
+
+* **Example**
+
+```yaml
+OnOff_Readback: !LED
+    pv: "$(P)userCalcEnable.VAL"
+    
+    geometry: 24x24
+    square: true
 ```
 
 
