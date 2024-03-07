@@ -18,26 +18,24 @@ Hutches: !hrepeat
         - !group
             geometry: 0x15 x 230x170
             
-            style: "Line"
-            line_width: 4
-            
-            background_color: *grey_darker
+            border-color: *grey_darker
+            border-width: 4
             
             children:    
                 - !group
                     geometry: 135x95 x 82x26
                     
                     children:
-                        - !Label
+                        - !Text
                             text: "Moving"
                             geometry: 1x0 x 78x23
                             
-                            foreground_color: *header_blue
-                            background_color: *transparent
+                            foreground: *header_blue
+                            background: *transparent
                             
-                            vertical_alignment: "Middle"
+                            alignment: MiddleLeft
                             
-                            pv_name: !string "{PREFIX}:alldone.VAL"
+                            pv: !string "{PREFIX}:alldone.VAL"
                             
                         - !Label
                             text: "Moving"

@@ -16,10 +16,8 @@ Hutches: !hrepeat
         - !group
             geometry: 0x15 x 230x170
             
-            frameShape: QFrame::Box
-            lineWidth: 4
-            
-            background: *grey_darker
+            border-width: 4
+            border-color: *grey_darker
             
             children:
                 - !caPolyLine

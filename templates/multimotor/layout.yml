@@ -18,11 +18,8 @@ motor_grid: !grid
         - !group
             geometry: 160x204
             
-            background: $003584
-            
-            frameShape: QFrame::Box
-            lineWidth: 3
-            backgroundMode: caFrame::Outline
+            border-color: $00358
+            border-width: 3
             
             children:
                 - !caCalc
@@ -166,7 +163,6 @@ motor_grid: !grid
                     
                 - !group
                     background: *black
-                    backgroundMode: caFrame::Filled
                     visibilityMode: caFrame::Background
                     visibility: caFrame::IfNotZero
                     
@@ -179,8 +175,7 @@ motor_grid: !grid
                         
                         - !group
                             background: *alarm_yellow
-                            
-                            backgroundMode: caFrame::Filled
+
                             visibilityMode: caFrame::Background
                             visibility: caFrame::IfNotZero
         
@@ -201,7 +196,6 @@ motor_grid: !grid
                 - !group
                     background: *alarm_red
                     
-                    backgroundMode: caFrame::Filled
                     visibilityMode: caFrame::Background
                     visibility: caFrame::IfNotZero
                     
@@ -215,15 +209,11 @@ motor_grid: !grid
                         - !group
                             background: *black
                             
-                            backgroundMode: caFrame::Filled
                             visibilityMode: caFrame::Background
                             visibility: caFrame::IfNotZero
                             
                             channel: "$(P)$(M{N})_able.VAL"
-                            
-                            frameShape: QFrame::NoFrame
-                            lineWidth: 1
-                            
+
                             geometry: 3x3 x 118x29
                     
                             children:

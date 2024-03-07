@@ -10,10 +10,8 @@ Form: !Form
 Thin_Bordered_Group: &ThinBorderedGroup
     margins: 10x5x10x5
     
-    background: *black
-    
-    frameShape: QFrame::Box
-    lineWidth: 1    
+    border-color: *black
+    border-width: 1    
     
     
     
