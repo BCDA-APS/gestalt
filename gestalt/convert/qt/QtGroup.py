@@ -23,8 +23,7 @@ class QtGroup(QtWidget):
 			background.attrs["foreground"] = Color(self.attrs.pop("background"))
 			background.attrs["lineColor"] = background.attrs["foreground"]
 
-		if "border-color" in self.attrs:
-			self.attrs["background"] = Color(self.attrs.pop("border-color"))
+		self.attrs["background"] = Color(self.attrs.pop("border-color", Color("$00000000")))
 			
 		if "border-width" in self.attrs:
 			self.attrs["lineWidth"] = Number(self.attrs.pop("border-width"))
