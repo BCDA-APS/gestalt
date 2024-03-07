@@ -77,6 +77,12 @@ class CSSGenerator(GestaltGenerator):
 	def generateTextEntry(self, node, macros={}):
 		output = CSSWidget("TextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
+		if "border-color" in output.attrs:
+			output.attrs["border"] = Color(output.attrs.pop("border-color"))
+			
+		if "border-width" in output.attrs:
+			output.attrs["border_width"] = Number(output.attrs.pop("border-width"))
+		
 		return output
 		
 	def generateTextMonitor(self, node, macros={}):

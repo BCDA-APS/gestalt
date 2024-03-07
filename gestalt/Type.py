@@ -166,7 +166,8 @@ class Color(DataType):
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
 				
 		elif isinstance(data, Color):
-			data = data.val
+			self.val = data.val
+			return
 			
 		temp = [None, None, None, 255]
 			

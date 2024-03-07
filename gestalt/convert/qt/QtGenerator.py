@@ -64,6 +64,12 @@ class QtGenerator(GestaltGenerator):
 	def generateText(self, node, macros={}):
 		output = QtWidget("caLabel", name=node.name, layout=node.attrs, macros=macros)
 		
+		if "border-color" in output.attrs:
+			output.attrs["borderColor"] = Color(output.attrs.pop("border-color"))
+		
+		if "border-width" in output.attrs:
+			output.attrs["borderWidth"] = Number(output.attrs.pop("border-width"))
+		
 		output.attrs["fontScaleMode"] = Enum("ESimpleLabel::None")
 		
 		return output
