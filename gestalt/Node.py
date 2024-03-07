@@ -476,3 +476,10 @@ class ChoiceButtonNode(Node):
 	def apply(self, generator, data={}):
 		return generator.generateChoiceButton(self, data)
 	
+class LEDNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(LEDNode, self).__init__("LED", name=name, layout=layout)
+	
+	def apply(self, generator, data={}):
+		return generator.generateLED(self,data)
+	

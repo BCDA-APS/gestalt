@@ -67,7 +67,7 @@ class CSSGenerator(GestaltGenerator):
 			output.attrs["border_width"] = Number(output.attrs.pop("border-width"))
 		
 		if "background" in output.attrs and "transparent" not in output.attrs:
-			output.attrs["transparent"] = Bool("false")
+			output.attrs["transparent"] = Bool(False)
 		
 		return output
 		
@@ -100,6 +100,26 @@ class CSSGenerator(GestaltGenerator):
 			
 		if "selected" not in output.attrs and "background" in output.attrs:
 			output.attrs["selected"] = output.attrs["background"]
+		
+		return output
+		
+	def generateLED(self, node, macros={}):
+		output = CSSWidget("LEDMultiState", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.attrs["line"] = Color(output.attrs.pop("border-color", Color("$000000")))
+		
+		falseval = int(output.attrs.pop("false-value", 0))
+		trueval  = int(output.attrs.pop("true-value", 1))
+		
+		falsecol = Color(output.attrs.pop("false-color", "$3C643C"))
+		truecol  = Color(output.attrs.pop("true-color", "$00FF00"))
+		undefcol = Color(output.attrs.pop("undefined-color", "$A0A0A4"))
+		
+		output.widget.state(falseval, "", falsecol.val["red"], falsecol.val["green"], falsecol.val["blue"], falsecol.val["alpha"])
+		output.widget.state(trueval, "", truecol.val["red"], truecol.val["green"], truecol.val["blue"], truecol.val["alpha"])
+		
+		output.widget.fallback_label("")
+		output.widget.fallback_color(undefcol.val["red"], undefcol["green"], undefcol.val["blue"], undefcol.val["alpha"])
 		
 		return output
 

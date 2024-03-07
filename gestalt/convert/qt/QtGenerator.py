@@ -129,6 +129,38 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["colorMode"] = Enum("caChoice::Static")
 		
 		return output
+		
+	def generateLED(self, node, macros={}):
+		output = QtWidget("caLed", name=node.name, layout=node.attrs, macros=macros)
+		
+		if "pv" in output.attrs:
+			output.attrs["channel"] = String(output.attrs.pop("pv"))
+			
+		if "square" in output.attrs:
+			output.attrs["rectangular"] = Bool(output.attrs.pop("square"))
+			
+		if "false-color" in output.attrs:
+			output.attrs["falseColor"] = Color(output.attrs.pop("false-color"))
+			
+		if "false-value" in output.attrs:
+			output.attrs["falseValue"] = Number(output.attrs.pop("false-value"))
+			
+		if "true-color" in output.attrs:
+			output.attrs["trueColor"] = Color(output.attrs.pop("true-color"))
+			
+		if "true-value" in output.attrs:
+			output.attrs["trueValue"] = Number(output.attrs.pop("true-value"))
+			
+		if "undefined-color" in output.attrs:
+			output.attrs["undefinedColor"] = Color(output.attrs.pop("undefined-color"))
+			
+		if "border-color" in output.attrs:
+			output.attrs["borderColor"] = Color(output.attrs.pop("border-color"))
+			
+		output.attrs["gradientEnabled"] = Bool(False)
+		output.attrs["scaleContents"] = Bool(True)
+		
+		return output
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

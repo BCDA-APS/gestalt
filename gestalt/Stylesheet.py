@@ -137,6 +137,7 @@ add_constructors("TextEntry", (lambda l, n: read_special_node(TextEntryNode, l, 
 add_constructors("TextMonitor", (lambda l, n: read_special_node(TextMonitorNode, l, n)))
 add_constructors("Menu", (lambda l, n: read_special_node(MenuNode, l, n)))
 add_constructors("ChoiceButton", (lambda l, n: read_special_node(ChoiceButtonNode, l, n)))
+add_constructors("LED", (lambda l, n: read_special_node(LEDNode, l, n)))
 
 	
 #####################

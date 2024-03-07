@@ -28,3 +28,6 @@ class GestaltGenerator:
 
 	def generateChoiceButton(self, node, macros={}):
 		pass
+
+	def generateLED(self, node, macros={}):
+		pass
