@@ -68,7 +68,7 @@ class Number(DataType):
 	
 class Double(DataType):
 	def __init__(self, val):
-		super(Double, self).__init__("double", double(val))
+		super(Double, self).__init__("double", float(val))
 
 class Enum(DataType):	
 	def __init__(self, val):
@@ -164,7 +164,13 @@ class Color(DataType):
 			
 			# Interpret each 2-char chunk as a hex number
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
-				
+		
+		elif isinstance(data, String):
+			data = data.val.lstrip("$")
+			
+			# Interpret each 2-char chunk as a hex number
+			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
+			
 		elif isinstance(data, Color):
 			self.val = data.val
 			return
