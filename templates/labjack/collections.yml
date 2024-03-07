@@ -14,14 +14,11 @@ DIO_Item: &DIO_Slot
             geometry: 0x20 x 0x0
             
             children:
-                - !caLed
-                    channel: !string "$(P)Bi{N}.VAL"
-                    trueColor: *alarm_red
-                    falseColor: *alarm_green
-                    
-                    borderColor: *transparent
-                    
-                    gradientEnabled: false
+                - !LED
+                    pv: !string "$(P)Bi{N}.VAL"
+                    true-color: *alarm_red
+                    false-color: *alarm_green                    
+                    border-color: *transparent
                     
                     geometry: 15x0 x 22x22
                     

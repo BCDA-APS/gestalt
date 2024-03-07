@@ -119,21 +119,20 @@ motor_grid: !grid
                     
                     children:
                 
-                        - !caLed
-                            channel: "$(P)$(M{N}):LowLimits"
-                            falseColor: *alarm_yellow
-                            trueColor: *alarm_red
-                            undefinedColor: *alarm_green
+                        - !LED
+                            pv: "$(P)$(M{N}):LowLimits"
                             
-                            borderColor: *transparent
+                            false-value: 1
+                            false-color: *alarm_yellow
                             
-                            rectangular: true
-                            scaleContents: true
-                            gradientEnabled: false
+                            true-value: 2
+                            true-color: *alarm_red
                             
-                            trueValue: 2
-                            falseValue: 1
+                            undefined-color: *alarm_green
                             
+                            border-color: *transparent
+                            
+                            square: true
                             geometry: 0x0 x 6x88
                 
                 - !group
@@ -143,21 +142,20 @@ motor_grid: !grid
                     geometry: 144x50 x 6x88
                     
                     children:
-                        - !caLed
-                            channel: "$(P)$(M{N}):HighLimits"
-                            falseColor: *alarm_yellow
-                            trueColor: *alarm_red
-                            undefinedColor: *alarm_green
+                        - !LED
+                            pv: "$(P)$(M{N}):HighLimits"
                             
-                            borderColor: *transparent
+                            false-value: 1
+                            false-color: *alarm_yellow
                             
-                            rectangular: true
-                            scaleContents: true
-                            gradientEnabled: false
+                            true-value: 2
+                            true-color: *alarm_red
                             
-                            trueValue: 2
-                            falseValue: 1
+                            undefined-color: *alarm_green
                             
+                            border-color: *transparent
+                            
+                            square: true
                             geometry: 0x0 x 6x88
                     
                     
