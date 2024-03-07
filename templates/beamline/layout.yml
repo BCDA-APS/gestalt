@@ -2,7 +2,7 @@
 #include widgets.yml
 
 Form: !Form
-    margins: 5x5x5x5
+    margins: 5x0x5x5
     
 
 Hutches: !hrepeat
@@ -155,12 +155,12 @@ Hutches: !hrepeat
 
                     
 StretchOut: !hstretch
-    UITitle: !caLabel
+    UITitle: !Text
         geometry: 0x0 x 0x32
         foreground: *white
         background: *header_blue
-        borderColor: *black
-        borderWidth: 3
+        border-color: *black
+        border-width: 3
         
         text: "Beamline {SECTOR}-{TYPE}"
         alignment: CenterLeft
