@@ -6,11 +6,14 @@ from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtDisplay(QtWidget):
 	def __init__(self, layout={}):
-		super(QtDisplay, self).__init__("QWidget", name="centralwidget")
+		super(QtDisplay, self).__init__("caFrame", name="content")
 	
 		self.form = QtWidget("QMainWindow", name="Form", layout=layout)
+		self.widg = QtWidget("QWidget", name="centralwidget", layout={})
 	
-		self.form.append(self, keep_original=True)
+		self.form.append(self.widg, keep_original=True)
+		self.widg.append(self, keep_original=True)
+	
 	
 		
 	def setProperties(self, layout):

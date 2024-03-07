@@ -37,7 +37,7 @@ class QtWidget(GroupNode):
 			self.name = classname + str(num)
 						
 			
-	def write(self, tree):
+	def write(self, tree):			
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
 			
 		for key, item in self.attrs.items():
