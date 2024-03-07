@@ -260,14 +260,16 @@ A widget representing a basic text label.
 
 * **Special Attributes**
 
-|    Name    |    Type   | Description|
-|------------|-----------|------------|
-| geometry   | Rect      | A rectangle describing the position and dimensions of the widget |
-| text       | String    | The widget's display text |
-| foreground | Color     | Widget foreground color |
-| background | Color     | Widget background color |
-| font       | Font      | Widget display font |
-| alignment  | Alignment | Display text alignment. |
+|     Name     |    Type   | Description|
+|--------------|-----------|------------|
+| geometry     | Rect      | A rectangle describing the position and dimensions of the widget |
+| text         | String    | The widget's display text |
+| foreground   | Color     | Widget foreground color |
+| background   | Color     | Widget background color |
+| border-color | Color     | Widget border color |
+| border-width | Number    | Widget border thickness in pixels |
+| font         | Font      | Widget display font |
+| alignment    | Alignment | Display text alignment. |
 
 
 * **Example**
