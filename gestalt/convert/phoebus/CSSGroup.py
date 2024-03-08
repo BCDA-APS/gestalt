@@ -22,14 +22,9 @@ class CSSGroup(CSSWidget):
 		frame.attrs["line"] = Color("$000000FF")
 		frame.attrs["line_width"] = Number(0)
 		
-		if "border-color" in self.attrs:
-			frame.attrs["line"] = Color(self.attrs.pop("border-color"))
-			
-		if "border-width" in self.attrs:
-			frame.attrs["line_width"] = Number(self.attrs.pop("border-width"))
-
-		if "background" in self.attrs:
-			frame.attrs["background"] = Color(self.attrs.pop("background"))
+		frame.attrs["line"] = Color(self.attrs.pop("border-color", "$00000000"))			
+		frame.attrs["line_width"] = Number(self.attrs.pop("border-width", 2))
+		frame.attrs["background"] = Color(self.attrs.pop("background", "$00000000"))
 		
 		frame.write(self.widget)
 			

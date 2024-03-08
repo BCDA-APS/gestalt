@@ -7,27 +7,22 @@ class QtGroup(QtWidget):
 		super(QtGroup, self).__init__("caFrame", name=name, layout=layout)
 	
 		self.attrs["frameShape"] = Enum("QFrame::Box")
+		self.attrs["backgroundMode"] = Enum("caFrame::Filled")
+		
+		self.attrs["background"] = Color(self.attrs.pop("background", "$00000000"))
+		self.attrs["border-color"] = Color(self.attrs.pop("border-color", "$00000000"))
+		self.attrs["border-width"] = Number(self.attrs.pop("border-width", 2))
 	
 	def write(self, tree):
-		background = QtWidget("caGraphics")
-		background.attrs["geometry"]["width"] = self["geometry"]["width"]
-		background.attrs["geometry"]["height"] = self["geometry"]["height"]
-		background.attrs["form"] = Enum("caGraphics::Rectangle")
-		background.attrs["linestyle"] = Enum("Solid")
-		background.attrs["fillstyle"] = Enum("Filled")
-		
-		background.attrs["foreground"] = Color("$00000000")
-		background.attrs["lineColor"] = Color("$00000000")
-		
-		if "background" in self.attrs:
-			background.attrs["foreground"] = Color(self.attrs.pop("background"))
-			background.attrs["lineColor"] = background.attrs["foreground"]
+		border = QtWidget("caGraphics")
+		border.attrs["geometry"]["width"] = self["geometry"]["width"]
+		border.attrs["geometry"]["height"] = self["geometry"]["height"]
+		border.attrs["form"] = Enum("caGraphics::Rectangle")
+		border.attrs["linestyle"] = Enum("Solid")
+		border.attrs["fillstyle"] = Enum("Outline")		
+		border.attrs["lineColor"] = Color(self.attrs.pop("border-color"))
+		border.attrs["lineSize"] = Number(self.attrs.pop("border-width"))
 
-		self.attrs["background"] = Color(self.attrs.pop("border-color", Color("$00000000")))
-			
-		if "border-width" in self.attrs:
-			self.attrs["lineWidth"] = Number(self.attrs.pop("border-width"))
-
-		self.children.insert(0, background)
+		self.children.insert(0, border)
 		
 		super(QtGroup, self).write(tree)
