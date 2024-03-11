@@ -7,10 +7,10 @@ Form: !Form
     
 motor_grid: !grid
 
-    repeat_over: "MOTORS"
-    start_at: 1
+    repeat-over: "MOTORS"
+    start-at: 1
     
-    aspect_ratio: 2.0
+    aspect-ratio: 2.0
     
     padding: 20
     

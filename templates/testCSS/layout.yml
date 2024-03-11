@@ -6,7 +6,7 @@ Form: !Form
 
 
 Test: !vrepeat
-    repeat_over: "INDICES"
+    repeat-over: "INDICES"
     
     children:
         - !TextEntry
@@ -28,3 +28,9 @@ Maybe: !MessageButton
     
     pv: "xxx:yyy:zzz"
     value: 1
+
+LED_test: !LED
+    pv: "$(P)$(M{N}):LowLimits"
+    
+    square: true
+    geometry: 0x0 x 6x88

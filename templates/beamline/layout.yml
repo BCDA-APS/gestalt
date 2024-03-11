@@ -6,7 +6,7 @@ Form: !Form
     
 
 Hutches: !hrepeat
-    repeat_over: "HUTCHES"
+    repeat-over: "HUTCHES"
     
     padding: 20
     

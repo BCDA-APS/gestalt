@@ -182,9 +182,9 @@ class GridNode(GroupNode):
 	def __init__(self, name=None, layout={}):
 		super(GridNode, self).__init__("caFrame", layout=layout)
 	
-		self.ratio = self.attrs.pop("aspect_ratio", Number(1.0))
-		self.repeat_over = self.attrs.pop("repeat_over", String(""))
-		self.start_at = self.attrs.pop("start_at", Number(0))
+		self.ratio = self.attrs.pop("aspect-ratio", Number(1.0))
+		self.repeat_over = self.attrs.pop("repeat-over", String(""))
+		self.start_at = self.attrs.pop("start-at", Number(0))
 		self.padding = self.attrs.pop("padding", Number(0))
 		
 		
@@ -283,8 +283,8 @@ class RepeatNode(GroupNode):
 	def __init__(self, layout={}, flow="vertical"):
 		super(RepeatNode, self).__init__("caFrame", layout=layout)
 	
-		self.repeat_over = self.attrs.pop("repeat_over", String(""))
-		self.start_at = self.attrs.pop("start_at", Number(0))
+		self.repeat_over = self.attrs.pop("repeat-over", String(""))
+		self.start_at = self.attrs.pop("start-at", Number(0))
 		self.padding = self.attrs.pop("padding", Number(0))
 		self.flow = flow
 	

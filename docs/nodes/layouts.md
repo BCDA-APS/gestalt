@@ -124,20 +124,20 @@ NumberedLED: !flow
 
 ---
 
-Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
+Iterates over a given macro in the input file named by the attribute `repeat-over`, generating 
 a copy of all children widgets as a group. Configures each such group according to the input 
 macros and then positions the set of widgets along a horizontal axis. The group's starting X 
 position is set such that it is a number of pixels away from the end of the previous widget 
 group according to the value of the attribute `padding`. Widgets' positions on the Y axis are 
 not changed.
 
-If the macro named by `repeat_over` is parsed and found to be a number, then the node will iterate
+If the macro named by `repeat-over` is parsed and found to be a number, then the node will iterate
 a number of times specified by the macro. On each loop, the children widgets will be provided with
 the macros `N` and `__index__` to use to configure themselves. `__index__` is a number that starts
 at zero and increments by one every iteration of the loop. `N` is similar, but starts at a value
-specified by the attribute `start_at`.
+specified by the attribute `start-at`.
 
-If, instead, `repeat_over` names a macro that is found to be a list of dictionaries, then the
+If, instead, `repeat-over` names a macro that is found to be a list of dictionaries, then the
 dictionaries will be treated as the macros to use to configure the children widgets. The loop
 will iterate over each of the specified mappings and will provide the children elements of the
 group with those macros (alongside any other macros in the data file). The `__index__` macro
@@ -149,8 +149,8 @@ mentioned above will also be included.
 |     Name     |  Type  | Description|
 |--------------|--------|------------|
 | children     | List   | A list of widgets to use as a template to copy along the horizontal axis |
-| repeat_over  | String | The name of a macro that will be provided within the input data file |
-| start_at     | Number | An offset value to the loop index to provide children widgets |
+| repeat-over  | String | The name of a macro that will be provided within the input data file |
+| start-at     | Number | An offset value to the loop index to provide children widgets |
 | padding      | Number | The number of pixels between each widget group |
 | background   | Color  | A fill color behind the entirety of each template copy |
 | border-color | Color  | The color of the group's border surrounding each template copy |
@@ -161,7 +161,7 @@ mentioned above will also be included.
 
 ```yaml
 UI_Row: !hrepeat
-    repeat_over: "PLUGINS"
+    repeat-over: "PLUGINS"
     
     geometry: 0x71 x 0x0
     
@@ -187,20 +187,20 @@ UI_Row: !hrepeat
 
 ---
 
-Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
+Iterates over a given macro in the input file named by the attribute `repeat-over`, generating 
 a copy of all children widgets as a group. Configures each such group according to the input 
 macros and then positions the set of widgets along a vertical axis. The group's starting Y 
 position is set such that it is a number of pixels away from the end of the previous widget 
 group according to the value of the attribute `padding`. Widgets' positions on the X axis are 
 not changed.
 
-If the macro named by `repeat_over` is parsed and found to be a number, then the node will iterate
+If the macro named by `repeat-over` is parsed and found to be a number, then the node will iterate
 a number of times specified by the macro. On each loop, the children widgets will be provided with
 the macros `N` and `__index__` to use to configure themselves. `__index__` is a number that starts
 at zero and increments by one every iteration of the loop. `N` is similar, but starts at a value
-specified by the attribute `start_at`.
+specified by the attribute `start-at`.
 
-If, instead, `repeat_over` names a macro that is found to be a list of dictionaries, then the
+If, instead, `repeat-over` names a macro that is found to be a list of dictionaries, then the
 dictionaries will be treated as the macros to use to configure the children widgets. The loop
 will iterate over each of the specified mappings and will provide the children elements of the
 group with those macros (alongside any other macros in the data file). The `__index__` macro
@@ -214,8 +214,8 @@ You may also use the alias "repeat" to reference the vrepeat node.
 |     Name     |  Type  | Description|
 |--------------|--------|------------|
 | children     | List   | A list of widgets to use as a template to copy along the vertical axis |
-| repeat_over  | String | The name of a macro that will be provided within the input data file |
-| start_at     | Number | An offset value to the loop index to provide children widgets |
+| repeat-over  | String | The name of a macro that will be provided within the input data file |
+| start-at     | Number | An offset value to the loop index to provide children widgets |
 | padding      | Number | The number of pixels between each widget group |
 | background   | Color  | A fill color behind the entirety of each template copy |
 | border-color | Color  | The color of the group's border surrounding each template copy |
@@ -227,7 +227,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 
 ```yaml
 UIRow: !repeat
-    repeat_over: "NUM_CALCS"
+    repeat-over: "NUM_CALCS"
 
     geometry: 0x20 x 0x0
     
@@ -268,28 +268,28 @@ UIRow: !repeat
 
 ---
 
-Iterates over a given macro in the input file named by the attribute `repeat_over`, generating 
+Iterates over a given macro in the input file named by the attribute `repeat-over`, generating 
 a copy of all children widgets as a group. Configures each such group according to the input 
 macros and then positions the set of widgets in a grid pattern. The group's starting X and Y 
 positions are set such that each group is a number of pixels away from the edges of any other 
 group according to the value of the attribute `padding`. 
 
-If the macro named by `repeat_over` is parsed and found to be a number, then the node will iterate
+If the macro named by `repeat-over` is parsed and found to be a number, then the node will iterate
 a number of times specified by the macro. On each loop, the children widgets will be provided with
 the macros `N`, `__index__`, `__col__`, and `__row__` to use to configure themselves. `__index__` 
 is a number that starts at zero and increments by one every iteration of the loop. `N` is similar, 
-but starts at a value specified by the attribute `start_at`. `__row__` and `__col__` specify the
+but starts at a value specified by the attribute `start-at`. `__row__` and `__col__` specify the
 current 0-indexed position within the grid where the group will be generated.
 
-If, instead, `repeat_over` names a macro that is found to be a list of dictionaries, then the
+If, instead, `repeat-over` names a macro that is found to be a list of dictionaries, then the
 dictionaries will be treated as the macros to use to configure the children widgets. The loop
 will iterate over each of the specified mappings and will provide the children elements of the
 group with those macros (alongside any other macros in the data file). All the same macros
 mentioned above will also be included.
 
 The number of columns and rows in the node's grid pattern are determined by the number of iterations
-specified by `repeat_over` combined with the attribute `aspect_ratio`. Defaulting to 1.0, `aspect_ratio` 
-is the ratio between the number of columns to the number of rows to use. So an `aspect_ratio` of 2.0
+specified by `repeat-over` combined with the attribute `aspect-ratio`. Defaulting to 1.0, `aspect-ratio` 
+is the ratio between the number of columns to the number of rows to use. So an `aspect-ratio` of 2.0
 would be specifying that the node should attempt to have twice as many columns as rows. This is
 an idealized ratio and it may not be possible to exactly match the ratio as given with the number of
 elements a user provides.
@@ -300,10 +300,10 @@ elements a user provides.
 |      Name    |  Type  | Description|
 |--------------|--------|------------|
 | children     | List   | A list of widgets to use as a template to copy in a grid pattern |
-| repeat_over  | String | The name of a macro that will be provided within the input data file |
-| start_at     | Number | An offset value to the loop index to provide children widgets |
+| repeat-over  | String | The name of a macro that will be provided within the input data file |
+| start-at     | Number | An offset value to the loop index to provide children widgets |
 | padding      | Number | The number of pixels between each widget group |
-| aspect_ratio | Double | A ratio indicating the relative number of columns to the number of rows in the grid |
+| aspect-ratio | Double | A ratio indicating the relative number of columns to the number of rows in the grid |
 | background   | Color  | A fill color behind the entirety of each template copy |
 | border-color | Color  | The color of the group's border surrounding each template copy |
 | border-width | Number | The thickness of the group's border in pixels |
@@ -314,10 +314,10 @@ elements a user provides.
 ```yaml
 motor_grid: !grid
 
-    repeat_over: "MOTORS"
-    start_at: 1
+    repeat-over: "MOTORS"
+    start-at: 1
     
-    aspect_ratio: 2.0
+    aspect-ratio: 2.0
     
     padding: 20
     

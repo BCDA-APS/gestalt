@@ -58,7 +58,7 @@ IO: !hflow
                                     alignment: CenterRight
                                     
                                 - !hrepeat
-                                    repeat_over: "FIO"
+                                    repeat-over: "FIO"
                                 
                                     geometry: 55x30 x 0x0
                                     
@@ -105,7 +105,7 @@ IO: !hflow
                                     alignment: CenterRight
                                     
                                 - !hrepeat
-                                    repeat_over: "EIO"
+                                    repeat-over: "EIO"
                                 
                                     geometry: 55x30 x 0x0
                                     
@@ -159,7 +159,7 @@ IO: !hflow
                                         
                                         children:
                                             - !hrepeat
-                                                repeat_over: "CIO"
+                                                repeat-over: "CIO"
                                                 
                                                 padding: 5
                                                 
@@ -167,7 +167,7 @@ IO: !hflow
                                     
                                                                     
                                             - !hrepeat
-                                                repeat_over: "MIO"
+                                                repeat-over: "MIO"
                                                 
                                                 padding: 5
                                                 
@@ -222,7 +222,7 @@ IO: !hflow
                         
                             children:
                                 - !vrepeat
-                                    repeat_over: "ANALOG_INPUTS"
+                                    repeat-over: "ANALOG_INPUTS"
                                     padding: 5
                                     
                                     <<: *AIn_Slot
@@ -269,7 +269,7 @@ IO: !hflow
                         
                             children:
                                 - !vrepeat
-                                    repeat_over: "ANALOG_OUTPUTS"
+                                    repeat-over: "ANALOG_OUTPUTS"
                                     padding: 15
                                     
                                     <<: *AOut_Slot

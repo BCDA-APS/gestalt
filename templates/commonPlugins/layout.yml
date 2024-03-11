@@ -58,7 +58,7 @@ UIHeader: !group
 
             
 UIRow: !repeat
-    repeat_over: "PLUGINS"
+    repeat-over: "PLUGINS"
 
     geometry: 0x71 x 0x0
     

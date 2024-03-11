@@ -11,7 +11,7 @@ OnOff: !ChoiceButton
     
             
 UIRow: !repeat
-    repeat_over: "NUM_CALCS"
+    repeat-over: "NUM_CALCS"
 
     geometry: 0x20 x 0x0
     
