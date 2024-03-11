@@ -216,11 +216,15 @@ class Font(DataType):
 		if isinstance(data, dict):
 			data = [ data.get(key, None) for key in self.labels ]
 		
-		elif isinstance(data, str):			
+		elif isinstance(data, str):
 			data = [ item.strip() for item in data.lstrip("-").split("-") ]
+			
+		elif isinstance(data, String):
+			data = [ item.strip() for item in data.val.lstrip("-").split("-") ]
 
 		elif isinstance(data, Font):
-			data = data.val
+			self.val = data.val
+			return
 		
 		temp = [None, None, None]
 			
