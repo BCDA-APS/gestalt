@@ -457,7 +457,7 @@ class TextEntryNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
 	
-		self.setDefault(Text,      "pv",        "")
+		self.setDefault(String,      "pv",        "")
 		self.setDefault(Font,      "font",      "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment", "CenterLeft")
 	
