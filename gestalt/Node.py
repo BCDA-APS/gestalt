@@ -20,7 +20,9 @@ class Node(object):
 		if layout is not None:
 			Node.setProperties(self, layout)
 						
-					
+	def setDefault(self, datatype, key, default):
+		self.attrs[key] = datatype(self.attrs.pop(key, default))
+			
 	def setProperty(self, key, data):			
 		to_assign = None
 		
@@ -411,6 +413,8 @@ class RelatedDisplayNode(Node):
 	
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
 	
+		self.attrs["text"] = String(self.attrs.pop("text"), "")
+	
 		if isinstance(self.links, dict):
 			temp = []
 			
@@ -428,6 +432,10 @@ class MessageButtonNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout)
 	
+		self.setDefault(String, "text",  "")
+		self.setDefault(String, "pv",    "")
+		self.setDefault(String, "value", "")
+	
 	def apply(self, generator, data={}):
 		return generator.generateMessageButton(self, data)
 	
@@ -436,9 +444,12 @@ class TextNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextNode, self).__init__("Text", name=name, layout=layout)
 		
-		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
-		self.attrs["alignment"] = self.attrs.pop("alignment", Alignment("CenterLeft"))
-	
+		self.setDefault(Color,     "background",   "$000000")
+		self.setDefault(Color,     "border-color", "$000000")
+		self.setDefault(Number,    "border-width", 0)
+		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
+		self.setDefault(Alignment, "alignment",    "CenterLeft")
+		
 	def apply(self, generator, data={}):
 		return generator.generateText(self, data)
 
@@ -446,8 +457,9 @@ class TextEntryNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
 	
-		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
-		self.attrs["alignment"] = self.attrs.pop("alignment", Alignment("CenterLeft"))
+		self.setDefault(Text,      "pv",        "")
+		self.setDefault(Font,      "font",      "-Liberation Sans - Regular - 12")
+		self.setDefault(Alignment, "alignment", "CenterLeft")
 	
 	def apply(self, generator, data={}):
 		return generator.generateTextEntry(self, data)
@@ -456,8 +468,11 @@ class TextMonitorNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
 	
-		self.attrs["font"] = self.attrs.pop("font", Font("-Liberation Sans - Regular - 12"))
-		self.attrs["alignment"] = self.attrs.pop("alignment", Alignment("CenterLeft"))
+		self.setDefault(String,    "pv",           "")
+		self.setDefault(Color,     "border-color", "$000000")
+		self.setDefault(Number,    "border-width", 0)
+		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
+		self.setDefault(Alignment, "alignment",    "CenterLeft")
 	
 	def apply(self, generator, data={}):
 		return generator.generateTextMonitor(self, data)
@@ -466,12 +481,19 @@ class MenuNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(MenuNode, self).__init__("Menu", name=name, layout=layout)
 	
+		self.setDefault(String, "pv", "")
+	
 	def apply(self, generator, data={}):
 		return generator.generateMenu(self, data)
 	
 class ChoiceButtonNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(ChoiceButtonNode, self).__init__("ChoiceButton", name=name, layout=layout)
+	
+		self.setDefault(String, "pv",         "")
+		self.setDefault(Bool,   "horizontal", False)
+		self.setDefault(Color,  "background", "$C8C8C8")
+		self.setDefault(Color,  "selected",   self.attrs["background"])
 	
 	def apply(self, generator, data={}):
 		return generator.generateChoiceButton(self, data)
@@ -480,13 +502,16 @@ class LEDNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(LEDNode, self).__init__("LED", name=name, layout=layout)
 	
-		self.attrs["false-color"] = Color(self.attrs.pop("false-color", "$3C643C"))
-		self.attrs["true-color"]  = Color(self.attrs.pop("true-color",  "$00FF00"))
-		self.attrs["undefined-color"] = Color(self.attrs.pop("undefined-color", "$A0A0A4"))
-		self.attrs["border-color"] = Color(self.attrs.pop("border-color", "$000000"))
+		self.setDefault(String, "pv",             "")
+		self.setDefault(Bool,   "square",         False)
 	
-		self.attrs["false-value"] = Number(self.attrs.pop("false-value", 0))
-		self.attrs["true-value"]  = Number(self.attrs.pop("true-value", 1))
+		self.setDefault(Color, "false-color",     "$3C643C")
+		self.setDefault(Color, "true-color",      "$00FF00")
+		self.setDefault(Color, "undefined-color", "$A0A0A4")
+		self.setDefault(Color, "border-color",    "$000000")
+	
+		self.setDefault(Number, "false-value", 0)
+		self.setDefault(Number, "true-value", 1)
 	
 	def apply(self, generator, data={}):
 		return generator.generateLED(self,data)

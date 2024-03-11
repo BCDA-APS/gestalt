@@ -60,14 +60,10 @@ class CSSGenerator(GestaltGenerator):
 	def generateText(self, node, macros={}):
 		output = CSSWidget("Label", name=node.name, layout=node.attrs, macros=macros)
 		
-		if "border-color" in output.attrs:
-			output.attrs["border"] = Color(output.attrs.pop("border-color"))
-			
-		if "border-width" in output.attrs:
-			output.attrs["border_width"] = Number(output.attrs.pop("border-width"))
+		output.attrs["border"]       = output.attrs.pop("border-color")
+		output.attrs["border_width"] = output.attrs.pop("border-width")
 		
-		if "background" in output.attrs and "transparent" not in output.attrs:
-			output.attrs["transparent"] = Bool(False)
+		output.attrs["transparent"] = Bool(False)
 		
 		return output
 		
@@ -79,11 +75,8 @@ class CSSGenerator(GestaltGenerator):
 	def generateTextMonitor(self, node, macros={}):
 		output = CSSWidget("TextUpdate", name=node.name, layout=node.attrs, macros=macros)
 		
-		if "border-color" in output.attrs:
-			output.attrs["border"] = Color(output.attrs.pop("border-color"))
-			
-		if "border-width" in output.attrs:
-			output.attrs["border_width"] = Number(output.attrs.pop("border-width"))
+		output.attrs["border"]       = output.attrs.pop("border-color")	
+		output.attrs["border_width"] = output.attrs.pop("border-width")
 		
 		return output
 		
@@ -95,18 +88,12 @@ class CSSGenerator(GestaltGenerator):
 	def generateChoiceButton(self, node, macros={}):
 		output = CSSWidget("ChoiceButton", name=node.name, layout=node.attrs, macros=macros)
 		
-		if "horizontal" not in output.attrs:
-			output.attrs["horizontal"] = Bool(False);
-			
-		if "selected" not in output.attrs and "background" in output.attrs:
-			output.attrs["selected"] = output.attrs["background"]
-		
 		return output
 		
 	def generateLED(self, node, macros={}):
 		output = CSSWidget("LEDMultiState", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["line"] = Color(output.attrs.pop("border-color", Color("$000000")))
+		output.attrs["line"] = output.attrs.pop("border-color")
 		
 		falseval = output.attrs.pop("false-value")
 		trueval  = output.attrs.pop("true-value")
