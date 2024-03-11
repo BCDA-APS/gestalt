@@ -412,8 +412,8 @@ class RelatedDisplayNode(Node):
 		self.links = layout.pop("links", [])
 	
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
-	
-		self.attrs["text"] = String(self.attrs.pop("text"), "")
+		
+		self.setDefault(String, "text", "")
 	
 		if isinstance(self.links, dict):
 			temp = []
@@ -457,7 +457,7 @@ class TextEntryNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
 	
-		self.setDefault(String,      "pv",        "")
+		self.setDefault(String,    "pv",        "")
 		self.setDefault(Font,      "font",      "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment", "CenterLeft")
 	
