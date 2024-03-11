@@ -268,6 +268,20 @@ A widget representing a button that writes a value to a pv when pressed
     value: 1
 ```
 
+### Rectangle
+
+---
+
+A basic rectangle shape that can either be filled or an outline
+
+* **Special Attributes**
+
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| geometry     | Rect   | A rectangle describing the position and dimensions of the widget |
+| background   | Color  | Widget interior color, transparent by default |
+| border-color | Color  | Widget outline color, $000000 by default |
+| border-width | Number | Thickness of widget outline, 2 by default |
 
 
 ### RelatedDisplay
