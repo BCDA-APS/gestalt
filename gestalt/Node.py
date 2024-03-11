@@ -542,7 +542,6 @@ class RectangleNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
-		self.setDefault(Bool,   "fill",         False)
 		
 	def apply(self, generator, data={}):
 		return generator.generateRectangle(self, data)

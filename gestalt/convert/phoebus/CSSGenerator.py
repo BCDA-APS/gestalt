@@ -129,7 +129,7 @@ class CSSGenerator(GestaltGenerator):
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
 			
-		return
+		return output
 		
 
 def generateCSSFile(template, data, outputfile=""):
