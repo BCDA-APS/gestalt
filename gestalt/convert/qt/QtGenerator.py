@@ -45,22 +45,24 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
+		
 	def generateMessageButton(self, node, macros={}):
 		output = QtWidget("caMessageButton", name=node.name, layout=node.attrs, macros=macros)
-		
-		output.attrs["label"] = String(output.attrs.pop("text"))
-		output.attrs["channel"] = String(output.attrs.pop("pv"))
-		output.attrs["pressMessage"] = String(output.attrs.pop("value"))
+
+		output.link("label", "text")
+		output.link("channel", "pv")
+		output.link("pressMessage", "value")
 			
 		output.attrs["colorMode"] = Enum("caMessageButton::Static")
 			
 		return output
 		
+		
 	def generateText(self, node, macros={}):
 		output = QtWidget("caLabel", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["borderColor"] = Color(output.attrs.pop("border-color"))
-		output.attrs["borderWidth"] = Number(output.attrs.pop("border-width"))
+		output.link("borderColor", "border-color")
+		output.link("borderWidth", "border-width")
 		
 		output.attrs["fontScaleMode"] = Enum("ESimpleLabel::None")
 		
@@ -69,7 +71,7 @@ class QtGenerator(GestaltGenerator):
 	def generateTextEntry(self, node, macros={}):
 		output = QtWidget("caTextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["channel"] = output.attrs.pop("pv")
+		output.link("channel", "pv")
 			
 		output.attrs["colorMode"]     = Enum("caLineEdit::Static")
 		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
@@ -79,9 +81,9 @@ class QtGenerator(GestaltGenerator):
 	def generateTextMonitor(self, node, macros={}):
 		output = QtWidget("caLineEdit", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["channel"]    = output.attrs.pop("pv")
-		output.attrs["frameColor"] = output.attrs.pop("border-color")
-		output.attrs["frameWidth"] = output.attrs.pop("border-width")
+		output.link("channel", "pv")
+		output.link("frameColor", "border-color")
+		output.link("frameWidth", "border-width")
 			
 		output.attrs["colorMode"]     = Enum("caLineEdit::Static")
 		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
@@ -91,7 +93,7 @@ class QtGenerator(GestaltGenerator):
 	def generateMenu(self, node, macros={}):
 		output = QtWidget("caMenu", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["channel"] = output.attrs.pop("pv")
+		output.link("channel", "pv")
 			
 		output.attrs["colorMode"] = Enum("caMenu::Static")
 		
@@ -100,8 +102,8 @@ class QtGenerator(GestaltGenerator):
 	def generateChoiceButton(self, node, macros={}):
 		output = QtWidget("caChoice", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["channel"]     = output.attrs.pop("pv")
-		output.attrs["bordercolor"] = output.attrs.pop("selected")
+		output.link("channel", "pv")
+		output.link("bordercolor", "selected")
 		
 		if output.attrs.pop("horizontal"):
 			output.attrs["stackingMode"] = Enum("Row")
@@ -113,14 +115,14 @@ class QtGenerator(GestaltGenerator):
 	def generateLED(self, node, macros={}):
 		output = QtWidget("caLed", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["channel"]         = output.attrs.pop("pv")
-		output.attrs["rectangular"]     = output.attrs.pop("square")
-		output.attrs["falseColor"]      = output.attrs.pop("false-color")
-		output.attrs["falseValue"]      = output.attrs.pop("false-value")
-		output.attrs["trueColor"]       = output.attrs.pop("true-color")
-		output.attrs["trueValue"]       = output.attrs.pop("true-value")
-		output.attrs["undefinedColor"]  = output.attrs.pop("undefined-color")
-		output.attrs["borderColor"]     = output.attrs.pop("border-color")
+		output.link("channel", "pv")
+		output.link("rectangular", "square")
+		output.link("falseColor", "false-color")
+		output.link("falseValue", "false-value")
+		output.link("trueColor", "true-color")
+		output.link("trueValue", "true-value")
+		output.link("undefinedColor", "undefined-color")
+		output.link("borderColor", "border-color")
 	
 		output.attrs["gradientEnabled"] = Bool(False)
 		output.attrs["scaleContents"]   = Bool(True)

@@ -23,6 +23,9 @@ class Node(object):
 	def setDefault(self, datatype, key, default):
 		self.attrs[key] = datatype(self.attrs.pop(key, default))
 			
+	def link(self, newkey, oldkey):
+		self.attrs[newkey] = self.attrs.pop(oldkey)
+			
 	def setProperty(self, key, data):			
 		to_assign = None
 		
@@ -515,10 +518,10 @@ class LEDNode(Node):
 	
 	def apply(self, generator, data={}):
 		return generator.generateLED(self,data)
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	

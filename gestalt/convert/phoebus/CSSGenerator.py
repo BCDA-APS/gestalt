@@ -60,8 +60,8 @@ class CSSGenerator(GestaltGenerator):
 	def generateText(self, node, macros={}):
 		output = CSSWidget("Label", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["border"]       = output.attrs.pop("border-color")
-		output.attrs["border_width"] = output.attrs.pop("border-width")
+		output.link("border", "border-color")
+		output.link("border_width", "border-width")
 		
 		output.attrs["transparent"] = Bool(False)
 		
@@ -75,8 +75,8 @@ class CSSGenerator(GestaltGenerator):
 	def generateTextMonitor(self, node, macros={}):
 		output = CSSWidget("TextUpdate", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["border"]       = output.attrs.pop("border-color")	
-		output.attrs["border_width"] = output.attrs.pop("border-width")
+		output.link("border", "border-color")	
+		output.link("border_width", "border-width")
 		
 		return output
 		
@@ -93,7 +93,7 @@ class CSSGenerator(GestaltGenerator):
 	def generateLED(self, node, macros={}):
 		output = CSSWidget("LEDMultiState", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["line"] = output.attrs.pop("border-color")
+		output.link("line", "border-color")
 		
 		falseval = output.attrs.pop("false-value")
 		trueval  = output.attrs.pop("true-value")
