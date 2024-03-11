@@ -31,3 +31,6 @@ class GestaltGenerator:
 
 	def generateLED(self, node, macros={}):
 		pass
+
+	def generateByteMonitor(self, node, macros={}):
+		pass
