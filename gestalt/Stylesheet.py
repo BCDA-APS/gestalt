@@ -95,9 +95,9 @@ recognized_types = (
 	
 	"ActionButton", "Arc", "Array", "BooleanButton",
 	"CheckBox", "ComboBox", "DataBrowser", "Ellipse",
-	"EmbeddedDisplay", "FileSelector", "Image", "Label", "LED",
+	"EmbeddedDisplay", "FileSelector", "Image", "Label",
 	"LEDMultiState", "Meter", "NavigationTabs", "Picture",
-	"Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle",
+	"Polygon", "Polyline", "ProgressBar", "RadioButton",
 	"ScaledSlider", "Scrollbar", "SlideButton", "Spinner", "StripChart",
 	"Symbol", "Table", "Tabs", "Tank", "TextSymbol",
 	"TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", "XYPlot"
@@ -139,7 +139,7 @@ add_constructors("Menu", (lambda l, n: read_special_node(MenuNode, l, n)))
 add_constructors("ChoiceButton", (lambda l, n: read_special_node(ChoiceButtonNode, l, n)))
 add_constructors("LED", (lambda l, n: read_special_node(LEDNode, l, n)))
 add_constructors("ByteMonitor", (lambda l, n: read_special_node(ByteMonitorNode, l, n)))
-
+add_constructors("Rectangle", (lambda l, n: read_special_node(RectangleNode, l, n)))
 	
 #####################
 #   Include Files   #

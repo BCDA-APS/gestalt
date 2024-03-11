@@ -154,6 +154,23 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
+		
+	def generateRectangle(self, node, macros={}):
+		output = QtWidget("caGraphics", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("foreground", "background")
+		output.link("lineSize",   "border-width")
+		output.link("lineColor",  "border-color")
+		
+		output.attrs["form"] = Enum("caGraphics::Rectangle")
+		
+		if output.attrs.pop("fill"):
+			output.attrs["fillstyle"] = Enum("caGraphics::Filled")
+		else
+			output.attrs["fillstyle"] = Enum("caGraphics::Outline")
+		
+		return output
+		
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

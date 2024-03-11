@@ -19,6 +19,16 @@ class CSSGenerator(GestaltGenerator):
 	def generateAnonymousGroup(self, macros={}):
 		return CSSGroup()
 		
+	def generateTextEntry(self, node, macros={}):
+		return CSSWidget("TextEntry", name=node.name, layout=node.attrs, macros=macros)
+		
+	def generateMenu(self, node, macros={}):
+		return CSSWidget("ComboBox", name=node.name, layout=node.attrs, macros=macros)
+		
+	def generateChoiceButton(self, node, macros={}):
+		return CSSWidget("ChoiceButton", name=node.name, layout=node.attrs, macros=macros)
+		
+		
 	def generateRelatedDisplay(self, node, macros={}):
 		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
 		
@@ -50,12 +60,14 @@ class CSSGenerator(GestaltGenerator):
 				
 		return output
 		
+		
 	def generateMessageButton(self, node, macros={}):
 		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
 		
 		output.widget.action_write_pv(str(output.attrs.pop("pv")), str(output.attrs.pop("value")))
 		
 		return output
+		
 		
 	def generateText(self, node, macros={}):
 		output = CSSWidget("Label", name=node.name, layout=node.attrs, macros=macros)
@@ -66,11 +78,7 @@ class CSSGenerator(GestaltGenerator):
 		output.attrs["transparent"] = Bool(False)
 		
 		return output
-		
-	def generateTextEntry(self, node, macros={}):
-		output = CSSWidget("TextEntry", name=node.name, layout=node.attrs, macros=macros)
-		
-		return output
+	
 		
 	def generateTextMonitor(self, node, macros={}):
 		output = CSSWidget("TextUpdate", name=node.name, layout=node.attrs, macros=macros)
@@ -79,16 +87,7 @@ class CSSGenerator(GestaltGenerator):
 		output.link("border_width", "border-width")
 		
 		return output
-		
-	def generateMenu(self, node, macros={}):
-		output = CSSWidget("ComboBox", name=node.name, layout=node.attrs, macros=macros)
-		
-		return output
-		
-	def generateChoiceButton(self, node, macros={}):
-		output = CSSWidget("ChoiceButton", name=node.name, layout=node.attrs, macros=macros)
-		
-		return output
+
 		
 	def generateLED(self, node, macros={}):
 		output = CSSWidget("LEDMultiState", name=node.name, layout=node.attrs, macros=macros)
@@ -114,14 +113,28 @@ class CSSGenerator(GestaltGenerator):
 	def generateByteMonitor(self, node, macros={}):
 		output = CSSWidget("ByteMonitor", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.link("startBit", "start-bit")
-		output.link("numBits", "bits")
 		output.link("on", "on-color")
 		output.link("off", "off-color")
+		output.link("startBit", "start-bit")
+		output.link("numBits", "bits")
 		
 		output.attrs["square"] = Bool(True)
 		
 		return output
+		
+	
+	def generateRectangle(self, node, macros={}):
+		output = CSSWidget("Rectangle", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("line", "border-color")
+		output.link("line_width", "border-width")
+		
+		if output.attrs.pop("fill"):
+			output.attrs["transparent"] = Bool(False)
+		else:
+			output.attrs["transparent"] = Bool(True)
+			
+		return
 		
 
 def generateCSSFile(template, data, outputfile=""):

@@ -34,3 +34,6 @@ class GestaltGenerator:
 
 	def generateByteMonitor(self, node, macros={}):
 		pass
+
+	def generateRectangle(self, node, macros={}):
+		pass
