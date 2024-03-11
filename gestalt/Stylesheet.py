@@ -93,7 +93,7 @@ recognized_types = (
 	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
 	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form',
 	
-	"ActionButton", "Arc", "Array", "BooleanButton", "ByteMonitor",
+	"ActionButton", "Arc", "Array", "BooleanButton",
 	"CheckBox", "ComboBox", "DataBrowser", "Ellipse",
 	"EmbeddedDisplay", "FileSelector", "Image", "Label", "LED",
 	"LEDMultiState", "Meter", "NavigationTabs", "Picture",
@@ -138,6 +138,7 @@ add_constructors("TextMonitor", (lambda l, n: read_special_node(TextMonitorNode,
 add_constructors("Menu", (lambda l, n: read_special_node(MenuNode, l, n)))
 add_constructors("ChoiceButton", (lambda l, n: read_special_node(ChoiceButtonNode, l, n)))
 add_constructors("LED", (lambda l, n: read_special_node(LEDNode, l, n)))
+add_constructors("ByteMonitor", (lambda l, n: read_special_node(ByteMonitorNode, l, n)))
 
 	
 #####################

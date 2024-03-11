@@ -110,6 +110,19 @@ class CSSGenerator(GestaltGenerator):
 		
 		return output
 
+	
+	def generateByteMonitor(self, node, macros={}):
+		output = CSSWidget("ByteMonitor", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("startBit", "start-bit")
+		output.link("numBits", "bits")
+		output.link("on", "on-color")
+		output.link("off", "off-color")
+		
+		output.attrs["square"] = Bool(True)
+		
+		return output
+		
 
 def generateCSSFile(template, data, outputfile=""):
 	a_display = CSSDisplay()

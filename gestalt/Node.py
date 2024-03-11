@@ -519,9 +519,18 @@ class LEDNode(Node):
 	def apply(self, generator, data={}):
 		return generator.generateLED(self,data)
 
+	
+class ByteMonitorNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(ByteMonitorNode, self).__init__("ByteMonitor", name=name, layout=layout)
+		
+		self.setDefault(String,  "pv",          "")
+		self.setDefault(Bool,    "horizontal",  True)
+		self.setDefault(Number,  "start-bit",   0)
+		self.setDefault(Number,  "bits",        32)
+		self.setDefault(Color,   "off-color",   "$3C643C")
+		self.setDefault(Color,   "on-color",    "$00FF00")
 
-
-
-
-
+	def apply(self, generator, data={}):
+		return generator.generateByteMonitor(self, data)
 	

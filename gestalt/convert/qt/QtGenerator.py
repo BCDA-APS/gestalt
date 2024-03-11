@@ -68,6 +68,7 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
+		
 	def generateTextEntry(self, node, macros={}):
 		output = QtWidget("caTextEntry", name=node.name, layout=node.attrs, macros=macros)
 		
@@ -77,6 +78,7 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
 		
 		return output
+		
 		
 	def generateTextMonitor(self, node, macros={}):
 		output = QtWidget("caLineEdit", name=node.name, layout=node.attrs, macros=macros)
@@ -90,6 +92,7 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
+		
 	def generateMenu(self, node, macros={}):
 		output = QtWidget("caMenu", name=node.name, layout=node.attrs, macros=macros)
 		
@@ -98,6 +101,7 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["colorMode"] = Enum("caMenu::Static")
 		
 		return output
+		
 		
 	def generateChoiceButton(self, node, macros={}):
 		output = QtWidget("caChoice", name=node.name, layout=node.attrs, macros=macros)
@@ -111,6 +115,7 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["colorMode"] = Enum("caChoice::Static")
 		
 		return output
+		
 		
 	def generateLED(self, node, macros={}):
 		output = QtWidget("caLed", name=node.name, layout=node.attrs, macros=macros)
@@ -128,6 +133,27 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["scaleContents"]   = Bool(True)
 		
 		return output
+		
+		
+	def generateByteMonitor(self, node, macros={}):
+		output = QtWidget("caByteController", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("channel", "pv")
+		output.link("startBit", "start-bit")
+		output.link("background", "off-color")
+		output.link("foreground", "on-color")
+		
+		if output.attrs.pop("horizontal"):
+			output.attrs["direction"] = Enum("caByte::Right")
+		else:
+			output.attrs["direction"] = Enum("caByte::Down")
+			
+		num_bits = output.attrs.pop("bits")
+		
+		output.attrs["endBit"] = Number(int(output.attrs["startBit"]) + int(num_bits) - 1)
+		
+		return output
+		
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()
