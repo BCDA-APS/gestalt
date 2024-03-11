@@ -444,7 +444,7 @@ class TextNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextNode, self).__init__("Text", name=name, layout=layout)
 		
-		self.setDefault(Color,     "background",   "$000000")
+		self.setDefault(Color,     "background",   "$00000000")
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
