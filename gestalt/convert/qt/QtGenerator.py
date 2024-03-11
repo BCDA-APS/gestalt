@@ -163,11 +163,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("lineColor",  "border-color")
 		
 		output.attrs["form"] = Enum("caGraphics::Rectangle")
-		
-		if output.attrs.pop("fill"):
-			output.attrs["fillstyle"] = Enum("caGraphics::Filled")
-		else
-			output.attrs["fillstyle"] = Enum("caGraphics::Outline")
+		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
 		
 		return output
 		

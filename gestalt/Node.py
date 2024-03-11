@@ -539,7 +539,7 @@ class RectangleNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(RectangleNode, self).__init__("Rectangle", name=name, layout=layout)
 		
-		self.setDefault(Color,  "background",   "$000000")
+		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
 		self.setDefault(Bool,   "fill",         False)

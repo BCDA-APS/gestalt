@@ -128,11 +128,6 @@ class CSSGenerator(GestaltGenerator):
 		
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
-		
-		if output.attrs.pop("fill"):
-			output.attrs["transparent"] = Bool(False)
-		else:
-			output.attrs["transparent"] = Bool(True)
 			
 		return
 		
