@@ -76,7 +76,7 @@ AIn_Line: &AIn_Slot
         - !TextEntry
             geometry: 320x0 x 100x20
             font: -Monospace -regular -9
-            channel: !string "$(P)Ai{__index__}.DESC"
+            pv: !string "$(P)Ai{__index__}.DESC"
             background: *gainsboro
             foreground: *black
             
@@ -86,7 +86,7 @@ AIn_Line: &AIn_Slot
             text: "Chart"
             
             links:
-                - { label: "Strip Chart", file: "LabJack_T7_AIStripChart.ui", args: "AI=$(P)AI{__index__}" }
+                - { label: "Strip Chart", file: "LabJack_T7_AIStripChart.ui", macros: "AI=$(P)AI{__index__}" }
             
             
 AOut_Line: &AOut_Slot
@@ -103,17 +103,9 @@ AOut_Line: &AOut_Slot
             pv: !string "$(P)Ao{__index__}"
             font: -Monospace -regular -9
             
-        - !caSlider
-            <<: *editable
+        - !Slider
             geometry: 140x0 x 120x20
-            channel: !string "$(P)Ao{__index__}"
-            colorMode: caSlider::Static
-            direction: caSlider::Right
-            scaleValueEnabled: False
-            autoFocus: True
-            
-            scalePosition: QwtSlider::NoScale
-
+            pv: !string "$(P)Ao{__index__}"
             
         - !MessageButton
             <<: *editable

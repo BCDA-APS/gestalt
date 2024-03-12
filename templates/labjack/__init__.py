@@ -2,6 +2,7 @@ from .. import registry
 
 registry.add("LabJack DAQ Screen", path=__path__,
 	qt_stylesheet = "layout.yml",
+	css_stylesheet = "layout.yml",
 	required_inputs=[
 ("TITLE", "Header Text"),
 ("ANALOG_INPUTS", "Number of Ai records"),
