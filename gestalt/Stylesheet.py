@@ -95,11 +95,10 @@ recognized_types = (
 	
 	"ActionButton", "Array", "BooleanButton", "CheckBox", "ComboBox", 
 	"DataBrowser", "EmbeddedDisplay", "FileSelector", "Label",
-	"LEDMultiState", "NavigationTabs", "Picture", "Polygon", 
-	"Polyline", "ProgressBar", "RadioButton", "ScaledSlider", "Scrollbar", 
-	"SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", 
-	"Tank", "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", 
-	"WebBrowser", "XYPlot"
+	"LEDMultiState", "NavigationTabs", "Picture", "ProgressBar", 
+	"RadioButton", "ScaledSlider", "Scrollbar", "SlideButton", "Spinner", 
+	"StripChart", "Symbol", "Table", "Tabs", "Tank", "TextSymbol", 
+	"TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", "XYPlot"
 )
 
 for widget_type in recognized_types:

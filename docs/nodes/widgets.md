@@ -18,12 +18,12 @@ nav_order: 1
 
 ---
 
-The list of recognized CSS Widgets is as follows: "ActionButton", "Arc", "Array", "BooleanButton", 
-"ByteMonitor", "CheckBox", "ComboBox", "DataBrowser", "Ellipse", "EmbeddedDisplay", 
-"FileSelector", "Image", "LEDMultiState", "Label", "Meter", "NavigationTabs", 
-"Picture", "Polygon", "Polyline", "ProgressBar", "RadioButton", "Rectangle", "ScaledSlider", 
-"Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", "Tank", "TextEntry", 
-"TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", and "XYPlot".
+The list of recognized CSS Widgets is as follows: "ActionButton", "Array", "BooleanButton", 
+"CheckBox", "ComboBox", "DataBrowser", "EmbeddedDisplay", "FileSelector", "LEDMultiState", 
+"Label", "Meter", "NavigationTabs", "Picture", "Polyline", "ProgressBar", "RadioButton", 
+"ScaledSlider", "Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", 
+"Tabs", "Tank", "TextEntry", "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", 
+"WebBrowser", and "XYPlot".
 
 Attributes are set using the name of the function used by phoebusgen. For example, a label's `Auto Size`
 field in CSS-Phoebus would be set with the `auto_size` attribute in Gestalt.
@@ -349,6 +349,64 @@ A widget representing a button that writes a value to a pv when pressed
     pv: "xxx:yyy:zzz"
     value: 1
 ```
+
+
+### Polygon
+
+---
+
+A closed shape consisting of a set of points that can either be filled or an outline
+
+
+* **Special Attributes**
+
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| geometry     | Rect   | A rectangle describing the position and dimensions of the widget |
+| background   | Color  | Widget interior color, transparent by default |
+| border-color | Color  | Widget outline color, $000000 by default |
+| border-width | Number | Thickness of widget outline, 2 by default |
+| points       | List   | A list of Rect's representing the vertices of the polygon |
+
+
+* **Example**
+
+```yaml
+SimpleBox: !Polygon
+    geometry: 100x100
+    border-width: 5
+    
+    points: [ 10x10, 90x10, 90x90, 10x90 ]
+```
+
+
+### Polyline
+
+---
+
+A set of contiguous line segments
+
+
+* **Special Attributes**
+
+|     Name     |  Type  | Description|
+|--------------|--------|------------|
+| geometry     | Rect   | A rectangle describing the position and dimensions of the widget |
+| border-color | Color  | Widget line color, $000000 by default |
+| border-width | Number | Thickness of widget outline, 2 by default |
+| points       | List   | A list of Rect's representing the contiguous points of the polyline |
+
+
+* **Example**
+
+```yaml
+SimpleBox: !Polyline
+    geometry: 100x100
+    border-width: 5
+    
+    points: [ 10x10, 90x10, 90x90, 10x90 ]
+```
+
 
 ### Rectangle
 
