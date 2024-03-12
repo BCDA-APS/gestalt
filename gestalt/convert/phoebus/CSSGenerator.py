@@ -61,6 +61,23 @@ class CSSGenerator(GestaltGenerator):
 		return output
 		
 		
+	def generateShellCommand(self, node, macros={}):
+		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		
+		for item in node.commands:
+			_cmd = String(item.get("command", ""))
+			_cmd.apply(macros)
+			_cmd = _cmd.val
+			
+			_desc = String(item.get("label", ""))
+			_desc.apply(macros)
+			_desc = _desc.val
+			
+			output.widget.action_execute_command(_cmd, description=_desc)
+				
+		return output
+		
+		
 	def generateMessageButton(self, node, macros={}):
 		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
 		

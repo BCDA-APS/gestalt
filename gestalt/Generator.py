@@ -52,3 +52,6 @@ class GestaltGenerator:
 
 	def generateScale(self, node, macros={}):
 		pass
+
+	def generateShellCommand(self, node, macros={}):
+		pass

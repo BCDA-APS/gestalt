@@ -129,6 +129,7 @@ add_constructors("center",  (lambda l, n: read_center_node(l, n, flow="vertical"
 add_constructors("vcenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("hcenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
 	
+add_constructors("ShellCommand",   (lambda l, n: read_special_node(ShellCommandNode, l, n)))
 add_constructors("RelatedDisplay", (lambda l, n: read_special_node(RelatedDisplayNode, l, n)))
 add_constructors("MessageButton",  (lambda l, n: read_special_node(MessageButtonNode, l, n)))
 add_constructors("Text",           (lambda l, n: read_special_node(TextNode, l, n)))

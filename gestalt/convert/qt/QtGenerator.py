@@ -46,6 +46,28 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
+	def generateShellCommand(self, node, macros={}):
+		output = QtWidget("caShellCommand", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.attrs["label"] = String("-" + str(output.attrs.pop("text")))
+		
+		labels = ""
+		commands = ""
+		args = ""
+		
+		for item in node.commands:
+			labels += str(item.get("label", "")) + ";"
+			commands  += str(item.get("command", "")) + ";"
+			args   += ";"
+			
+			
+		output.attrs["labels"] = String(labels.rstrip(";"))
+		output.attrs["files"]  = String(commands.rstrip(";"))
+		output.attrs["args"]   = String(args.rstrip(";"))
+		
+		return output
+		
+		
 	def generateMessageButton(self, node, macros={}):
 		output = QtWidget("caMessageButton", name=node.name, layout=node.attrs, macros=macros)
 

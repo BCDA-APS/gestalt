@@ -604,3 +604,26 @@ class ScaleNode(Node):
 		
 	def apply(self, generator, data={}):
 		return generator.generateScale(self, data)
+
+		
+class ShellCommandNode(Node):
+	def __init__(self, name=None, layout={}):
+		self.commands = layout.pop("commands", [])
+	
+		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout)
+		
+		self.setDefault(String, "text", "")
+	
+		if isinstance(self.commands, dict):
+			temp = []
+			
+			for key, val in self.items():
+				val["label"] = key
+				temp.append(val)
+				
+			self.commands = temp
+		
+		
+	def apply(self, generator, data={}):
+		return generator.generateShellCommand(self, data)
+		
