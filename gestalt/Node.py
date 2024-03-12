@@ -627,3 +627,31 @@ class ShellCommandNode(Node):
 	def apply(self, generator, data={}):
 		return generator.generateShellCommand(self, data)
 		
+
+class PolygonNode(Node):
+	def __init__(self, name=None, layout={}):
+		self.points = layout.pop("points", [])
+		
+		super(PolygonNode, self).__init__("Polygon", name=name, layout=layout)
+		
+		self.setDefault(Color,  "background",   "$00000000")
+		self.setDefault(Color,  "border-color", "$000000")
+		self.setDefault(Number, "border-width", 2)
+
+	def apply(self, generator, data={}):
+		return generator.generatePolygon(self, data)
+
+		
+class PolylineNode(Node):
+	def __init__(self, name=None, layout={}):
+		self.points = layout.pop("points", [])
+		
+		super(PolylineNode, self).__init__("Polyline", name=name, layout=layout)
+		
+		self.setDefault(Color,  "border-color", "$000000")
+		self.setDefault(Number, "border-width", 2)
+
+	def apply(self, generator, data={}):
+		return generator.generatePolyline(self, data)
+		
+		

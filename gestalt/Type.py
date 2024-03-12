@@ -110,7 +110,8 @@ class Rect(DataType):
 			data = [ int(item) for item in data.split("x")]
 			
 		elif isinstance(data, Rect):
-			data = data.val
+			self.val = data.val
+			return
 			
 		temp = []
 			

@@ -169,6 +169,36 @@ class CSSGenerator(GestaltGenerator):
 		return output
 		
 		
+	def generatePolygon(self, node, macros={}):
+		output = CSSWidget("Polygon", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("line", "border-color")
+		output.link("line_width", "border-width")
+		
+		for point in node.points:
+			a_point = Rect(point)
+			a_point.apply(macros)
+			
+			output.widget.point(a_point["width"], a_point["height"])
+		
+		return output
+		
+		
+	def generatePolyline(self, node, macros={}):
+		output = CSSWidget("Polyline", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("line", "border-color")
+		output.link("line_width", "border-width")
+		
+		for point in node.points:
+			a_point = Rect(point)
+			a_point.apply(macros)
+			
+			output.widget.point(a_point["width"], a_point["height"])
+		
+		return output
+		
+		
 	def generateImage(self, node, macros={}):
 		output = CSSWidget("Picture", name=node.name, layout=node.attrs, macros=macros)
 		

@@ -216,6 +216,51 @@ class QtGenerator(GestaltGenerator):
 		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
 		
 		return output
+		
+	
+	def generatePolygon(self, node, macros={}):
+		output = QtWidget("caPolyLine", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("foreground", "background")
+		output.link("lineSize",   "border-width")
+		output.link("lineColor",  "border-color")
+		
+		output.attrs["polystyle"] = Enum("caPolyLine::Polygon")
+		output.attrs["fillstyle"] = Enum("caPolyLine::Filled")
+		
+		xy_pairs = ""
+		
+		for point in node.points:
+			a_point = Rect(point)
+			a_point.apply(macros)
+			
+			xy_pairs += str(a_point["width"]) + "," + str(a_point["height"]) + ";"
+			
+		output.attrs["xyPairs"] = String(xy_pairs.rstrip(";"))
+		
+		return output
+		
+		
+	def generatePolyline(self, node, macros={}):
+		output = QtWidget("caPolyLine", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("lineSize",   "border-width")
+		output.link("lineColor",  "border-color")
+		
+		output.attrs["polystyle"] = Enum("caPolyLine::Polyline")
+		output.attrs["fillstyle"] = Enum("caPolyLine::Outline")
+		
+		xy_pairs = ""
+		
+		for point in node.points:
+			a_point = Rect(point)
+			a_point.apply(macros)
+			
+			xy_pairs += str(a_point["width"]) + "," + str(a_point["height"]) + ";"
+			
+		output.attrs["xyPairs"] = String(xy_pairs.rstrip(";"))
+		
+		return output
 	
 
 	def generateImage(self, node, macros={}):

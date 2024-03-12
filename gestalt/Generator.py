@@ -43,6 +43,12 @@ class GestaltGenerator:
 
 	def generateArc(self, node, macros={}):
 		pass
+		
+	def generatePolygon(self, node, macros={}):
+		pass
+		
+	def generatePolyline(self, node, macros={}):
+		pass
 
 	def generateImage(self, node, macros={}):
 		pass
