@@ -167,6 +167,35 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
+	
+	def generateEllipse(self, node, macros={}):
+		output = QtWidget("caGraphics", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("foreground", "background")
+		output.link("lineSize",   "border-width")
+		output.link("lineColor",  "border-color")
+		
+		output.attrs["form"] = Enum("caGraphics::Circle")
+		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
+		
+		return output
+		
+		
+	def generateArc(self, node, macros={}):
+		output = QtWidget("caGraphics", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("foreground", "background")
+		output.link("lineSize",   "border-width")
+		output.link("lineColor",  "border-color")
+		output.link("startAngle", "start-angle")
+		output.link("spanAngle",  "span")
+		
+		output.attrs["form"] = Enum("caGraphics::Arc")
+		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
+		
+		return output
+	
+		
 
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()

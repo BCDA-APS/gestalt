@@ -37,3 +37,9 @@ class GestaltGenerator:
 
 	def generateRectangle(self, node, macros={}):
 		pass
+
+	def generateEllipse(self, node, macros={}):
+		pass
+
+	def generateArc(self, node, macros={}):
+		pass

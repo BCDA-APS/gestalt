@@ -131,6 +131,27 @@ class CSSGenerator(GestaltGenerator):
 			
 		return output
 		
+		
+	def generateEllipse(self, node, macros={}):
+		output = CSSWidget("Ellipse", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("line", "border-color")
+		output.link("line_width", "border-width")
+			
+		return output
+		
+	
+	def generateArc(self, node, macros={}):
+		output = CSSWidget("Arc", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("line", "border-color")
+		output.link("line_width", "border-width")
+		output.link("start_angle", "start-angle")
+		output.link("total_angle", "span")
+			
+		return output
+	
+		
 
 def generateCSSFile(template, data, outputfile=""):
 	a_display = CSSDisplay()

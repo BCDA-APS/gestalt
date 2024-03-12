@@ -546,3 +546,28 @@ class RectangleNode(Node):
 	def apply(self, generator, data={}):
 		return generator.generateRectangle(self, data)
 	
+		
+class EllipseNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(EllipseNode, self).__init__("Ellipse", name=name, layout=layout)
+		
+		self.setDefault(Color,  "background",   "$00000000")
+		self.setDefault(Color,  "border-color", "$000000")
+		self.setDefault(Number, "border-width", 2)
+		
+	def apply(self, generator, data={}):
+		return generator.generateEllipse(self, data)
+	
+
+class ArcNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(ArcNode, self).__init__("Arc", name=name, layout=layout)
+		
+		self.setDefault(Color,  "background",   "$00000000")
+		self.setDefault(Color,  "border-color", "$000000")
+		self.setDefault(Number, "border-width", 2)
+		self.setDefault(Number, "start-angle", 0)
+		self.setDefault(Number, "span", 90)
+		
+	def apply(self, generator, data={}):
+		return generator.generateArc(self, data)

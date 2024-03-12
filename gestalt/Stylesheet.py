@@ -93,14 +93,13 @@ recognized_types = (
 	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
 	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form',
 	
-	"ActionButton", "Arc", "Array", "BooleanButton",
-	"CheckBox", "ComboBox", "DataBrowser", "Ellipse",
-	"EmbeddedDisplay", "FileSelector", "Image", "Label",
-	"LEDMultiState", "Meter", "NavigationTabs", "Picture",
-	"Polygon", "Polyline", "ProgressBar", "RadioButton",
-	"ScaledSlider", "Scrollbar", "SlideButton", "Spinner", "StripChart",
-	"Symbol", "Table", "Tabs", "Tank", "TextSymbol",
-	"TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", "XYPlot"
+	"ActionButton", "Array", "BooleanButton", "CheckBox", "ComboBox", 
+	"DataBrowser", "EmbeddedDisplay", "FileSelector", "Image", "Label",
+	"LEDMultiState", "Meter", "NavigationTabs", "Picture", "Polygon", 
+	"Polyline", "ProgressBar", "RadioButton", "ScaledSlider", "Scrollbar", 
+	"SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", 
+	"Tank", "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", 
+	"WebBrowser", "XYPlot"
 )
 
 for widget_type in recognized_types:
@@ -140,6 +139,8 @@ add_constructors("ChoiceButton", (lambda l, n: read_special_node(ChoiceButtonNod
 add_constructors("LED", (lambda l, n: read_special_node(LEDNode, l, n)))
 add_constructors("ByteMonitor", (lambda l, n: read_special_node(ByteMonitorNode, l, n)))
 add_constructors("Rectangle", (lambda l, n: read_special_node(RectangleNode, l, n)))
+add_constructors("Ellipse", (lambda l, n: read_special_node(EllipseNode, l, n)))
+add_constructors("Arc", (lambda l, n: read_special_node(ArcNode, l, n)))
 	
 #####################
 #   Include Files   #
