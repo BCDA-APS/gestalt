@@ -49,3 +49,6 @@ class GestaltGenerator:
 
 	def generateSlider(self, node, macros={}):
 		pass
+
+	def generateScale(self, node, macros={}):
+		pass

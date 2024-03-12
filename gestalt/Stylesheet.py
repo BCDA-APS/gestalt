@@ -95,7 +95,7 @@ recognized_types = (
 	
 	"ActionButton", "Array", "BooleanButton", "CheckBox", "ComboBox", 
 	"DataBrowser", "EmbeddedDisplay", "FileSelector", "Label",
-	"LEDMultiState", "Meter", "NavigationTabs", "Picture", "Polygon", 
+	"LEDMultiState", "NavigationTabs", "Picture", "Polygon", 
 	"Polyline", "ProgressBar", "RadioButton", "ScaledSlider", "Scrollbar", 
 	"SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", 
 	"Tank", "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", 
@@ -130,19 +130,20 @@ add_constructors("vcenter", (lambda l, n: read_center_node(l, n, flow="vertical"
 add_constructors("hcenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
 	
 add_constructors("RelatedDisplay", (lambda l, n: read_special_node(RelatedDisplayNode, l, n)))
-add_constructors("MessageButton", (lambda l, n: read_special_node(MessageButtonNode, l, n)))
-add_constructors("Text", (lambda l, n: read_special_node(TextNode, l, n)))
-add_constructors("TextEntry", (lambda l, n: read_special_node(TextEntryNode, l, n)))
-add_constructors("TextMonitor", (lambda l, n: read_special_node(TextMonitorNode, l, n)))
-add_constructors("Menu", (lambda l, n: read_special_node(MenuNode, l, n)))
-add_constructors("ChoiceButton", (lambda l, n: read_special_node(ChoiceButtonNode, l, n)))
-add_constructors("LED", (lambda l, n: read_special_node(LEDNode, l, n)))
-add_constructors("ByteMonitor", (lambda l, n: read_special_node(ByteMonitorNode, l, n)))
-add_constructors("Rectangle", (lambda l, n: read_special_node(RectangleNode, l, n)))
-add_constructors("Ellipse", (lambda l, n: read_special_node(EllipseNode, l, n)))
-add_constructors("Arc", (lambda l, n: read_special_node(ArcNode, l, n)))
-add_constructors("Image", (lambda l, n: read_special_node(ImageNode, l, n)))
-add_constructors("Slider", (lambda l, n: read_special_node(SliderNode, l, n)))
+add_constructors("MessageButton",  (lambda l, n: read_special_node(MessageButtonNode, l, n)))
+add_constructors("Text",           (lambda l, n: read_special_node(TextNode, l, n)))
+add_constructors("TextEntry",      (lambda l, n: read_special_node(TextEntryNode, l, n)))
+add_constructors("TextMonitor",    (lambda l, n: read_special_node(TextMonitorNode, l, n)))
+add_constructors("Menu",           (lambda l, n: read_special_node(MenuNode, l, n)))
+add_constructors("ChoiceButton",   (lambda l, n: read_special_node(ChoiceButtonNode, l, n)))
+add_constructors("LED",            (lambda l, n: read_special_node(LEDNode, l, n)))
+add_constructors("ByteMonitor",    (lambda l, n: read_special_node(ByteMonitorNode, l, n)))
+add_constructors("Rectangle",      (lambda l, n: read_special_node(RectangleNode, l, n)))
+add_constructors("Ellipse",        (lambda l, n: read_special_node(EllipseNode, l, n)))
+add_constructors("Arc",            (lambda l, n: read_special_node(ArcNode, l, n)))
+add_constructors("Image",          (lambda l, n: read_special_node(ImageNode, l, n)))
+add_constructors("Slider",         (lambda l, n: read_special_node(SliderNode, l, n)))
+add_constructors("Scale",          (lambda l, n: read_special_node(ScaleNode, l, n)))
 	
 #####################
 #   Include Files   #

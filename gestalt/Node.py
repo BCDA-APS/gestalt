@@ -593,3 +593,14 @@ class SliderNode(Node):
 	def apply(self, generator, data={}):
 		return generator.generateSlider(self, data)
 		
+
+class ScaleNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(ScaleNode, self).__init__("Scale", name=name, layout=layout)
+		
+		self.setDefault(String, "pv",          "")
+		self.setDefault(Color,  "foreground",  "$0000FF")
+		self.setDefault(Bool,   "horizontal",  False)
+		
+	def apply(self, generator, data={}):
+		return generator.generateScale(self, data)

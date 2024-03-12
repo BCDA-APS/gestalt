@@ -212,11 +212,31 @@ class QtGenerator(GestaltGenerator):
 		if output.attrs.pop("horizontal"):
 			output.attrs["direction"] = Enum("Right")
 		else:
-			output.attrs["direction"] = Enum("Down")
+			output.attrs["direction"] = Enum("Up")
 		
 		output.attrs["background"] = Color("$C4C4C4")
 		output.attrs["borderWidth"] = Number(2)
 		output.attrs["colorMode"] = Enum("caSlider::Alarm_Static")
+		
+		return output
+		
+	
+	def generateScale(self, node, macros={}):
+		output = QtWidget("caThermo", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("channel", "pv")
+		#output.link("textColor", "foreground")		
+		#output.link("foreground", "fill")
+		
+		output.attrs["scalePosition"] = Enum("QwtThermoMarker::NoScale")
+		
+		if output.attrs.pop("horizontal"):
+			output.attrs["direction"] = Enum("Right")
+		else:
+			output.attrs["direction"] = Enum("Up")
+			
+		#if output.attrs.pop("units"):
+		#	output.attrs["pipeWidth"] = Number(output.attrs["geometry"]["width"] - (4 * int(output.attrs["font"]["size"])))
 		
 		return output
 		

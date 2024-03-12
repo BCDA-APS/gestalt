@@ -164,7 +164,17 @@ class CSSGenerator(GestaltGenerator):
 		output = CSSWidget("Scrollbar", name=node.name, layout=node.attrs, macros=macros)
 		
 		return output
+
 	
+	def generateScale(self, node, macros={}):
+		output = CSSWidget("Tank", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("empty", "background")
+		output.link("fill", "foreground")
+		
+		output.attrs["scale_visible"] = Bool(False)
+		
+		return output
 		
 
 def generateCSSFile(template, data, outputfile=""):
