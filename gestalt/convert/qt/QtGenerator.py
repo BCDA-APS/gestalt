@@ -144,9 +144,9 @@ class QtGenerator(GestaltGenerator):
 		output.link("foreground", "on-color")
 		
 		if output.attrs.pop("horizontal"):
-			output.attrs["direction"] = Enum("caByte::Right")
+			output.attrs["direction"] = Enum("Right")
 		else:
-			output.attrs["direction"] = Enum("caByte::Down")
+			output.attrs["direction"] = Enum("Down")
 			
 		num_bits = output.attrs.pop("bits")
 		
@@ -200,6 +200,23 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caImage", name=node.name, layout=node.attrs, macros=macros)
 		
 		output.link("filename", "file")
+		
+		return output
+		
+		
+	def generateSlider(self, node, macros={}):
+		output = QtWidget("caSlider", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("channel", "pv")
+		
+		if output.attrs.pop("horizontal"):
+			output.attrs["direction"] = Enum("Right")
+		else:
+			output.attrs["direction"] = Enum("Down")
+		
+		output.attrs["background"] = Color("$C4C4C4")
+		output.attrs["borderWidth"] = Number(2)
+		output.attrs["colorMode"] = Enum("caSlider::Alarm_Static")
 		
 		return output
 		

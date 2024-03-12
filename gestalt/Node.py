@@ -573,7 +573,7 @@ class ArcNode(Node):
 		return generator.generateArc(self, data)
 
 		
-class ImageNode(node):
+class ImageNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(ImageNode, self).__init__("Image", name=name, layout=layout)
 		
@@ -581,3 +581,15 @@ class ImageNode(node):
 		
 	def apply(self, generator, data={}):
 		return generator.generateImage(self, data)
+
+		
+class SliderNode(Node):
+	def __init__(self, name=None, layout={}):
+		super(SliderNode, self).__init__("Slider", name=name, layout=layout)
+		
+		self.setDefault(Bool,   "horizontal", True)
+		self.setDefault(String, "pv",         "")
+		
+	def apply(self, generator, data={}):
+		return generator.generateSlider(self, data)
+		

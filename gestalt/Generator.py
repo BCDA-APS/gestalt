@@ -46,3 +46,6 @@ class GestaltGenerator:
 
 	def generateImage(self, node, macros={}):
 		pass
+
+	def generateSlider(self, node, macros={}):
+		pass

@@ -142,6 +142,7 @@ add_constructors("Rectangle", (lambda l, n: read_special_node(RectangleNode, l, 
 add_constructors("Ellipse", (lambda l, n: read_special_node(EllipseNode, l, n)))
 add_constructors("Arc", (lambda l, n: read_special_node(ArcNode, l, n)))
 add_constructors("Image", (lambda l, n: read_special_node(ImageNode, l, n)))
+add_constructors("Slider", (lambda l, n: read_special_node(SliderNode, l, n)))
 	
 #####################
 #   Include Files   #

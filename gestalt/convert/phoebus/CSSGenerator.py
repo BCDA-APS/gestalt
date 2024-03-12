@@ -158,6 +158,12 @@ class CSSGenerator(GestaltGenerator):
 		output.attrs["stretch_image"] = Bool(True)
 		
 		return output
+		
+		
+	def generateSlider(self, node, macros={}):
+		output = CSSWidget("Scrollbar", name=node.name, layout=node.attrs, macros=macros)
+		
+		return output
 	
 		
 
