@@ -477,11 +477,40 @@ dictionaries. Within each dictionary, the following values can be defined:
 ```
 
 
+### Scale
+
+---
+
+A widget representing a bar filling up based on a pv's value versus its limits
+
+
+* **Special Attributes**
+
+|     Name     |    Type   | Description|
+|--------------|-----------|------------|
+| geometry     | Rect      | A rectangle describing the position and dimensions of the widget |
+| background   | Color     | Color of the unfilled portion of bar, $C9C9C9 by default |
+| foreground   | Color     | Color of the filled portion of bar, $0000FF by default |
+| horizontal   | Bool      | Whether to align the bar horizontally, defaults to False |
+| pv           | String    | The PV being monitored |
+
+
+* **Example**
+
+```yaml
+- !Scale
+    geometry: 0x0 x 50x200
+    foreground: *burlywood
+    pv: "xxx:yyy:zzz"
+```
+
+
 ### Text
 
 ---
 
 A widget representing a basic text label.
+
 
 * **Special Attributes**
 
