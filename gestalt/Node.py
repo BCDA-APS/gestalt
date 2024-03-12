@@ -571,3 +571,13 @@ class ArcNode(Node):
 		
 	def apply(self, generator, data={}):
 		return generator.generateArc(self, data)
+
+		
+class ImageNode(node):
+	def __init__(self, name=None, layout={}):
+		super(ImageNode, self).__init__("Image", name=name, layout=layout)
+		
+		self.setDefault(String, "file", "")
+		
+	def apply(self, generator, data={}):
+		return generator.generateImage(self, data)

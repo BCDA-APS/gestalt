@@ -195,6 +195,13 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 	
+
+	def generateImage(self, node, macros={}):
+		output = QtWidget("caImage", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.link("filename", "file")
+		
+		return output
 		
 
 def generateQtFile(template, data, outputfile=""):

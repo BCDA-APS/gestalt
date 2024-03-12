@@ -231,6 +231,29 @@ Form: !Form
 ```
 
 
+### Image
+
+---
+
+A widget that displays a given image file
+
+
+* **Special Attributes**
+
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| file       | String | The filepath of the image to display |
+
+
+* **Example**
+
+```yaml
+ComplicatedStructure: !Image
+    file: "/path/to/image/Beamline.png"
+```
+
+
 ### LED
 
 ---

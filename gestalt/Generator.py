@@ -43,3 +43,6 @@ class GestaltGenerator:
 
 	def generateArc(self, node, macros={}):
 		pass
+
+	def generateImage(self, node, macros={}):
+		pass

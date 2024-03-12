@@ -150,6 +150,14 @@ class CSSGenerator(GestaltGenerator):
 		output.link("total_angle", "span")
 			
 		return output
+		
+		
+	def generateImage(self, node, macros={}):
+		output = CSSWidget("Picture", name=node.name, layout=node.attrs, macros=macros)
+		
+		output.attrs["stretch_image"] = Bool(True)
+		
+		return output
 	
 		
 
