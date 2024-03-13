@@ -13,6 +13,10 @@ Thin_Bordered_Group: &ThinBorderedGroup
     border-color: *black
     border-width: 1    
     
+Fixed_Feedback: &FixedFeedback
+    foreground: *header_blue
+    background: *transparent
+    geometry: 100x20
     
     
 IO: !hflow
@@ -37,33 +41,14 @@ IO: !hflow
                             <<: *ThinBorderedGroup
                         
                             children: 
-                                - !Text
-                                    geometry: 25x55 x 20x20
-                                    text: "In"
-                                    alignment: CenterRight
-                                    
-                                - !Text
-                                    geometry: 15x90 x 30x20
-                                    text: "Out"
-                                    alignment: CenterRight
-                                    
-                                - !Text
-                                    geometry: 5x130 x 40x20
-                                    text: "Dir."
-                                    alignment: CenterRight
-                                    
-                                - !Text
-                                    geometry: 0x160 x 45x20
-                                    text: "Desc."
-                                    alignment: CenterRight
-                                    
+                                - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
+                                - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
+                                - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
+                                - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }    
                                 - !hrepeat
-                                    repeat-over: "FIO"
-                                
                                     geometry: 55x30 x 0x0
-                                    
-                                    padding: 5
-                                    
+                                
+                                    repeat-over: "FIO"
                                     <<: *DIO_Slot
                                     
                                 - !hcenter
@@ -71,46 +56,24 @@ IO: !hflow
                                         geometry: 0x2 x 0x0
                                         
                                         children:
-                                            - !Text
-                                                geometry: 70x20
-                                                text: "FIO 0-7"
-                                                
+                                            - !Text { geometry: 70x20, text: "FIO 0-7" }
                                             - !TextMonitor
                                                 <<: *editable
                                                 geometry: 75x0 x 80x20                                                
-                                                pv: !string "$(P)FIOIn"
+                                                pv: "$(P)FIOIn"
                             
                         - !group
                             <<: *ThinBorderedGroup
                         
                             children: 
-                                - !Text
-                                    geometry: 25x55 x 20x20
-                                    text: "In"
-                                    alignment: CenterRight
-                                    
-                                - !Text
-                                    geometry: 15x90 x 30x20
-                                    text: "Out"
-                                    alignment: CenterRight
-                                    
-                                - !Text
-                                    geometry: 5x130 x 40x20
-                                    text: "Dir."
-                                    alignment: CenterRight
-                                    
-                                - !Text
-                                    geometry: 0x160 x 45x20
-                                    text: "Desc."
-                                    alignment: CenterRight
-                                    
+                                - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
+                                - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
+                                - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
+                                - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }
                                 - !hrepeat
-                                    repeat-over: "EIO"
-                                
                                     geometry: 55x30 x 0x0
                                     
-                                    padding: 5
-                                    
+                                    repeat-over: "EIO"
                                     <<: *DIO_Slot
                                     
                                 - !hcenter
@@ -118,59 +81,33 @@ IO: !hflow
                                         geometry: 0x2 x 0x0
                                         
                                         children:
-                                            - !Text
-                                                geometry: 70x20
-                                                text: "EIO 0-7"
-                                                
+                                            - !Text { geometry: 70x20, text: "EIO 0-7" }
                                             - !TextMonitor
                                                 <<: *editable
                                                 geometry: 75x0 x 80x20
-                                                pv: !string "$(P)EIOIn"
+                                                pv: "$(P)EIOIn"
                             
                         - !hstretch
                             CIOMIO: !group
                                 <<: *ThinBorderedGroup
                             
                                 children: 
-                                    - !Text
-                                        geometry: 25x55 x 20x20
-                                        text: "In"
-                                        alignment: CenterRight
-                                        
-                                    - !Text
-                                        geometry: 15x90 x 30x20
-                                        text: "Out"
-                                        alignment: CenterRight
-                                        
-                                    - !Text
-                                        geometry: 5x130 x 40x20
-                                        text: "Dir."
-                                        alignment: CenterRight
-                                        
-                                    - !Text
-                                        geometry: 0x160 x 45x20
-                                        text: "Desc."
-                                        alignment: CenterRight
-                                        
+                                    - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
+                                    - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
+                                    - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
+                                    - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }
                                     - !hflow
                                         geometry: 55x30 x 0x0
-                                        
                                         padding: 5
                                         
                                         children:
                                             - !hrepeat
                                                 repeat-over: "CIO"
-                                                
-                                                padding: 5
-                                                
                                                 <<: *DIO_Slot
                                     
                                                                     
                                             - !hrepeat
                                                 repeat-over: "MIO"
-                                                
-                                                padding: 5
-                                                
                                                 <<: *DIO_Slot
                                                 
                                     - !hcenter
@@ -179,30 +116,23 @@ IO: !hflow
                                             padding: 5
                                             
                                             children:                            
-                                                - !Text
-                                                    geometry: 70x20
-                                                    text: "CIO 0-3"
-                                                    
+                                                - !Text { geometry: 70x20, text: "CIO 0-3" }
                                                 - !TextMonitor
                                                     <<: *editable
                                                     geometry: 80x20
-                                                    pv: !string "$(P)CIOIn"
+                                                    pv: "$(P)CIOIn"
                                                     
-                                                - !Text
-                                                    geometry: 90x20
-                                                    text: "MIO 0-2"
+                                                - !Spacer { geometry: 10x0 }
                                                     
+                                                - !Text { geometry: 90x20, text: "MIO 0-2" }
                                                 - !TextMonitor
                                                     geometry: 80x20
                                                     <<: *editable
-                                                    pv: !string "$(P)MIOIn"
+                                                    pv: "$(P)MIOIn"
         
                                                     
                 - !hcenter
-                    DigitalIOTitle: !Text
-                        geometry: 130x25
-                        text: "Digital I/O"
-                        alignment: Center
+                    DigitalIOTitle: !Text { geometry: 130x25, alignment: Center, text: "Digital I/O" }
                 
         
         - !vflow
@@ -222,9 +152,7 @@ IO: !hflow
                         
                             children:
                                 - !vrepeat
-                                    repeat-over: "ANALOG_INPUTS"
-                                    padding: 5
-                                    
+                                    repeat-over: "ANALOG_INPUTS"                                    
                                     <<: *AIn_Slot
                                     
                                 - !hcenter
@@ -270,8 +198,6 @@ IO: !hflow
                             children:
                                 - !vrepeat
                                     repeat-over: "ANALOG_OUTPUTS"
-                                    padding: 15
-                                    
                                     <<: *AOut_Slot
                                     
                                 - !hcenter
@@ -317,45 +243,30 @@ Status: !hcenter
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 100x20
-                                text: "Model Name"
-                                
+                            - !Text { geometry: 100x20, text: "Model Name" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)ModelName"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)ModelName"
                                 
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 100x20
-                                text: "Serial Num"
-                                
+                            - !Text { geometry: 100x20, text: "Serial Num" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)Serial Number"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)Serial Number"
                     
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 100x20
-                                text: "LJM Version"
-                                
+                            - !Text { geometry: 100x20, text: "LJM Version" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)LJMVersion"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)LJMVersion"
     
             
             - !vflow
@@ -366,45 +277,30 @@ Status: !hcenter
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 200x20
-                                text: "Firmware Version"
-                                
+                            - !Text { geometry: 200x20, text: "Firmware Version" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)FirmwareVersion"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)FirmwareVersion"
                                 
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 200x20
-                                text: "Temperature (C)"
-                                
+                            - !Text { geometry: 200x20, text: "Temperature (C)" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)DeviceTemperature"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)DeviceTemperature"
                     
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 200x20
-                                text: "Driver Version"
-                                
+                            - !Text { geometry: 200x20, text: "Driver Version" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)DriverVersion"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)DriverVersion"
     
     
             - !vflow
@@ -415,42 +311,31 @@ Status: !hcenter
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 250x20
-                                text: "Poll Sleep Time (ms)"
-                                
+                            - !Text { geometry: 250x20, text: "Poll Sleep Time (ms)" }
                             - !TextEntry
                                 <<: *editable
                                 geometry: 100x20
-                                pv: !string "$(P)PollSleepMS"
+                                pv: "$(P)PollSleepMS"
                                 
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 250x20
-                                text: "Poll Cycle Time (ms)"
-                                
+                            - !Text { geometry: 250x20, text: "Poll Cycle Time (ms)" }
                             - !TextMonitor
-                                geometry: 100x20
-                                pv: !string "$(P)PollTimeMS"
-                                foreground: *header_blue
-                                background: *transparent
+                                <<: *FixedFeedback
+                                pv: "$(P)PollTimeMS"
                     
                                 
                     - !hflow
                         padding: 10
                     
                         children:
-                            - !Text
-                                geometry: 250x20
-                                text: "Reset Device on Exit"
-                                
+                            - !Text { geometry: 250x20, text: "Reset Device on Exit" }
                             - !MessageButton
                                 geometry: 100x20
-                                pv: !string "$(P)DeviceReset"
+                                pv: "$(P)DeviceReset"
                                 foreground: *black
                                 background: *alarm_red
                                 value: "1"

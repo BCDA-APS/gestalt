@@ -1,12 +1,14 @@
 #include colors.yml
 
 DIO_Item: &DIO_Slot
+    padding: 5
+
     children:
         - !Text
             font: -Sans Serif - Regular - 8
             geometry: 0x0 x 50x15            
             alignment: Center
-            text: !string "{Label}"
+            text: "{Label}"
         
         - !conditional
             condition: "Enabled"
@@ -15,29 +17,26 @@ DIO_Item: &DIO_Slot
             
             children:
                 - !LED
-                    pv: !string "$(P)Bi{N}.VAL"
-                    true-color: *alarm_red
-                    false-color: *alarm_green                    
-                    border-color: *transparent
-                    
+                    <<: *alarm_led
+                    pv: "$(P)Bi{N}.VAL"                   
                     geometry: 15x0 x 22x22
                     
                 - !ChoiceButton
                     <<: *editable
                     geometry: 0x30 x 50x35
                     
-                    pv: !string "$(P)Bo{N}"
+                    pv: "$(P)Bo{N}"
                     
                 - !ChoiceButton
                     <<: *editable
                     geometry: 0x70 x 50x35
                     
-                    pv: !string "$(P)Bd{N}"
+                    pv: "$(P)Bd{N}"
                 
                 - !TextEntry
                     geometry: 0x110 x 50x18
                 
-                    pv: !string "$(P)Bi{N}.DESC"
+                    pv: "$(P)Bi{N}.DESC"
                     
                     font: -Monospace - Regular - 8
                     
@@ -46,17 +45,18 @@ DIO_Item: &DIO_Slot
 
                     
 AIn_Line: &AIn_Slot
+    padding: 5
+
     children:
         - !Text
             geometry: 0x0 x 20x20
-            text: !string "{__index__}"
+            text: "{__index__}"
             font: -Sans Serif -regular -8
             alignment: Center
-            
         
         - !TextMonitor
             geometry: 30x0 x 90x20
-            pv: !string "$(P)Ai{__index__}"
+            pv: "$(P)Ai{__index__}"
             foreground: *header_blue
             background: *transparent
             font: -Monospace -regular -12
@@ -64,19 +64,19 @@ AIn_Line: &AIn_Slot
         - !Menu
             <<: *editable
             geometry: 140x1 x 90x18
-            pv: !string "$(P)Ai{__index__}.SCAN"
+            pv: "$(P)Ai{__index__}.SCAN"
             
         - !MessageButton
             <<: *editable
             geometry: 240x0 x 65x20
             text: "Read"
-            pv: !string "$(P)Ai{__index__}.PROC"
+            pv: "$(P)Ai{__index__}.PROC"
             value: "1"
             
         - !TextEntry
             geometry: 320x0 x 100x20
             font: -Monospace -regular -9
-            pv: !string "$(P)Ai{__index__}.DESC"
+            pv: "$(P)Ai{__index__}.DESC"
             background: *gainsboro
             foreground: *black
             
@@ -90,47 +90,48 @@ AIn_Line: &AIn_Slot
             
             
 AOut_Line: &AOut_Slot
+    padding: 15
     children:
         - !Text
             geometry: 0x0 x 20x20
-            text: !string "{__index__}"
+            text: "{__index__}"
             font: -Sans Serif -regular -8
             alignment: Center
 
         - !TextMonitor
             <<: *editable
             geometry: 30x0 x 90x20
-            pv: !string "$(P)Ao{__index__}"
+            pv: "$(P)Ao{__index__}"
             font: -Monospace -regular -9
             
         - !Slider
             geometry: 140x0 x 120x20
-            pv: !string "$(P)Ao{__index__}"
+            pv: "$(P)Ao{__index__}"
             
         - !MessageButton
             <<: *editable
             geometry: 270x0 x 15x20
-            pv: !string "$(P)Ao{__index__}TweakDown.PROC"
+            pv: "$(P)Ao{__index__}TweakDown.PROC"
             text: "<"
             value: "1"
             
         - !TextEntry
             <<: *editable
             geometry: 290x0 x 60x20
-            pv: !string "$(P)Ao{__index__}TweakVal"
+            pv: "$(P)Ao{__index__}TweakVal"
             font: -Monospace -regular -9
             
         - !MessageButton
             <<: *editable
             geometry: 355x0 x 15x20
-            pv: !string "$(P)Ao{__index__}TweakUp.PROC"
+            pv: "$(P)Ao{__index__}TweakUp.PROC"
             text: ">"
             value: "1"
             
         - !TextEntry
             geometry: 380x0 x 100x20
             font: -Monospace -regular -9
-            pv: !string "$(P)Ao{__index__}.DESC"
+            pv: "$(P)Ao{__index__}.DESC"
             background: *gainsboro
             foreground: *black
             

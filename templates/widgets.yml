@@ -3,7 +3,7 @@
 editable: &editable
     foreground: *black
     background: *edit_blue
-        
+    
 string_display: &string_display
     foreground: *black
     background: *transparent
@@ -17,3 +17,7 @@ centered_label: &centered_label
     foreground: *black
     background: *transparent
     alignment: Center
+
+alarm_led: &alarm_led
+    false-color: *alarm_green
+    true-color: *alarm_red
