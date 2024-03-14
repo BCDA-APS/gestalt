@@ -152,47 +152,45 @@ Hutches: !hrepeat
                 - { label: "IOC Debug", file: !string "{PREFIX}.ui" }
 
                     
-StretchOut: !hstretch
-    UITitle: !Text
-        geometry: 0x0 x 0x32
-        foreground: *white
-        background: *header_blue
-        border-color: *black
-        border-width: 3
-        
-        text: "Beamline {SECTOR}-{TYPE}"
-        alignment: CenterLeft
+UITitle: !hstretch:Text
+    geometry: 0x0 x 0x32
+    foreground: *white
+    background: *header_blue
+    border-color: *black
+    border-width: 3
+    
+    text: "Beamline {SECTOR}-{TYPE}"
+    alignment: CenterLeft
 
         
-Centering: !hcenter
-    OPSElements: !group
-        geometry: 0x7 x 0x0
-        
-        children:
-            - !TextMonitor
-                geometry: 0x0 x 50x20
-                foreground: *alarm_yellow
-                background: *transparent
+OPSElements: !hcenter:group
+    geometry: 0x7 x 0x0
+    
+    children:
+        - !TextMonitor
+            geometry: 0x0 x 50x20
+            foreground: *alarm_yellow
+            background: *transparent
 
-                alignment: CenterRight
-                    
-                channel: "S:SRcurrentAI"
+            alignment: CenterRight
                 
-            - !Text
-                geometry: 55x0 x 25x20
-                foreground: *alarm_yellow
-                text: "mA"
-                
-            - !RelatedDisplay
-                <<: *editable
-                
-                geometry: 85x0 x 80x17
-                
-                text: "APS OPS"
-                
-                links:
-                    - { label: "24 hr. Beam History",      file: "beamHistory.ui" }
-                    - { label: "24 hr beam history, etc",  file: "beamHistory_full.ui" }
-                    - { label: "Beam Quality Report",      file: "beamQualityReport.ui", macros: "name={SECTOR}{TYPE},pv={TYPE}{SECTOR}" }
-                    - { label: "Gap Control (Upstream)",   file: "IDControl.ui", macros: "ID={SECTOR}us" }
-                    - { label: "Gap Control (Downstream)", file: "IDControl.ui", macros: "ID={SECTOR}ds" }
+            channel: "S:SRcurrentAI"
+            
+        - !Text
+            geometry: 55x0 x 25x20
+            foreground: *alarm_yellow
+            text: "mA"
+            
+        - !RelatedDisplay
+            <<: *editable
+            
+            geometry: 85x0 x 80x17
+            
+            text: "APS OPS"
+            
+            links:
+                - { label: "24 hr. Beam History",      file: "beamHistory.ui" }
+                - { label: "24 hr beam history, etc",  file: "beamHistory_full.ui" }
+                - { label: "Beam Quality Report",      file: "beamQualityReport.ui", macros: "name={SECTOR}{TYPE},pv={TYPE}{SECTOR}" }
+                - { label: "Gap Control (Upstream)",   file: "IDControl.ui", macros: "ID={SECTOR}us" }
+                - { label: "Gap Control (Downstream)", file: "IDControl.ui", macros: "ID={SECTOR}ds" }

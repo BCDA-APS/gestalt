@@ -135,9 +135,8 @@ Hutches: !hrepeat
             files: !string "{PREFIX}.ui"
             args: ""
 
-                    
-StretchOut: !hstretch
-    UITitle: !Label
+                   
+UITitle: !hstretch:Label
         geometry: 0x0 x 0x32
         foreground_color: *white
         background_color: *header_blue
@@ -149,31 +148,30 @@ StretchOut: !hstretch
         vertical_alignment: "Middle"
 
         
-Centering: !hcenter
-    OPSElements: !group
-        geometry: 0x7 x 0x0
-        
-        children:
-            - !TextUpdate
-                geometry: 0x0 x 50x20
-                foreground_color: *alarm_yellow
-                background_color: *transparent
-                vertical_alignment: "Middle"
-                pv_name: "S:SRcurrentAI"
-                
-            - !Label
-                geometry: 55x0 x 25x20
-                foreground_color: *alarm_yellow
-                vertical_alignment: "Middle"
-                text: "mA"
-                
-            - !ActionButton
-                geometry: 85x0 x 80x17
-                background_color: *edit_blue
-                foreground_color: *black
-                
-                text: "APS OPS"
-                
-                labels: "24 hr. Beam History;24 hr beam history, etc;Beam Quality Report;Gap Control (Upstream);Gap Control (Downstream)"
-                files: "beamHistory.ui;beamHistory_full.ui;beamQualityReport.ui;IDControl.ui;IDControl.ui"
-                args: ";;name={SECTOR}{TYPE},pv={TYPE}{SECTOR};ID={SECTOR}us;ID={SECTOR}ds"
+OPSElements: !hcenter:group
+    geometry: 0x7 x 0x0
+    
+    children:
+        - !TextUpdate
+            geometry: 0x0 x 50x20
+            foreground_color: *alarm_yellow
+            background_color: *transparent
+            vertical_alignment: "Middle"
+            pv_name: "S:SRcurrentAI"
+            
+        - !Label
+            geometry: 55x0 x 25x20
+            foreground_color: *alarm_yellow
+            vertical_alignment: "Middle"
+            text: "mA"
+            
+        - !ActionButton
+            geometry: 85x0 x 80x17
+            background_color: *edit_blue
+            foreground_color: *black
+            
+            text: "APS OPS"
+            
+            labels: "24 hr. Beam History;24 hr beam history, etc;Beam Quality Report;Gap Control (Upstream);Gap Control (Downstream)"
+            files: "beamHistory.ui;beamHistory_full.ui;beamQualityReport.ui;IDControl.ui;IDControl.ui"
+            args: ";;name={SECTOR}{TYPE},pv={TYPE}{SECTOR};ID={SECTOR}us;ID={SECTOR}ds"
