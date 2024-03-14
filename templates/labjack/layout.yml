@@ -51,16 +51,15 @@ IO: !hflow
                                     repeat-over: "FIO"
                                     <<: *DIO_Slot
                                     
-                                - !hcenter
-                                    FIO_Title: !group
-                                        geometry: 0x2 x 0x0
-                                        
-                                        children:
-                                            - !Text { geometry: 70x20, text: "FIO 0-7" }
-                                            - !TextMonitor
-                                                <<: *editable
-                                                geometry: 75x0 x 80x20                                                
-                                                pv: "$(P)FIOIn"
+                                - !hcenter:group
+                                    geometry: 0x2 x 0x0
+                                    
+                                    children:
+                                        - !Text { geometry: 70x20, text: "FIO 0-7" }
+                                        - !TextMonitor
+                                            <<: *editable
+                                            geometry: 75x0 x 80x20                                                
+                                            pv: "$(P)FIOIn"
                             
                         - !group
                             <<: *ThinBorderedGroup
@@ -76,16 +75,15 @@ IO: !hflow
                                     repeat-over: "EIO"
                                     <<: *DIO_Slot
                                     
-                                - !hcenter
-                                    EIO_Title: !group
-                                        geometry: 0x2 x 0x0
-                                        
-                                        children:
-                                            - !Text { geometry: 70x20, text: "EIO 0-7" }
-                                            - !TextMonitor
-                                                <<: *editable
-                                                geometry: 75x0 x 80x20
-                                                pv: "$(P)EIOIn"
+                                - !hcenter:group
+                                    geometry: 0x2 x 0x0
+                                    
+                                    children:
+                                        - !Text { geometry: 70x20, text: "EIO 0-7" }
+                                        - !TextMonitor
+                                            <<: *editable
+                                            geometry: 75x0 x 80x20
+                                            pv: "$(P)EIOIn"
                             
                         - !hstretch
                             CIOMIO: !group
@@ -110,29 +108,27 @@ IO: !hflow
                                                 repeat-over: "MIO"
                                                 <<: *DIO_Slot
                                                 
-                                    - !hcenter
-                                        CIO_Title: !hflow
-                                            geometry: 0x2 x 0x0
-                                            padding: 5
-                                            
-                                            children:                            
-                                                - !Text { geometry: 70x20, text: "CIO 0-3" }
-                                                - !TextMonitor
-                                                    <<: *editable
-                                                    geometry: 80x20
-                                                    pv: "$(P)CIOIn"
-                                                    
-                                                - !Spacer { geometry: 10x0 }
-                                                    
-                                                - !Text { geometry: 90x20, text: "MIO 0-2" }
-                                                - !TextMonitor
-                                                    geometry: 80x20
-                                                    <<: *editable
-                                                    pv: "$(P)MIOIn"
+                                    - !hcenter:hflow
+                                        geometry: 0x2 x 0x0
+                                        padding: 5
+                                        
+                                        children:                            
+                                            - !Text { geometry: 70x20, text: "CIO 0-3" }
+                                            - !TextMonitor
+                                                <<: *editable
+                                                geometry: 80x20
+                                                pv: "$(P)CIOIn"
+                                                
+                                            - !Spacer { geometry: 10x0 }
+                                                
+                                            - !Text { geometry: 90x20, text: "MIO 0-2" }
+                                            - !TextMonitor
+                                                geometry: 80x20
+                                                <<: *editable
+                                                pv: "$(P)MIOIn"
         
                                                     
-                - !hcenter
-                    DigitalIOTitle: !Text { geometry: 130x25, alignment: Center, text: "Digital I/O" }
+                - !hcenter:Text { geometry: 130x25, alignment: Center, text: "Digital I/O" }
                 
         
         - !vflow
@@ -155,33 +151,31 @@ IO: !hflow
                                     repeat-over: "ANALOG_INPUTS"                                    
                                     <<: *AIn_Slot
                                     
-                                - !hcenter
-                                    Links: !hflow
-                                        padding: 10
-                                    
-                                        children:
-                                            - !RelatedDisplay
-                                                <<: *editable
-                                                geometry: 100x20
-                                                text: "Configure"
+                                - !hcenter:hflow
+                                    padding: 10
+                                
+                                    children:
+                                        - !RelatedDisplay
+                                            <<: *editable
+                                            geometry: 100x20
+                                            text: "Configure"
+                                            
+                                            links:
+                                                - { label: "AI Setup", file: "LabJack_T7_AiSetup.ui", macros: "P=$(P)" }
+                                            
+                                        - !RelatedDisplay
+                                            <<: *editable
+                                            geometry: 150x20
+                                            text: "Waveform Digitizer"
+                                            
+                                            links:
+                                                - { label: "Waveform Digitizer", file: "LabJackWaveDig.ui", macros: "P=$(P)" }
                                                 
-                                                links:
-                                                    - { label: "AI Setup", file: "LabJack_T7_AiSetup.ui", macros: "P=$(P)" }
-                                                
-                                            - !RelatedDisplay
-                                                <<: *editable
-                                                geometry: 150x20
-                                                text: "Waveform Digitizer"
-                                                
-                                                links:
-                                                    - { label: "Waveform Digitizer", file: "LabJackWaveDig.ui", macros: "P=$(P)" }
-                                                
-                        - !hcenter
-                            AnalogTitle: !Text
-                                geometry: 0x5 x 150x25
-                                font: -Cantarell -regular -15
-                                text: "Analog Input"
-                                alignment: Center
+                        - !hcenter:Text
+                            geometry: 0x5 x 150x25
+                            font: -Cantarell -regular -15
+                            text: "Analog Input"
+                            alignment: Center
         
                                 
                 - !group
@@ -200,157 +194,153 @@ IO: !hflow
                                     repeat-over: "ANALOG_OUTPUTS"
                                     <<: *AOut_Slot
                                     
-                                - !hcenter
-                                    Links: !hflow
-                                        padding: 10
-                                    
-                                        children:
-                                            - !RelatedDisplay
-                                                <<: *editable
-                                                geometry: 100x20
-                                                text: "Configure"
-                                                
-                                                links:
-                                                    - { label: "AO Setup", file: "LabJack_T7_AoSetup.ui", macros: "P=$(P)" }
-                                                
-                                            - !RelatedDisplay
-                                                <<: *editable
-                                                geometry: 150x20
-                                                text: "Waveform Generator"
-                                                
-                                                links:
-                                                    - { label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }
-                                                
-                        - !hcenter
-                            AnalogTitle: !Text
-                                geometry: 0x5 x 150x25
-                                font: -Cantarell -regular -15
-                                text: "Analog Out"
-                                alignment: Center
+                                - !hcenter:hflow
+                                    padding: 10
+                                
+                                    children:
+                                        - !RelatedDisplay
+                                            <<: *editable
+                                            geometry: 100x20
+                                            text: "Configure"
+                                            
+                                            links:
+                                                - { label: "AO Setup", file: "LabJack_T7_AoSetup.ui", macros: "P=$(P)" }
+                                            
+                                        - !RelatedDisplay
+                                            <<: *editable
+                                            geometry: 150x20
+                                            text: "Waveform Generator"
+                                            
+                                            links:
+                                                - { label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }
+                                            
+                        - !hcenter:Text
+                            geometry: 0x5 x 150x25
+                            font: -Cantarell -regular -15
+                            text: "Analog Out"
+                            alignment: Center
                                 
                 
-Status: !hcenter
-    StatusGroup: !hflow
-        geometry: 20x65 x 0x0
-        padding: 20
-    
-        children:
-            - !vflow
-                padding: 5
-            
-                children:
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 100x20, text: "Model Name" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)ModelName"
-                                
-                                
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 100x20, text: "Serial Num" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)Serial Number"
-                    
-                                
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 100x20, text: "LJM Version" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)LJMVersion"
-    
-            
-            - !vflow
-                padding: 5
-            
-                children:
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 200x20, text: "Firmware Version" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)FirmwareVersion"
-                                
-                                
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 200x20, text: "Temperature (C)" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)DeviceTemperature"
-                    
-                                
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 200x20, text: "Driver Version" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)DriverVersion"
-    
-    
-            - !vflow
-                padding: 5
-            
-                children:
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 250x20, text: "Poll Sleep Time (ms)" }
-                            - !TextEntry
-                                <<: *editable
-                                geometry: 100x20
-                                pv: "$(P)PollSleepMS"
-                                
-                                
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 250x20, text: "Poll Cycle Time (ms)" }
-                            - !TextMonitor
-                                <<: *FixedFeedback
-                                pv: "$(P)PollTimeMS"
-                    
-                                
-                    - !hflow
-                        padding: 10
-                    
-                        children:
-                            - !Text { geometry: 250x20, text: "Reset Device on Exit" }
-                            - !MessageButton
-                                geometry: 100x20
-                                pv: "$(P)DeviceReset"
-                                foreground: *black
-                                background: *alarm_red
-                                value: "1"
-                                text: "Reset!"
-                                
+Status: !hcenter:hflow
+    geometry: 20x65 x 0x0
+    padding: 20
+
+    children:
+        - !vflow
+            padding: 5
+        
+            children:
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 100x20, text: "Model Name" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)ModelName"
+                            
+                            
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 100x20, text: "Serial Num" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)Serial Number"
+                
+                            
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 100x20, text: "LJM Version" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)LJMVersion"
+
+        
+        - !vflow
+            padding: 5
+        
+            children:
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 200x20, text: "Firmware Version" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)FirmwareVersion"
+                            
+                            
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 200x20, text: "Temperature (C)" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)DeviceTemperature"
+                
+                            
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 200x20, text: "Driver Version" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)DriverVersion"
+
+
+        - !vflow
+            padding: 5
+        
+            children:
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 250x20, text: "Poll Sleep Time (ms)" }
+                        - !TextEntry
+                            <<: *editable
+                            geometry: 100x20
+                            pv: "$(P)PollSleepMS"
+                            
+                            
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 250x20, text: "Poll Cycle Time (ms)" }
+                        - !TextMonitor
+                            <<: *FixedFeedback
+                            pv: "$(P)PollTimeMS"
+                
+                            
+                - !hflow
+                    padding: 10
+                
+                    children:
+                        - !Text { geometry: 250x20, text: "Reset Device on Exit" }
+                        - !MessageButton
+                            geometry: 100x20
+                            pv: "$(P)DeviceReset"
+                            foreground: *black
+                            background: *alarm_red
+                            value: "1"
+                            text: "Reset!"
+                            
 
                             
-UITitle: !hstretch
-    Header: !Text
-        geometry: 0x0 x 0x45
-        foreground: *white
-        background: *header_blue
-        border-color: *black
-        border-width: 3
-                
-        text: "{TITLE}"
-        font: -Cantarell - Regular - 16
-        alignment: Center
+UITitle: !hstretch:Text
+    geometry: 0x0 x 0x45
+    foreground: *white
+    background: *header_blue
+    border-color: *black
+    border-width: 3
+            
+    text: "{TITLE}"
+    font: -Cantarell - Regular - 16
+    alignment: Center
