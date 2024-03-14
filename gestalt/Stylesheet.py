@@ -31,7 +31,13 @@ def read_type(cls, loader, node):
 			return cls(data)
 			
 			
-def add_constructors(typ_name, typ_func, regex=None):
+def add_multi_constructors(typ_name, typ_func, regex=None):
+	yaml.add_multi_constructor("!" + typ_name,              typ_func, Loader=yaml.SafeLoader)
+	yaml.add_multi_constructor("!" + typ_name.lower(),      typ_func, Loader=yaml.SafeLoader)
+	yaml.add_multi_constructor("!" + typ_name.upper(),      typ_func, Loader=yaml.SafeLoader)
+	yaml.add_multi_constructor("!" + typ_name.capitalize(), typ_func, Loader=yaml.SafeLoader)
+			
+def add_constructors(typ_name, typ_func, regex=None):	
 	yaml.add_constructor("!" + typ_name,              typ_func, Loader=yaml.SafeLoader)
 	yaml.add_constructor("!" + typ_name.lower(),      typ_func, Loader=yaml.SafeLoader)
 	yaml.add_constructor("!" + typ_name.upper(),      typ_func, Loader=yaml.SafeLoader)
@@ -71,15 +77,33 @@ def read_special_node(node_type, loader, node, **kwargs):
 
 	return node_type(layout=params, **kwargs)
 
-def read_stretch_node(loader, node, flow="vertical"):
-	params = loader.construct_mapping(node, deep=True)
-
-	return StretchNode(flow=flow, subnode=next(iter(params.values())))
-
-def read_center_node(loader, node, flow="vertical"):
-	params = loader.construct_mapping(node, deep=True)
 	
-	return CenterNode(flow=flow, subnode=next(iter(params.values())))
+def read_stretch_multi(loader, suffix, node, flow="vertical"):
+	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	
+	return StretchNode(flow=flow, subnode=ret_node)
+	
+def read_stretch_node(loader, node, flow="vertical"):
+	try:
+		params = loader.construct_mapping(node, deep=True)
+		return StretchNode(flow=flow, subnode=next(iter(params.values())))
+	except:
+		params = loader.construct_sequence(node, deep=True)
+		return StretchNode(flow=flow, subnode=next(iter(params)))
+
+		
+def read_center_multi(loader, suffix, node, flow="vertical"):
+	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	
+	return CenterNode(flow=flow, subnode=ret_node)
+		
+def read_center_node(loader, node, flow="vertical"):
+	try:
+		params = loader.construct_mapping(node, deep=True)
+		return CenterNode(flow=flow, subnode=next(iter(params.values())))
+	except:
+		params = loader.construct_sequence(node, deep=True)
+		return CenterNode(flow=flow, subnode=next(iter(params)))
 
 
 recognized_types = (
@@ -120,9 +144,18 @@ add_constructors("repeat",  (lambda l, n: read_special_node(RepeatNode, l, n,  f
 add_constructors("vrepeat", (lambda l, n: read_special_node(RepeatNode, l, n,  flow="vertical")))
 add_constructors("hrepeat", (lambda l, n: read_special_node(RepeatNode, l, n,  flow="horizontal")))
 
+add_multi_constructors("stretch:",  (lambda l, s, n: read_stretch_multi(l, s, n, flow="vertical")))
+add_multi_constructors("vstretch:", (lambda l, s, n: read_stretch_multi(l, s, n, flow="vertical")))
+add_multi_constructors("hstretch:", (lambda l, s, n: read_stretch_multi(l, s, n, flow="horizontal")))
+
 add_constructors("stretch",  (lambda l, n: read_stretch_node(l, n, flow="vertical")))
 add_constructors("vstretch", (lambda l, n: read_stretch_node(l, n, flow="vertical")))
 add_constructors("hstretch", (lambda l, n: read_stretch_node(l, n, flow="horizontal")))
+
+
+add_multi_constructors("center:",  (lambda l, s, n: read_center_multi(l, s, n, flow="vertical")))
+add_multi_constructors("vcenter:", (lambda l, s, n: read_center_multi(l, s, n, flow="vertical")))
+add_multi_constructors("hcenter:", (lambda l, s, n: read_center_multi(l, s, n, flow="horizontal")))
 
 add_constructors("center",  (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("vcenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
