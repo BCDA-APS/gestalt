@@ -68,7 +68,7 @@ def parseSubstitutionFile(filename):
 						temp = {}
 						
 						for i in range(len(pattern)):
-							temp[pattern[i]] = matches[i].strip('"')
+							temp[pattern[i]] = matches[i].strip('",')
 							
 						output[curr_file].append(temp)
 						
