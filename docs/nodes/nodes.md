@@ -45,15 +45,19 @@ the correct attributes in both caQtDM and CSS.
 
 ## Logical Groups
 
-Logical groups perform some form of calculation upon their children widgets. Currently,
-the only logical group used is the '!conditional' type. A conditional group uses a 
-boolean value to decide whether to add their contents to the screen or not. Within the
-template file, a conditional group will have the 'condition' attribute specified as the
-name of a macro within the data file.
+Logical groups perform some form of calculation upon their children widgets. This includes
+the '!conditional' type as well as the Template system and Apply type. 
+
+A conditional group uses a boolean value to decide whether to add their contents to the screen 
+or not. Within the template file, a conditional group will have the 'condition' attribute 
+specified as the name of a macro within the data file.
 
 If the macro's value is equivalent to a false value, then none of the group's contents
 are included in the resulting UI screen. Otherwise, the conditional is treated like a
 basic group.
+
+The Template and Apply system saves sets of Nodes to later be included in other definitions
+while being able to define certain attributes with macros.
 
 [Full Documentation](logic.md)
 

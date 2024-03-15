@@ -21,3 +21,16 @@ centered_label: &centered_label
 alarm_led: &alarm_led
     false-color: *alarm_green
     true-color: *alarm_red
+
+    
+UITitle: !Template:ScreenHeader
+    - !hstretch:Text
+        geometry: 0x0 x 0x45
+        foreground: *white
+        background: *header_blue
+        border-color: *black
+        border-width: 3
+                
+        text: "{TITLE}"
+        font: -Cantarell - Regular - 16
+        alignment: Center
