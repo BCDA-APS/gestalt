@@ -26,7 +26,7 @@ class Node(object):
 	def link(self, newkey, oldkey):
 		self.attrs[newkey] = self.attrs.pop(oldkey)
 			
-	def setProperty(self, key, data):			
+	def setProperty(self, key, data):
 		to_assign = None
 		
 		if isinstance(data, DataType):
@@ -38,10 +38,7 @@ class Node(object):
 		elif isinstance(data, float):
 			to_assign = Double(data)
 		elif isinstance(data, str):
-			to_assign = yaml.safe_load(data)
-			
-			if not isinstance(to_assign, DataType):
-				to_assign = String(data)
+			to_assign = String(data)
 		else:
 			to_assign = data
 				
@@ -194,6 +191,7 @@ class GridNode(GroupNode):
 		
 		
 	def apply (self, generator, data={}):
+		self.repeat_over.apply(data)
 		macrolist = data.get(str(self.repeat_over), {})
 	
 		output = generator.generateGroup(self, macros=data)
@@ -295,6 +293,7 @@ class RepeatNode(GroupNode):
 	
 		
 	def apply (self, generator, data={}):		
+		self.repeat_over.apply(data)
 		macrolist = data.get(str(self.repeat_over), None)
 		
 		output = generator.generateGroup(self, macros=data)
@@ -357,9 +356,22 @@ class ConditionalNode(GroupNode):
 					"__parentwidth__" : output["geometry"]["width"],
 					"__parentheight__" : output["geometry"]["height"]})
 				
-				output.place(childnode.apply(generator, data=data))
+				output.place(childnode.apply(generator, data=child_macros))
 		
 		return output
+		
+		
+class ApplyNode(GroupNode):
+	def __init__(self, layout={}, macros={}, subnode=None):
+		super(ApplyNode, self).__init__("Apply", layout=layout)
+		
+		self.macros = macros
+		self.subnode = subnode
+		
+	def apply(self, generator, data={}):
+		child_macros = copy.deepcopy(data)
+		child_macros.update(self.macros)
+		return self.subnode.apply(generator, data=child_macros)
 
 		
 class SpacerNode(Node):

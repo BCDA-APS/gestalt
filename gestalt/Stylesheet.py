@@ -11,6 +11,8 @@ from gestalt.Type import *
 #    Data Type Parsing   #
 ##########################
 
+my_templates = {}
+
 def read_type(cls, loader, node):
 
 	# Parse Dictionary
@@ -77,6 +79,26 @@ def read_special_node(node_type, loader, node, **kwargs):
 
 	return node_type(layout=params, **kwargs)
 
+
+def read_template_multi(loader, suffix, node):
+	try: 
+		params = loader.construct_mapping(node, deep=True)
+		my_templates[suffix] = next(iter(params.values()))
+	except:
+		params = loader.construct_sequence(node, deep=True)
+		my_templates[suffix] = next(iter(params))
+	
+	return None
+		
+def read_apply_multi(loader, suffix, node):
+	macros = {}
+	
+	try:
+		macros = loader.construct_mapping(node, deep=True)
+	except:
+		pass
+	
+	return ApplyNode(macros=macros, subnode=my_templates.get(suffix, None))
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
 	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
@@ -133,6 +155,8 @@ add_constructors("group", (lambda l, n: read_group_node("caFrame", l, n)))
 add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 
 add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
+add_multi_constructors("template", read_template_multi)
+add_multi_constructors("apply",   read_apply_multi)
 
 add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))
 	
