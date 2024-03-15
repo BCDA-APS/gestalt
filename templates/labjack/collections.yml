@@ -1,5 +1,17 @@
 #include colors.yml
 
+Thin_Bordered_Group: &ThinBorderedGroup
+    margins: 10x5x10x5
+    
+    border-color: *black
+    border-width: 1    
+    
+Fixed_Feedback: &FixedFeedback
+    foreground: *header_blue
+    background: *transparent
+    geometry: 100x20
+
+
 DIO_Item: &DIO_Slot
     padding: 5
 
@@ -135,3 +147,46 @@ AOut_Line: &AOut_Slot
             background: *gainsboro
             foreground: *black
             
+
+            
+LblRbkTemplate: !Template:lbl_rbk 
+    - !hflow
+        padding: 10
+        
+        children:
+            - !Text { geometry: 150x20, text: "{TITLE}" }
+            - !TextMonitor
+                <<: *FixedFeedback
+                pv: "$(P){PV}"
+
+
+IOLabelTemplate: !Template:io_lbl
+    - !group
+        children:
+            - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
+            - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
+            - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
+            - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }    
+
+            
+IOGroupTemplate: !Template:io_group
+    - !group
+        <<: *ThinBorderedGroup
+        
+        children:
+            - !Apply:io_lbl
+            - !hrepeat
+                geometry: 55x30 x 0x0
+            
+                repeat-over: "{GROUP_NAME}"
+                <<: *DIO_Slot
+                
+            - !hcenter:group
+                geometry: 0x2 x 0x0
+                
+                children:
+                    - !Text { geometry: 70x20, text: "{GROUP_NAME} 0-7" }
+                    - !TextMonitor
+                        <<: *editable
+                        geometry: 75x0 x 80x20                                                
+                        pv: "$(P){GROUP_NAME}In"

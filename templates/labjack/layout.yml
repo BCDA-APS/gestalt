@@ -5,19 +5,6 @@
 
 Form: !Form
     margins: 5x0x5x5
-
-
-Thin_Bordered_Group: &ThinBorderedGroup
-    margins: 10x5x10x5
-    
-    border-color: *black
-    border-width: 1    
-    
-Fixed_Feedback: &FixedFeedback
-    foreground: *header_blue
-    background: *transparent
-    geometry: 100x20
-    
     
 IO: !hflow
     geometry: 0x170x0x0
@@ -37,96 +24,47 @@ IO: !hflow
                     padding: 5
                     
                     children:        
-                        - !group
+                        - !Apply:io_group { GROUP_NAME: "FIO" }
+                        - !Apply:io_group { GROUP_NAME: "EIO" }
+                            
+                        - !hstretch:group
                             <<: *ThinBorderedGroup
                         
                             children: 
-                                - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
-                                - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
-                                - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
-                                - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }    
-                                - !hrepeat
+                                - !Apply:io_lbl
+                                - !hflow
                                     geometry: 55x30 x 0x0
+                                    padding: 5
+                                    
+                                    children:
+                                        - !hrepeat
+                                            repeat-over: "CIO"
+                                            <<: *DIO_Slot
                                 
-                                    repeat-over: "FIO"
-                                    <<: *DIO_Slot
-                                    
-                                - !hcenter:group
+                                                                
+                                        - !hrepeat
+                                            repeat-over: "MIO"
+                                            <<: *DIO_Slot
+                                            
+                                - !hcenter:hflow
                                     geometry: 0x2 x 0x0
+                                    padding: 5
                                     
-                                    children:
-                                        - !Text { geometry: 70x20, text: "FIO 0-7" }
+                                    children:                            
+                                        - !Text { geometry: 70x20, text: "CIO 0-3" }
                                         - !TextMonitor
                                             <<: *editable
-                                            geometry: 75x0 x 80x20                                                
-                                            pv: "$(P)FIOIn"
-                            
-                        - !group
-                            <<: *ThinBorderedGroup
-                        
-                            children: 
-                                - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
-                                - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
-                                - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
-                                - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }
-                                - !hrepeat
-                                    geometry: 55x30 x 0x0
-                                    
-                                    repeat-over: "EIO"
-                                    <<: *DIO_Slot
-                                    
-                                - !hcenter:group
-                                    geometry: 0x2 x 0x0
-                                    
-                                    children:
-                                        - !Text { geometry: 70x20, text: "EIO 0-7" }
+                                            geometry: 80x20
+                                            pv: "$(P)CIOIn"
+                                            
+                                        - !Spacer { geometry: 10x0 }
+                                            
+                                        - !Text { geometry: 90x20, text: "MIO 0-2" }
                                         - !TextMonitor
+                                            geometry: 80x20
                                             <<: *editable
-                                            geometry: 75x0 x 80x20
-                                            pv: "$(P)EIOIn"
-                            
-                        - !hstretch
-                            CIOMIO: !group
-                                <<: *ThinBorderedGroup
-                            
-                                children: 
-                                    - !Text { geometry: 25x55 x 20x20, alignment: CenterRight, text: "In" }
-                                    - !Text { geometry: 15x90 x 30x20, alignment: CenterRight, text: "Out" }
-                                    - !Text { geometry: 5x130 x 40x20, alignment: CenterRight, text: "Dir." }
-                                    - !Text { geometry: 0x160 x 45x20, alignment: CenterRight, text: "Desc." }
-                                    - !hflow
-                                        geometry: 55x30 x 0x0
-                                        padding: 5
-                                        
-                                        children:
-                                            - !hrepeat
-                                                repeat-over: "CIO"
-                                                <<: *DIO_Slot
-                                    
-                                                                    
-                                            - !hrepeat
-                                                repeat-over: "MIO"
-                                                <<: *DIO_Slot
-                                                
-                                    - !hcenter:hflow
-                                        geometry: 0x2 x 0x0
-                                        padding: 5
-                                        
-                                        children:                            
-                                            - !Text { geometry: 70x20, text: "CIO 0-3" }
-                                            - !TextMonitor
-                                                <<: *editable
-                                                geometry: 80x20
-                                                pv: "$(P)CIOIn"
-                                                
-                                            - !Spacer { geometry: 10x0 }
-                                                
-                                            - !Text { geometry: 90x20, text: "MIO 0-2" }
-                                            - !TextMonitor
-                                                geometry: 80x20
-                                                <<: *editable
-                                                pv: "$(P)MIOIn"
-        
+                                            pv: "$(P)MIOIn"
+    
                                                     
                 - !hcenter:Text { geometry: 130x25, alignment: Center, text: "Digital I/O" }
                 
@@ -160,16 +98,14 @@ IO: !hflow
                                             geometry: 100x20
                                             text: "Configure"
                                             
-                                            links:
-                                                - { label: "AI Setup", file: "LabJack_T7_AiSetup.ui", macros: "P=$(P)" }
+                                            links: [{ label: "AI Setup", file: "LabJack_T7_AiSetup.ui", macros: "P=$(P)" }]
                                             
                                         - !RelatedDisplay
                                             <<: *editable
                                             geometry: 150x20
                                             text: "Waveform Digitizer"
                                             
-                                            links:
-                                                - { label: "Waveform Digitizer", file: "LabJackWaveDig.ui", macros: "P=$(P)" }
+                                            links: [{ label: "Waveform Digitizer", file: "LabJackWaveDig.ui", macros: "P=$(P)" }]
                                                 
                         - !hcenter:Text
                             geometry: 0x5 x 150x25
@@ -203,16 +139,14 @@ IO: !hflow
                                             geometry: 100x20
                                             text: "Configure"
                                             
-                                            links:
-                                                - { label: "AO Setup", file: "LabJack_T7_AoSetup.ui", macros: "P=$(P)" }
+                                            links: [{ label: "AO Setup", file: "LabJack_T7_AoSetup.ui", macros: "P=$(P)" }]
                                             
                                         - !RelatedDisplay
                                             <<: *editable
                                             geometry: 150x20
                                             text: "Waveform Generator"
                                             
-                                            links:
-                                                - { label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }
+                                            links: [{ label: "Waveform Generator", file: "LabJackWaveGen2.ui", macros: "P=$(P)" }]
                                             
                         - !hcenter:Text
                             geometry: 0x5 x 150x25
@@ -230,70 +164,18 @@ Status: !hcenter:hflow
             padding: 5
         
             children:
-                - !hflow
-                    padding: 10
-                
-                    children:
-                        - !Text { geometry: 100x20, text: "Model Name" }
-                        - !TextMonitor
-                            <<: *FixedFeedback
-                            pv: "$(P)ModelName"
-                            
-                            
-                - !hflow
-                    padding: 10
-                
-                    children:
-                        - !Text { geometry: 100x20, text: "Serial Num" }
-                        - !TextMonitor
-                            <<: *FixedFeedback
-                            pv: "$(P)Serial Number"
-                
-                            
-                - !hflow
-                    padding: 10
-                
-                    children:
-                        - !Text { geometry: 100x20, text: "LJM Version" }
-                        - !TextMonitor
-                            <<: *FixedFeedback
-                            pv: "$(P)LJMVersion"
-
-        
+                - !Apply:lbl_rbk { TITLE: "Model Name",  PV: "ModelName" }
+                - !Apply:lbl_rbk { TITLE: "Serial Num",  PV: "SerialNumber" }                            
+                - !Apply:lbl_rbk { TITLE: "LJM Version", PV: "LJMVersion" }
+                    
         - !vflow
             padding: 5
         
             children:
-                - !hflow
-                    padding: 10
+                - !Apply:lbl_rbk { TITLE: "Firmware Version", PV: "FirmwareVersion" }                    
+                - !Apply:lbl_rbk { TITLE: "Temperature (C)",  PV: "DeviceTemperature" }
+                - !Apply:lbl_rbk { TITLE: "Driver Version",   PV: "DriverVersion" }
                 
-                    children:
-                        - !Text { geometry: 200x20, text: "Firmware Version" }
-                        - !TextMonitor
-                            <<: *FixedFeedback
-                            pv: "$(P)FirmwareVersion"
-                            
-                            
-                - !hflow
-                    padding: 10
-                
-                    children:
-                        - !Text { geometry: 200x20, text: "Temperature (C)" }
-                        - !TextMonitor
-                            <<: *FixedFeedback
-                            pv: "$(P)DeviceTemperature"
-                
-                            
-                - !hflow
-                    padding: 10
-                
-                    children:
-                        - !Text { geometry: 200x20, text: "Driver Version" }
-                        - !TextMonitor
-                            <<: *FixedFeedback
-                            pv: "$(P)DriverVersion"
-
-
         - !vflow
             padding: 5
         
@@ -334,13 +216,4 @@ Status: !hcenter:hflow
                             
 
                             
-UITitle: !hstretch:Text
-    geometry: 0x0 x 0x45
-    foreground: *white
-    background: *header_blue
-    border-color: *black
-    border-width: 3
-            
-    text: "{TITLE}"
-    font: -Cantarell - Regular - 16
-    alignment: Center
+Header: !Apply:ScreenHeader { TITLE: "{TITLE}" }
