@@ -307,6 +307,7 @@ elements a user provides.
 | background   | Color  | A fill color behind the entirety of each template copy |
 | border-color | Color  | The color of the group's border surrounding each template copy |
 | border-width | Number | The thickness of the group's border in pixels |
+| horizontal   | Bool   | Fill direction of the layout. Macros will be mapped to widgets across columns first, then proceed to the next row, rather than the reverse. True by default |
 
 
 * **Example**
