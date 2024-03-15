@@ -184,10 +184,11 @@ class GridNode(GroupNode):
 	def __init__(self, name=None, layout={}):
 		super(GridNode, self).__init__("caFrame", layout=layout)
 	
-		self.ratio = self.attrs.pop("aspect-ratio", Number(1.0))
-		self.repeat_over = self.attrs.pop("repeat-over", String(""))
-		self.start_at = self.attrs.pop("start-at", Number(0))
-		self.padding = self.attrs.pop("padding", Number(0))
+		self.ratio = Double(self.attrs.pop("aspect-ratio", 1.0))
+		self.repeat_over = String(self.attrs.pop("repeat-over", ""))
+		self.start_at = Number(self.attrs.pop("start-at", 0))
+		self.padding = Number(self.attrs.pop("padding", 0))
+		self.horizontal = Bool(self.attrs.pop("horizontal", True))
 		
 		
 	def apply (self, generator, data={}):
@@ -235,12 +236,21 @@ class GridNode(GroupNode):
 			element.position(pos_x, pos_y)
 			
 			index += 1
-			index_x += 1
 			
-			if index_x >= cols:
-				index_x = 0
+			if self.horizontal:
+				index_x += 1
+				
+				if index_x >= cols:
+					index_x = 0
+					index_y += 1
+					
+			else:
 				index_y += 1
-		
+				
+				if index_y >= rows:
+					index_y = 0
+					index_x += 1
+			
 			output.place(element)
 			
 		return output
