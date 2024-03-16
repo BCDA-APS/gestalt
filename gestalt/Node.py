@@ -380,7 +380,13 @@ class ApplyNode(GroupNode):
 		
 	def apply(self, generator, data={}):
 		child_macros = copy.deepcopy(data)
-		child_macros.update(self.macros)
+		
+		for key, val in self.macros.items():
+			to_update = String(val)
+			to_update.apply(data)
+		
+			child_macros.update({key : str(to_update)})
+		
 		return self.subnode.apply(generator, data=child_macros)
 
 		
