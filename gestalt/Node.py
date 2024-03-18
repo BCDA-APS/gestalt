@@ -97,13 +97,11 @@ class Node(object):
 				out_x = args[0]["x"]
 				out_y = args[0]["y"]
 
-		if out_x:
+		if out_x is not None:
 			self["geometry"]["x"] = out_x
 		
-		if out_y:
+		if out_y is not None:
 			self["geometry"]["y"] = out_y
-				
-		#self.setProperty("geometry", Rect(x = out_x, y = out_y))
 				
 		return self
 
