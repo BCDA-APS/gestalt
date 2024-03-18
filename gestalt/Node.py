@@ -45,10 +45,7 @@ class Node(object):
 		else:
 			to_assign = data
 							
-		if key in self.attrs:
-			self.attrs[key] = self.attrs[key].merge(to_assign)
-		else:
-			self.attrs[key] = to_assign
+		self.attrs[key] = to_assign
 
 		return self
 	
@@ -98,9 +95,15 @@ class Node(object):
 				out_y = args[0][1]
 			elif isinstance(args[0], dict):
 				out_x = args[0]["x"]
-				out_y = args[0]["y"]				
+				out_y = args[0]["y"]
+
+		if out_x:
+			self["geometry"]["x"] = out_x
 		
-		self.setProperty("geometry", Rect(x = out_x, y = out_y))
+		if out_y:
+			self["geometry"]["y"] = out_y
+				
+		#self.setProperty("geometry", Rect(x = out_x, y = out_y))
 				
 		return self
 

@@ -38,10 +38,6 @@ class DataType(object):
 	def __float__(self):
 		return float(self.val)
 		
-	def merge(self, other):
-		return type(self)(other.val)
-
-		
 
 ###########################
 #     BASIC DATA TYPES    #
@@ -93,7 +89,7 @@ class Not(DataType):
 
 
 class Rect(DataType):			
-	def __init__(self, *args, x=None, y=None, width=None, height=None):
+	def __init__(self, *args, x=0, y=0, width=0, height=0):
 		self.typ = "rect"
 		self.defaultvalue = 0
 		self.labels = ["x", "y", "width", "height"]
@@ -108,7 +104,7 @@ class Rect(DataType):
 			data = args[0]
 		
 		if isinstance(data, dict):
-			data = [ data.get(key, None) for key in self.labels ]
+			data = [ data.get(key, self.defaultvalue) for key in self.labels ]
 		
 		elif isinstance(data, str):
 			data = [ int(item) for item in data.split("x")]
@@ -120,28 +116,16 @@ class Rect(DataType):
 		temp = []
 			
 		for i in range(4 - len(data)):
-			temp.append(None)
+			temp.append(self.defaultvalue)
 				
 		for item in data:
 			temp.append(item)
 			
 		self.val = dict(zip(self.labels, temp))
 
-			
 	def __getitem__(self, key):
 		return int(self.val[key])
-				
-	def merge(self, other):	
-		output = {}
-		output.update(self.val)
-					
-		for key in self.labels:
-			if other.val.get(key) is not None:
-				output[key] = other.val[key]
-			
-		return Rect(output)
-
-		
+						
 #######################
 #   COLOR DATA TYPE   #
 #######################
@@ -187,17 +171,6 @@ class Color(DataType):
 				
 		self.val = dict( zip(self.labels, temp))
 		
-	def merge(self, other):
-		output = {}
-		output.update(self.val)
-					
-		for key in self.labels:
-			if other.val.get(key) is not None:
-				output[key] = other.val[key]
-			
-		return Color(output)
-		
-
 		
 ######################
 #   FONT DATA TYPE   #
@@ -237,17 +210,6 @@ class Font(DataType):
 			temp[i] = data[i]
 			
 		self.val = dict(zip(self.labels, temp))
-		
-			
-	def merge(self, other):
-		output = {}
-		output.update(self.val)
-		
-		for key in self.labels:
-			if other.val.get(key) is not None:
-				output[key] = other.val[key]
-				
-		return Font(output)
 		
 		
 ###########################
