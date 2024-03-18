@@ -11,15 +11,15 @@ class Node(object):
 	def __init__(self, classname, name=None, layout={}):
 		self.classname = classname
 		self.name = None
-		
-		self.attrs = {"geometry" : Rect(x=0, y=0, width=0, height=0)}
+		self.attrs = { "geometry": Rect("0x0x0x0")}
 		
 		if name is not None:
 			self.name = name
 		
 		if layout is not None:
 			Node.setProperties(self, layout)
-						
+	
+		
 	def setDefault(self, datatype, key, default):
 		self.attrs[key] = datatype(self.attrs.pop(key, default))
 			
@@ -41,8 +41,7 @@ class Node(object):
 			to_assign = String(data)
 		else:
 			to_assign = data
-				
-			
+							
 		if key in self.attrs:
 			self.attrs[key] = self.attrs[key].merge(to_assign)
 		else:
@@ -113,9 +112,11 @@ class GroupNode(Node):
 		initial = layout.pop("children", {})
 	
 		super(GroupNode, self).__init__(classname, name=name, layout=layout)
-	
-		self.margins = Rect(x=0, y=0, width=0, height=0)
-		self.margins = self.margins.merge(self.attrs.get("margins", Rect(x=0, y=0, width=0, height=0)))
+		
+		self.margins = Rect(self.attrs.pop("margins", "0x0x0x0"))
+		
+		#self.margins = Rect(x=0, y=0, width=0, height=0)
+		#self.margins = self.margins.merge(self.attrs.get("margins", Rect(x=0, y=0, width=0, height=0)))
 	
 		self.children = []
 		
@@ -165,7 +166,8 @@ class GroupNode(Node):
 	
 	def apply (self, generator, data={}):
 		output = generator.generateGroup(self, macros=data)
-				
+		output.margins = self.margins
+		
 		child_macros = copy.deepcopy(data)
 		
 		for child in self.children:
@@ -196,6 +198,7 @@ class GridNode(GroupNode):
 		macrolist = data.get(str(self.repeat_over), {})
 	
 		output = generator.generateGroup(self, macros=data)
+		output.margins = self.margins
 		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
@@ -260,12 +263,13 @@ class FlowNode(GroupNode):
 	def __init__(self, layout={}, flow="vertical"):
 		super(FlowNode, self).__init__("caFrame", layout=layout)
 	
-		self.padding = self.attrs.pop("padding", Number(0))
+		self.padding = Number(self.attrs.pop("padding", 0))
 		self.flow = flow
 		
 		
 	def apply (self, generator, data={}):		
 		output = generator.generateGroup(self, macros=data)
+		output.margins = self.margins
 		
 		child_macros = copy.deepcopy(data)
 		
@@ -296,9 +300,9 @@ class RepeatNode(GroupNode):
 	def __init__(self, layout={}, flow="vertical"):
 		super(RepeatNode, self).__init__("caFrame", layout=layout)
 	
-		self.repeat_over = self.attrs.pop("repeat-over", String(""))
-		self.start_at = self.attrs.pop("start-at", Number(0))
-		self.padding = self.attrs.pop("padding", Number(0))
+		self.repeat_over = String(self.attrs.pop("repeat-over", ""))
+		self.start_at = Number(self.attrs.pop("start-at", 0))
+		self.padding = Number(self.attrs.pop("padding", 0))
 		self.flow = flow
 	
 		
@@ -307,6 +311,7 @@ class RepeatNode(GroupNode):
 		macrolist = data.get(str(self.repeat_over), None)
 		
 		output = generator.generateGroup(self, macros=data)
+		output.margins = self.margins
 		
 		index = 0
 		
@@ -348,7 +353,7 @@ class ConditionalNode(GroupNode):
 	def __init__(self, layout={}):
 		super(ConditionalNode, self).__init__("caFrame", layout=layout)
 		
-		self.condition = self.attrs.get("condition", String(""))
+		self.condition = String(self.attrs.get("condition", ""))
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
@@ -524,7 +529,7 @@ class ChoiceButtonNode(Node):
 		self.setDefault(String, "pv",         "")
 		self.setDefault(Bool,   "horizontal", True)
 		self.setDefault(Color,  "background", "$C8C8C8")
-		self.setDefault(Color,  "selected",   self.attrs["background"])
+		self.setDefault(Color,  "selected",   self["background"])
 	
 	def apply(self, generator, data={}):
 		return generator.generateChoiceButton(self, data)
@@ -555,7 +560,7 @@ class ByteMonitorNode(Node):
 		self.setDefault(String,  "pv",          "")
 		self.setDefault(Bool,    "horizontal",  True)
 		self.setDefault(Number,  "start-bit",   0)
-		self.setDefault(Number,  "bits",        (32 - int(self.attrs["start-bit"])))
+		self.setDefault(Number,  "bits",        (32 - int(self["start-bit"])))
 		self.setDefault(Color,   "off-color",   "$3C643C")
 		self.setDefault(Color,   "on-color",    "$00FF00")
 
