@@ -11,9 +11,9 @@ class CSSDisplay(GroupNode):
 		super(CSSDisplay, self).__init__("")
 		
 	def writeCSS(self, filename):
-		self.form = screen.Screen(str(String(self.attrs.pop("title", ""))))
+		self.form = screen.Screen(str(String(self.pop("title", ""))))
 		
-		margins = Rect(self.attrs.pop("margins", "0x0x0x0"))
+		margins = Rect(self.pop("margins", "0x0x0x0"))
 		
 		self.form.width(  self["geometry"]["width"] + margins["x"] + margins["width"] )
 		self.form.height( self["geometry"]["height"] + margins["y"] + margins["height"] )

@@ -12,19 +12,19 @@ class CSSWidget(GroupNode):
 		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
 		
 		if "alignment" in self.attrs:
-			data = str(Alignment(self.attrs.pop("alignment")))
+			data = str(Alignment(self.pop("alignment")))
 			
 			# Split into two strings based on capitalization
 			data = "".join([(" "+i if i.isupper() else i) for i in data]).strip().split()
 			
 			
-			self.attrs["vertical_alignment"] = String(data[0])
-			self.attrs["horizontal_alignment"] = String(data[1])
+			self["vertical_alignment"] = String(data[0])
+			self["horizontal_alignment"] = String(data[1])
 			
 			
 		if "vertical_alignment" in self.attrs:
-			if isinstance(self.attrs["vertical_alignment"], Alignment) or str(self.attrs["vertical_alignment"]).lower() == "center":
-				self.attrs["vertical_alignment"] = String("Middle")		
+			if isinstance(self["vertical_alignment"], Alignment) or str(self["vertical_alignment"]).lower() == "center":
+				self["vertical_alignment"] = String("Middle")		
 				
 		self.macros = macros
 		
@@ -123,7 +123,7 @@ class CSSWidget(GroupNode):
 			raise Exception("Unknown widget type: " + self.classname)
 			
 			
-		vis_pv = self.attrs.pop("visibility", None)
+		vis_pv = self.pop("visibility", None)
 		vis_zero = isinstance(vis_pv, Not)
 				
 		if vis_pv and vis_zero:

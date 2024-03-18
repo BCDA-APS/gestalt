@@ -24,15 +24,15 @@ class QtDisplay(QtWidget):
 		
 	def writeQt(self, filename):		
 		if "styleSheet" not in self.form.attrs:
-			bg_col = Color(self.form.attrs.pop("background", "$BBBBBB"))
+			bg_col = Color(self.form.pop("background", "$BBBBBB"))
 			stylesheet_str = "QWidget#centralwidget {background: rgba(" + str(bg_col["red"]) + "," + str(bg_col["green"]) + "," + str(bg_col["blue"]) + "," + str(bg_col["alpha"]) + ");}"
 			stylesheet_str += "\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
-			self.form.attrs["styleSheet"] = String(stylesheet_str)
+			self.form["styleSheet"] = String(stylesheet_str)
 			
 			
-		self.form["windowTitle"] = String(self.form.attrs.pop("title", ""))
+		self.form["windowTitle"] = String(self.form.pop("title", ""))
 		
-		margins = Rect(self.form.attrs.pop("margins", "0x0x0x0"))
+		margins = Rect(self.form.pop("margins", "0x0x0x0"))
 		
 		self.form["geometry"]["width"]  = self["geometry"]["width"] + margins["x"] + margins["width"]
 		self.form["geometry"]["height"] = self["geometry"]["height"] + margins["y"] + margins["height"]

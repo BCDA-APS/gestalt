@@ -25,6 +25,9 @@ class Node(object):
 			
 	def link(self, newkey, oldkey):
 		self.attrs[newkey] = self.attrs.pop(oldkey)
+		
+	def pop(self, key, default=None):
+		return self.attrs.pop(key, default)
 			
 	def setProperty(self, key, data):
 		to_assign = None
@@ -113,10 +116,7 @@ class GroupNode(Node):
 	
 		super(GroupNode, self).__init__(classname, name=name, layout=layout)
 		
-		self.margins = Rect(self.attrs.pop("margins", "0x0x0x0"))
-		
-		#self.margins = Rect(x=0, y=0, width=0, height=0)
-		#self.margins = self.margins.merge(self.attrs.get("margins", Rect(x=0, y=0, width=0, height=0)))
+		self.margins = Rect(self.pop("margins", "0x0x0x0"))
 	
 		self.children = []
 		
@@ -186,11 +186,11 @@ class GridNode(GroupNode):
 	def __init__(self, name=None, layout={}):
 		super(GridNode, self).__init__("caFrame", layout=layout)
 	
-		self.ratio = Double(self.attrs.pop("aspect-ratio", 1.0))
-		self.repeat_over = String(self.attrs.pop("repeat-over", ""))
-		self.start_at = Number(self.attrs.pop("start-at", 0))
-		self.padding = Number(self.attrs.pop("padding", 0))
-		self.horizontal = Bool(self.attrs.pop("horizontal", True))
+		self.ratio = Double(self.pop("aspect-ratio", 1.0))
+		self.repeat_over = String(self.pop("repeat-over", ""))
+		self.start_at = Number(self.pop("start-at", 0))
+		self.padding = Number(self.pop("padding", 0))
+		self.horizontal = Bool(self.pop("horizontal", True))
 		
 		
 	def apply (self, generator, data={}):
@@ -263,7 +263,7 @@ class FlowNode(GroupNode):
 	def __init__(self, layout={}, flow="vertical"):
 		super(FlowNode, self).__init__("caFrame", layout=layout)
 	
-		self.padding = Number(self.attrs.pop("padding", 0))
+		self.padding = Number(self.pop("padding", 0))
 		self.flow = flow
 		
 		
@@ -300,9 +300,9 @@ class RepeatNode(GroupNode):
 	def __init__(self, layout={}, flow="vertical"):
 		super(RepeatNode, self).__init__("caFrame", layout=layout)
 	
-		self.repeat_over = String(self.attrs.pop("repeat-over", ""))
-		self.start_at = Number(self.attrs.pop("start-at", 0))
-		self.padding = Number(self.attrs.pop("padding", 0))
+		self.repeat_over = String(self.pop("repeat-over", ""))
+		self.start_at = Number(self.pop("start-at", 0))
+		self.padding = Number(self.pop("padding", 0))
 		self.flow = flow
 	
 		

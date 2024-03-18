@@ -81,7 +81,7 @@ class CSSGenerator(GestaltGenerator):
 	def generateMessageButton(self, node, macros={}):
 		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.widget.action_write_pv(str(output.attrs.pop("pv")), str(output.attrs.pop("value")))
+		output.widget.action_write_pv(str(output.pop("pv")), str(output.pop("value")))
 		
 		return output
 		
@@ -92,7 +92,7 @@ class CSSGenerator(GestaltGenerator):
 		output.link("border", "border-color")
 		output.link("border_width", "border-width")
 		
-		output.attrs["transparent"] = Bool(False)
+		output["transparent"] = Bool(False)
 		
 		return output
 	
@@ -111,12 +111,12 @@ class CSSGenerator(GestaltGenerator):
 		
 		output.link("line", "border-color")
 		
-		falseval = output.attrs.pop("false-value")
-		trueval  = output.attrs.pop("true-value")
+		falseval = output.pop("false-value")
+		trueval  = output.pop("true-value")
 		
-		falsecol = output.attrs.pop("false-color")
-		truecol  = output.attrs.pop("true-color")
-		undefcol = output.attrs.pop("undefined-color")
+		falsecol = output.pop("false-color")
+		truecol  = output.pop("true-color")
+		undefcol = output.pop("undefined-color")
 		
 		output.widget.state(falseval.val, "", falsecol.val["red"], falsecol.val["green"], falsecol.val["blue"], falsecol.val["alpha"])
 		output.widget.state(trueval.val, "", truecol.val["red"], truecol.val["green"], truecol.val["blue"], truecol.val["alpha"])
@@ -135,7 +135,7 @@ class CSSGenerator(GestaltGenerator):
 		output.link("startBit", "start-bit")
 		output.link("numBits", "bits")
 		
-		output.attrs["square"] = Bool(True)
+		output["square"] = Bool(True)
 		
 		return output
 		
@@ -202,7 +202,7 @@ class CSSGenerator(GestaltGenerator):
 	def generateImage(self, node, macros={}):
 		output = CSSWidget("Picture", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["stretch_image"] = Bool(True)
+		output["stretch_image"] = Bool(True)
 		
 		return output
 		
@@ -219,7 +219,7 @@ class CSSGenerator(GestaltGenerator):
 		output.link("empty", "background")
 		output.link("fill", "foreground")
 		
-		output.attrs["scale_visible"] = Bool(False)
+		output["scale_visible"] = Bool(False)
 		
 		return output
 		

@@ -16,15 +16,15 @@ class CSSGroup(CSSWidget):
 	
 	def write(self, screen):
 		frame = CSSWidget("Rectangle")
-		frame.attrs["geometry"]["width"] = self["geometry"]["width"]
-		frame.attrs["geometry"]["height"] = self["geometry"]["height"]
-		frame.attrs["background"] = Color("$00000000")
-		frame.attrs["line"] = Color("$000000FF")
-		frame.attrs["line_width"] = Number(0)
+		frame["geometry"]["width"] = self["geometry"]["width"]
+		frame["geometry"]["height"] = self["geometry"]["height"]
+		frame["background"] = Color("$00000000")
+		frame["line"] = Color("$000000FF")
+		frame["line_width"] = Number(0)
 		
-		frame.attrs["line"] = Color(self.attrs.pop("border-color", "$00000000"))			
-		frame.attrs["line_width"] = Number(self.attrs.pop("border-width", 2))
-		frame.attrs["background"] = Color(self.attrs.pop("background", "$00000000"))
+		frame["line"] = Color(self.pop("border-color", "$00000000"))
+		frame["line_width"] = Number(self.pop("border-width", 2))
+		frame["background"] = Color(self.pop("background", "$00000000"))
 		
 		frame.write(self.widget)
 			

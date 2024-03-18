@@ -20,7 +20,7 @@ class QtGenerator(GestaltGenerator):
 	def generateRelatedDisplay(self, node, macros={}):
 		output = QtWidget("caRelatedDisplay", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["label"] = String("-" + str(output.attrs.pop("text")))
+		output["label"] = String("-" + str(output.pop("text")))
 		
 		labels = ""
 		files = ""
@@ -37,11 +37,11 @@ class QtGenerator(GestaltGenerator):
 			else:
 				replace += "false;"
 
-		output.attrs["labels"] = String(labels.rstrip(";"))
-		output.attrs["files"]  = String(files.rstrip(";"))
-		output.attrs["args"]   = String(args.rstrip(";"))
-		output.attrs["removeParent"] = String(replace.rstrip(";"))
-		output.attrs["stackingMode"] = Enum("Menu")
+		output["labels"] = String(labels.rstrip(";"))
+		output["files"]  = String(files.rstrip(";"))
+		output["args"]   = String(args.rstrip(";"))
+		output["removeParent"] = String(replace.rstrip(";"))
+		output["stackingMode"] = Enum("Menu")
 		
 		return output
 		
@@ -49,7 +49,7 @@ class QtGenerator(GestaltGenerator):
 	def generateShellCommand(self, node, macros={}):
 		output = QtWidget("caShellCommand", name=node.name, layout=node.attrs, macros=macros)
 		
-		output.attrs["label"] = String("-" + str(output.attrs.pop("text")))
+		output["label"] = String("-" + str(output.pop("text")))
 		
 		labels = ""
 		commands = ""
@@ -61,9 +61,9 @@ class QtGenerator(GestaltGenerator):
 			args   += ";"
 			
 			
-		output.attrs["labels"] = String(labels.rstrip(";"))
-		output.attrs["files"]  = String(commands.rstrip(";"))
-		output.attrs["args"]   = String(args.rstrip(";"))
+		output["labels"] = String(labels.rstrip(";"))
+		output["files"]  = String(commands.rstrip(";"))
+		output["args"]   = String(args.rstrip(";"))
 		
 		return output
 		
@@ -75,7 +75,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("channel", "pv")
 		output.link("pressMessage", "value")
 			
-		output.attrs["colorMode"] = Enum("caMessageButton::Static")
+		output["colorMode"] = Enum("caMessageButton::Static")
 			
 		return output
 		
@@ -86,7 +86,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("borderColor", "border-color")
 		output.link("borderWidth", "border-width")
 		
-		output.attrs["fontScaleMode"] = Enum("ESimpleLabel::None")
+		output["fontScaleMode"] = Enum("ESimpleLabel::None")
 		
 		return output
 		
@@ -96,8 +96,8 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("channel", "pv")
 			
-		output.attrs["colorMode"]     = Enum("caLineEdit::Static")
-		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
+		output["colorMode"]     = Enum("caLineEdit::Static")
+		output["fontScaleMode"] = Enum("caLineEdit::None")
 		
 		return output
 		
@@ -109,8 +109,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("frameColor", "border-color")
 		output.link("frameWidth", "border-width")
 			
-		output.attrs["colorMode"]     = Enum("caLineEdit::Static")
-		output.attrs["fontScaleMode"] = Enum("caLineEdit::None")
+		output["colorMode"]     = Enum("caLineEdit::Static")
+		output["fontScaleMode"] = Enum("caLineEdit::None")
 		
 		return output
 		
@@ -120,7 +120,7 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("channel", "pv")
 			
-		output.attrs["colorMode"] = Enum("caMenu::Static")
+		output["colorMode"] = Enum("caMenu::Static")
 		
 		return output
 		
@@ -131,10 +131,10 @@ class QtGenerator(GestaltGenerator):
 		output.link("channel", "pv")
 		output.link("bordercolor", "selected")
 		
-		if output.attrs.pop("horizontal"):
-			output.attrs["stackingMode"] = Enum("Row")
+		if output.pop("horizontal"):
+			output["stackingMode"] = Enum("Row")
 			
-		output.attrs["colorMode"] = Enum("caChoice::Static")
+		output["colorMode"] = Enum("caChoice::Static")
 		
 		return output
 		
@@ -151,8 +151,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("undefinedColor", "undefined-color")
 		output.link("borderColor", "border-color")
 	
-		output.attrs["gradientEnabled"] = Bool(False)
-		output.attrs["scaleContents"]   = Bool(True)
+		output["gradientEnabled"] = Bool(False)
+		output["scaleContents"]   = Bool(True)
 		
 		return output
 		
@@ -165,14 +165,14 @@ class QtGenerator(GestaltGenerator):
 		output.link("background", "off-color")
 		output.link("foreground", "on-color")
 		
-		if output.attrs.pop("horizontal"):
-			output.attrs["direction"] = Enum("Right")
+		if output.pop("horizontal"):
+			output["direction"] = Enum("Right")
 		else:
-			output.attrs["direction"] = Enum("Down")
+			output["direction"] = Enum("Down")
 			
-		num_bits = output.attrs.pop("bits")
+		num_bits = output.pop("bits")
 		
-		output.attrs["endBit"] = Number(int(output.attrs["startBit"]) + int(num_bits) - 1)
+		output["endBit"] = Number(int(output["startBit"]) + int(num_bits) - 1)
 		
 		return output
 		
@@ -184,8 +184,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
 		
-		output.attrs["form"] = Enum("caGraphics::Rectangle")
-		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
+		output["form"] = Enum("caGraphics::Rectangle")
+		output["fillstyle"] = Enum("caGraphics::Filled")
 		
 		return output
 		
@@ -197,8 +197,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
 		
-		output.attrs["form"] = Enum("caGraphics::Circle")
-		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
+		output["form"] = Enum("caGraphics::Circle")
+		output["fillstyle"] = Enum("caGraphics::Filled")
 		
 		return output
 		
@@ -212,8 +212,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("startAngle", "start-angle")
 		output.link("spanAngle",  "span")
 		
-		output.attrs["form"] = Enum("caGraphics::Arc")
-		output.attrs["fillstyle"] = Enum("caGraphics::Filled")
+		output["form"] = Enum("caGraphics::Arc")
+		output["fillstyle"] = Enum("caGraphics::Filled")
 		
 		return output
 		
@@ -225,8 +225,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
 		
-		output.attrs["polystyle"] = Enum("caPolyLine::Polygon")
-		output.attrs["fillstyle"] = Enum("caPolyLine::Filled")
+		output["polystyle"] = Enum("caPolyLine::Polygon")
+		output["fillstyle"] = Enum("caPolyLine::Filled")
 		
 		xy_pairs = ""
 		
@@ -236,7 +236,7 @@ class QtGenerator(GestaltGenerator):
 			
 			xy_pairs += str(a_point["width"]) + "," + str(a_point["height"]) + ";"
 			
-		output.attrs["xyPairs"] = String(xy_pairs.rstrip(";"))
+		output["xyPairs"] = String(xy_pairs.rstrip(";"))
 		
 		return output
 		
@@ -247,8 +247,8 @@ class QtGenerator(GestaltGenerator):
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
 		
-		output.attrs["polystyle"] = Enum("caPolyLine::Polyline")
-		output.attrs["fillstyle"] = Enum("caPolyLine::Outline")
+		output["polystyle"] = Enum("caPolyLine::Polyline")
+		output["fillstyle"] = Enum("caPolyLine::Outline")
 		
 		xy_pairs = ""
 		
@@ -258,7 +258,7 @@ class QtGenerator(GestaltGenerator):
 			
 			xy_pairs += str(a_point["width"]) + "," + str(a_point["height"]) + ";"
 			
-		output.attrs["xyPairs"] = String(xy_pairs.rstrip(";"))
+		output["xyPairs"] = String(xy_pairs.rstrip(";"))
 		
 		return output
 	
@@ -276,14 +276,14 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("channel", "pv")
 		
-		if output.attrs.pop("horizontal"):
-			output.attrs["direction"] = Enum("Right")
+		if output.pop("horizontal"):
+			output["direction"] = Enum("Right")
 		else:
-			output.attrs["direction"] = Enum("Up")
+			output["direction"] = Enum("Up")
 		
-		output.attrs["background"] = Color("$C4C4C4")
-		output.attrs["borderWidth"] = Number(2)
-		output.attrs["colorMode"] = Enum("caSlider::Alarm_Static")
+		output["background"] = Color("$C4C4C4")
+		output["borderWidth"] = Number(2)
+		output["colorMode"] = Enum("caSlider::Alarm_Static")
 		
 		return output
 		
@@ -292,19 +292,14 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caThermo", name=node.name, layout=node.attrs, macros=macros)
 		
 		output.link("channel", "pv")
-		#output.link("textColor", "foreground")		
-		#output.link("foreground", "fill")
 		
-		output.attrs["scalePosition"] = Enum("QwtThermoMarker::NoScale")
+		output["scalePosition"] = Enum("QwtThermoMarker::NoScale")
 		
-		if output.attrs.pop("horizontal"):
-			output.attrs["direction"] = Enum("Right")
+		if output.pop("horizontal"):
+			output["direction"] = Enum("Right")
 		else:
-			output.attrs["direction"] = Enum("Up")
-			
-		#if output.attrs.pop("units"):
-		#	output.attrs["pipeWidth"] = Number(output.attrs["geometry"]["width"] - (4 * int(output.attrs["font"]["size"])))
-		
+			output["direction"] = Enum("Up")
+					
 		return output
 		
 

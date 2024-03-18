@@ -8,8 +8,8 @@ class QtWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(QtWidget, self).__init__(classname, name=name, layout=layout)
 	
-		if "alignment" in self.attrs and not isinstance(self.attrs["alignment"], Set):
-			data = str(Alignment(self.attrs.pop("alignment")))
+		if "alignment" in self.attrs and not isinstance(self["alignment"], Set):
+			data = str(Alignment(self.pop("alignment")))
 			
 			# Split into two strings based on capitalization
 			data = "".join([(" "+i if i.isupper() else i) for i in data]).strip().split()
@@ -23,19 +23,19 @@ class QtWidget(GroupNode):
 			if valign == "Qt::AlignCenter":
 				valign = "Qt::AlignVCenter"
 				
-			self.attrs["alignment"] = Set(halign + "|" + valign)
+			self["alignment"] = Set(halign + "|" + valign)
 	
 		
-		if "visibility" in self.attrs and not isinstance(self.attrs["visibility"], Enum):	
-			vis_pv = self.attrs.pop("visibility", None)
+		if "visibility" in self.attrs and not isinstance(self["visibility"], Enum):	
+			vis_pv = self.pop("visibility", None)
 			vis_zero = isinstance(vis_pv, Not)
 				
-			self.attrs["channel"] = String(vis_pv)
+			self["channel"] = String(vis_pv)
 			
 			if vis_zero:
-				self.attrs["visibility"] = Enum(classname + "::IfZero")
+				self["visibility"] = Enum(classname + "::IfZero")
 			else:
-				self.attrs["visibility"] = Enum(classname + "::IfNotZero")
+				self["visibility"] = Enum(classname + "::IfNotZero")
 			
 			
 		self.macros = macros
