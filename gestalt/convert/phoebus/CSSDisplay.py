@@ -20,9 +20,9 @@ class CSSDisplay(GroupNode):
 		
 		col = None
 		
-		if "background_color" in self.attrs:
+		if "background_color" in self:
 			col = self["background_color"].val
-		elif "background" in self.attrs:
+		elif "background" in self:
 			col = self["background"].val
 		else:
 			col = Color("$BBBBBB").val

@@ -11,7 +11,7 @@ class CSSWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
 		
-		if "alignment" in self.attrs:
+		if "alignment" in self:
 			data = str(Alignment(self.pop("alignment")))
 			
 			# Split into two strings based on capitalization
@@ -22,7 +22,7 @@ class CSSWidget(GroupNode):
 			self["horizontal_alignment"] = String(data[1])
 			
 			
-		if "vertical_alignment" in self.attrs:
+		if "vertical_alignment" in self:
 			if isinstance(self["vertical_alignment"], Alignment) or str(self["vertical_alignment"]).lower() == "center":
 				self["vertical_alignment"] = String("Middle")		
 				
@@ -133,16 +133,16 @@ class CSSWidget(GroupNode):
 			
 			
 	def setBasicParam(self, set_fun, attribute, check_class=object):
-		if isinstance(self.widget, check_class) and attribute in self.attrs:
+		if isinstance(self.widget, check_class) and attribute in self:
 			getattr(self.widget, set_fun)(self[attribute].val)
 
 	def setColorParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class):
 			col = None
 			
-			if attribute + "_color" in self.attrs:
+			if attribute + "_color" in self:
 				col = self[attribute + "_color"]
-			elif attribute in self.attrs:
+			elif attribute in self:
 				col = self[attribute]
 			else:
 				return
@@ -153,7 +153,7 @@ class CSSWidget(GroupNode):
 				getattr(self.widget, "predefined_" + set_fun)(col.val)
 		
 	def setEnumParam(self, set_fun, attribute, enum_class, check_class=object):
-		if isinstance(self.widget, check_class) and attribute in self.attrs:
+		if isinstance(self.widget, check_class) and attribute in self:
 			enumer = self[attribute]
 			
 			if isinstance(enumer, Number):
@@ -167,9 +167,9 @@ class CSSWidget(GroupNode):
 		if isinstance(self.widget, check_class):
 			my_font = None
 			
-			if attribute + "_font" in self.attrs:
+			if attribute + "_font" in self:
 				my_font = self[attribute + "_font"]
-			elif attribute in self.attrs:
+			elif attribute in self:
 				my_font = self[attribute]
 			else:
 				return
@@ -250,7 +250,7 @@ class CSSWidget(GroupNode):
 			#  Strings  #
 			#############
 			
-			if "pv" in self.attrs:
+			if "pv" in self:
 				self.setBasicParam("pv_name",    "pv",             check_class=_p._PVName)
 			else:
 				self.setBasicParam("pv_name",    "pv_name",        check_class=_p._PVName)

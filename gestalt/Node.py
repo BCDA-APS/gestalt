@@ -11,13 +11,15 @@ class Node(object):
 	def __init__(self, classname, name=None, layout={}):
 		self.classname = classname
 		self.name = None
-		self.attrs = { "geometry": Rect("0x0x0x0")}
+		self.attrs = {}
 		
 		if name is not None:
 			self.name = name
 		
 		if layout is not None:
 			Node.setProperties(self, layout)
+			
+		self.setDefault(Rect, "geometry", "0x0x0x0")
 	
 		
 	def setDefault(self, datatype, key, default):
@@ -72,6 +74,9 @@ class Node(object):
 		
 	def __getitem__(self, key):
 		return self.getProperty(key)
+		
+	def __contains__(self, key):
+		return key in self.attrs
 		
 		
 	def position(self, *args, x=None, y=None):
@@ -354,12 +359,13 @@ class ConditionalNode(GroupNode):
 	def __init__(self, layout={}):
 		super(ConditionalNode, self).__init__("caFrame", layout=layout)
 		
-		self.condition = String(self.attrs.get("condition", ""))
+		self.condition = String(self.pop("condition", ""))
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
 		output.position(self["geometry"]["x"], self["geometry"]["y"])
-		
+
+		self.condition.apply(data)
 		conditional = data.get(str(self.condition), None)
 		
 		if bool(conditional):

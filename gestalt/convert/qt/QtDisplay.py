@@ -23,7 +23,7 @@ class QtDisplay(QtWidget):
 		
 		
 	def writeQt(self, filename):		
-		if "styleSheet" not in self.form.attrs:
+		if "styleSheet" not in self.form:
 			bg_col = Color(self.form.pop("background", "$BBBBBB"))
 			stylesheet_str = "QWidget#centralwidget {background: rgba(" + str(bg_col["red"]) + "," + str(bg_col["green"]) + "," + str(bg_col["blue"]) + "," + str(bg_col["alpha"]) + ");}"
 			stylesheet_str += "\nQPushButton::menu-indicator {image: url(none.png); width: 0}"

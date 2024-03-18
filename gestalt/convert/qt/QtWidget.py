@@ -8,7 +8,7 @@ class QtWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(QtWidget, self).__init__(classname, name=name, layout=layout)
 	
-		if "alignment" in self.attrs and not isinstance(self["alignment"], Set):
+		if "alignment" in self and not isinstance(self["alignment"], Set):
 			data = str(Alignment(self.pop("alignment")))
 			
 			# Split into two strings based on capitalization
@@ -26,7 +26,7 @@ class QtWidget(GroupNode):
 			self["alignment"] = Set(halign + "|" + valign)
 	
 		
-		if "visibility" in self.attrs and not isinstance(self["visibility"], Enum):	
+		if "visibility" in self and not isinstance(self["visibility"], Enum):	
 			vis_pv = self.pop("visibility", None)
 			vis_zero = isinstance(vis_pv, Not)
 				
