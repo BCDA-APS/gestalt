@@ -34,3 +34,49 @@ UITitle: !Template:ScreenHeader
         text: "{TITLE}"
         font: -Cantarell - Regular - 16
         alignment: Center
+
+
+LabelMenuReadback: !Template:MenuWithReadback
+    - !hflow
+        padding: 15
+        children:
+            - !Text
+                geometry: 120x20
+                font: -Liberation Sans -Regular -10
+                alignment: CenterRight
+                text: "{LABEL}"
+                
+            - !Menu
+                <<: *editable
+                geometry: 120x20
+                pv: "{WRITE_PV}"
+                
+            - !TextMonitor
+                geometry: 0x1 x 120x18
+                foreground: *header_blue
+                background: *transparent
+                font: -Liberation Sans Mono -Regular -11
+                pv: "{READ_PV}"
+
+                
+LabelEntryReadback: !Template:EntryWithReadback
+    - !hflow
+        padding: 15
+        children:
+            - !Text
+                geometry: 120x20
+                font: -Liberation Sans -Regular -10
+                alignment: CenterRight
+                text: "{LABEL}"
+                
+            - !TextEntry
+                <<: *editable
+                geometry: 120x20
+                pv: "{WRITE_PV}"
+                
+            - !TextMonitor
+                geometry: 0x1 x 120x18
+                foreground: *header_blue
+                background: *transparent
+                font: -Liberation Sans Mono -Regular -11
+                pv: "{READ_PV}"
