@@ -9,10 +9,10 @@ from gestalt.Node import GroupNode
 class CSSDisplay(GroupNode):
 	def __init__(self, layout={}):
 		super(CSSDisplay, self).__init__("")
-	
-		self.form = screen.Screen("Form")
 		
 	def writeCSS(self, filename):
+		self.form = screen.Screen(str(String(self.attrs.pop("title", ""))))
+		
 		margins = Rect(x=0, y=0, width=0, height=0)
 		margins = margins.merge(self.attrs.pop("margins", Rect(x=0, y=0, width=0, height=0)))
 		

@@ -10,7 +10,7 @@ class QtDisplay(QtWidget):
 	
 		self.form = QtWidget("QMainWindow", name="Form", layout=layout)
 		self.widg = QtWidget("QWidget", name="centralwidget", layout={})
-	
+		
 		self.form.append(self.widg, keep_original=True)
 		self.widg.append(self, keep_original=True)	
 		
@@ -29,6 +29,8 @@ class QtDisplay(QtWidget):
 			stylesheet_str += "\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
 			self.form.attrs["styleSheet"] = String(stylesheet_str)
 			
+			
+		self.form["windowTitle"] = String(self.form.attrs.pop("title", ""))
 		
 		margins = Rect(x=0, y=0, width=0, height=0)
 		margins = margins.merge(self.form.attrs.pop("margins", Rect(x=0, y=0, width=0, height=0)))
