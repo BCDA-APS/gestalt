@@ -49,7 +49,7 @@ class DataType(object):
 
 class String(DataType):
 	def __init__(self, val):
-		super(String, self).__init__("string", str(val))	
+		super(String, self).__init__("string", str(val))
 	
 	def __bool__(self):
 		output = super(String, self).__bool__()
@@ -82,6 +82,10 @@ class Bool(DataType):
 	def __init__(self, val):
 		super(Bool, self).__init__("bool", bool(val))
 
+class Not(DataType):
+	def __init__(self, val):
+		super(Not, self).__init__("inverse", str(val))
+	
 
 ###########################
 #    GEOMETRY DATA TYPE   #

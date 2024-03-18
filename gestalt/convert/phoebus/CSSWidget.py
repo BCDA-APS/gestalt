@@ -24,7 +24,7 @@ class CSSWidget(GroupNode):
 			
 		if "vertical_alignment" in self.attrs:
 			if isinstance(self.attrs["vertical_alignment"], Alignment) or str(self.attrs["vertical_alignment"]).lower() == "center":
-				self.attrs["vertical_alignment"] = String("Middle")
+				self.attrs["vertical_alignment"] = String("Middle")		
 				
 		self.macros = macros
 		
@@ -121,6 +121,16 @@ class CSSWidget(GroupNode):
 			self.widget = widget.XYPlot(self.name, 0, 0, 0, 0)	
 		else:
 			raise Exception("Unknown widget type: " + self.classname)
+			
+			
+		vis_pv = self.attrs.pop("visibility", None)
+		vis_zero = isinstance(vis_pv, Not)
+				
+		if vis_pv and vis_zero:
+			self.widget.rule("set_visibility", "visible", { str(vis_pv) : True }, { "pv0==0" : False })
+		elif vis_pv and not vis_zero:
+			self.widget.rule("set_visibility", "visible", { str(vis_pv) : True }, { "pv0!=0" : False })
+			
 			
 	def setBasicParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self.attrs:

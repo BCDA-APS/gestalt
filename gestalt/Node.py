@@ -522,7 +522,7 @@ class ChoiceButtonNode(Node):
 		super(ChoiceButtonNode, self).__init__("ChoiceButton", name=name, layout=layout)
 	
 		self.setDefault(String, "pv",         "")
-		self.setDefault(Bool,   "horizontal", False)
+		self.setDefault(Bool,   "horizontal", True)
 		self.setDefault(Color,  "background", "$C8C8C8")
 		self.setDefault(Color,  "selected",   self.attrs["background"])
 	

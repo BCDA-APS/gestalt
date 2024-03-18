@@ -25,6 +25,19 @@ class QtWidget(GroupNode):
 				
 			self.attrs["alignment"] = Set(halign + "|" + valign)
 	
+		
+		if "visibility" in self.attrs and not isinstance(self.attrs["visibility"], Enum):	
+			vis_pv = self.attrs.pop("visibility", None)
+			vis_zero = isinstance(vis_pv, Not)
+				
+			self.attrs["channel"] = String(vis_pv)
+			
+			if vis_zero:
+				self.attrs["visibility"] = Enum(classname + "::IfZero")
+			else:
+				self.attrs["visibility"] = Enum(classname + "::IfNotZero")
+			
+			
 		self.macros = macros
 	
 		if name:
