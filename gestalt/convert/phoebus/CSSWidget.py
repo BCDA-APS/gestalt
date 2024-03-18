@@ -134,7 +134,7 @@ class CSSWidget(GroupNode):
 			
 	def setBasicParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self:
-			getattr(self.widget, set_fun)(self[attribute].val)
+			getattr(self.widget, set_fun)(self[attribute].val())
 
 	def setColorParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class):
@@ -148,9 +148,9 @@ class CSSWidget(GroupNode):
 				return
 			
 			if isinstance(col, Color):
-				getattr(self.widget, set_fun)(col.val["red"], col.val["green"], col.val["blue"], col.val["alpha"])
+				getattr(self.widget, set_fun)(col.val()["red"], col.val()["green"], col.val()["blue"], col.val()["alpha"])
 			elif isinstance(col, String):
-				getattr(self.widget, "predefined_" + set_fun)(col.val)
+				getattr(self.widget, "predefined_" + set_fun)(col.val())
 		
 	def setEnumParam(self, set_fun, attribute, enum_class, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self:
@@ -158,10 +158,10 @@ class CSSWidget(GroupNode):
 			
 			if isinstance(enumer, Number):
 				# self.widget.<function>(<enumeration>(<given value>))
-				getattr(self.widget, set_fun)(getattr(self.widget._shared, enum_class)(int(enumer.val)))
+				getattr(self.widget, set_fun)(getattr(self.widget._shared, enum_class)(int(enumer.val())))
 			elif isinstance(enumer, String):
 				# self.widget.<function>((getattr(<enumeration>, <given value>)
-				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val.lower()))
+				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val().lower()))
 			
 	def setFontParam(self, attribute, prefix, check_class=object):
 		if isinstance(self.widget, check_class):

@@ -35,15 +35,15 @@ class CSSGenerator(GestaltGenerator):
 		for item in node.links:
 			_file = String(item.get("file", ""))
 			_file.apply(macros)
-			_file = _file.val
+			_file = _file.val()
 			
 			_desc = String(item.get("label", ""))
 			_desc.apply(macros)
-			_desc = _desc.val
+			_desc = _desc.val()
 			
 			_args = String(item.get("macros", ""))
 			_args.apply(macros)
-			_args = _args.val.split(",")
+			_args = _args.val().split(",")
 			
 			_rep = "window"
 			
@@ -67,11 +67,11 @@ class CSSGenerator(GestaltGenerator):
 		for item in node.commands:
 			_cmd = String(item.get("command", ""))
 			_cmd.apply(macros)
-			_cmd = _cmd.val
+			_cmd = _cmd.val()
 			
 			_desc = String(item.get("label", ""))
 			_desc.apply(macros)
-			_desc = _desc.val
+			_desc = _desc.val()
 			
 			output.widget.action_execute_command(_cmd, description=_desc)
 				
@@ -118,11 +118,11 @@ class CSSGenerator(GestaltGenerator):
 		truecol  = output.pop("true-color")
 		undefcol = output.pop("undefined-color")
 		
-		output.widget.state(falseval.val, "", falsecol.val["red"], falsecol.val["green"], falsecol.val["blue"], falsecol.val["alpha"])
-		output.widget.state(trueval.val, "", truecol.val["red"], truecol.val["green"], truecol.val["blue"], truecol.val["alpha"])
+		output.widget.state(falseval.val(), "", falsecol.val()["red"], falsecol.val()["green"], falsecol.val()["blue"], falsecol.val()["alpha"])
+		output.widget.state(trueval.val(), "", truecol.val()["red"], truecol.val()["green"], truecol.val()["blue"], truecol.val()["alpha"])
 		
 		output.widget.fallback_label("")
-		output.widget.fallback_color(undefcol.val["red"], undefcol["green"], undefcol.val["blue"], undefcol.val["alpha"])
+		output.widget.fallback_color(undefcol.val()["red"], undefcol["green"], undefcol.val()["blue"], undefcol.val()["alpha"])
 		
 		return output
 

@@ -60,9 +60,9 @@ class QtWidget(GroupNode):
 			tree.start("property", {"name" : key})
 				
 			if isinstance(item, Color):
-				tree.start("color", {"alpha" : str(item.val["alpha"])})
+				tree.start("color", {"alpha" : str(item.val()["alpha"])})
 		
-				for component, value in item.val.items():
+				for component, value in item.val().items():
 					if component != "alpha":
 						tree.start(component, {})
 						tree.data(str(value))
@@ -108,13 +108,13 @@ class QtWidget(GroupNode):
 			else:
 				tree.start(item.typ, {})
 		
-				if (type(item.val) is dict):
-					for component, value in item.val.items():
+				if (type(item.val()) is dict):
+					for component, value in item.val().items():
 						tree.start(component, {})
 						tree.data(str(value))
 						tree.end(component)
 				else:
-					tree.data(str(item.val))
+					tree.data(str(item.val()))
 					
 				tree.end(item.typ)
 				

@@ -30,6 +30,10 @@ class Node(object):
 		
 	def pop(self, key, default=None):
 		return self.attrs.pop(key, default)
+		
+	def updateProperties(self, macros={}):
+		for attr in self.attrs.values():
+			attr.apply(macros)
 			
 	def setProperty(self, key, data):
 		to_assign = None
@@ -111,7 +115,8 @@ class Node(object):
 		return self
 
 		
-	def apply (self, generator, data={}):		
+	def apply (self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateWidget(self, macros=data)
 		
 		
@@ -171,6 +176,8 @@ class GroupNode(Node):
 		
 	
 	def apply (self, generator, data={}):
+		self.updateProperties(macros=data)
+		
 		output = generator.generateGroup(self, macros=data)
 		output.margins = self.margins
 		
@@ -200,6 +207,7 @@ class GridNode(GroupNode):
 		
 		
 	def apply (self, generator, data={}):
+		self.updateProperties(macros=data)
 		self.repeat_over.apply(data)
 		macrolist = data.get(str(self.repeat_over), {})
 	
@@ -273,7 +281,8 @@ class FlowNode(GroupNode):
 		self.flow = flow
 		
 		
-	def apply (self, generator, data={}):		
+	def apply (self, generator, data={}):
+		self.updateProperties(macros=data)
 		output = generator.generateGroup(self, macros=data)
 		output.margins = self.margins
 		
@@ -312,7 +321,8 @@ class RepeatNode(GroupNode):
 		self.flow = flow
 	
 		
-	def apply (self, generator, data={}):		
+	def apply (self, generator, data={}):
+		self.updateProperties(macros=data)
 		self.repeat_over.apply(data)
 		macrolist = data.get(str(self.repeat_over), None)
 		
@@ -362,6 +372,7 @@ class ConditionalNode(GroupNode):
 		self.condition = String(self.pop("condition", ""))
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		output = generator.generateAnonymousGroup()
 		output.position(self["geometry"]["x"], self["geometry"]["y"])
 
@@ -407,6 +418,7 @@ class SpacerNode(Node):
 		super(SpacerNode, self).__init__("Spacer", layout=layout)
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		output = generator.generateAnonymousGroup()
 		output["geometry"] = self["geometry"]
 		
@@ -421,6 +433,7 @@ class StretchNode(Node):
 		self.flow = flow
 		
 	def apply (self, generator, data={}):
+		self.subnode.updateProperties(macros=data)
 		self.subnode["geometry"]["x"] = self.subnode["geometry"]["x"] + self["geometry"]["x"]
 		self.subnode["geometry"]["y"] = self.subnode["geometry"]["y"] + self["geometry"]["y"]
 		
@@ -468,6 +481,7 @@ class RelatedDisplayNode(Node):
 			self.links = temp
 			
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateRelatedDisplay(self, data)
 
 			
@@ -480,6 +494,7 @@ class MessageButtonNode(Node):
 		self.setDefault(String, "value", "")
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateMessageButton(self, data)
 	
 
@@ -494,6 +509,7 @@ class TextNode(Node):
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateText(self, data)
 
 class TextEntryNode(Node):
@@ -505,6 +521,7 @@ class TextEntryNode(Node):
 		self.setDefault(Alignment, "alignment", "CenterLeft")
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateTextEntry(self, data)
 
 class TextMonitorNode(Node):
@@ -518,6 +535,7 @@ class TextMonitorNode(Node):
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateTextMonitor(self, data)
 
 class MenuNode(Node):
@@ -527,6 +545,7 @@ class MenuNode(Node):
 		self.setDefault(String, "pv", "")
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateMenu(self, data)
 	
 class ChoiceButtonNode(Node):
@@ -539,6 +558,7 @@ class ChoiceButtonNode(Node):
 		self.setDefault(Color,  "selected",   self["background"])
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateChoiceButton(self, data)
 	
 class LEDNode(Node):
@@ -557,6 +577,7 @@ class LEDNode(Node):
 		self.setDefault(Number, "true-value", 1)
 	
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateLED(self,data)
 
 	
@@ -572,6 +593,7 @@ class ByteMonitorNode(Node):
 		self.setDefault(Color,   "on-color",    "$00FF00")
 
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateByteMonitor(self, data)
 	
 
@@ -584,6 +606,7 @@ class RectangleNode(Node):
 		self.setDefault(Number, "border-width", 2)
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateRectangle(self, data)
 	
 		
@@ -596,6 +619,7 @@ class EllipseNode(Node):
 		self.setDefault(Number, "border-width", 2)
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateEllipse(self, data)
 	
 
@@ -610,6 +634,7 @@ class ArcNode(Node):
 		self.setDefault(Number, "span", 90)
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateArc(self, data)
 
 		
@@ -620,6 +645,7 @@ class ImageNode(Node):
 		self.setDefault(String, "file", "")
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateImage(self, data)
 
 		
@@ -631,6 +657,7 @@ class SliderNode(Node):
 		self.setDefault(String, "pv",         "")
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateSlider(self, data)
 		
 
@@ -644,6 +671,7 @@ class ScaleNode(Node):
 		self.setDefault(Bool,   "horizontal",  False)
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateScale(self, data)
 
 		
@@ -666,6 +694,7 @@ class ShellCommandNode(Node):
 		
 		
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generateShellCommand(self, data)
 		
 
@@ -680,6 +709,7 @@ class PolygonNode(Node):
 		self.setDefault(Number, "border-width", 2)
 
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generatePolygon(self, data)
 
 		
@@ -693,6 +723,7 @@ class PolylineNode(Node):
 		self.setDefault(Number, "border-width", 2)
 
 	def apply(self, generator, data={}):
+		self.updateProperties(macros=data)
 		return generator.generatePolyline(self, data)
 		
 		

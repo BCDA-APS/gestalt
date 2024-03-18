@@ -21,11 +21,11 @@ class CSSDisplay(GroupNode):
 		col = None
 		
 		if "background_color" in self:
-			col = self["background_color"].val
+			col = self["background_color"].val()
 		elif "background" in self:
-			col = self["background"].val
+			col = self["background"].val()
 		else:
-			col = Color("$BBBBBB").val
+			col = Color("$BBBBBB").val()
 		
 		self.form.background_color(col["red"], col["green"], col["blue"], col["alpha"])
 		
