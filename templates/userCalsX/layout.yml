@@ -3,25 +3,21 @@
 
     
 OnOff: !ChoiceButton
+    <<: *editable
     geometry: 215x20
     
     pv: "$(P)userCalcEnable.VAL"
-    foreground: *black
-    background: *edit_blue
     
             
 UIRow: !repeat
-    repeat-over: "NUM_CALCS"
-
     geometry: 0x20 x 0x0
-    
-    padding: 0
+    repeat-over: "NUM_CALCS"
         
     children:
         - !RelatedDisplay
             geometry: 0x0 x 25x20
             
-            text: !string "{N}"
+            text: "{N}"
             
             foreground: *white
             background: *menu_green
@@ -45,37 +41,28 @@ UIRow: !repeat
             foreground: $0A00B8
             background: *grey_lighter
             
-        - !caGraphics
+        - !Rectangle
             geometry: 185x0 x 10x20
             
-            foreground: *black
+            background: *black
+            border-color: *black
             
-            form: caGraphics::Rectangle
-            lineColor: *black
-            linestyle: !enum Solid
-            fillstyle: !enum Filled
+            visibility: !Not "$(P)userCalc{N}EnableCalc"
             
-            visibility: caGraphics::Calc
-            visibilityCalc: "a=0"
-            
-            channel: "$(P)userCalc{N}EnableCalc"
-            
-        - !caLabel
+        - !Text
             <<: *string_display
             geometry: 195x10 x 20x10
             
             text: "PUT"
             alignment: CenterLeft
-            visibility: caLabel::IfZero
+            font: -Ubuntu -Regular -5
+            visibility: !Not "$(P)userCalc{N}.OUTV"
             
-            channel: "$(P)userCalc{N}.OUTV"
-            
-        - !caLabel
+        - !Text
             <<: *string_display
             geometry: 195x0 x 20x10
             
             text: "ON"
             alignment: CenterLeft
-            visibility: caLabel::IfNotZero
-            
-            channel: "$(P)userCalc{N}.SCAN"
+            font: -Ubuntu -Regular -5
+            visibility: "$(P)userCalc{N}.SCAN"
