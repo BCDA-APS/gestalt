@@ -20,10 +20,9 @@ nav_order: 1
 
 The list of recognized CSS Widgets is as follows: "ActionButton", "Array", "BooleanButton", 
 "CheckBox", "ComboBox", "DataBrowser", "EmbeddedDisplay", "FileSelector", "LEDMultiState", 
-"Label", "Meter", "NavigationTabs", "Picture", "Polyline", "ProgressBar", "RadioButton", 
-"ScaledSlider", "Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", 
-"Tabs", "Tank", "TextEntry", "TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", 
-"WebBrowser", and "XYPlot".
+"Label", "Meter", "NavigationTabs", "Picture", "ProgressBar", "RadioButton", "ScaledSlider", 
+"Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", "Tank", 
+"TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", and "XYPlot".
 
 Attributes are set using the name of the function used by phoebusgen. For example, a label's `Auto Size`
 field in CSS-Phoebus would be set with the `auto_size` attribute in Gestalt.
@@ -106,6 +105,7 @@ direction.
 | border-width | Number | Thickness of widget outline, 2 by default |
 | start-angle  | Number | Angle of the starting ray of the arc, 0 by default |
 | span         | Number | Degrees that the arc covers, 90 by default |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -137,6 +137,7 @@ A widget displaying the individual bits of a pv value
 | off-color  | Color  | The display color for a bit being 0, $3C643C by default |
 | on-color   | Color  | The display color for a bit being 1, $00FF00 by default |
 | horizontal | Bool   | Whether to arrange the display horizontally, defaults to True |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -166,7 +167,8 @@ A widget representing a set of buttons that gets its options from an enumerable 
 | selected   | Color  | Selected item color, defaults to background color |
 | font       | Font   | Widget display font |
 | pv         | String | The PV containing the enumerable value |
-| horizontal | Bool   | Whether to arrange the buttons horizontally, defaults to False |
+| horizontal | Bool   | Whether to arrange the buttons horizontally, defaults to True |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -195,6 +197,7 @@ A basic ellipse shape that can either be filled or an outline
 | background   | Color  | Widget interior color, transparent by default |
 | border-color | Color  | Widget outline color, $000000 by default |
 | border-width | Number | Thickness of widget outline, 2 by default |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -244,6 +247,7 @@ A widget that displays a given image file
 |------------|--------|------------|
 | geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
 | file       | String | The filepath of the image to display |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -275,6 +279,7 @@ true, false, or undefined based upon a match with values given by the widget.
 | undefined-color | Color     | The display color for any other value, $A0A0A4 by default |
 | border-color    | Color     | Widget border color, $000000 by default |
 | pv              | String    | The PV to read data from |
+| visibility      | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -304,6 +309,7 @@ A widget representing a menu that gets its options from an enumerable pv
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
 | pv         | String | The PV containing the enumerable value |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -334,6 +340,8 @@ A widget representing a button that writes a value to a pv when pressed
 | font       | Font   | Widget display font |
 | pv         | String | The PV that will be written to |
 | value      | String | The value to write to the PV |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+
 
 * **Example**
 
@@ -367,6 +375,7 @@ A closed shape consisting of a set of points that can either be filled or an out
 | border-color | Color  | Widget outline color, $000000 by default |
 | border-width | Number | Thickness of widget outline, 2 by default |
 | points       | List   | A list of Rect's representing the vertices of the polygon |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -395,6 +404,7 @@ A set of contiguous line segments
 | border-color | Color  | Widget line color, $000000 by default |
 | border-width | Number | Thickness of widget outline, 2 by default |
 | points       | List   | A list of Rect's representing the contiguous points of the polyline |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -422,6 +432,7 @@ A basic rectangle shape that can either be filled or an outline
 | background   | Color  | Widget interior color, transparent by default |
 | border-color | Color  | Widget outline color, $000000 by default |
 | border-width | Number | Thickness of widget outline, 2 by default |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -459,6 +470,7 @@ dictionaries. Within each dictionary, the following values can be defined:
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
 | links      | List   | A list of dictionaries describing the linked UI screens |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -493,6 +505,7 @@ A widget representing a bar filling up based on a pv's value versus its limits
 | foreground   | Color     | Color of the filled portion of bar, $0000FF by default |
 | horizontal   | Bool      | Whether to align the bar horizontally, defaults to False |
 | pv           | String    | The PV being monitored |
+| visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -530,6 +543,7 @@ dictionaries. Within each dictionary, the following values can be defined:
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
 | commands   | List   | A list of dictionaries describing the commands that can be run |
+| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -565,6 +579,7 @@ A widget representing a basic text label.
 | border-width | Number    | Widget border thickness in pixels |
 | font         | Font      | Widget display font |
 | alignment    | Alignment | Display text alignment. |
+| visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -598,6 +613,7 @@ A widget representing a text entry field.
 | font       | Font      | Widget display font |
 | alignment  | Alignment | Display text alignment. |
 | pv         | String    | The PV that will be written to |
+| visibility | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -630,6 +646,7 @@ A widget representing a text display field
 | font         | Font      | Widget display font |
 | alignment    | Alignment | Display text alignment. |
 | pv           | String    | The PV to read data from |
+| visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**

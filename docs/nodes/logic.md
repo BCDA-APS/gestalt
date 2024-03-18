@@ -89,6 +89,8 @@ the resulting UI screen. Otherwise, none of the children widgets are included.
 | background   | Color  | A fill color behind the entirety of all children |
 | border-color | Color  | The color of the group's border surrounding the children widgets |
 | border-width | Number | The thickness of the group's border in pixels |
+| visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+
 
 * **Example**
 

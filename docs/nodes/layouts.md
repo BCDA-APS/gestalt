@@ -34,6 +34,7 @@ changed.
 | background   | Color  | A fill color behind the entirety of all children |
 | border-color | Color  | The color of the group's border surrounding the children widgets |
 | border-width | Number | The thickness of the group's border in pixels |
+| visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -90,6 +91,7 @@ You may also use the alias "flow" to reference the vflow node.
 | background   | Color  | A fill color behind the entirety of all children |
 | border-color | Color  | The color of the group's border surrounding the children widgets |
 | border-width | Number | The thickness of the group's border in pixels |
+| visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -155,6 +157,7 @@ mentioned above will also be included.
 | background   | Color  | A fill color behind the entirety of each template copy |
 | border-color | Color  | The color of the group's border surrounding each template copy |
 | border-width | Number | The thickness of the group's border in pixels |
+| visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -220,6 +223,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 | background   | Color  | A fill color behind the entirety of each template copy |
 | border-color | Color  | The color of the group's border surrounding each template copy |
 | border-width | Number | The thickness of the group's border in pixels |
+| visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
@@ -308,6 +312,7 @@ elements a user provides.
 | border-color | Color  | The color of the group's border surrounding each template copy |
 | border-width | Number | The thickness of the group's border in pixels |
 | horizontal   | Bool   | Fill direction of the layout. Macros will be mapped to widgets across columns first, then proceed to the next row, rather than the reverse. True by default |
+| visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**
