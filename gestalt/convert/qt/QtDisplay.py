@@ -32,8 +32,7 @@ class QtDisplay(QtWidget):
 			
 		self.form["windowTitle"] = String(self.form.attrs.pop("title", ""))
 		
-		margins = Rect(x=0, y=0, width=0, height=0)
-		margins = margins.merge(self.form.attrs.pop("margins", Rect(x=0, y=0, width=0, height=0)))
+		margins = Rect(self.form.attrs.pop("margins", "0x0x0x0"))
 		
 		self.form["geometry"]["width"]  = self["geometry"]["width"] + margins["x"] + margins["width"]
 		self.form["geometry"]["height"] = self["geometry"]["height"] + margins["y"] + margins["height"]
