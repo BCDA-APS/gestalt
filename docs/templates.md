@@ -23,32 +23,18 @@ data can be combined with the graph to then generate the output screen.
 ## Widgets
 
 The basic element of a template file is a Widget node. These are YAML elements that
-have been tagged with a supported widget type from Qt or CSS-Phoebus. Properties of
-the Widget can then be set within the element.
+have been tagged with a supported widget type from the list in [widgets](nodes/Widgets.md). 
+Properties of the Widget can then be set within the element.
 
 ```yaml 
-small_rect_widget: !caGraphics
+small_rect_widget: !Rectangle
     geometry: 100x100
-    
-    fillstyle: caGraphics::filled
-    
     background: $000000
 ```
 
-```yaml
-small_rect_widget: !Rectangle
-    geometry: 100x100
-    
-    line_color: $000000
-    background_color: $000000
-```
-
-All caQtDM-specific and most CSS-Phoebus widgets are supported, only the Image,
-Strip Chart, and X/Y Plot aren't supported due to the restrictions of the phoebusgen
-library. Widget class names are just the name of the Widget in their respective 
-program. Capitalization is loose and can be specified with all-caps, all-lowercase,
-capitalization matching the program, or with the first letter capitalized (if that's
-different from the normal name).
+Capitalization is loose and can be specified with all-caps, all-lowercase, capitalization 
+matching the name in the list of widgets, or with just the first letter capitalized (if 
+that's different from the normal name).
 
 
 ## Data Types
@@ -60,13 +46,17 @@ a widget. Any bare scalar element (no quotes, no special characters) that consis
 of two numbers separated by an 'x' will be interpreted in this way. 
 
 Occasionally, parsing might be ambiguous between different data types. In that instance,
-you may need to provide an explicit specifier. A primary example of this would be an
-enumeration that does not use the double-colon standard.
+you may need to provide an explicit specifier. A primary example of this is if you are
+specifically defining a Qt widget and are trying to set an enumeration value that does 
+not use the double-colon standard.
 
 ```yaml
 more_screens: !caRelatedDisplay
     stackingMode: !enum Menu   
 ```
+
+However, the output-independent widgets that are recommended all set the types of their
+parameters automatically, so no specification is needed.
 
 The full list of explicit data type tags that are currently recognized and their 
 implicit parsing are listed here:
@@ -115,22 +105,26 @@ widget properties using the '*' dereference character.
 ```yaml
 #include colors.yml
 
-UITitle: !caLabel
-    geometry: 0x0 x 0x32
+UITitle: !hstretch:Text
+    geometry: 0x45
     foreground: *white
     background: *header_blue
-    borderColor: *black
-    borderWidth: 3
-    
-    text: "Label"
+    border-color: *black
+    border-width: 3
+            
+    text: "{TITLE}"
+    font: -Cantarell - Bold - 16
+    alignment: Center
 ```
 
-Widgets is a set of default values that get used often. These can be applied to widgets
+Widgets.yml contains a set of default values that get used often. These can be applied to widgets
 of the correct type with the "<<" insert operator.
 
 ```yaml
-Form: !Form
-    <<: *form_default
-    
-    margins: 5x5x5x5
+#include widgets.yml
+
+a_LED: !LED
+    <<: *alarm_led
+    pv: "$(P)Bi{N}.VAL"                   
+    geometry: 15x0 x 22x22
 ```

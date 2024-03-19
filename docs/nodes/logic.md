@@ -101,14 +101,12 @@ the resulting UI screen. Otherwise, none of the children widgets are included.
     geometry: 0x20 x 0x0
     
     children:
-        - !caLed
-            channel: !string "xxx:yyy:bi.VAL"
-            trueColor: *alarm_red
-            falseColor: *alarm_green
+        - !LED
+            pv: "xxx:yyy:bi.VAL"
+            true-color: *alarm_red
+            false-color: *alarm_green
             
-            borderColor: *transparent
-            
-            gradientEnabled: false
+            border-color: *transparent
             
             geometry: 15x0 x 22x22
 ```

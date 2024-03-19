@@ -119,6 +119,7 @@ SimpleBox: !Arc
     span: 180
 ```
 
+<br>
 
 ### ByteMonitor
 
@@ -150,6 +151,7 @@ StatusBits: !ByteMonitor
     bits: 15
 ```
 
+<br>
 
 ### ChoiceButton
 
@@ -182,6 +184,7 @@ OnOff: !ChoiceButton
     background: *edit_blue
 ```
 
+<br>
 
 ### Ellipse
 
@@ -208,6 +211,7 @@ SimpleBox: !Ellipse
     border-width: 5
 ```
 
+<br>
 
 ### Form
 
@@ -233,6 +237,7 @@ Form: !Form
     margins: 5x5x5x5
 ```
 
+<br>
 
 ### Image
 
@@ -257,6 +262,7 @@ ComplicatedStructure: !Image
     file: "/path/to/image/Beamline.png"
 ```
 
+<br>
 
 ### LED
 
@@ -292,6 +298,7 @@ OnOff_Readback: !LED
     square: true
 ```
 
+<br>
 
 ### Menu
 
@@ -322,6 +329,7 @@ A widget representing a menu that gets its options from an enumerable pv
     pv: $(P){Instance}:EnableCallbacks
 ```
 
+<br>
 
 ### MessageButton
 
@@ -358,6 +366,7 @@ A widget representing a button that writes a value to a pv when pressed
     value: 1
 ```
 
+<br>
 
 ### Polygon
 
@@ -388,6 +397,7 @@ SimpleBox: !Polygon
     points: [ 10x10, 90x10, 90x90, 10x90 ]
 ```
 
+<br>
 
 ### Polyline
 
@@ -410,13 +420,12 @@ A set of contiguous line segments
 * **Example**
 
 ```yaml
-SimpleBox: !Polyline
-    geometry: 100x100
-    border-width: 5
-    
-    points: [ 10x10, 90x10, 90x90, 10x90 ]
+Star: !PolyLine
+    geometry: 40x40
+    points: [ 20x0, 0x40, 40x10, 0x10, 40x40, 20x0 ]
 ```
 
+<br>
 
 ### Rectangle
 
@@ -443,6 +452,7 @@ SimpleBox: !Rectangle
     border-width: 5
 ```
 
+<br>
 
 ### RelatedDisplay
 
@@ -488,6 +498,7 @@ dictionaries. Within each dictionary, the following values can be defined:
         - { label: "File 1", file: "xxx.ui", macros: "P=1,R=A" }
 ```
 
+<br>
 
 ### Scale
 
@@ -517,6 +528,7 @@ A widget representing a bar filling up based on a pv's value versus its limits
     pv: "xxx:yyy:zzz"
 ```
 
+<br>
 
 ### ShellCommand
 
@@ -559,6 +571,33 @@ ExampleCommand: !ShellCommand
         - { label: "Goodbye", command: "echo 'Goodbye'"}
 ```
 
+<br>
+
+### Slider
+
+---
+
+A widget that uses a slider to control output to a pv
+
+* **Special Attributes**
+
+|     Name     |    Type   | Description|
+|--------------|-----------|------------|
+| geometry     | Rect      | A rectangle describing the position and dimensions of the widget |
+| horizontal | Bool   | Whether to arrange the display horizontally, defaults to True |
+| pv           | String    | The PV being monitored |
+| visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+
+
+* **Example**
+
+```yaml
+- !Slider
+    geometry: 140x0 x 120x20
+    pv: "$(P)Ao10"
+```
+
+<br>
 
 ### Text
 
@@ -596,6 +635,7 @@ A widget representing a basic text label.
         vertical: Center
 ```
 
+<br>
 
 ### TextEntry
 
@@ -624,9 +664,10 @@ A widget representing a text entry field.
     
     pv: "$(P)$(R)Description"
     
-    alignment: { vertical: bottom }
+    alignment: BottomLeft
 ```
 
+<br>
 
 ### TextMonitor
 
@@ -657,5 +698,5 @@ A widget representing a text display field
     
     pv: "$(P)$(R)Description_RBV"
     
-    alignment: { horizontal: right }
+    alignment: CenterRight
 ```

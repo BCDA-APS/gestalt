@@ -44,30 +44,22 @@ CIO_Title: !hflow
     geometry: 0x2 x 0x0
     padding: 5
     
-    children:                            
-        - !caLabel
-            geometry: 70x20
-            text: "CIO 0-3"
-            
-        - !caLineEdit
+    children:
+        - !Text { geometry: 70x20, text: "CIO 0-3" }
+        - !TextMonitor
             geometry: 80x20
             background: *edit_blue
             foreground: *black
-            colorMode: caLineEdit::Static
             
-            channel: !string "$(P)CIOIn"
+            pv: "$(P)CIOIn"
             
-        - !caLabel
-            geometry: 90x20
-            text: "MIO 0-2"
-            
-        - !caLineEdit
+        - !Text { geometry: 90x20, text: "MIO 0-2" }
+        - !TextMonitor
             geometry: 80x20
             background: *edit_blue
             foreground: *black
-            colorMode: caLineEdit::Static
             
-            channel: !string "$(P)MIOIn"
+            pv: "$(P)MIOIn"
 ```
 
 ### vflow
@@ -171,18 +163,17 @@ UI_Row: !hrepeat
     padding: 6
     
     children:
-        - !caLineEdit
+        - !TextMonitor
             geometry: 10x1 x 110x18
-            channel: $(P){Instance}:PortName_RBV
+            pv: "$(P){Instance}:PortName_RBV"
         
-        - !caRelatedDisplay            
-            label: -More
+        - !RelatedDisplay            
+            text: "More"
             
             geometry: 865x0 x 60x20
             
-            labels: "{Instance}"
-            files: "{Displays}"
-            args: "{Args}"
+            links: 
+                - { label: "{Instance}", file: "{Displays}", arg: "{Args}" }
 ```
 
 
@@ -231,39 +222,26 @@ You may also use the alias "repeat" to reference the vrepeat node.
 
 ```yaml
 UIRow: !repeat
-    repeat-over: "NUM_CALCS"
-
     geometry: 0x20 x 0x0
-    
-    padding: 0
+    repeat-over: "NUM_CALCS"
         
     children:
-        - !caRelatedDisplay
+        - !RelatedDisplay
             geometry: 0x0 x 25x20
             
-            label: "-{N}"
+            text: "{N}"
             
             foreground: *white
             background: *menu_green
             
-            removeParent: false
-            stackingMode: !enum Menu
+            links:
+                - { label: "user Calc {N}", file: "userCalc.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
+                - { label: "user Calc {N} (full)", file: "userCalc_full.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
             
-            labels: "user Calc {N};user Calc {N} (full)"
-            files: "userCalc.ui;userCalc_full.ui"
-            args: "P=$(P),N={N},C=userCalc{N};P=$(P),N={N},C=userCalc{N}"
-            
-            
-        - !caChoice
+        - !ChoiceButton
+            <<: *editable
             geometry: 25x0 x 40x20
-            
-            colorMode: caChoice::Static
-            stackingMode: !enum Column
-            
-            foreground: *black
-            background: *edit_blue
-            
-            channel: "$(P)userCalc{N}Enable"
+            pv: "$(P)userCalc{N}Enable"
 ```
 
 
@@ -318,48 +296,16 @@ elements a user provides.
 * **Example**
 
 ```yaml
-motor_grid: !grid
+LED_Grid: !Grid
+    geometry: 160x170 x 0x0
+    aspect-ratio: 1.5
+    repeat-over: "LEDs"
+    
+    padding: 10
 
-    repeat-over: "MOTORS"
-    start-at: 1
-    
-    aspect-ratio: 2.0
-    
-    padding: 20
-    
     children:
-        - !group
-            geometry: 160x204
-            
-            background: $003584
-            
-            frameShape: QFrame::Box
-            lineWidth: 3
-            backgroundMode: caFrame::Outline
-            
-            children:
-                - !caLineEdit
-                    background: *header_blue
-                    foreground: *white
-                    colorMode: caLineEdit::Static
-                    
-                    geometry: 3x1 x 154x21
-                    
-                    channel: "$(P)$(M{N}).DESC"
-                    
-                    
-                - !caRelatedDisplay
-                    background: *edit_blue
-                    foreground: *black
-                    
-                    geometry: 10x30 x 140x17
-                    label: "-($(P)$(M{N}))"
-                    
-                    stackingMode: !enum Menu
-                    
-                    labels: "Help;More;Setup;All;Setup Scan Parameters"
-                    files: "motorx_help.ui;motorx_more.ui;motorx_setup.ui;motorx_all.ui;scanParms.ui"
-                    args: "P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),M=$(M{N});P=$(P),Q=$(M{N}),PV=$(M{N})"
-                    removeParent: "false;false;false;false;false"
+        - !LED
+            <<: *alarm_led
+            geometry: 20x20
 ```
 
