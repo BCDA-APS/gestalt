@@ -117,7 +117,13 @@ class Node(object):
 		
 	def apply (self, generator, data={}):
 		self.updateProperties(macros=data)
-		return generator.generateWidget(self, macros=data)
+		
+		gen_func = getattr(generator, "generate" + self.classname, None)
+		
+		if gen_func:
+			return gen_func(self, macros=data)
+		else:
+			return generator.generateWidget(self, macros=data)
 		
 		
 		
@@ -394,7 +400,7 @@ class ConditionalNode(GroupNode):
 		return output
 		
 		
-class ApplyNode(GroupNode):
+class ApplyNode(Node):
 	def __init__(self, layout={}, macros={}, subnode=None):
 		super(ApplyNode, self).__init__("Apply", layout=layout)
 		
@@ -479,10 +485,6 @@ class RelatedDisplayNode(Node):
 				temp.append(val)
 				
 			self.links = temp
-			
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateRelatedDisplay(self, data)
 
 			
 class MessageButtonNode(Node):
@@ -492,10 +494,6 @@ class MessageButtonNode(Node):
 		self.setDefault(String, "text",  "")
 		self.setDefault(String, "pv",    "")
 		self.setDefault(String, "value", "")
-	
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateMessageButton(self, data)
 	
 
 class TextNode(Node):
@@ -507,10 +505,6 @@ class TextNode(Node):
 		self.setDefault(Number,    "border-width", 0)
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateText(self, data)
 
 class TextEntryNode(Node):
 	def __init__(self, name=None, layout={}):
@@ -519,10 +513,6 @@ class TextEntryNode(Node):
 		self.setDefault(String,    "pv",        "")
 		self.setDefault(Font,      "font",      "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment", "CenterLeft")
-	
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateTextEntry(self, data)
 
 class TextMonitorNode(Node):
 	def __init__(self, name=None, layout={}):
@@ -533,20 +523,12 @@ class TextMonitorNode(Node):
 		self.setDefault(Number,    "border-width", 0)
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
-	
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateTextMonitor(self, data)
 
 class MenuNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(MenuNode, self).__init__("Menu", name=name, layout=layout)
 	
 		self.setDefault(String, "pv", "")
-	
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateMenu(self, data)
 	
 class ChoiceButtonNode(Node):
 	def __init__(self, name=None, layout={}):
@@ -556,10 +538,6 @@ class ChoiceButtonNode(Node):
 		self.setDefault(Bool,   "horizontal", True)
 		self.setDefault(Color,  "background", "$C8C8C8")
 		self.setDefault(Color,  "selected",   self["background"])
-	
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateChoiceButton(self, data)
 	
 class LEDNode(Node):
 	def __init__(self, name=None, layout={}):
@@ -575,10 +553,6 @@ class LEDNode(Node):
 	
 		self.setDefault(Number, "false-value", 0)
 		self.setDefault(Number, "true-value", 1)
-	
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateLED(self,data)
 
 	
 class ByteMonitorNode(Node):
@@ -591,10 +565,6 @@ class ByteMonitorNode(Node):
 		self.setDefault(Number,  "bits",        (32 - int(self["start-bit"])))
 		self.setDefault(Color,   "off-color",   "$3C643C")
 		self.setDefault(Color,   "on-color",    "$00FF00")
-
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateByteMonitor(self, data)
 	
 
 class RectangleNode(Node):
@@ -604,10 +574,6 @@ class RectangleNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateRectangle(self, data)
 	
 		
 class EllipseNode(Node):
@@ -617,10 +583,6 @@ class EllipseNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateEllipse(self, data)
 	
 
 class ArcNode(Node):
@@ -632,10 +594,6 @@ class ArcNode(Node):
 		self.setDefault(Number, "border-width", 2)
 		self.setDefault(Number, "start-angle", 0)
 		self.setDefault(Number, "span", 90)
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateArc(self, data)
 
 		
 class ImageNode(Node):
@@ -643,10 +601,6 @@ class ImageNode(Node):
 		super(ImageNode, self).__init__("Image", name=name, layout=layout)
 		
 		self.setDefault(String, "file", "")
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateImage(self, data)
 
 		
 class SliderNode(Node):
@@ -655,10 +609,6 @@ class SliderNode(Node):
 		
 		self.setDefault(Bool,   "horizontal", True)
 		self.setDefault(String, "pv",         "")
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateSlider(self, data)
 		
 
 class ScaleNode(Node):
@@ -669,10 +619,6 @@ class ScaleNode(Node):
 		self.setDefault(Color,  "background",  "$C0C0C0")
 		self.setDefault(Color,  "foreground",  "$0000FF")
 		self.setDefault(Bool,   "horizontal",  False)
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateScale(self, data)
 
 		
 class ShellCommandNode(Node):
@@ -692,11 +638,6 @@ class ShellCommandNode(Node):
 				
 			self.commands = temp
 		
-		
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generateShellCommand(self, data)
-		
 
 class PolygonNode(Node):
 	def __init__(self, name=None, layout={}):
@@ -708,10 +649,6 @@ class PolygonNode(Node):
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
 
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generatePolygon(self, data)
-
 		
 class PolylineNode(Node):
 	def __init__(self, name=None, layout={}):
@@ -721,9 +658,4 @@ class PolylineNode(Node):
 		
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
-
-	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
-		return generator.generatePolyline(self, data)
-		
 		
