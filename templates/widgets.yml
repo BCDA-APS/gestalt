@@ -1,29 +1,29 @@
 #include colors.yml
 
-editable: &editable
+_editable: &editable
     foreground: *black
     background: *edit_blue
     
-string_display: &string_display
+_string_display: &string_display
     foreground: *black
     background: *transparent
     
-data_display: &data_display
+_data_display: &data_display
     background: *gray_darker
     foreground: *alarm_green
     alignment:  Center
 
-centered_label: &centered_label
+_centered_label: &centered_label
     foreground: *black
     background: *transparent
     alignment: Center
 
-alarm_led: &alarm_led
+_alarm_led: &alarm_led
     false-color: *alarm_green
     true-color: *alarm_red
 
     
-UITitle: !Template:ScreenHeader
+_UITitle: !Template:ScreenHeader
     - !hstretch:Text
         geometry: 0x0 x 0x45
         foreground: *white
@@ -36,7 +36,7 @@ UITitle: !Template:ScreenHeader
         alignment: Center
 
 
-LabelMenuReadback: !Template:MenuWithReadback
+_LabelMenuReadback: !Template:MenuWithReadback
     - !hflow
         padding: 15
         children:
@@ -59,7 +59,7 @@ LabelMenuReadback: !Template:MenuWithReadback
                 pv: "{READ_PV}"
 
                 
-LabelEntryReadback: !Template:EntryWithReadback
+_LabelEntryReadback: !Template:EntryWithReadback
     - !hflow
         padding: 15
         children:
