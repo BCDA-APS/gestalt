@@ -2,6 +2,7 @@
 #include widgets.yml
 
 Form: !Form
+    title: "{SECTOR}{TYPE}"
     margins: 5x0x5x5
     
 

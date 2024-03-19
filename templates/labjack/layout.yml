@@ -4,6 +4,7 @@
 #include collections.yml
 
 Form: !Form
+    title: "{TITLE}"
     margins: 5x0x5x5
     
 IO: !hflow

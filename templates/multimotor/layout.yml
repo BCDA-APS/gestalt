@@ -2,6 +2,7 @@
 #include widgets.yml
 
 Form: !Form
+    title: "Motors"
     margins: 5x5x5x5
     
     
