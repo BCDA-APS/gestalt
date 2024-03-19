@@ -32,7 +32,7 @@ _UITitle: !Template:ScreenHeader
         border-width: 3
                 
         text: "{TITLE}"
-        font: -Cantarell - Regular - 16
+        font: -Cantarell - Bold - 16
         alignment: Center
 
 
