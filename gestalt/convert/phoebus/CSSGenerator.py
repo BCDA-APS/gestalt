@@ -52,9 +52,10 @@ class CSSGenerator(GestaltGenerator):
 			
 			_macros = {}
 			
-			for arg in _args:
-				key, val = arg.split("=")
-				_macros[key.strip()] = val.strip()
+			if _args[0]:
+				for arg in _args:
+					key, val = arg.split("=")
+					_macros[key.strip()] = val.strip()
 				
 			output.widget.action_open_display(_file, _rep, description=_desc, macros=_macros)
 				
