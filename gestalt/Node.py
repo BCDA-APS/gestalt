@@ -35,7 +35,8 @@ class Node(object):
 		for attr in self.attrs.values():
 			attr.apply(macros)
 			
-	def setProperty(self, key, data):
+	def setProperty(self, key, input):
+		data = copy.deepcopy(input)
 		to_assign = None
 		
 		if isinstance(data, DataType):
@@ -222,10 +223,10 @@ class GridNode(GroupNode):
 		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
-				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist.val())) ]
+				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
 			else:
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
-	
+						
 		num_items = len(macrolist)
 		
 		cols = round(math.sqrt(num_items * float(self.ratio)))
@@ -255,7 +256,7 @@ class GridNode(GroupNode):
 			
 			pos_x = index_x * (element["geometry"]["width"] + int(self.padding))
 			pos_y = index_y * (element["geometry"]["height"] + int(self.padding))
-				
+			
 			element.position(pos_x, pos_y)
 			
 			index += 1
@@ -296,7 +297,7 @@ class FlowNode(GroupNode):
 		
 		first = 0
 		
-		for childnode in self.children:			
+		for childnode in self.children:
 			child_macros.update({
 				"__parentx__" : output["geometry"]["x"],
 				"__parenty__" : output["geometry"]["y"],
@@ -312,6 +313,7 @@ class FlowNode(GroupNode):
 				element.position(x=output["geometry"]["width"] + (first * int(self.padding)), y=None)
 			
 			output.place(element)
+			
 			first = 1
 			
 		return output
@@ -352,10 +354,10 @@ class RepeatNode(GroupNode):
 			
 			for childnode in self.children:
 				child_macros.update({
-					"__parentx__" : self["geometry"]["x"],
-					"__parenty__" : self["geometry"]["y"],
-					"__parentwidth__" : self["geometry"]["width"],
-					"__parentheight__" : self["geometry"]["height"]})
+					"__parentx__" : output["geometry"]["x"],
+					"__parenty__" : output["geometry"]["y"],
+					"__parentwidth__" : output["geometry"]["width"],
+					"__parentheight__" : output["geometry"]["height"]})
 						
 				line.place(childnode.apply(generator, data=child_macros))
 							

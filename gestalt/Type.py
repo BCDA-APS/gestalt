@@ -1,51 +1,53 @@
+import copy
+
 class DataType(object):
 	def __init__(self, typ, val):
 		self.typ = typ
 		self.value = val
 		self.defaultvalue = ""
-		self.applied = False
+		self.macros = {}
+		self.updates = {}
 
 	def apply(self, macros):		
-		self.applied = True
-		
-		if (type(self.value) is dict):
-			for key, item in self.value.items():
-				if item is None:
-					self.value[key] = self.defaultvalue
-				else:
-					try:
-						self.value[key] = str(item).format(**macros)
-					except:
-						pass
-		elif isinstance(self.value, str):
-			try:
-				self.value = str(self.value).format(**macros)
-			except KeyError:
-				pass
+		self.macros = copy.deepcopy(macros)
 				
 	def val(self):
-		if not self.applied:
-			self.apply({})
+		output = copy.deepcopy(self.value)
 		
-		return self.value
+		if (type(output) is dict):
+			for key, item in output.items():
+				if item is None:
+					output[key] = self.defaultvalue
+				else:
+					try:
+						output[key] = str(item).format(**self.macros)
+					except:
+						pass
+		elif isinstance(output, str):
+			try:
+				output = str(self.value).format(**self.macros)
+			except KeyError:
+				pass
+	
+		return output
 	
 	def __setitem__(self, key, data):
-		self.val()[key] = data
+		self.updates[key] = data
 		
 	def __getitem__(self, key):
 		return self.val()[key]
 
 	def __bool__(self):
-		return bool(self.value)
+		return bool(self.val())
 		
 	def __int__(self):
-		return int(self.value)
+		return int(self.val())
 		
 	def __str__(self):
-		return str(self.value)
+		return str(self.val())
 		
 	def __float__(self):
-		return float(self.value)
+		return float(self.val())
 		
 
 ###########################
@@ -119,12 +121,10 @@ class Rect(DataType):
 	def __init__(self, *args, x=0, y=0, width=0, height=0):
 		super(Rect, self).__init__("rect", *args)
 		
-	def apply(self, macros):
-		super(Rect, self).apply(macros)
-		
+	def val(self):
 		self.labels = ["x", "y", "width", "height"]
 			
-		data = self.value
+		data = super(Rect, self).val()
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, 0) for key in self.labels ]
@@ -134,20 +134,21 @@ class Rect(DataType):
 			data = [ 0, '{:x}'.format(data) ]
 			
 		elif isinstance(data, Number):
-			data.apply(macros)
+			data.apply(self.macros)
 			data = [ 0, '{:x}'.format(int(data)) ]
 		
 		elif isinstance(data, str):
 			data = [ int(item) for item in data.split("x")]
 		
 		elif isinstance(data, String):
-			data.apply(macros)
+			data.apply(self.macros)
 			data = [ int(item) for item in data.val().split("x") ]
 			
 		elif isinstance(data, Rect):
-			data.apply(macros)
-			self.value = data.val()
-			return
+			data.apply(self.macros)
+			output = data.val()
+			output.update(self.updates)
+			return output
 			
 		temp = []
 			
@@ -157,7 +158,9 @@ class Rect(DataType):
 		for item in data:
 			temp.append(item)
 			
-		self.value = dict(zip(self.labels, temp))
+		output = dict(zip(self.labels, temp))
+		output.update(self.updates)
+		return output
 		
 	def __getitem__(self, key):
 		return int(self.val()[key])
@@ -170,12 +173,10 @@ class Color(DataType):
 	def __init__(self, *args, r=None, g=None, b=None, a=None):
 		super(Color, self).__init__("color", *args)
 		
-	def apply(self, macros):
-		super(Color, self).apply(macros)
-		
+	def val(self):
 		self.labels = ["red", "green", "blue", "alpha"]
 		
-		data = self.value
+		data = super(Color, self).val()
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, None) for key in self.labels ]
@@ -187,23 +188,26 @@ class Color(DataType):
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
 		
 		elif isinstance(data, String):
-			data.apply(macros)
+			data.apply(self.macros)
 			data = data.val().lstrip("$")
 			
 			# Interpret each 2-char chunk as a hex number
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
 			
 		elif isinstance(data, Color):
-			data.apply(macros)
-			self.value = data.val()
-			return
+			data.apply(self.macros)
+			output = data.val()
+			output.update(self.updates)
+			return output
 			
 		temp = [None, None, None, 255]
 			
 		for i in range(len(data)):
 			temp[i] = data[i]
 				
-		self.value = dict( zip(self.labels, temp))
+		output = dict( zip(self.labels, temp))
+		output.update(self.updates)
+		return output
 		
 		
 ######################
@@ -214,12 +218,10 @@ class Font(DataType):
 	def __init__(self, *args, family=None, style=None, size=None):
 		super(Font, self).__init__("font", *args)
 		
-	def apply(self, macros):
-		super(Font, self).apply(macros)
-		
+	def val(self):
 		self.labels = ["family", "style", "size"]
 		
-		data = self.value
+		data = super(Font, self).val()
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, None) for key in self.labels ]
@@ -231,16 +233,15 @@ class Font(DataType):
 			data = [ item.strip() for item in data.val.lstrip("-").split("-") ]
 
 		elif isinstance(data, Font):
-			data.apply(macros)
-			self.value = data.val()
-			return
+			data.apply(self.macros)
+			return data.val()
 		
 		temp = [None, None, None]
 			
 		for i in range(len(data)):
 			temp[i] = data[i]
 			
-		self.value = dict(zip(self.labels, temp))
+		return dict(zip(self.labels, temp))
 		
 		
 		
@@ -252,12 +253,10 @@ class Alignment(DataType):
 	def __init__(self, *args, horizontal="Center", vertical="Center"):
 		super(Alignment, self).__init__("align", *args)		
 	
-	def apply(self, macros):
-		super(Alignment, self).apply(macros)
-		
+	def val(self):
 		self.labels = [ "vertical", "horizontal" ]
 		
-		data = self.value
+		data = super(Alignment, self).val()
 		
 		if isinstance(data, str):
 			temp = { "vertical" : "Center", "horizontal" : "Center" }
@@ -284,11 +283,14 @@ class Alignment(DataType):
 			if "horizontal" in data:
 				temp["horizontal"] = str(data["horizontal"]).capitalize()
 					
-			self.value = data
+			temp.update(self.updates)
+			return temp
 			
 		elif isinstance(data, Alignment):
-			data.apply(macros)
-			self.value = data.val()
+			data.apply(self.macros)
+			output = data.val()
+			output.update(self.updates)
+			return output
 		
 
 	def __str__(self):	
