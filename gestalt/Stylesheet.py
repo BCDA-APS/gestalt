@@ -201,7 +201,7 @@ add_constructors("Ellipse",        (lambda l, n: read_special_node(EllipseNode, 
 add_constructors("Arc",            (lambda l, n: read_special_node(ArcNode, l, n)))
 add_constructors("Image",          (lambda l, n: read_special_node(ImageNode, l, n)))
 add_constructors("Polygon",        (lambda l, n: read_special_node(PolygonNode, l, n)))
-add_constructors("Polyline",       (lambda l, n: read_special_node(PolylineNode, l, n)))
+add_constructors("PolyLine",       (lambda l, n: read_special_node(PolylineNode, l, n)))
 add_constructors("Slider",         (lambda l, n: read_special_node(SliderNode, l, n)))
 add_constructors("Scale",          (lambda l, n: read_special_node(ScaleNode, l, n)))
 	
