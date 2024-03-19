@@ -2,54 +2,99 @@
 #include widgets.yml
 
 Form: !Form
-    geometry: 1000x1000
-    title: "Test Screen"
+    margins: 5x0x5x5
+    title: "Example Display"
 
-
-Test: !vrepeat
-    repeat-over: "INDICES"
+List_of_Inputs: !vrepeat
+    geometry: 0x60 x 0x0
+    repeat-over: "Inputs"
+    padding: 2
     
     children:
         - !TextEntry
             <<: *editable
-            geometry: 5x0 x 120x20
+            geometry: 120x20
             
             alignment: BottomRight
             font: -Liberation Sans - bold - 12
-            pv: "xxx:yyy:zzz"
+            pv: "xxx:m{N}"
 
-            
-            
-Maybe: !ShellCommand
-    <<: *editable
+Maybe: !Conditional
+    geometry: 130x60 x 0x0
+    condition: "Enable_Shapes"
+    
+    children:
+        - !hflow
+            padding: 10
+        
+            children:
+                - !Rectangle
+                    geometry: 40x40
+                    border-color: *mintcream
+                    
+                - !Ellipse
+                    geometry: 40x40
+                    border-color: *transparent
+                    background: *royalblue
+                    
+                - !Arc
+                    geometry: 40x40
+                    border-width: 5
+                    border-color: *cornsilk
+                    
+                    start-angle: 45
+                    span: 180
+                    
+                - !PolyLine
+                    geometry: 40x40
+                    points: [ 20x0, 0x40, 40x10, 0x10, 40x40, 20x0 ]
 
-    text: "Open xxx"
-    
-    geometry: 10x200 x 100x20
-    
-    commands: 
-        - { label: "first", command: "echo 'Hello, World'" }
-
-LED_test: !LED
-    pv: "$(P)$(M{N}):LowLimits"
-    
-    square: true
-    geometry: 0x0 x 6x88    
-    
+                    
 Byte_test: !ByteMonitor
     bits: 8
-    geometry: 130x10 x 170x20
+    geometry: 130x110 x 200x20
 
-Arc_test: !Polygon
-    background: *burlywood
-    border-color: *cornsilk
     
-    geometry: 130x50 x 90x150
+Hello_World: !ShellCommand
+    text: "Say"
     
-    points: [ 1x1, 80x1, 80x100, 1x100 ]
+    geometry: 130x140 x 90x20
+    
+    commands: 
+        - { label: "Hello",   command: "echo 'Hello'" }
+        - { label: "Goodbye", command: "echo 'Goodbye'" }
 
+Other_Screens: !RelatedDisplay
+    background: *menu_green
+    foreground: *white
+    
+    text: "More"
+    
+    geometry: 240x140 x 90x20
+    
+    links:
+        - { label: "Doesn't Exist",      file: "1.ui", macros: "P=$(PREFIX)" }
+        - { label: "Also Doesn't Exist", file: "2.ui", macros: "P=$(PREFIX)" }
+                
+        
 slide: !Scale
-    background: *edit_blue
+    background: "{Tank_Color}"
     
-    geometry: 130x250 x 120x20
-    horizontal: True
+    geometry: 130x170 x 20x110
+    horizontal: False
+
+    
+LED_Grid: !Grid
+    geometry: 160x170 x 0x0
+    aspect-ratio: 1.5
+    repeat-over: "LEDs"
+    
+    padding: 10
+
+    children:
+        - !LED
+            <<: *alarm_led
+            geometry: 20x20
+    
+    
+Header: !Apply:ScreenHeader { TITLE: "EXAMPLE" }
