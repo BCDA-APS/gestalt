@@ -20,23 +20,20 @@ Hutches: !hrepeat
             border-color: *grey_darker
             
             children:
-                - !caPolyLine
+                - !Polyline
                     geometry: 15x55 x 205x1
                     
-                    foreground: *alarm_red
-                    
-                    linestyle: caPolyLine::Solid
-                    lineSize: 1
-                    lineColor: *alarm_red
-                    
-                    xyPairs: "0,0;204,0"
-                    visibility: caPolyLine::IfNotZero
+                    border-color: *alarm_red
+                    border-width: 1
+                                        
+                    points: [ 0x0, 204x0 ]
+                    visibility: "PA:{SECTOR:02d}{TYPE}:STA_{ID}_{SHUTTER}_OPEN_PL.VAL"
                     
                 - !group
                     geometry: 135x95 x 82x26
                     
                     children:
-                        - !caLabel
+                        - !Text
                             text: "Moving"
                             geometry: 1x0 x 78x23
                             
@@ -44,11 +41,9 @@ Hutches: !hrepeat
                             background: *transparent
                             
                             alignment: CenterLeft
+                            visibility: !Not "{PREFIX}:alldone.VAL"
                             
-                            channel: !string "{PREFIX}:alldone.VAL"
-                            visibility: caLabel::IfZero
-                            
-                        - !caLabel
+                        - !Text
                             text: "Moving"
                             geometry: 2x1 x 78x23
                             
@@ -56,11 +51,9 @@ Hutches: !hrepeat
                             background: *transparent
                             
                             alignment: CenterLeft
+                            visibility: "{PREFIX}:alldoneBlink.VAL"
                             
-                            channel: !string "{PREFIX}:alldoneBlink.VAL"
-                            visibility: caLabel::IfNotZero
-                            
-                        - !caLabel
+                        - !Text
                             text: "Moving"
                             geometry: 1x0 x 78x23
                             
@@ -68,9 +61,7 @@ Hutches: !hrepeat
                             background: *transparent
                             
                             alignment: CenterLeft
-                            
-                            channel: !string "{PREFIX}:alldone.VAL"
-                            visibility: caLabel::IfZero
+                            visibility: !Not "{PREFIX}:alldone.VAL"
                     
                 - !MessageButton
                     geometry: 135x125 x 85x30
@@ -146,10 +137,10 @@ Hutches: !hrepeat
             background: *header_blue
             foreground: *white
             
-            text: !string "{SECTOR}-{TYPE}-{ID}"
+            text: "{SECTOR}-{TYPE}-{ID}"
             
             links:
-                - { label: "IOC Debug", file: !string "{PREFIX}.ui" }
+                - { label: "IOC Debug", file: "{PREFIX}.ui" }
 
                     
 UITitle: !hstretch:Text
@@ -172,9 +163,8 @@ OPSElements: !hcenter:group
             foreground: *alarm_yellow
             background: *transparent
 
-            alignment: CenterRight
-                
-            channel: "S:SRcurrentAI"
+            alignment: CenterRight  
+            pv: "S:SRcurrentAI"
             
         - !Text
             geometry: 55x0 x 25x20
