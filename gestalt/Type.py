@@ -130,8 +130,12 @@ class Rect(DataType):
 			data = [ data.get(key, 0) for key in self.labels ]
 				
 		elif isinstance(data, int):
-			# int indicates the parser read a value like 0x123 as a hex value			
+			# int indicates the parser read a value like 0x123 as a hex value
 			data = [ 0, '{:x}'.format(data) ]
+			
+		elif isinstance(data, Number):
+			data.apply(macros)
+			data = [ 0, '{:x}'.format(int(data)) ]
 		
 		elif isinstance(data, str):
 			data = [ int(item) for item in data.split("x")]
