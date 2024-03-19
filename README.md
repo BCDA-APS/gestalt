@@ -24,6 +24,7 @@ Currently, caQtDM and CSS-Phoebus are supported.
 
 The following python packages are required in order to run gestalt:
 
+* Python >= 3.6
 * lxml
 * PyQT5
 * phoebusgen
