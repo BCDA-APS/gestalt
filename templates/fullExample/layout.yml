@@ -3,6 +3,7 @@
 
 Form: !Form
     geometry: 1000x1000
+    title: "Test Screen"
 
 
 Test: !vrepeat
@@ -19,18 +20,36 @@ Test: !vrepeat
 
             
             
-Maybe: !MessageButton
+Maybe: !ShellCommand
     <<: *editable
 
     text: "Open xxx"
     
     geometry: 10x200 x 100x20
     
-    pv: "xxx:yyy:zzz"
-    value: 1
+    commands: 
+        - { label: "first", command: "echo 'Hello, World'" }
 
 LED_test: !LED
     pv: "$(P)$(M{N}):LowLimits"
     
     square: true
-    geometry: 0x0 x 6x88
+    geometry: 0x0 x 6x88    
+    
+Byte_test: !ByteMonitor
+    bits: 8
+    geometry: 130x10 x 170x20
+
+Arc_test: !Polygon
+    background: *burlywood
+    border-color: *cornsilk
+    
+    geometry: 130x50 x 90x150
+    
+    points: [ 1x1, 80x1, 80x100, 1x100 ]
+
+slide: !Scale
+    background: *edit_blue
+    
+    geometry: 130x250 x 120x20
+    horizontal: True

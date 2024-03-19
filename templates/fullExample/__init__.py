@@ -1,7 +1,8 @@
 from .. import registry
 
-registry.add("CSS Test", path=__path__,
+registry.add("Full Example", path=__path__,
 	css_stylesheet = "layout.yml",
+	qt_stylesheet = "layout.yml",
 	required_inputs=[
 ("INDICES", 
 """List of numbers indicating each userCalc to link:
