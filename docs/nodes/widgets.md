@@ -227,6 +227,7 @@ A special widget used to set values for the top-level window.
 | geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
 | margins    | Rect   | A set of numbers describing the number of pixels to leave clear on the left, top, right, and bottom of the window respectively |
 | background | Color  | The background color for the Form, $BBBBBB by default |
+| title      | String | The display name in the header bar of the window |
 
 
 * **Example**  
