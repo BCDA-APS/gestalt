@@ -144,7 +144,7 @@ Hutches: !hrepeat
 
                     
 UITitle: !hstretch:Text
-    geometry: 0x0 x 0x32
+    geometry: 0x32
     foreground: *white
     background: *header_blue
     border-color: *black

@@ -25,7 +25,7 @@ _alarm_led: &alarm_led
     
 _UITitle: !Template:ScreenHeader
     - !hstretch:Text
-        geometry: 0x0 x 0x45
+        geometry: 0x45
         foreground: *white
         background: *header_blue
         border-color: *black
