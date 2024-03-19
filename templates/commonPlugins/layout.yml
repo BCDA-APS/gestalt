@@ -2,60 +2,36 @@
 #include widgets.yml
 
 Form: !Form
+    title: "Common Plugins"
     margins: 5x5x5x5
 
     
 UILabel: !Text
     <<: *centered_label
+    font: -Liberation Sans -Regular -18
     geometry: 0x6 x 935x25
     
     text: "$(P) Common Plugins"
+
+CenterText: !Template:ColHeader
+    - !Text
+        <<: *centered_label
+        geometry: "{X}x0 x {WIDTH}x20"
+        text: "{LABEL}"
     
 
 UIHeader: !group
     geometry: 0x40 x 0x0
     
     children:
-        - !Text
-            <<: *centered_label
-            geometry: 10x0 x 110x20
-            text: "Plugin Name"
-            
-        - !Text
-            <<: *centered_label
-            geometry: 150x0 x 110x20
-            text: "Plugin Type"
-            
-        - !Text
-            <<: *centered_label
-            geometry: 300x0 x 40x20
-            text: "Port"
-        
-        - !Text
-            <<: *centered_label
-            geometry: 407x0 x 60x20
-            text: "Enable"
-            
-        - !Text
-            <<: *centered_label
-            geometry: 525x0 x 80x20
-            text: "Blocking"
-            
-        - !Text
-            <<: *centered_label
-            geometry: 615x0 x 75x20
-            text: "Dropped"
-            
-        - !Text
-            <<: *centered_label
-            geometry: 715x0 x 40x20
-            text: "Free"
-            
-        - !Text
-            <<: *centered_label
-            geometry: 800x0 x 40x20
-            text: "Rate"
-
+        - !Apply:ColHeader { X: 10,  WIDTH: 110, LABEL: "Plugin Name" }
+        - !Apply:ColHeader { X: 150, WIDTH: 110, LABEL: "Plugin Type" }
+        - !Apply:ColHeader { X: 300, WIDTH: 40,  LABEL: "Port" }
+        - !Apply:ColHeader { X: 407, WIDTH: 60,  LABEL: "Enable" }
+        - !Apply:ColHeader { X: 525, WIDTH: 80,  LABEL: "Blocking" }
+        - !Apply:ColHeader { X: 615, WIDTH: 75,  LABEL: "Dropped" }
+        - !Apply:ColHeader { X: 715, WIDTH: 40,  LABEL: "Free" }
+        - !Apply:ColHeader { X: 800, WIDTH: 40,  LABEL: "Rate" }
             
 UIRow: !repeat
     repeat-over: "PLUGINS"
