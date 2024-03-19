@@ -80,7 +80,7 @@ class CSSWidget(GroupNode):
 		elif (self.classname == "Polygon"):
 			self.widget = widget.Polygon(self.name, 0, 0, 0, 0)
 		elif (self.classname == "Polyline"):
-			self.widget = widget.Polylin(self.name, 0, 0, 0, 0)
+			self.widget = widget.Polyline(self.name, 0, 0, 0, 0)
 		elif (self.classname == "ProgressBar"):
 			self.widget = widget.ProgressBar(self.name, "", 0, 0, 0, 0)
 		elif (self.classname == "RadioButton"):
