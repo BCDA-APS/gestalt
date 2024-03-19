@@ -216,7 +216,7 @@ class GridNode(GroupNode):
 		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
-				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
+				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist.val())) ]
 			else:
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
 	
