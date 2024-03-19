@@ -118,38 +118,6 @@ class Not(DataType):
 class Rect(DataType):			
 	def __init__(self, *args, x=0, y=0, width=0, height=0):
 		super(Rect, self).__init__("rect", *args)
-		#self.typ = "rect"
-		#self.defaultvalue = 0
-		#self.labels = ["x", "y", "width", "height"]
-			
-		# if len(args) == 0:
-			# self.value = {"x" : x, "y" : y, "width" : width, "height" : height }
-			# return
-			
-		# data = args
-		
-		# if len(args) == 1:
-			# data = args[0]
-		
-		# if isinstance(data, dict):
-			# data = [ data.get(key, self.defaultvalue) for key in self.labels ]
-		
-		# elif isinstance(data, str):
-			# data = [ int(item) for item in data.split("x")]
-			
-		# elif isinstance(data, Rect):
-			# self.value = data.val
-			# return
-			
-		# temp = []
-			
-		# for i in range(4 - len(data)):
-			# temp.append(self.defaultvalue)
-				
-		# for item in data:
-			# temp.append(item)
-			
-		# self.value = dict(zip(self.labels, temp))
 		
 	def apply(self, macros):
 		super(Rect, self).apply(macros)
@@ -160,6 +128,10 @@ class Rect(DataType):
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, 0) for key in self.labels ]
+				
+		elif isinstance(data, int):
+			# int indicates the parser read a value like 0x123 as a hex value			
+			data = [ 0, data ]
 		
 		elif isinstance(data, str):
 			data = [ int(item) for item in data.split("x")]
@@ -193,44 +165,6 @@ class Rect(DataType):
 class Color(DataType):
 	def __init__(self, *args, r=None, g=None, b=None, a=None):
 		super(Color, self).__init__("color", *args)
-		# self.typ = "color"
-		# self.defaultvalue = 0
-		# self.labels = ["red", "green", "blue", "alpha"]
-		
-		# if len(args) == 0:
-			# self.value = {"red" : r, "green" : g, "blue" : b, "alpha" : a}
-			# return
-		
-		# data = args
-		
-		# if len(args) == 1:
-			# data = args[0]
-			
-		# if isinstance(data, dict):
-			# data = [ data.get(key, None) for key in self.labels ]
-		
-		# elif isinstance(data, str):
-			# data = data.lstrip("$")
-			
-			# # Interpret each 2-char chunk as a hex number
-			# data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
-		
-		# elif isinstance(data, String):
-			# data = data.val.lstrip("$")
-			
-			# # Interpret each 2-char chunk as a hex number
-			# data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
-			
-		# elif isinstance(data, Color):
-			# self.value = data.val
-			# return
-			
-		# temp = [None, None, None, 255]
-			
-		# for i in range(len(data)):
-			# temp[i] = data[i]
-				
-		# self.value = dict( zip(self.labels, temp))
 		
 	def apply(self, macros):
 		super(Color, self).apply(macros)
@@ -275,38 +209,6 @@ class Color(DataType):
 class Font(DataType):
 	def __init__(self, *args, family=None, style=None, size=None):
 		super(Font, self).__init__("font", *args)
-		# self.typ = "font"
-		# self.defaultvalue = ""
-		# self.labels = ["family", "style", "size"]
-		
-		# if len(args) == 0:
-			# self.value = {"family" : family, "style" : style.lower(), "size" : size}
-			# return
-		
-		# data = args
-		
-		# if len(args) == 1:
-			# data = args[0]
-			
-		# if isinstance(data, dict):
-			# data = [ data.get(key, None) for key in self.labels ]
-		
-		# elif isinstance(data, str):
-			# data = [ item.strip() for item in data.lstrip("-").split("-") ]
-			
-		# elif isinstance(data, String):
-			# data = [ item.strip() for item in data.val.lstrip("-").split("-") ]
-
-		# elif isinstance(data, Font):
-			# self.value = data.val
-			# return
-		
-		# temp = [None, None, None]
-			
-		# for i in range(len(data)):
-			# temp[i] = data[i]
-			
-		# self.value = dict(zip(self.labels, temp))
 		
 	def apply(self, macros):
 		super(Font, self).apply(macros)
@@ -342,67 +244,9 @@ class Font(DataType):
 #   ALIGNMENT DATA TYPE   #
 ###########################
 
-class Alignment(DataType):
-	TOP = 0
-	LEFT = 0
-	CENTER = 1
-	RIGHT = 2
-	BOTTOM = 2
-	
-	
+class Alignment(DataType):	
 	def __init__(self, *args, horizontal="Center", vertical="Center"):
-		super(Alignment, self).__init__("align", *args)
-		# self.typ = "align"
-		# self.defaultvalue = "Center"
-		# self.labels = [ "vertical", "horizontal" ]
-		
-		# data = args
-		
-		# if len(args) == 0:
-			# data = { "vertical" : vertical, "horizontal" : horizontal }
-		
-		# if len(args) == 1:
-			# data = args[0]
-			
-		# if isinstance(data, str):
-			# temp = { "vertical" : vertical, "horizontal" : horizontal }
-				
-			# data = data.lower()
-			
-			# if "top" in data:
-				# temp["vertical"] = "Top"
-			# if "bottom" in data:
-				# temp["vertical"] = "Bottom"
-			# if "left" in data:
-				# temp["horizontal"] = "Left"
-			# if "right" in data:
-				# temp["horizontal"] = "Right"
-			
-			# data = temp
-				
-		# if isinstance(data, dict):
-			# self.value = {}
-			
-			# valign = str(data.get("vertical", "Center")).lower()
-			# halign = str(data.get("horizontal", "Center")).lower()
-			
-			# if "top" in valign:
-				# self.value["vertical"] = Alignment.TOP
-			# elif "bottom" in valign:
-				# self.value["vertical"] = Alignment.BOTTOM
-			# else:
-				# self.value["vertical"] = Alignment.CENTER
-				
-			# if "left" in halign:
-				# self.value["horizontal"] = Alignment.LEFT
-			# elif "right" in halign:
-				# self.value["horizontal"] = Alignment.RIGHT
-			# else:
-				# self.value["horizontal"] = Alignment.CENTER
-			
-		# elif isinstance(data, Alignment):
-			# self.value = data.val
-			
+		super(Alignment, self).__init__("align", *args)		
 	
 	def apply(self, macros):
 		super(Alignment, self).apply(macros)
@@ -412,7 +256,7 @@ class Alignment(DataType):
 		data = self.value
 		
 		if isinstance(data, str):
-			temp = { "vertical" : None, "horizontal" : None }
+			temp = { "vertical" : "Center", "horizontal" : "Center" }
 				
 			data = data.lower()
 			
@@ -428,24 +272,15 @@ class Alignment(DataType):
 			data = temp
 				
 		if isinstance(data, dict):
-			self.value = {}
+			temp = { "vertical" : "Center", "horizontal" : "Center"}
 			
-			valign = str(data.get("vertical", "Center")).lower()
-			halign = str(data.get("horizontal", "Center")).lower()
+			if "vertical" in data:
+				temp["vertical"] = str(data["vertical"]).capitalize()
 			
-			if "top" in valign:
-				self.value["vertical"] = Alignment.TOP
-			elif "bottom" in valign:
-				self.value["vertical"] = Alignment.BOTTOM
-			else:
-				self.value["vertical"] = Alignment.CENTER
-				
-			if "left" in halign:
-				self.value["horizontal"] = Alignment.LEFT
-			elif "right" in halign:
-				self.value["horizontal"] = Alignment.RIGHT
-			else:
-				self.value["horizontal"] = Alignment.CENTER
+			if "horizontal" in data:
+				temp["horizontal"] = str(data["horizontal"]).capitalize()
+					
+			self.value = data
 			
 		elif isinstance(data, Alignment):
 			data.apply(macros)
@@ -453,8 +288,5 @@ class Alignment(DataType):
 		
 
 	def __str__(self):	
-		valign = [ "Top", "Center", "Bottom" ]
-		halign = [ "Left", "Center", "Right" ]
-		
-		return valign[self.value["vertical"]] + halign[self.value["horizontal"]]
+		return str(self.val()["vertical"]) + str(self.val()["horizontal"])
 			
