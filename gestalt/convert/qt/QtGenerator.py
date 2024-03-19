@@ -311,6 +311,7 @@ def generateQtFile(template, data, outputfile=""):
 		if isinstance(item, Node):
 			if item.classname == "Form":
 				a_display.setProperties(item.attrs)
+				a_display.updateProperties(data)
 			else:
 				data.update({
 					"__parentx__" : a_display["geometry"]["x"],
