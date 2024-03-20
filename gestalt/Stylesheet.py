@@ -65,7 +65,12 @@ add_constructors("not",    (lambda l, n: read_type(Not,    l, n)))
 ######################	
 
 def read_node(typ, loader, node):
-	params = loader.construct_mapping(node, deep=True)
+	params = {}
+	
+	try:
+		params = loader.construct_mapping(node, deep=True)
+	except:
+		pass
 
 	return Node(typ, layout=params)
 
@@ -76,7 +81,10 @@ def read_group_node(typ, loader, node):
 
 
 def read_special_node(node_type, loader, node, **kwargs):
-	params = loader.construct_mapping(node, deep=True)
+	try:
+		params = loader.construct_mapping(node, deep=True)
+	except:
+		pass
 
 	return node_type(layout=params, **kwargs)
 
