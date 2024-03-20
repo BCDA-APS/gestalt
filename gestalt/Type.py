@@ -26,7 +26,7 @@ class DataType(object):
 							pass
 			elif isinstance(output, str):
 				try:
-					output = str(self.value).format(**macrolist)
+					output = str(output).format(**macrolist)
 				except KeyError:
 					pass
 					
