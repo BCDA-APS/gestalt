@@ -10,6 +10,7 @@ name_numbering = {}
 class CSSWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
+		self.updateProperties(macros)
 		
 		if "alignment" in self:
 			data = str(Alignment(self.pop("alignment")))
@@ -25,8 +26,6 @@ class CSSWidget(GroupNode):
 		if "vertical_alignment" in self:
 			if isinstance(self["vertical_alignment"], Alignment) or str(self["vertical_alignment"]).lower() == "center":
 				self["vertical_alignment"] = String("Middle")		
-				
-		self.macros = macros
 		
 		if name:
 			self.name = name
@@ -183,14 +182,7 @@ class CSSWidget(GroupNode):
 				getattr(self.widget, prefix + "font_style_" + my_font["style"].lower())()
 				
 		
-	def write(self, screen):
-		for key, item in self.attrs.items():
-			try:
-				item.apply(self.macros)
-			except:
-				print(key)
-				print(item)
-			
+	def write(self, screen):			
 		if self.widget:
 			self.widget.name(self.name)
 			self.widget.x(self["geometry"]["x"])

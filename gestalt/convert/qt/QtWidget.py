@@ -7,6 +7,7 @@ name_numbering = {}
 class QtWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(QtWidget, self).__init__(classname, name=name, layout=layout)
+		self.updateProperties(macros)
 	
 		if "alignment" in self and not isinstance(self["alignment"], Set):
 			data = str(Alignment(self.pop("alignment")))
@@ -37,8 +38,6 @@ class QtWidget(GroupNode):
 			else:
 				self["visibility"] = Enum(classname + "::IfNotZero")
 			
-			
-		self.macros = macros
 	
 		if name:
 			self.name = name
@@ -53,10 +52,7 @@ class QtWidget(GroupNode):
 	def write(self, tree):			
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
 			
-		for key, item in self.attrs.items():
-			
-			item.apply(self.macros)
-			
+		for key, item in self.attrs.items():			
 			tree.start("property", {"name" : key})
 				
 			if isinstance(item, Color):
