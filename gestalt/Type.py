@@ -5,29 +5,33 @@ class DataType(object):
 		self.typ = typ
 		self.value = val
 		self.defaultvalue = ""
-		self.macros = {}
+		self.macros = []
 		self.updates = {}
 
 	def apply(self, macros):		
-		self.macros = copy.deepcopy(macros)
+		self.macros.append(copy.deepcopy(macros))
 				
 	def val(self):
 		output = copy.deepcopy(self.value)
-		
-		if (type(output) is dict):
-			for key, item in output.items():
-				if item is None:
-					output[key] = self.defaultvalue
-				else:
-					try:
-						output[key] = str(item).format(**self.macros)
-					except:
-						pass
-		elif isinstance(output, str):
-			try:
-				output = str(self.value).format(**self.macros)
-			except KeyError:
-				pass
+
+		for macrolist in reversed(self.macros):
+			if isinstance(output, dict):
+				for key, item in output.items():
+					if item is None:
+						output[key] = self.defaultvalue
+					else:
+						try:
+							output[key] = str(item).format(**macrolist)
+						except:
+							pass
+			elif isinstance(output, str):
+				try:
+					output = str(self.value).format(**macrolist)
+				except KeyError:
+					pass
+					
+		if isinstance(output, dict):
+			output.update(self.updates)
 	
 		return output
 	
@@ -118,38 +122,35 @@ class Not(DataType):
 
 
 class Rect(DataType):			
-	def __init__(self, *args, x=0, y=0, width=0, height=0):
-		super(Rect, self).__init__("rect", *args)
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Rect):
+			super(Rect, self).__init__("rect", data.value)
+			self.macros = data.macros
+			self.updates = data.updates
 		
-	def val(self):
-		self.labels = ["x", "y", "width", "height"]
+		elif isinstance(data, Number):
+			super(Rect, self).__init__("rect", "0x{:x}".format(int(data.value)))
+			self.macros = data.macros
+			self.updates = data.updates
 			
+		elif isinstance(data, int):
+			super(Rect, self).__init__("rect", "0x{:x}".format(data))
+			
+		else:
+			super(Rect, self).__init__("rect", data)
+		
+			
+	def val(self):
 		data = super(Rect, self).val()
+		
+		self.labels = ["x", "y", "width", "height"]
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, 0) for key in self.labels ]
 				
-		elif isinstance(data, int):
-			# int indicates the parser read a value like 0x123 as a hex value
-			data = [ 0, '{:x}'.format(data) ]
-			
-		elif isinstance(data, Number):
-			data.apply(self.macros)
-			data = [ 0, '{:x}'.format(int(data)) ]
-		
 		elif isinstance(data, str):
 			data = [ int(item) for item in data.split("x")]
-		
-		elif isinstance(data, String):
-			data.apply(self.macros)
-			data = [ int(item) for item in data.val().split("x") ]
-			
-		elif isinstance(data, Rect):
-			data.apply(self.macros)
-			output = data.val()
-			output.update(self.updates)
-			return output
-			
+				
 		temp = []
 			
 		for i in range(4 - len(data)):
@@ -165,18 +166,25 @@ class Rect(DataType):
 	def __getitem__(self, key):
 		return int(self.val()[key])
 						
+		
 #######################
 #   COLOR DATA TYPE   #
 #######################
 
 class Color(DataType):
-	def __init__(self, *args, r=None, g=None, b=None, a=None):
-		super(Color, self).__init__("color", *args)
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Color):
+			super(Color, self).__init__("color", data.value)
+			self.macros = data.macros
+			self.updates = data.updates
+			
+		else:
+			super(Color, self).__init__("color", data)
 		
 	def val(self):
-		self.labels = ["red", "green", "blue", "alpha"]
-		
 		data = super(Color, self).val()
+		
+		self.labels = ["red", "green", "blue", "alpha"]
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, None) for key in self.labels ]
@@ -186,19 +194,6 @@ class Color(DataType):
 			
 			# Interpret each 2-char chunk as a hex number
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
-		
-		elif isinstance(data, String):
-			data.apply(self.macros)
-			data = data.val().lstrip("$")
-			
-			# Interpret each 2-char chunk as a hex number
-			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
-			
-		elif isinstance(data, Color):
-			data.apply(self.macros)
-			output = data.val()
-			output.update(self.updates)
-			return output
 			
 		temp = [None, None, None, 255]
 			
@@ -215,13 +210,19 @@ class Color(DataType):
 ######################
 
 class Font(DataType):
-	def __init__(self, *args, family=None, style=None, size=None):
-		super(Font, self).__init__("font", *args)
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Font):
+			super(Font, self).__init__("font", data.value)
+			self.macros = data.macros
+			self.updates = data.updates
+			
+		else:
+			super(Font, self).__init__("font", data)
 		
 	def val(self):
-		self.labels = ["family", "style", "size"]
-		
 		data = super(Font, self).val()
+		
+		self.labels = ["family", "style", "size"]
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, None) for key in self.labels ]
@@ -229,19 +230,15 @@ class Font(DataType):
 		elif isinstance(data, str):
 			data = [ item.strip() for item in data.lstrip("-").split("-") ]
 			
-		elif isinstance(data, String):
-			data = [ item.strip() for item in data.val.lstrip("-").split("-") ]
-
-		elif isinstance(data, Font):
-			data.apply(self.macros)
-			return data.val()
-		
 		temp = [None, None, None]
 			
 		for i in range(len(data)):
 			temp[i] = data[i]
 			
-		return dict(zip(self.labels, temp))
+		output = dict(zip(self.labels, temp))
+		output.update(self.updates)
+		return output
+		
 		
 		
 		
@@ -250,8 +247,13 @@ class Font(DataType):
 ###########################
 
 class Alignment(DataType):	
-	def __init__(self, *args, horizontal="Center", vertical="Center"):
-		super(Alignment, self).__init__("align", *args)		
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Alignment):
+			super(Alignment, self).__init__("align", data.value)
+			self.macros = data.macros
+			self.updates = data.updates
+		else:
+			super(Alignment, self).__init__("align", data)
 	
 	def val(self):
 		self.labels = [ "vertical", "horizontal" ]
@@ -283,15 +285,9 @@ class Alignment(DataType):
 			if "horizontal" in data:
 				temp["horizontal"] = str(data["horizontal"]).capitalize()
 					
+				
 			temp.update(self.updates)
-			return temp
-			
-		elif isinstance(data, Alignment):
-			data.apply(self.macros)
-			output = data.val()
-			output.update(self.updates)
-			return output
-		
+			return temp		
 
 	def __str__(self):	
 		return str(self.val()["vertical"]) + str(self.val()["horizontal"])

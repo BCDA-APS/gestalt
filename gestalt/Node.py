@@ -116,9 +116,7 @@ class Node(object):
 		return self
 
 		
-	def apply (self, generator, data={}):
-		self.updateProperties(macros=data)
-		
+	def apply (self, generator, data={}):		
 		gen_func = getattr(generator, "generate" + self.classname, None)
 		
 		if gen_func:
@@ -183,8 +181,6 @@ class GroupNode(Node):
 		
 	
 	def apply (self, generator, data={}):
-		self.updateProperties(macros=data)
-		
 		output = generator.generateGroup(self, macros=data)
 		output.margins = self.margins
 		
@@ -214,16 +210,12 @@ class GridNode(GroupNode):
 		
 		
 	def apply (self, generator, data={}):
-		self.updateProperties(macros=data)
 		self.repeat_over.apply(data)
 		macrolist = data.get(str(self.repeat_over), {})
 	
 		output = generator.generateGroup(self, macros=data)
 		output.margins = self.margins
-		
-		if isinstance(macrolist, str):
-				macrolist = parseYAMLString(macrolist)
-		
+				
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
@@ -292,7 +284,6 @@ class FlowNode(GroupNode):
 		
 		
 	def apply (self, generator, data={}):
-		self.updateProperties(macros=data)
 		output = generator.generateGroup(self, macros=data)
 		output.margins = self.margins
 		
@@ -306,9 +297,9 @@ class FlowNode(GroupNode):
 				"__parenty__" : output["geometry"]["y"],
 				"__parentwidth__" : output["geometry"]["width"],
 				"__parentheight__" : output["geometry"]["height"]})
-			
+				
 			element = childnode.apply(generator, data=child_macros)
-
+			
 			if self.flow == "vertical":
 				element.position(x=None, y=output["geometry"]["height"] + (first*int(self.padding)))
 				
@@ -333,7 +324,6 @@ class RepeatNode(GroupNode):
 	
 		
 	def apply (self, generator, data={}):
-		self.updateProperties(macros=data)
 		self.repeat_over.apply(data)
 		macrolist = data.get(str(self.repeat_over), None)
 		
@@ -342,15 +332,12 @@ class RepeatNode(GroupNode):
 		
 		index = 0
 		
-		if isinstance(macrolist, str):
-				macrolist = parseYAMLString(macrolist)
-		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
 			else:
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
-		
+					
 		for macroset in macrolist:
 			child_macros = copy.deepcopy(data)
 			child_macros.update(macroset)
@@ -364,7 +351,7 @@ class RepeatNode(GroupNode):
 					"__parenty__" : output["geometry"]["y"],
 					"__parentwidth__" : output["geometry"]["width"],
 					"__parentheight__" : output["geometry"]["height"]})
-						
+				
 				line.place(childnode.apply(generator, data=child_macros))
 							
 			if self.flow == "vertical":
@@ -386,7 +373,6 @@ class ConditionalNode(GroupNode):
 		self.condition = String(self.pop("condition", ""))
 		
 	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
 		output = generator.generateAnonymousGroup()
 		output.position(self["geometry"]["x"], self["geometry"]["y"])
 
@@ -417,12 +403,7 @@ class ApplyNode(Node):
 		
 	def apply(self, generator, data={}):
 		child_macros = copy.deepcopy(data)
-		
-		for key, val in self.macros.items():
-			to_update = String(val)
-			to_update.apply(data)
-		
-			child_macros.update({key : str(to_update)})
+		child_macros.update(self.macros)
 			
 		return self.subnode.apply(generator, data=child_macros)
 
@@ -432,7 +413,6 @@ class SpacerNode(Node):
 		super(SpacerNode, self).__init__("Spacer", layout=layout)
 	
 	def apply(self, generator, data={}):
-		self.updateProperties(macros=data)
 		output = generator.generateAnonymousGroup()
 		output["geometry"] = self["geometry"]
 		
@@ -447,7 +427,6 @@ class StretchNode(Node):
 		self.flow = flow
 		
 	def apply (self, generator, data={}):
-		self.subnode.updateProperties(macros=data)
 		self.subnode["geometry"]["x"] = self.subnode["geometry"]["x"] + self["geometry"]["x"]
 		self.subnode["geometry"]["y"] = self.subnode["geometry"]["y"] + self["geometry"]["y"]
 		
@@ -508,6 +487,7 @@ class TextNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextNode, self).__init__("Text", name=name, layout=layout)
 		
+		self.setDefault(Color,     "foreground",   "$000000")
 		self.setDefault(Color,     "background",   "$00000000")
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
