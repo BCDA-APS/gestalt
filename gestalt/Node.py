@@ -3,7 +3,7 @@ import copy
 import math
 import string
 
-
+from gestalt.Datasheet import *
 from gestalt.Type import *
 
 
@@ -221,6 +221,9 @@ class GridNode(GroupNode):
 		output = generator.generateGroup(self, macros=data)
 		output.margins = self.margins
 		
+		if isinstance(macrolist, str):
+				macrolist = parseYAMLString(macrolist)
+		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
@@ -339,6 +342,9 @@ class RepeatNode(GroupNode):
 		
 		index = 0
 		
+		if isinstance(macrolist, str):
+				macrolist = parseYAMLString(macrolist)
+		
 		if not isinstance(macrolist, list):
 			if isinstance(macrolist, DataType):
 				macrolist = [ {"N" : x} for x in range(int(self.start_at), int(self.start_at) + int(macrolist)) ]
@@ -417,7 +423,7 @@ class ApplyNode(Node):
 			to_update.apply(data)
 		
 			child_macros.update({key : str(to_update)})
-		
+			
 		return self.subnode.apply(generator, data=child_macros)
 
 		
