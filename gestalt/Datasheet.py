@@ -18,17 +18,17 @@ def rows(filename):
 
 def parseJSONFile(filename):
 	with open(filename) as the_file:
-		return json.loads(the_file.read())
+		return json.loads(the_file.read()) or {}
 		
 def parseJSONString(data):
-	return json.loads(data)
+	return json.loads(data) or {}
 	
 def parseYAMLFile(filename):
 	with open(filename) as the_file:
-		return yaml.safe_load(the_file.read())
+		return yaml.safe_load(the_file.read()) or {}
 
 def parseYAMLString(data):
-	return yaml.safe_load(data)
+	return yaml.safe_load(data) or {}
 
 def parseSubstitutionFile(filename):
 	output = {}
