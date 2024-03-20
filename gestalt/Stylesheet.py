@@ -81,6 +81,8 @@ def read_group_node(typ, loader, node):
 
 
 def read_special_node(node_type, loader, node, **kwargs):
+	params = {}
+	
 	try:
 		params = loader.construct_mapping(node, deep=True)
 	except:
