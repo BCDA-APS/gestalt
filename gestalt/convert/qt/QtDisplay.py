@@ -13,7 +13,11 @@ class QtDisplay(QtWidget):
 		
 		self.form.append(self.widg, keep_original=True)
 		self.widg.append(self, keep_original=True)	
+
 		
+	def updateProperties(self, macros={}):
+		for attr in self.form.attrs.values():
+			attr.apply(macros)
 	
 	def setProperties(self, layout):
 		self.form.setProperties(layout)

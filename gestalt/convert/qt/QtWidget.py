@@ -7,7 +7,7 @@ name_numbering = {}
 class QtWidget(GroupNode):
 	def __init__(self, classname, name=None, layout={}, macros={}):
 		super(QtWidget, self).__init__(classname, name=name, layout=layout)
-		self.updateProperties(macros)
+		QtWidget.updateProperties(self, macros)
 	
 		if "alignment" in self and not isinstance(self["alignment"], Set):
 			data = str(Alignment(self.pop("alignment")))
