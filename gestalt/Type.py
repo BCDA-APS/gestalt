@@ -1,4 +1,5 @@
 import copy
+from gestalt.Datasheet import *
 
 class DataType(object):
 	def __init__(self, typ, val):
@@ -13,7 +14,7 @@ class DataType(object):
 				
 	def val(self):
 		output = copy.deepcopy(self.value)
-
+		
 		for macrolist in reversed(self.macros):
 			if isinstance(output, dict):
 				for key, item in output.items():
@@ -173,6 +174,8 @@ class Rect(DataType):
 
 class Color(DataType):
 	def __init__(self, data):
+		self.labels = ["red", "green", "blue", "alpha"]
+		
 		if isinstance(data, String) or isinstance(data, Color):
 			super(Color, self).__init__("color", data.value)
 			self.macros = data.macros
@@ -183,8 +186,6 @@ class Color(DataType):
 		
 	def val(self):
 		data = super(Color, self).val()
-		
-		self.labels = ["red", "green", "blue", "alpha"]
 		
 		if isinstance(data, dict):
 			data = [ data.get(key, None) for key in self.labels ]
@@ -204,6 +205,15 @@ class Color(DataType):
 		output.update(self.updates)
 		return output
 		
+	def __str__(self):
+		input = self.val()
+		output = "${red:2X}{green:2X}{blue:2X}{alpha:2X}"
+		
+		try:
+			return output.format(**input)
+		except:
+			return ""
+	
 		
 ######################
 #   FONT DATA TYPE   #
