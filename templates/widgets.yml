@@ -21,6 +21,10 @@ _centered_label: &centered_label
 _alarm_led: &alarm_led
     false-color: *alarm_green
     true-color: *alarm_red
+    
+_colored_label: &colored_label
+    foreground: *header_blue
+    background: *transparent
 
     
 _UITitle: !Template:ScreenHeader
