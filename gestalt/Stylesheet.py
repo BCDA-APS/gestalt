@@ -109,6 +109,9 @@ def read_apply_multi(loader, suffix, node):
 	except:
 		pass
 	
+	if suffix not in my_templates:
+		raise ValueError("Could not find template with name: " + suffix.lstrip(":"))
+		
 	return ApplyNode(macros=macros, subnode=my_templates.get(suffix, None))
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
