@@ -324,9 +324,7 @@ class RepeatNode(GroupNode):
 	
 		
 	def apply (self, generator, data={}):
-		#print(self.repeat_over.val())
 		self.repeat_over.apply(data)
-		#print(self.repeat_over.val())
 		
 		macrolist = data.get(str(self.repeat_over), None)
 		
