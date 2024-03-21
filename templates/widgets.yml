@@ -42,45 +42,96 @@ _UITitle: !Template:ScreenHeader
 
 _LabelMenuReadback: !Template:MenuWithReadback
     - !hflow
-        padding: 15
+        padding: "{spacing}"
         children:
             - !Text
-                geometry: 120x20
-                font: -Liberation Sans -Regular -10
+                geometry: "{text-width}x20"
+                font: "-{fontname} -Regular -11"
                 alignment: CenterRight
-                text: "{LABEL}"
+                text: "{label}"
                 
             - !Menu
                 <<: *editable
-                geometry: 120x20
-                pv: "{WRITE_PV}"
+                geometry: "{write-width}x20"
+                pv: "{write-pv}"
                 
             - !TextMonitor
-                geometry: 0x1 x 120x18
-                foreground: *header_blue
-                background: *transparent
-                font: -Liberation Sans Mono -Regular -11
-                pv: "{READ_PV}"
+                <<: *colored_label
+                geometry: "0x1 x {read-width}x18"
+                font: "-{fontname} -Regular -10"
+                pv: "{read-pv}"
 
                 
 _LabelEntryReadback: !Template:EntryWithReadback
     - !hflow
-        padding: 15
+        padding: "{spacing}"
         children:
             - !Text
-                geometry: 120x20
-                font: -Liberation Sans -Regular -10
+                geometry: "{text-width}x20"
+                font: "-{fontname} -Regular -11"
                 alignment: CenterRight
-                text: "{LABEL}"
+                text: "{label}"
                 
             - !TextEntry
                 <<: *editable
-                geometry: 120x20
-                pv: "{WRITE_PV}"
+                geometry: "{write-width}x20"
+                pv: "{write-pv}"
                 
             - !TextMonitor
-                geometry: 0x1 x 120x18
-                foreground: *header_blue
-                background: *transparent
-                font: -Liberation Sans Mono -Regular -11
-                pv: "{READ_PV}"
+                <<: *colored_label
+                geometry: "0x1 x {read-width}x18"
+                font: "-{fontname} -Regular -10"
+                pv: "{read-pv}"
+
+                
+_OnOffText: !Template:OnOffText
+    - !Group   
+        children:
+            - !Text
+                geometry: "{text-width}x20"
+                alignment: Center
+                text: "{on-label}"
+                foreground: "{on-color}"
+                font: "-{fontname} -Regular -12"
+                visibility: "{PV}"
+                
+            - !Text
+                geometry: "{text-width}x20"
+                alignment: Center
+                text: "{off-label}"
+                foreground: "{off-color}"
+                font: "-{fontname} -Regular -12"
+                visibility: !Not "{PV}"
+
+                
+_LabeledReadback: !Template:LabeledReadback
+    - !hflow
+        padding: "{spacing}"
+        children:
+            - !Text
+                geometry: "{text-width}x20"
+                font: "-{fontname} -Regular -11"
+                alignment: CenterRight
+                text: "{label}"
+                
+            - !TextMonitor
+                <<: *colored_label
+                geometry: "0x1 x {read-width}x18"
+                font: "-{fontname} -Regular -10"
+                pv: "{read-pv}"
+                
+                
+_LabeledMenu: !Template:LabeledMenu
+    - !hflow
+        padding: "{spacing}"
+        children:
+            - !Text
+                geometry: "{text-width}x20"
+                font: "-{fontname} -Regular -11"
+                alignment: CenterRight
+                text: "{label}"
+                
+            - !Menu
+                <<: *editable
+                geometry: "{write-width}x20"
+                pv: "{write-pv}"
