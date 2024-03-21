@@ -424,7 +424,9 @@ class ApplyNode(Node):
 			else:
 				to_assign = val
 			
-			to_assign.apply(child_macros)
+			if isinstance(val, DataType):
+				to_assign.apply(child_macros)
+				
 			child_macros.update({key : to_assign})
 				
 		return self.subnode.apply(generator, data=child_macros)
