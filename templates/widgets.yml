@@ -135,3 +135,21 @@ _LabeledMenu: !Template:LabeledMenu
                 <<: *editable
                 geometry: "{write-width}x20"
                 pv: "{write-pv}"
+
+                
+_LabeledButton: !Template:LabeledButton
+    - !hflow
+        padding: "{spacing}"
+        children:
+            - !Text
+                geometry: "{text-width}x20"
+                font: "-{fontname} -Regular -11"
+                alignment: CenterRight
+                text: "{label}"
+                
+            - !MessageButton
+                <<: *editable
+                geometry: "{write-width}x20"
+                pv: "{write-pv}"
+                value: "{write-value}"
+                text: "{button-text}"
