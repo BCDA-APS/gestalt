@@ -291,6 +291,8 @@ class FlowNode(GroupNode):
 		
 		first = 0
 		
+		self.padding.apply(child_macros)
+		
 		for childnode in self.children:
 			child_macros.update({
 				"__parentx__" : output["geometry"]["x"],
@@ -437,6 +439,7 @@ class SpacerNode(Node):
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
 		output["geometry"] = self["geometry"]
+		output["geometry"].apply(data)
 		
 		return output
 		

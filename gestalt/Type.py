@@ -60,8 +60,12 @@ class DataType(object):
 ###########################
 
 class String(DataType):
-	def __init__(self, val):
-		super(String, self).__init__("string", str(val))
+	def __init__(self, data):
+		if isinstance(data, String):
+			super(String, self).__init__("string", data.value)
+			self.macros = data.macros
+		else:
+			super(String, self).__init__("string", str(data))
 	
 	def __bool__(self):
 		output = super(String, self).__bool__()
@@ -75,43 +79,62 @@ class String(DataType):
 		return output
 	
 class Number(DataType):
-	def __init__(self, val):
-		super(Number, self).__init__("number", val)
-		
-	def val(self):
-		return int(self.value)
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Number):
+			super(Number, self).__init__("number", data.value)
+			self.macros = data.macros
+		else:
+			super(Number, self).__init__("number", data)
 	
+			
 class Double(DataType):
-	def __init__(self, val):
-		super(Double, self).__init__("double", val)
-		
-	def val(self):
-		return float(self.value)
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Double):
+			super(Double, self).__init__("double", data.value)
+			self.macros = data.macros
+		else:
+			super(Double, self).__init__("double", data)
 
+			
 class Enum(DataType):	
-	def __init__(self, val):
-		super(Enum, self).__init__("enum", val)
-		
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Enum):
+			super(Enum, self).__init__("enum", data.value)
+			self.macros = data.macros
+		else:
+			super(Enum, self).__init__("enum", data)
+
 	def val(self):
 		return str(self.value)
-
+			
 class Set(DataType):
-	def __init__(self, val):
-		super(Set, self).__init__("set", val)
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Set):
+			super(Enum, self).__init__("set", data.value)
+			self.macros = data.macros
+		else:
+			super(Set, self).__init__("set", data)
 		
 	def val(self):
 		return str(self.value)
 	
+		
 class Bool(DataType):
 	def __init__(self, val):
-		super(Bool, self).__init__("bool", val)
+		if isinstance(data, String) or isinstance(data, Bool):
+			super(Bool, self).__init__("bool", data.value)
+			self.macros = data.macros
+		else:
+			super(Bool, self).__init__("bool", data)
 		
-	def val(self):
-		return bool(self.value)
 
 class Not(DataType):
 	def __init__(self, val):
-		super(Not, self).__init__("inverse", val)
+		if isinstance(data, String) or isinstance(data, Not):
+			super(Not, self).__init__("inverse", data.value)
+			self.macros = data.macros
+		else:
+			super(Not, self).__init__("inverse", data)
 		
 	def val(self):
 		return str(self.value)
