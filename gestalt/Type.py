@@ -120,7 +120,7 @@ class Set(DataType):
 	
 		
 class Bool(DataType):
-	def __init__(self, val):
+	def __init__(self, data):
 		if isinstance(data, String) or isinstance(data, Bool):
 			super(Bool, self).__init__("bool", data.value)
 			self.macros = data.macros
@@ -129,7 +129,7 @@ class Bool(DataType):
 		
 
 class Not(DataType):
-	def __init__(self, val):
+	def __init__(self, data):
 		if isinstance(data, String) or isinstance(data, Not):
 			super(Not, self).__init__("inverse", data.value)
 			self.macros = data.macros
