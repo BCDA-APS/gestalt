@@ -324,7 +324,10 @@ class RepeatNode(GroupNode):
 	
 		
 	def apply (self, generator, data={}):
+		#print(self.repeat_over.val())
 		self.repeat_over.apply(data)
+		#print(self.repeat_over.val())
+		
 		macrolist = data.get(str(self.repeat_over), None)
 		
 		output = generator.generateGroup(self, macros=data)
@@ -403,8 +406,27 @@ class ApplyNode(Node):
 		
 	def apply(self, generator, data={}):
 		child_macros = copy.deepcopy(data)
-		child_macros.update(self.macros)
+		
+		for key, val in self.macros.items():
 			
+			to_assign = None
+			
+			if isinstance(val, DataType):
+				to_assign = val
+			elif isinstance(val, bool):
+				to_assign = Bool(val)
+			elif isinstance(val, int):
+				to_assign = Number(val)
+			elif isinstance(val, float):
+				to_assign = Double(val)
+			elif isinstance(val, str):
+				to_assign = String(val)
+			else:
+				to_assign = val
+			
+			to_assign.apply(child_macros)
+			child_macros.update({key : to_assign})
+				
 		return self.subnode.apply(generator, data=child_macros)
 
 		
