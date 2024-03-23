@@ -8,8 +8,8 @@ from phoebusgen.widget import properties as _p
 name_numbering = {}
 
 class CSSWidget(GroupNode):
-	def __init__(self, classname, name=None, layout={}, macros={}):
-		super(CSSWidget, self).__init__(classname, name=name, layout=layout)
+	def __init__(self, classname, node=None, name=None, layout={}, macros={}):
+		super(CSSWidget, self).__init__(classname, name=name, node=node, layout=layout)
 		self.updateProperties(macros)
 		
 		if "alignment" in self:
@@ -27,9 +27,7 @@ class CSSWidget(GroupNode):
 			if isinstance(self["vertical_alignment"], Alignment) or str(self["vertical_alignment"]).lower() == "center":
 				self["vertical_alignment"] = String("Middle")		
 		
-		if name:
-			self.name = name
-		else:
+		if not self.name:
 			num = name_numbering.get(classname, 0)
 			num += 1
 			name_numbering[classname] = num

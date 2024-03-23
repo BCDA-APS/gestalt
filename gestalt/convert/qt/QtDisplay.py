@@ -16,11 +16,7 @@ class QtDisplay(QtWidget):
 
 		
 	def updateProperties(self, macros={}):
-		for attr in self.form.attrs.values():
-			attr.apply(macros)
-	
-	def setProperties(self, layout):
-		self.form.setProperties(layout)
+		self.form.updateProperties(macros)
 		
 	def setProperty(self, key, prop):
 		self.form.setProperty(key, prop)

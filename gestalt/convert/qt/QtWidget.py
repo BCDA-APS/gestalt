@@ -5,8 +5,8 @@ from gestalt.Node import GroupNode
 name_numbering = {}
 
 class QtWidget(GroupNode):
-	def __init__(self, classname, name=None, layout={}, macros={}):
-		super(QtWidget, self).__init__(classname, name=name, layout=layout)
+	def __init__(self, classname, node=None, name=None, layout={}, macros={}):
+		super(QtWidget, self).__init__(classname, name=name, node=node, layout=layout)
 		QtWidget.updateProperties(self, macros)
 	
 		if "alignment" in self and not isinstance(self["alignment"], Set):
@@ -39,9 +39,7 @@ class QtWidget(GroupNode):
 				self["visibility"] = Enum(classname + "::IfNotZero")
 			
 	
-		if name:
-			self.name = name
-		else:
+		if not self.name:
 			num = name_numbering.get(classname, 0)
 			num += 1
 			name_numbering[classname] = num
@@ -52,7 +50,7 @@ class QtWidget(GroupNode):
 	def write(self, tree):			
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
 			
-		for key, item in self.attrs.items():			
+		for key, item in self.properties["attrs"].items():			
 			tree.start("property", {"name" : key})
 				
 			if isinstance(item, Color):

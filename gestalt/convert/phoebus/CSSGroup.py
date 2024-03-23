@@ -8,8 +8,8 @@ from phoebusgen import widget
 from phoebusgen.widget import properties as _p
 
 class CSSGroup(CSSWidget):
-	def __init__(self, name=None, layout={}, macros={}):
-		super(CSSGroup, self).__init__("Group", name=name, layout=layout)
+	def __init__(self, node=None, macros={}):
+		super(CSSGroup, self).__init__("Group", node=node, macros=macros)
 		
 		self.widget.transparent(True)
 		self.widget.no_style()

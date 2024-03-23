@@ -11,26 +11,26 @@ from gestalt.convert.phoebus.CSSDisplay   import CSSDisplay
 
 class CSSGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
-		return CSSWidget(original.classname, name=original.name, layout=original.attrs, macros=macros)
+		return CSSWidget(original.classname, node=original, macros=macros)
 		
 	def generateGroup(self, original, macros={}):
-		return CSSGroup(name=original.name, layout=original.attrs, macros=macros)
+		return CSSGroup(node=original, macros=macros)
 		
 	def generateAnonymousGroup(self, macros={}):
 		return CSSGroup()
 		
 	def generateTextEntry(self, node, macros={}):
-		return CSSWidget("TextEntry", name=node.name, layout=node.attrs, macros=macros)
+		return CSSWidget("TextEntry", node=node, macros=macros)
 		
 	def generateMenu(self, node, macros={}):
-		return CSSWidget("ComboBox", name=node.name, layout=node.attrs, macros=macros)
+		return CSSWidget("ComboBox", node=node, macros=macros)
 		
 	def generateChoiceButton(self, node, macros={}):
-		return CSSWidget("ChoiceButton", name=node.name, layout=node.attrs, macros=macros)
+		return CSSWidget("ChoiceButton", node=node, macros=macros)
 		
 		
 	def generateRelatedDisplay(self, node, macros={}):
-		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("ActionButton", node=node, macros=macros)
 		
 		for item in node.links:
 			_file = String(item.get("file", ""))
@@ -63,7 +63,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generateShellCommand(self, node, macros={}):
-		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("ActionButton", node=node, macros=macros)
 		
 		for item in node.commands:
 			_cmd = String(item.get("command", ""))
@@ -80,7 +80,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generateMessageButton(self, node, macros={}):
-		output = CSSWidget("ActionButton", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("ActionButton", node=node, macros=macros)
 		
 		output.widget.action_write_pv(str(output.pop("pv")), str(output.pop("value")))
 		
@@ -88,7 +88,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generateText(self, node, macros={}):
-		output = CSSWidget("Label", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Label", node=node, macros=macros)
 		
 		output.link("border", "border-color")
 		output.link("border_width", "border-width")
@@ -99,7 +99,7 @@ class CSSGenerator(GestaltGenerator):
 	
 		
 	def generateTextMonitor(self, node, macros={}):
-		output = CSSWidget("TextUpdate", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("TextUpdate", node=node, macros=macros)
 		
 		output.link("border", "border-color")	
 		output.link("border_width", "border-width")
@@ -108,7 +108,7 @@ class CSSGenerator(GestaltGenerator):
 
 		
 	def generateLED(self, node, macros={}):
-		output = CSSWidget("LEDMultiState", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("LEDMultiState", node=node, macros=macros)
 		
 		output.link("line", "border-color")
 		
@@ -129,7 +129,7 @@ class CSSGenerator(GestaltGenerator):
 
 	
 	def generateByteMonitor(self, node, macros={}):
-		output = CSSWidget("ByteMonitor", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("ByteMonitor", node=node, macros=macros)
 		
 		output.link("on", "on-color")
 		output.link("off", "off-color")
@@ -142,7 +142,7 @@ class CSSGenerator(GestaltGenerator):
 		
 	
 	def generateRectangle(self, node, macros={}):
-		output = CSSWidget("Rectangle", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Rectangle", node=node, macros=macros)
 		
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
@@ -151,7 +151,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generateEllipse(self, node, macros={}):
-		output = CSSWidget("Ellipse", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Ellipse", node=node, macros=macros)
 		
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
@@ -160,7 +160,7 @@ class CSSGenerator(GestaltGenerator):
 		
 	
 	def generateArc(self, node, macros={}):
-		output = CSSWidget("Arc", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Arc", node=node, macros=macros)
 		
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
@@ -171,7 +171,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generatePolygon(self, node, macros={}):
-		output = CSSWidget("Polygon", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Polygon", node=node, macros=macros)
 		
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
@@ -186,7 +186,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generatePolyline(self, node, macros={}):
-		output = CSSWidget("Polyline", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Polyline", node=node, macros=macros)
 		
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
@@ -201,7 +201,7 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generateImage(self, node, macros={}):
-		output = CSSWidget("Picture", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Picture", node=node, macros=macros)
 		
 		output["stretch_image"] = Bool(True)
 		
@@ -209,13 +209,13 @@ class CSSGenerator(GestaltGenerator):
 		
 		
 	def generateSlider(self, node, macros={}):
-		output = CSSWidget("Scrollbar", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Scrollbar", node=node, macros=macros)
 		
 		return output
 
 	
 	def generateScale(self, node, macros={}):
-		output = CSSWidget("Tank", name=node.name, layout=node.attrs, macros=macros)
+		output = CSSWidget("Tank", node=node, macros=macros)
 		
 		output.link("empty", "background")
 		output.link("fill", "foreground")
@@ -231,8 +231,9 @@ def generateCSSFile(template, data, outputfile=""):
 	
 	for key, item in template.items():
 		if isinstance(item, Node):
-			if item.classname == "Form":			
-				a_display.setProperties(item.attrs)
+			if item.classname == "Form":
+				for key, val in item.properties["attrs"].items():
+					a_display.setProperty(key, val)
 				a_display.updateProperties(data)
 			else:
 				data.update({
