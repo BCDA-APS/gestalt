@@ -186,8 +186,10 @@ class GroupNode(Node):
 		else:
 			child_node["geometry"]["y"] = int(child_geom["y"]) + int(margins["y"])
 		
-		right_edge  = int(child_geom["x"]) + int(child_geom["width"]) + int(margins["width"])
-		bottom_edge = int(child_geom["y"]) + int(child_geom["height"]) + int(margins["height"])
+			
+		# Don't use child_geom for x/y as the value may have updated
+		right_edge  = int(child_node["geometry"]["x"]) + int(child_geom["width"]) + int(margins["width"])
+		bottom_edge = int(child_node["geometry"]["y"]) + int(child_geom["height"]) + int(margins["height"])
 		
 		if right_edge > int(my_geom["width"]):
 			self["geometry"]["width"] = right_edge
