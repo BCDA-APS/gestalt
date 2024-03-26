@@ -2,6 +2,8 @@ import os
 import re
 import yaml
 
+from yaml.constructor import ConstructorError
+
 import pprint
 
 from gestalt.Node import *
@@ -85,7 +87,7 @@ def read_special_node(node_type, loader, node, **kwargs):
 	
 	try:
 		params = loader.construct_mapping(node, deep=True)
-	except:
+	except ConstructorError:
 		pass
 
 	return node_type(layout=params, **kwargs)
