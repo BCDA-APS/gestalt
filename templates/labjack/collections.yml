@@ -36,12 +36,14 @@ DIO_Item: &DIO_Slot
                 - !ChoiceButton
                     <<: *editable
                     geometry: 0x30 x 50x35
+                    horizontal: False
                     
                     pv: "$(P)Bo{N}"
                     
                 - !ChoiceButton
                     <<: *editable
                     geometry: 0x70 x 50x35
+                    horizontal: False
                     
                     pv: "$(P)Bd{N}"
                 
