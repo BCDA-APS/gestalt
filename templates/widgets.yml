@@ -123,6 +123,7 @@ _LabeledReadback: !Template:LabeledReadback
     - !Defaults 
         spacing: 15
         fontname: "Cantarell"
+        highlight: *transparent
         
     - !hflow
         padding: "{spacing}"
@@ -134,7 +135,8 @@ _LabeledReadback: !Template:LabeledReadback
                 text: "{label}"
                 
             - !TextMonitor
-                <<: *colored_label
+                foreground: *header_blue
+                background: "{highlight}"
                 geometry: "0x1 x {read-width}x18"
                 font: "-{fontname} -Regular -10"
                 pv: "{read-pv}"
