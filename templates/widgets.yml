@@ -164,6 +164,7 @@ _LabeledButton: !Template:LabeledButton
     - !Defaults 
         spacing: 15
         fontname: "Cantarell"
+        write-value: 1
     
     - !hflow
         padding: "{spacing}"
