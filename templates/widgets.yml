@@ -36,14 +36,14 @@ _UITitle: !Template:ScreenHeader
         border-width: 3
                 
         text: "{TITLE}"
-        font: -Cantarell - Bold - 16
+        font: -Liberation Sans - Bold - 16
         alignment: Center
 
 
 _LabelMenuReadback: !Template:MenuWithReadback
     - !Defaults 
         spacing: 15
-        fontname: "Cantarell"
+        fontname: "Liberation Sans"
     
     - !hflow
         padding: "{spacing}"
@@ -69,7 +69,7 @@ _LabelMenuReadback: !Template:MenuWithReadback
 _LabelEntryReadback: !Template:EntryWithReadback
     - !Defaults 
         spacing: 15
-        fontname: "Cantarell"
+        fontname: "Liberation Sans"
     
 
     - !hflow
@@ -96,7 +96,7 @@ _LabelEntryReadback: !Template:EntryWithReadback
 _OnOffText: !Template:OnOffText
     - !Defaults 
         spacing: 15
-        fontname: "Cantarell"
+        fontname: "Liberation Sans"
         on-color: *alarm_green
         off-color: *alarm_red
     
@@ -122,7 +122,7 @@ _OnOffText: !Template:OnOffText
 _LabeledReadback: !Template:LabeledReadback
     - !Defaults 
         spacing: 15
-        fontname: "Cantarell"
+        fontname: "Liberation Sans"
         highlight: *transparent
         
     - !hflow
@@ -145,7 +145,7 @@ _LabeledReadback: !Template:LabeledReadback
 _LabeledMenu: !Template:LabeledMenu
     - !Defaults 
         spacing: 15
-        fontname: "Cantarell"
+        fontname: "Liberation Sans"
     
     - !hflow
         padding: "{spacing}"
@@ -165,7 +165,7 @@ _LabeledMenu: !Template:LabeledMenu
 _LabeledButton: !Template:LabeledButton
     - !Defaults 
         spacing: 15
-        fontname: "Cantarell"
+        fontname: "Liberation Sans"
         write-value: 1
     
     - !hflow
