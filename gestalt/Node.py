@@ -528,13 +528,12 @@ class RelatedDisplayNode(Node):
 			
 class MessageButtonNode(Node):
 	def __init__(self, name=None, layout={}):
-		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout)
-	
+		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout)		
 		self.setDefault(String, "text",  "")
 		self.setDefault(String, "pv",    "")
 		self.setDefault(String, "value", "")
-		self.setDefault(String, "foreground", "$000000")
-		self.setDefault(String, "background", "$57CAE4")
+		self.setDefault(Color,  "foreground", "$000000")
+		self.setDefault(Color,  "background", "$57CAE4")
 	
 
 class TextNode(Node):
