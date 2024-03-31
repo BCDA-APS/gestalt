@@ -513,6 +513,8 @@ class RelatedDisplayNode(Node):
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
 		
 		self.setDefault(String, "text", "")
+		self.setDefault(String, "foreground", "$000000")
+		self.setDefault(String, "background", "$57CAE4")
 	
 		if isinstance(self.links, dict):
 			temp = []
@@ -531,6 +533,8 @@ class MessageButtonNode(Node):
 		self.setDefault(String, "text",  "")
 		self.setDefault(String, "pv",    "")
 		self.setDefault(String, "value", "")
+		self.setDefault(String, "foreground", "$000000")
+		self.setDefault(String, "background", "$57CAE4")
 	
 
 class TextNode(Node):
@@ -548,15 +552,18 @@ class TextEntryNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
 	
-		self.setDefault(String,    "pv",        "")
-		self.setDefault(Font,      "font",      "-Liberation Sans - Regular - 12")
-		self.setDefault(Alignment, "alignment", "CenterLeft")
+		self.setDefault(String,    "pv",         "")
+		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
+		self.setDefault(Alignment, "alignment",  "CenterLeft")
+		self.setDefault(Color,     "background", "$57CAE4")
+		self.setDefault(Color,     "foreground", "$000000")
 
 class TextMonitorNode(Node):
 	def __init__(self, name=None, layout={}):
 		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
 	
 		self.setDefault(String,    "pv",           "")
+		self.setDefault(Color,     "foreground",   "$000000")
 		self.setDefault(Color,     "background",   "$00000000")
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
