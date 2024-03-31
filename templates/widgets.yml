@@ -41,6 +41,10 @@ _UITitle: !Template:ScreenHeader
 
 
 _LabelMenuReadback: !Template:MenuWithReadback
+    - !Defaults 
+        spacing: 15
+        fontname: "Cantarell"
+    
     - !hflow
         padding: "{spacing}"
         children:
@@ -63,6 +67,11 @@ _LabelMenuReadback: !Template:MenuWithReadback
 
                 
 _LabelEntryReadback: !Template:EntryWithReadback
+    - !Defaults 
+        spacing: 15
+        fontname: "Cantarell"
+    
+
     - !hflow
         padding: "{spacing}"
         children:
@@ -85,6 +94,12 @@ _LabelEntryReadback: !Template:EntryWithReadback
 
                 
 _OnOffText: !Template:OnOffText
+    - !Defaults 
+        spacing: 15
+        fontname: "Cantarell"
+        on-color: *alarm_green
+        off-color: *alarm_red
+    
     - !Group   
         children:
             - !Text
@@ -105,6 +120,10 @@ _OnOffText: !Template:OnOffText
 
                 
 _LabeledReadback: !Template:LabeledReadback
+    - !Defaults 
+        spacing: 15
+        fontname: "Cantarell"
+        
     - !hflow
         padding: "{spacing}"
         children:
@@ -122,6 +141,10 @@ _LabeledReadback: !Template:LabeledReadback
                 
                 
 _LabeledMenu: !Template:LabeledMenu
+    - !Defaults 
+        spacing: 15
+        fontname: "Cantarell"
+    
     - !hflow
         padding: "{spacing}"
         children:
@@ -138,6 +161,10 @@ _LabeledMenu: !Template:LabeledMenu
 
                 
 _LabeledButton: !Template:LabeledButton
+    - !Defaults 
+        spacing: 15
+        fontname: "Cantarell"
+    
     - !hflow
         padding: "{spacing}"
         children:
