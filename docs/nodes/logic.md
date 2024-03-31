@@ -27,16 +27,22 @@ So, when defining a template that you wish to refer to as "io_label", you would 
 "!Template:io_label". Then, when including those templated nodes into a different part of your
 yaml file, you would use "!Apply:io_label".
 
-A Template definition is a list with (currently) only a single Node within. While an Apply
-definition is a dictionary with a set of macros you wish to provide the Template.
+A Template definition is a list with a single Node and an optional set of defaults for the macros used
+within the Template. Defaults are just a dictionary of names and values, but can be tagged with the do-nothing 
+tag "!Defaults" to make the intention clear. 
+
+For the Apply node, its definition is a dictionary with a set of macros you wish to provide the Template.
 
 * **Example**
 
 ```yaml
 
 LblRbkTemplate: !Template:lbl_rbk
+    - !Defaults
+        spacing: 10
+        
     - !hflow
-        padding: 10
+        padding: "{spacing}"
         
         children:
             - !Text { geometry: 150x20, text: "{TITLE}" }
