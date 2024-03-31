@@ -92,15 +92,24 @@ def read_special_node(node_type, loader, node, **kwargs):
 
 	return node_type(layout=params, **kwargs)
 
+	
+def read_default_node(loader, node):
+	return loader.construct_mapping(node, deep=True)
+	
 
 def read_template_multi(loader, suffix, node):
-	try: 
-		params = loader.construct_mapping(node, deep=True)
-		my_templates[suffix] = next(iter(params.values()))
-	except:
-		params = loader.construct_sequence(node, deep=True)
-		my_templates[suffix] = next(iter(params))
+	params = loader.construct_sequence(node, deep=True)
+	defaults = {}
+	template_node = None
 	
+	for item in params:
+		if isinstance(item, dict):
+			defaults.update(item)
+		elif isinstance(item, Node):
+			template_node = item
+			
+	my_templates[suffix] = (template_node, defaults)
+		
 	return None
 		
 def read_apply_multi(loader, suffix, node):
@@ -114,7 +123,9 @@ def read_apply_multi(loader, suffix, node):
 	if suffix not in my_templates:
 		raise ValueError("Could not find template with name: " + suffix.lstrip(":"))
 		
-	return ApplyNode(macros=macros, subnode=my_templates.get(suffix, None))
+	template_node, defaults = my_templates.get(suffix)
+		
+	return ApplyNode(defaults=defaults, macros=macros, subnode=template_node)
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
 	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
@@ -173,6 +184,7 @@ add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
 add_multi_constructors("template", read_template_multi)
 add_multi_constructors("apply",   read_apply_multi)
+add_constructors("defaults", read_default_node)
 
 add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))
 	
@@ -191,7 +203,6 @@ add_multi_constructors("hstretch:", (lambda l, s, n: read_stretch_multi(l, s, n,
 add_constructors("stretch",  (lambda l, n: read_stretch_node(l, n, flow="vertical")))
 add_constructors("vstretch", (lambda l, n: read_stretch_node(l, n, flow="vertical")))
 add_constructors("hstretch", (lambda l, n: read_stretch_node(l, n, flow="horizontal")))
-
 
 add_multi_constructors("center:",  (lambda l, s, n: read_center_multi(l, s, n, flow="vertical")))
 add_multi_constructors("vcenter:", (lambda l, s, n: read_center_multi(l, s, n, flow="vertical")))

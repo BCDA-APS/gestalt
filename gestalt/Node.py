@@ -419,14 +419,39 @@ class ConditionalNode(GroupNode):
 		
 		
 class ApplyNode(Node):
-	def __init__(self, layout={}, macros={}, subnode=None):
+	def __init__(self, layout={}, defaults={}, macros={}, subnode=None):
 		super(ApplyNode, self).__init__("Apply", layout=layout)
 		
+		self.defaults = defaults
 		self.macros = macros
 		self.subnode = subnode
 		
 	def apply(self, generator, data={}):
-		child_macros = copy.deepcopy(data)
+		child_macros = {}
+		
+		for key, val in self.defaults.items():
+			
+			to_assign = None
+			
+			if isinstance(val, bool):
+				to_assign = Bool(val)
+			elif isinstance(val, int):
+				to_assign = Number(val)
+			elif isinstance(val, float):
+				to_assign = Double(val)
+			elif isinstance(val, str):
+				to_assign = String(val)
+			else:
+				to_assign = val
+			
+			if isinstance(to_assign, DataType):
+				to_assign.apply(child_macros)
+				
+			child_macros.update({key : to_assign})
+		
+			
+		child_macros.update(copy.deepcopy(data))
+		
 		
 		for key, val in self.macros.items():
 			
@@ -447,6 +472,7 @@ class ApplyNode(Node):
 				to_assign.apply(child_macros)
 				
 			child_macros.update({key : to_assign})
+		
 				
 		return self.subnode.apply(generator, data=child_macros)
 
