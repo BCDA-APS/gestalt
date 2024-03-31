@@ -33,14 +33,14 @@ parser.add_argument("-f", "-r", "--from", "--read",
 File parser that should be used for the input data file.
 
 Recognized values are ['yml', 'yaml', 'string', 'str',
-"json", "JSON", "substitutions", "msi"] 
-(Default: 'yml')
+"json", "JSON", "substitutions", "msi", "auto"] 
+(Default: 'auto')
 
 
 """, 
 	type=str,
-	default="yml", 
-	choices=["yml", "yaml", "string", "str", "JSON", "json", "substitutions", "msi"])
+	default="auto", 
+	choices=["yml", "yaml", "string", "str", "JSON", "json", "substitutions", "msi", "auto"])
 		
 parser.add_argument("-t", "-w", "--to", "--write", 
 	metavar="FORMAT",
@@ -50,14 +50,14 @@ parser.add_argument("-t", "-w", "--to", "--write",
 File type conversion that should be used for the output 
 UI file. 
 
-Recognized values are ['qt', 'css', 'ui', 'bob']
-(Default: 'qt')
+Recognized values are ['qt', 'css', 'ui', 'bob', "auto"]
+(Default: 'auto')
 
 
 """, 
 	type=str,
-	default="qt", 
-	choices=["qt", "bob", "ui", "css"])
+	default="auto", 
+	choices=["qt", "bob", "ui", "css", "auto"])
 			
 parser.add_argument("-o", "--output",
 	metavar="FILE",
@@ -113,21 +113,35 @@ def doGenerate(args):
 	data = {}	
 	
 	if args.in_filename:
-		if args.in_format == "string" or args.in_format == "str":
+		parse_format = args.in_format
+	
+		if args.in_format == "auto":
+			parse_format = pathlib.PurePath(args.in_filename).suffix.lstrip('.')
+
+		if parse_format == "string" or parse_format == "str":
 			data = Datasheet.parseYAMLString(args.in_filename)
-		elif args.in_format == "yaml" or args.in_format == "yml":
+		elif parse_format == "yaml" or parse_format == "yml":
 			data = Datasheet.parseYAMLFile(args.in_filename)
-		elif args.in_format == "json" or args.in_format == "JSON":
+		elif parse_format == "json" or parse_format == "JSON":
 			data = Datasheet.parseJSONFile(args.in_filename)
-		elif args.in_format == "msi" or args.in_format == "substitutions":
+		elif parse_format == "msi" or parse_format == "substitutions":
 			data = Datasheet.parseSubstitutionFile(args.in_filename)
+		else:
+			print("Unknown file extension: ", parse_format)
 	
 	styles = Stylesheet.parse(args.template, include_dirs)
 	
-	if args.out_format == "qt" or args.out_format == "ui":
+	write_format = args.out_format
+	
+	if args.out_format == "auto":
+		write_format = pathlib.PurePath(args.out_filename).suffix.lstrip('.')
+	
+	if write_format == "qt" or write_format == "ui":
 		generateQtFile(styles, data, outputfile=args.out_filename)
-	elif args.out_format == "css" or args.out_format == "bob":
+	elif write_format == "css" or write_format == "bob":
 		generateCSSFile(styles, data, outputfile=args.out_filename)
+	else:
+		print("Unknown file extension: ", write_format)
 
 
 class UI(QMainWindow):
