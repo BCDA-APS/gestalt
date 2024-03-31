@@ -142,6 +142,28 @@ _LabeledReadback: !Template:LabeledReadback
                 pv: "{read-pv}"
                 
                 
+_LabeledEntry: !Template:LabeledEntry
+    - !Defaults 
+        spacing: 15
+        fontname: "Liberation Sans"
+        
+    - !hflow
+        padding: "{spacing}"
+        children:
+            - !Text
+                geometry: "{text-width}x20"
+                font: "-{fontname} -Regular -11"
+                alignment: CenterRight
+                text: "{label}"
+                
+            - !TextEntry
+                <<: *editable
+                geometry: "{write-width}x20"
+                font: "-{fontname} -Regular -10"
+                pv: "{write-pv}"                
+                
+                
+                
 _LabeledMenu: !Template:LabeledMenu
     - !Defaults 
         spacing: 15

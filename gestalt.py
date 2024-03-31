@@ -128,17 +128,28 @@ def doGenerate(args):
 			data = Datasheet.parseSubstitutionFile(args.in_filename)
 		else:
 			print("Unknown file extension: ", parse_format)
+			return
 	
 	styles = Stylesheet.parse(args.template, include_dirs)
 	
-	write_format = args.out_format
-	
 	if args.out_format == "auto":
-		write_format = pathlib.PurePath(args.out_filename).suffix.lstrip('.')
+		if not args.out_filename:
+			print("Must specify either output file type or output file name")
+			return
 	
-	if write_format == "qt" or write_format == "ui":
+		args.out_format = pathlib.PurePath(args.out_filename).suffix.lstrip('.')
+		
+	if args.out_format == "qt":
+		args.out_format = "ui"
+	elif args.out_format == "css":
+		args.out_format = "bob"
+	
+	if not args.out_filename:
+		args.out_filename = pathlib.PurePath(args.template).stem + "." + args.out_format
+	
+	if args.out_format == "ui":
 		generateQtFile(styles, data, outputfile=args.out_filename)
-	elif write_format == "css" or write_format == "bob":
+	elif args.out_format == "bob":
 		generateCSSFile(styles, data, outputfile=args.out_filename)
 	else:
 		print("Unknown file extension: ", write_format)
