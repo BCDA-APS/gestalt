@@ -9,8 +9,8 @@ class DataType(object):
 		self.macros = []
 		self.updates = {}
 
-	def apply(self, macros):		
-		self.macros.append(copy.deepcopy(macros))
+	def apply(self, macros):
+		self.macros.append(macros.copy())
 				
 	def val(self):
 		output = copy.deepcopy(self.value)
@@ -230,7 +230,7 @@ class Color(DataType):
 		
 	def __str__(self):
 		input = self.val()
-		output = "${red:2X}{green:2X}{blue:2X}{alpha:2X}"
+		output = "${red:02X}{green:02X}{blue:02X}{alpha:02X}"
 		
 		try:
 			return output.format(**input)

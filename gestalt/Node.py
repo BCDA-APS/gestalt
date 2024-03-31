@@ -428,9 +428,13 @@ class ApplyNode(Node):
 		
 	def apply(self, generator, data={}):
 		child_macros = {}
+		macro_list = {}
 		
-		for key, val in self.defaults.items():
-			
+		macro_list.update(self.defaults)
+		macro_list.update(data)
+		macro_list.update(self.macros)
+		
+		for key, val in macro_list.items():			
 			to_assign = None
 			
 			if isinstance(val, bool):
@@ -445,31 +449,7 @@ class ApplyNode(Node):
 				to_assign = val
 			
 			if isinstance(to_assign, DataType):
-				to_assign.apply(child_macros)
-				
-			child_macros.update({key : to_assign})
-		
-			
-		child_macros.update(copy.deepcopy(data))
-		
-		
-		for key, val in self.macros.items():
-			
-			to_assign = None
-			
-			if isinstance(val, bool):
-				to_assign = Bool(val)
-			elif isinstance(val, int):
-				to_assign = Number(val)
-			elif isinstance(val, float):
-				to_assign = Double(val)
-			elif isinstance(val, str):
-				to_assign = String(val)
-			else:
-				to_assign = val
-			
-			if isinstance(to_assign, DataType):
-				to_assign.apply(child_macros)
+				to_assign.apply(data)
 				
 			child_macros.update({key : to_assign})
 		
@@ -519,9 +499,9 @@ class CenterNode(Node):
 		applied_node = self.subnode.apply(generator, data=data)
 			
 		if self.flow == "vertical":
-			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(data["__parentheight__"] / 2) - int(applied_node["geometry"]["height"] / 2))
+			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 		elif self.flow == "horizontal":
-			applied_node.position(int(data["__parentwidth__"] / 2) - int(applied_node["geometry"]["width"] / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
+			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
 					
 		return applied_node	
 
@@ -577,6 +557,7 @@ class TextMonitorNode(Node):
 		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
 	
 		self.setDefault(String,    "pv",           "")
+		self.setDefault(Color,     "background",   "$00000000")
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
