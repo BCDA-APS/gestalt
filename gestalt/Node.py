@@ -513,8 +513,8 @@ class RelatedDisplayNode(Node):
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
 		
 		self.setDefault(String, "text", "")
-		self.setDefault(String, "foreground", "$000000")
-		self.setDefault(String, "background", "$57CAE4")
+		self.setDefault(Color, "foreground", "$000000")
+		self.setDefault(Color, "background", "$57CAE4")
 	
 		if isinstance(self.links, dict):
 			temp = []
