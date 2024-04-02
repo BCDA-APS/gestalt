@@ -1,3 +1,5 @@
+import pathlib
+
 from gestalt.Node import *
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
@@ -33,6 +35,8 @@ class QtGenerator(GestaltGenerator):
 
 			a_file = String(item.get("file", ""))
 			a_file.apply(macros)
+			a_file = str(a_file).removesuffix( pathlib.PurePath(str(a_file)).suffix ) + ".ui"
+
 			
 			a_macro = String(item.get("macros", ""))
 			a_macro.apply(macros)

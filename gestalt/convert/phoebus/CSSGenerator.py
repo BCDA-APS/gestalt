@@ -1,3 +1,5 @@
+import pathlib
+
 from gestalt.Node import *
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
@@ -36,6 +38,8 @@ class CSSGenerator(GestaltGenerator):
 			_file = String(item.get("file", ""))
 			_file.apply(macros)
 			_file = _file.val()
+			_file = str(_file).removesuffix( pathlib.PurePath(str(_file)).suffix ) + ".bob"
+			
 			
 			_desc = String(item.get("label", ""))
 			_desc.apply(macros)
