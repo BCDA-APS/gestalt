@@ -44,6 +44,7 @@ Recognized values for file parser are:
 * **substitutions**, **msi** - Input file is an EPICS substitutions file. Individual substitution
 lines are converted to dictionaries with keys based upon the specified pattern. Substitutions are
 arranged into lists, which are linked with the name of the database file being substituted.
+* **ini**, **cfg** - Input file is an INI-style file.
 * **string**, *str** - Instead of an input file, read the input string as a yaml string.
 
 
