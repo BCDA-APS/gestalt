@@ -2,6 +2,7 @@ import re
 import yaml
 import json
 import csv
+import configparser
 
 
 def rows(filename):
@@ -75,4 +76,9 @@ def parseSubstitutionFile(filename):
 			elif check.startswith("}"):
 				load_values = False
 				
+	return output
+
+def parseINIFile(filename):
+	output = configparser.ConfigParser()
+	output.read(filename)
 	return output

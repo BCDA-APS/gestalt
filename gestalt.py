@@ -33,7 +33,7 @@ parser.add_argument("-f", "-r", "--from", "--read",
 File parser that should be used for the input data file.
 
 Recognized values are ['yml', 'yaml', 'string', 'str',
-"json", "JSON", "substitutions", "msi", "auto"] 
+"json", "JSON", "substitutions", "msi", "ini", "cfg", "auto"] 
 (Default: 'auto')
 
 
@@ -126,6 +126,8 @@ def doGenerate(args):
 			data = Datasheet.parseJSONFile(args.in_filename)
 		elif parse_format == "msi" or parse_format == "substitutions":
 			data = Datasheet.parseSubstitutionFile(args.in_filename)
+		elif parse_format == "ini" or parse_format == "cfg":
+			data = Datasheet.parseINIFile(args.in_filename)
 		else:
 			print("Unknown file extension: ", parse_format)
 			return
