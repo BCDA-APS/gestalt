@@ -5,7 +5,7 @@ parent: Nodes
 nav_order: 2
 ---
 
-# Layouts
+# Logic
 {: .no_toc}
 
 ## Table of contents
