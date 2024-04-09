@@ -1,11 +1,6 @@
 from gestalt.Type import *
 
-from gestalt.Node import GroupNode
-
 from gestalt.convert.phoebus.CSSWidget import CSSWidget
-
-from phoebusgen import widget
-from phoebusgen.widget import properties as _p
 
 class CSSGroup(CSSWidget):
 	def __init__(self, node=None, macros={}):
@@ -26,7 +21,9 @@ class CSSGroup(CSSWidget):
 		frame["line_width"] = Number(self.pop("border-width", 2))
 		frame["background"] = Color(self.pop("background", "$00000000"))
 		
-		frame.write(self.widget)
+		#frame.write(self.widget)
+		
+		self.children.insert(0, frame)
 			
 		super(CSSGroup, self).write(screen)
 		

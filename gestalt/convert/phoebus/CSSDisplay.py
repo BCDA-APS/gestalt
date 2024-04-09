@@ -1,5 +1,3 @@
-from lxml.etree import ElementTree, TreeBuilder
-
 from phoebusgen import screen
 
 from gestalt.Type import *

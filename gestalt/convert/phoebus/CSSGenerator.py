@@ -6,9 +6,10 @@ from gestalt.Generator import GestaltGenerator
 
 from phoebusgen import screen
 
-from gestalt.convert.phoebus.CSSWidget    import CSSWidget
-from gestalt.convert.phoebus.CSSGroup     import CSSGroup
-from gestalt.convert.phoebus.CSSDisplay   import CSSDisplay
+from gestalt.convert.phoebus.CSSWidget      import CSSWidget
+from gestalt.convert.phoebus.CSSGroup       import CSSGroup
+from gestalt.convert.phoebus.CSSDisplay     import CSSDisplay
+from gestalt.convert.phoebus.CSSTabbedGroup import CSSTabbedGroup
 
 
 class CSSGenerator(GestaltGenerator):
@@ -20,6 +21,9 @@ class CSSGenerator(GestaltGenerator):
 		
 	def generateAnonymousGroup(self, macros={}):
 		return CSSGroup()
+	
+	def generateTabbedGroup(self, original, macros={}):
+		return CSSTabbedGroup(node=original, macros=macros)
 		
 	def generateTextEntry(self, node, macros={}):
 		return CSSWidget("TextEntry", node=node, macros=macros)

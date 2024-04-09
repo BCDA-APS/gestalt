@@ -217,6 +217,39 @@ class GroupNode(Node):
 			
 		return output
 
+class TabbedGroupNode(GroupNode):
+	def __init__(self, name=None, layout={}):		
+		super(TabbedGroupNode, self).__init__("TabbedGroup", name=name, layout=layout)
+		
+		self.setDefault(Color,  "foreground",     "$000000")
+		self.setDefault(Color,  "background",     "$00000000")
+		self.setDefault(Color,  "tab-color",      "$D2D2D2")
+		self.setDefault(Color,  "selected",       "$A8A8A8")
+		self.setDefault(Color,  "border-color",   "$00000000")
+		self.setDefault(Number, "border-width",   2)
+		self.setDefault(Number, "padding",        5)
+		self.setDefault(Number, "inset",          0)
+		self.setDefault(Number, "offset",         0)
+		self.setDefault(Font,   "font",           "-Liberation Sans - Regular - 12")
+		
+	def apply(self, generator, data={}):
+		output = generator.generateTabbedGroup(self, macros=data)
+		
+		for childnode in self.children:
+			child_macros = copy.deepcopy(data)
+			
+			geom = output["geometry"].val()
+			
+			child_macros.update({
+				"__parentx__" : int(geom["x"]),
+				"__parenty__" : int(geom["y"]),
+				"__parentwidth__" : int(geom["width"]),
+				"__parentheight__" : int(geom["height"])})
+				
+			output.place(childnode.apply(generator, data=child_macros))
+			
+		return output
+		
 		
 class GridNode(GroupNode):
 	def __init__(self, name=None, layout={}):
@@ -703,4 +736,5 @@ class PolylineNode(Node):
 		
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		
 		

@@ -154,6 +154,13 @@ def read_center_node(loader, node, flow="vertical"):
 		params = loader.construct_sequence(node, deep=True)
 		return CenterNode(flow=flow, subnode=next(iter(params)))
 
+def read_tab_node(loader, node):
+	try:
+		params = loader.construct_sequence(node, deep=True)
+		return GroupNode("TabNode", layout={"children" : params})
+	except:
+		return None
+		
 
 recognized_types = (
 	'caLabel', 'caLineEdit', 'caTextEntry', 'caMenu', 'caRelatedDisplay',
@@ -170,7 +177,7 @@ recognized_types = (
 	"DataBrowser", "EmbeddedDisplay", "FileSelector", "Label",
 	"LEDMultiState", "NavigationTabs", "Picture", "ProgressBar", 
 	"RadioButton", "ScaledSlider", "Scrollbar", "SlideButton", "Spinner", 
-	"StripChart", "Symbol", "Table", "Tabs", "Tank", "TextSymbol", 
+	"StripChart", "Symbol", "Tabs", "Table", "Tank", "TextSymbol", 
 	"TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", "XYPlot"
 )
 
@@ -211,7 +218,10 @@ add_multi_constructors("hcenter:", (lambda l, s, n: read_center_multi(l, s, n, f
 add_constructors("center",  (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("vcenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("hcenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
-	
+
+add_constructors("TabbedGroup",    (lambda l, n: read_special_node(TabbedGroupNode, l, n)))
+add_constructors("Tab",            (lambda l, n: read_tab_node(l, n)))
+
 add_constructors("ShellCommand",   (lambda l, n: read_special_node(ShellCommandNode, l, n)))
 add_constructors("RelatedDisplay", (lambda l, n: read_special_node(RelatedDisplayNode, l, n)))
 add_constructors("MessageButton",  (lambda l, n: read_special_node(MessageButtonNode, l, n)))
@@ -230,7 +240,8 @@ add_constructors("Polygon",        (lambda l, n: read_special_node(PolygonNode, 
 add_constructors("PolyLine",       (lambda l, n: read_special_node(PolylineNode, l, n)))
 add_constructors("Slider",         (lambda l, n: read_special_node(SliderNode, l, n)))
 add_constructors("Scale",          (lambda l, n: read_special_node(ScaleNode, l, n)))
-	
+
+
 #####################
 #   Include Files   #
 #####################

@@ -7,6 +7,7 @@ from gestalt.Generator import GestaltGenerator
 from gestalt.convert.qt.QtWidget import QtWidget
 from gestalt.convert.qt.QtGroup  import QtGroup
 from gestalt.convert.qt.QtDisplay import QtDisplay
+from gestalt.convert.qt.QtTabbedGroup import QtTabbedGroup
 
 
 class QtGenerator(GestaltGenerator):
@@ -18,6 +19,9 @@ class QtGenerator(GestaltGenerator):
 	
 	def generateAnonymousGroup(self, macros={}):
 		return QtGroup()
+		
+	def generateTabbedGroup(self, original, macros={}):
+		return QtTabbedGroup(node=original, macros=macros)
 		
 	def generateRelatedDisplay(self, node, macros={}):
 		output = QtWidget("caRelatedDisplay", node=node, macros=macros)
@@ -317,8 +321,9 @@ class QtGenerator(GestaltGenerator):
 			output["direction"] = Enum("Up")
 					
 		return output
-		
 
+			
+	
 def generateQtFile(template, data, outputfile=""):
 	a_display = QtDisplay()
 	the_generator = QtGenerator()

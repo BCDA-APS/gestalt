@@ -49,9 +49,13 @@ class QtWidget(GroupNode):
 			
 	def write(self, tree):			
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
+		
+		for key, item in self.properties["attrs"].items():
 			
-		for key, item in self.properties["attrs"].items():			
-			tree.start("property", {"name" : key})
+			if key == "title":
+				tree.start("attribute", {"name" : key})
+			else:
+				tree.start("property", {"name" : key})
 				
 			if isinstance(item, Color):
 				tree.start("color", {"alpha" : str(item.val()["alpha"])})
@@ -112,7 +116,10 @@ class QtWidget(GroupNode):
 					
 				tree.end(item.typ)
 				
-			tree.end("property")
+			if key == "title":
+				tree.end("attribute")
+			else:
+				tree.end("property")
 						
 		for child in self.children:
 			child.write(tree)

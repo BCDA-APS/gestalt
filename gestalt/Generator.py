@@ -61,3 +61,6 @@ class GestaltGenerator:
 
 	def generateShellCommand(self, node, macros={}):
 		pass
+
+	def generateTabbedGroup(self, node, macros={}):
+		pass
