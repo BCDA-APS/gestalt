@@ -15,7 +15,7 @@ nav_order: 3
 {:toc}
 
 
-### hflow
+### HFlow
 
 ---
 
@@ -62,7 +62,7 @@ CIO_Title: !hflow
             pv: "$(P)MIOIn"
 ```
 
-### vflow
+### VFlow
 
 ---
 
@@ -114,7 +114,7 @@ NumberedLED: !flow
 ```
 
 
-### hrepeat
+### HRepeat
 
 ---
 
@@ -177,7 +177,7 @@ UI_Row: !hrepeat
 ```
 
 
-### vrepeat
+### VRepeat
 
 ---
 
@@ -246,7 +246,7 @@ UIRow: !repeat
 
 
 
-### grid
+### Grid
 
 ---
 
