@@ -91,12 +91,12 @@ class QtWidget(GroupNode):
 					tree.end("pointsize")
 					
 				if item["style"]:					
-					if "bold" in item["style"]:
+					if "bold" in item["style"].lower():
 						tree.start("bold", {})
 						tree.data("true")
 						tree.end("bold")
 						
-					if "italic" in item["style"]:
+					if "italic" in item["style"].lower():
 						tree.start("italic", {})
 						tree.data("true")
 						tree.end("italic")
