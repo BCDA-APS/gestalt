@@ -510,15 +510,17 @@ class StretchNode(Node):
 		self.flow = flow
 		
 	def apply (self, generator, data={}):
-		self.subnode["geometry"]["x"] = self.subnode["geometry"]["x"] + self["geometry"]["x"]
-		self.subnode["geometry"]["y"] = self.subnode["geometry"]["y"] + self["geometry"]["y"]
+		applied_node = self.subnode.apply(generator, data=data)
+		
+		applied_node["geometry"]["x"] = applied_node["geometry"]["x"] + self["geometry"]["x"]
+		applied_node["geometry"]["y"] = applied_node["geometry"]["y"] + self["geometry"]["y"]
 		
 		if self.flow == "vertical":
-			self.subnode["geometry"]["height"] = data["__parentheight__"]
+			applied_node["geometry"]["height"] = data["__parentheight__"]
 		elif self.flow == "horizontal":
-			self.subnode["geometry"]["width"] = data["__parentwidth__"]
+			applied_node["geometry"]["width"] = data["__parentwidth__"]
 		
-		return self.subnode.apply(generator, data=data)
+		return applied_node
 
 		
 class CenterNode(Node):
