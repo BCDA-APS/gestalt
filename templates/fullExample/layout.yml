@@ -95,6 +95,21 @@ LED_Grid: !Grid
         - !LED
             <<: *alarm_led
             geometry: 20x20
+
+            
+Options: !TabbedGroup
+    geometry: 300x300 x 200x100
     
+    border-color: *header_blue
+    offset: 5
+
+    children:
+        Motor: !Tab 
+            - !Label { geometry: 10x10, text: "A" }
+            
+        Other: !Tab
+            - !Label { geometry: 10x10, text: "B" }
+            
+            
     
-Header: !Apply:ScreenHeader { TITLE: "EXAMPLE" }
+Header: !Apply:ScreenHeader { title: "EXAMPLE" }
