@@ -528,7 +528,7 @@ class StretchNode(Node):
 		
 		if self.flow == "vertical" or self.flow == "all":
 			applied_node["geometry"]["height"] = data["__parentheight__"]
-		elif self.flow == "horizontal" or self.flow=="all":
+		if self.flow == "horizontal" or self.flow=="all":
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
 			
 		return applied_node
