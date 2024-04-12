@@ -251,6 +251,9 @@ class TabbedGroupNode(GroupNode):
 		
 		border_size = int(output["border-width"])
 		
+		if output["border-color"]["alpha"] == 0:
+			border_size = 0
+		
 		for childnode in self.children:
 			child_macros = copy.deepcopy(data)
 			
