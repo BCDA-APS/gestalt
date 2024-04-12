@@ -262,7 +262,7 @@ class TabbedGroupNode(GroupNode):
 			childnode["geometry"]["width"] = int(geom["width"]) - 2 * border_size
 			childnode["geometry"]["height"] = int(geom["height"]) - tab_bar_height - 2 * border_size
 			
-			output.place(childnode.apply(generator, data=child_macros), x=0, y=0)
+			output.place(childnode.apply(generator, data=child_macros))
 			
 		return output
 		

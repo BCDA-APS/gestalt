@@ -17,18 +17,18 @@ class CSSTabbedGroup(CSSWidget):
 		self.widget.transparent(True)
 		self.widget.no_style()
 		
-		self.font = self.pop("font")
-		self.font_color = self.pop("foreground")
-		self.tab_color = self.pop("tab-color")
+		self.font = self["font"]
+		self.font_color = self["foreground"]
+		self.tab_color = self["tab-color"]
 		
-		self.tab_offset = int(self.pop("inset"))
-		self.tab_padding = int(self.pop("padding"))
-		self.content_offset = int(self.pop("offset"))
+		self.tab_offset = int(self["inset"])
+		self.tab_padding = int(self["padding"])
+		self.content_offset = int(self["offset"])
 		
-		self.border_width = self.pop("border-width")
-		self.border_color = self.pop("border-color")
-		self.select_color = self.pop("selected")
-		self.background = self.pop("background")
+		self.border_width = self["border-width"]
+		self.border_color = self["border-color"]
+		self.select_color = self["selected"]
+		self.background = self["background"]
 
 		self.pv_name = "loc://" + self.name + "<VLong>(0)"
 		
@@ -47,6 +47,20 @@ class CSSTabbedGroup(CSSWidget):
 		
 		tk_root.destroy()
 	
+	def write(self, screen):
+		self.pop("font")
+		self.pop("foreground")
+		self.pop("tab-color")
+		self.pop("inset")
+		self.pop("padding")
+		self.pop("offset")
+		self.pop("border-width")
+		self.pop("border-color")
+		self.pop("selected")
+		self.pop("background")
+		
+		super(CSSTabbedGroup, self).write(screen)
+		
 		
 	def place(self, child, x=None, y=None, keep_original=False):
 		the_font = self.font.val()
@@ -82,7 +96,7 @@ class CSSTabbedGroup(CSSWidget):
 		intermediary["background"] = self.background
 		intermediary.widget.rule("visibility", "visible", { self.pv_name : True }, {"pv0!=" + str(self.index) : False})
 		
-		intermediary.place(child, x, y, keep_original)
+		intermediary.place(child, x=self.border_width, y=self.border_width, keep_original=keep_original)
 		
 		self.append(next_tab)
 		self.append(intermediary)
