@@ -6,6 +6,9 @@ import string
 from gestalt.Datasheet import *
 from gestalt.Type import *
 
+import tkinter as tk
+import tkinter.font as tkfont
+
 
 class Node(object):
 	def __init__(self, classname, name=None, node=None, layout={}):
@@ -235,17 +238,25 @@ class TabbedGroupNode(GroupNode):
 	def apply(self, generator, data={}):
 		output = generator.generateTabbedGroup(self, macros=data)
 		
+		tk_root = tk.Tk()
+		tk_root.withdraw()
+		
+		the_font = output["font"]
+		
+		tk_font = tkfont.Font(family=the_font["family"], size=int(the_font["size"]))
+		
+		tab_bar_height = tk_font.metrics("linespace") + 4 + int(output["offset"])
+		
+		tk_root.destroy()
+		
 		for childnode in self.children:
 			child_macros = copy.deepcopy(data)
 			
 			geom = output["geometry"].val()
 			
-			child_macros.update({
-				"__parentx__" : int(geom["x"]),
-				"__parenty__" : int(geom["y"]),
-				"__parentwidth__" : int(geom["width"]),
-				"__parentheight__" : int(geom["height"])})
-				
+			childnode["geometry"]["width"] = int(geom["width"])
+			childnode["geometry"]["height"] = int(geom["height"]) - tab_bar_height
+			
 			output.place(childnode.apply(generator, data=child_macros))
 			
 		return output
@@ -519,7 +530,7 @@ class StretchNode(Node):
 			applied_node["geometry"]["height"] = data["__parentheight__"]
 		elif self.flow == "horizontal" or self.flow=="all":
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
-		
+			
 		return applied_node
 
 		

@@ -6,6 +6,7 @@ class QtTabbedGroup(QtWidget):
 	def __init__(self, node=None, macros={}):
 		super(QtTabbedGroup, self).__init__("QTabWidget", node=node, macros=macros)
 		
+	def write(self, tree):		
 		stylesheet = ""
 		
 		tab_offset = self.pop("inset")
@@ -109,6 +110,7 @@ QWidget[Fill="True"]
 		self["styleSheet"] = String(stylesheet)
 		self["currentIndex"] = Number(0)
 		
+		super(QtTabbedGroup, self).write(tree)
 		
 	def place(self, child, x=None, y=None, keep_original=False):
 		intermediary = QtWidget("QWidget", name=child.name + "_tab")
@@ -118,7 +120,7 @@ QWidget[Fill="True"]
 		
 		intermediary.place(child, x, y, keep_original)
 		self.append(intermediary)
-		
+
 		
 		
 		
