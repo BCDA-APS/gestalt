@@ -28,7 +28,36 @@ to '!hcenter:Text'.
 
 
 
-### hcenter
+### ACenter
+
+---
+
+Positions a widget so that the midpoint of the widget matches up with the midpoint of the
+widget's parent. Note that, a parent's size is determined at the point when a widget is 
+defined. Any widgets defined afterward may affect the final size of the parent.
+
+* **Example**
+
+```yaml
+MidPointGroup: !acenter:group    
+    children:
+        - !TextMontor
+            geometry: 0x0 x 50x20
+            foreground: *alarm_yellow
+            background: *transparent
+            alignment: CenterRight
+            pv: "S:SRcurrentAI"
+            
+        - !Text
+            geometry: 55x0 x 25x20
+            foreground: *alarm_yellow
+            alignment: CenterLeft
+            text: "mA"
+```
+
+
+
+### HCenter
 
 ---
 
@@ -59,7 +88,7 @@ OPSElements: !hcenter:group
 ```
 
 
-### vcenter
+### VCenter
 
 ---
 
@@ -93,7 +122,25 @@ OPSElements: !vcenter:group
 ```
 
 
-### hstretch
+### AStrech
+
+---
+
+Determines a widget's width and height to match up respectively with the widget's parent values.
+Note that, a parent's size is determined at the point when a widget is defined. Any
+widgets defined afterward may affect the final size of the parent.
+
+* **Example**
+
+```yaml
+Fill_Parent: !astretch:Text            
+    text: "Middle"
+    alignment: CenterLeft
+```
+
+
+
+### HStretch
 
 ---
 
@@ -114,7 +161,7 @@ UITitle: !hstretch:Text
 
 
 
-### vstretch
+### VStretch
 
 ---
 
