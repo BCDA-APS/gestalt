@@ -1,14 +1,13 @@
-import pathlib
-
 from gestalt.Node import *
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
 
-from gestalt.convert.qt.QtWidget import QtWidget
-from gestalt.convert.qt.QtGroup  import QtGroup
+from gestalt.convert.qt.QtWidget  import QtWidget
+from gestalt.convert.qt.QtGroup   import QtGroup
 from gestalt.convert.qt.QtDisplay import QtDisplay
-from gestalt.convert.qt.QtTabbedGroup import QtTabbedGroup
-
+from gestalt.convert.qt.QtTabbedGroup    import QtTabbedGroup
+from gestalt.convert.qt.QtRelatedDisplay import QtRelatedDisplay
+from gestalt.convert.qt.QtShellCommand   import QtShellCommand
 
 class QtGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
@@ -24,66 +23,10 @@ class QtGenerator(GestaltGenerator):
 		return QtTabbedGroup(node=original, macros=macros)
 		
 	def generateRelatedDisplay(self, node, macros={}):
-		output = QtWidget("caRelatedDisplay", node=node, macros=macros)
-		
-		output["label"] = String("-" + str(output.pop("text")))
-		
-		labels = ""
-		files = ""
-		args = ""
-		replace = ""
-		
-		for item in node.links:
-			a_label = String(item.get("label", ""))
-			a_label.apply(macros)
-
-			a_file = String(item.get("file", ""))
-			a_file.apply(macros)
-			a_file = str(a_file).removesuffix( pathlib.PurePath(str(a_file)).suffix ) + ".ui"
-
-			
-			a_macro = String(item.get("macros", ""))
-			a_macro.apply(macros)
-			
-			
-			labels += str(a_label) + ";"
-			files  += str(a_file) + ";"
-			args   += str(a_macro) + ";"
-			
-			if "replace" in item and item.replace:
-				replace += "true;"
-			else:
-				replace += "false;"
-
-		output["labels"] = String(labels.rstrip(";"))
-		output["files"]  = String(files.rstrip(";"))
-		output["args"]   = String(args.rstrip(";"))
-		output["removeParent"] = String(replace.rstrip(";"))
-		output["stackingMode"] = Enum("Menu")
-		
-		return output
-		
+		return QtRelatedDisplay(node=node, macros=macros)
 		
 	def generateShellCommand(self, node, macros={}):
-		output = QtWidget("caShellCommand", node=node, macros=macros)
-		
-		output["label"] = String("-" + str(output.pop("text")))
-		
-		labels = ""
-		commands = ""
-		args = ""
-		
-		for item in node.commands:
-			labels += str(item.get("label", "")) + ";"
-			commands  += str(item.get("command", "")) + ";"
-			args   += ";"
-			
-			
-		output["labels"] = String(labels.rstrip(";"))
-		output["files"]  = String(commands.rstrip(";"))
-		output["args"]   = String(args.rstrip(";"))
-		
-		return output
+		return QtShellCommand(node=node, macros=macros)
 		
 		
 	def generateMessageButton(self, node, macros={}):
