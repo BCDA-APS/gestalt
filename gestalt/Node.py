@@ -515,9 +515,9 @@ class StretchNode(Node):
 		applied_node["geometry"]["x"] = applied_node["geometry"]["x"] + self["geometry"]["x"]
 		applied_node["geometry"]["y"] = applied_node["geometry"]["y"] + self["geometry"]["y"]
 		
-		if self.flow == "vertical":
+		if self.flow == "vertical" or self.flow == "all":
 			applied_node["geometry"]["height"] = data["__parentheight__"]
-		elif self.flow == "horizontal":
+		elif self.flow == "horizontal" or self.flow=="all":
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
 		
 		return applied_node
@@ -537,6 +537,8 @@ class CenterNode(Node):
 			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 		elif self.flow == "horizontal":
 			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
+		elif self.flow == "all":
+			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 					
 		return applied_node	
 
