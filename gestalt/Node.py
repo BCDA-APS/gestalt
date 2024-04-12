@@ -249,15 +249,17 @@ class TabbedGroupNode(GroupNode):
 		
 		tk_root.destroy()
 		
+		border_size = int(output["border-width"])
+		
 		for childnode in self.children:
 			child_macros = copy.deepcopy(data)
 			
 			geom = output["geometry"].val()
 			
-			childnode["geometry"]["width"] = int(geom["width"])
-			childnode["geometry"]["height"] = int(geom["height"]) - tab_bar_height
+			childnode["geometry"]["width"] = int(geom["width"]) - 2 * border_size
+			childnode["geometry"]["height"] = int(geom["height"]) - tab_bar_height - 2 * border_size
 			
-			output.place(childnode.apply(generator, data=child_macros))
+			output.place(childnode.apply(generator, data=child_macros), x=0, y=0)
 			
 		return output
 		
