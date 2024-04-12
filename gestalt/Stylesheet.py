@@ -206,18 +206,22 @@ add_constructors("HRepeat", (lambda l, n: read_special_node(RepeatNode, l, n,  f
 add_multi_constructors("Stretch:",  (lambda l, s, n: read_stretch_multi(l, s, n, flow="vertical")))
 add_multi_constructors("VStretch:", (lambda l, s, n: read_stretch_multi(l, s, n, flow="vertical")))
 add_multi_constructors("HStretch:", (lambda l, s, n: read_stretch_multi(l, s, n, flow="horizontal")))
+add_multi_constructors("AStretch:", (lambda l, s, n: read_stretch_multi(l, s, n, flow="all")))
 
 add_constructors("Stretch",  (lambda l, n: read_stretch_node(l, n, flow="vertical")))
 add_constructors("VStretch", (lambda l, n: read_stretch_node(l, n, flow="vertical")))
 add_constructors("HStretch", (lambda l, n: read_stretch_node(l, n, flow="horizontal")))
+add_constructors("AStretch", (lambda l, n: read_stretch_node(l, n, flow="all")))
 
 add_multi_constructors("Center:",  (lambda l, s, n: read_center_multi(l, s, n, flow="vertical")))
 add_multi_constructors("VCenter:", (lambda l, s, n: read_center_multi(l, s, n, flow="vertical")))
 add_multi_constructors("HCenter:", (lambda l, s, n: read_center_multi(l, s, n, flow="horizontal")))
+add_multi_constructors("ACenter:", (lambda l, s, n: read_center_multi(l, s, n, flow="all")))
 
 add_constructors("Center",  (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("VCenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("HCenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
+add_constructors("ACenter", (lambda l, n: read_center_node(l, n, flow="all")))
 
 add_constructors("TabbedGroup",    (lambda l, n: read_special_node(TabbedGroupNode, l, n)))
 add_constructors("Tab",            (lambda l, n: read_tab_node(l, n)))
