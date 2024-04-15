@@ -17,8 +17,8 @@ class CSSGroup(CSSWidget):
 		frame["line"] = Color("$000000FF")
 		frame["line_width"] = Number(0)
 		
-		frame["line"] = Color(self.pop("border-color", "$00000000"))
-		frame["line_width"] = Number(self.pop("border-width", 2))
+		frame["line"] = Color(self.pop("border-color", "$000000"))
+		frame["line_width"] = Number(self.pop("border-width", 0))
 		frame["background"] = Color(self.pop("background", "$00000000"))
 		
 		#frame.write(self.widget)
