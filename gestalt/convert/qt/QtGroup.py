@@ -10,8 +10,14 @@ class QtGroup(QtWidget):
 		self["backgroundMode"] = Enum("caFrame::Filled")
 		
 		self["background"] = Color(self.pop("background", "$00000000"))
-		self["border-color"] = Color(self.pop("border-color", "$000000"))
 		self["border-width"] = Number(self.pop("border-width", 0))
+		
+		if int(self["border-width"]) == 0:
+			self.pop("border-color")
+			self["border-color"] = Color("$00000000")
+		else:
+			self["border-color"] = Color(self.pop("border-color", "$000000"))
+		
 	
 	def write(self, tree):
 		border = QtWidget("caGraphics")

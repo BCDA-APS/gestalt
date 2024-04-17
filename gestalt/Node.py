@@ -566,6 +566,7 @@ class RelatedDisplayNode(Node):
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
 		
 		self.setDefault(String, "text", "")
+		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
 		self.setDefault(Color, "foreground", "$000000")
 		self.setDefault(Color, "background", "$57CAE4")
 	
@@ -585,6 +586,7 @@ class MessageButtonNode(Node):
 		self.setDefault(String, "text",  "")
 		self.setDefault(String, "pv",    "")
 		self.setDefault(String, "value", "")
+		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
 		self.setDefault(Color,  "foreground", "$000000")
 		self.setDefault(Color,  "background", "$57CAE4")
 	
