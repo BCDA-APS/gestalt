@@ -63,13 +63,13 @@ def parseSubstitutionFile(filename):
 					load_values = True
 					
 				elif load_values == True:
-					matches = pattern_line.findall(check.strip("{}"))
+					matches = check.strip("{}").split(",")
 					
-					if matches:						
+					if matches:	
 						temp = {}
 						
 						for i in range(len(pattern)):
-							temp[pattern[i]] = matches[i].strip('",')
+							temp[pattern[i]] = matches[i].strip().strip('"')
 							
 						output[curr_file].append(temp)
 						
