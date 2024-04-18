@@ -364,6 +364,7 @@ class FlowNode(GroupNode):
 		child_macros = copy.deepcopy(data)
 		
 		first = 0
+		position = 0
 		
 		for childnode in self.children:
 			geom = output["geometry"].val()
@@ -377,10 +378,12 @@ class FlowNode(GroupNode):
 			element = childnode.apply(generator, data=child_macros)
 			
 			if self.flow == "vertical":
-				element.position(x=None, y=int(geom["height"]) + (first*int(padding)))
+				element.position(x=None, y=position + (first*int(padding)))
+				position = int(element["geometry"]["y"]) + int(element["geometry"]["height"])
 				
 			elif self.flow == "horizontal":
-				element.position(x=int(geom["width"]) + (first * int(padding)), y=None)
+				element.position(x=position + (first * int(padding)), y=None)
+				position = int(element["geometry"]["x"]) + int(element["geometry"]["width"])
 			
 			output.place(element)
 			
