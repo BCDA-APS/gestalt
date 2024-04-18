@@ -281,11 +281,16 @@ class GridNode(GroupNode):
 	def apply (self, generator, data={}):
 		output = generator.generateGroup(self, macros=data)
 		
-		macrolist = data.get(str(output.getProperty("repeat-over", internal=True)), {})
+		repeat = output.getProperty("repeat-over", internal=True)
+		
+		macrolist = data.get(str(repeat), None)
 		start_at = output.getProperty("start-at", internal=True)
 		ratio    = output.getProperty("aspect-ratio", internal=True)
 		padding  = output.getProperty("padding", internal=True)
 				
+		
+		if not macrolist:
+			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
 		if not isinstance(macrolist, list):
 			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
 						
@@ -397,13 +402,17 @@ class RepeatNode(GroupNode):
 	def apply (self, generator, data={}):		
 		output = generator.generateGroup(self, macros=data)
 		
-		macrolist = data.get(str(output.getProperty("repeat-over", internal=True)), {})
+		repeat = output.getProperty("repeat-over", internal=True)
+		
+		macrolist = data.get(str(repeat), None)
 		start_at = output.getProperty("start-at", internal=True)
 		padding  = output.getProperty("padding", internal=True)
 		
 		index = 0
 		
-		if not isinstance(macrolist, list):
+		if not macrolist:
+			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
+		elif not isinstance(macrolist, list):
 			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
 					
 		for macroset in macrolist:
