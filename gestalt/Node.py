@@ -287,13 +287,14 @@ class GridNode(GroupNode):
 		start_at = output.getProperty("start-at", internal=True)
 		ratio    = output.getProperty("aspect-ratio", internal=True)
 		padding  = output.getProperty("padding", internal=True)
+		margins  = output.getProperty("margins", internal=True).val()
 				
 		
 		if not macrolist:
 			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
 		if not isinstance(macrolist, list):
 			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
-						
+				
 		num_items = len(macrolist)
 		
 		cols = round(math.sqrt(num_items * float(ratio)))
@@ -318,8 +319,8 @@ class GridNode(GroupNode):
 				child_macros.update({
 					"__parentx__" : int(geom["x"]),
 					"__parenty__" : int(geom["y"]),
-					"__parentwidth__" : int(geom["width"]),
-					"__parentheight__" : int(geom["height"])})
+					"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
+					"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
 					
 				element.place(childnode.apply(generator, data=child_macros))
 			
@@ -360,6 +361,7 @@ class FlowNode(GroupNode):
 	def apply (self, generator, data={}):
 		output = generator.generateGroup(self, macros=data)
 		padding = output.getProperty("padding", internal=True)
+		margins = output.getProperty("margins", internal=True).val()
 		
 		child_macros = copy.deepcopy(data)
 		
@@ -372,8 +374,8 @@ class FlowNode(GroupNode):
 			child_macros.update({
 				"__parentx__" : int(geom["x"]),
 				"__parenty__" : int(geom["y"]),
-				"__parentwidth__" : int(geom["width"]),
-				"__parentheight__" : int(geom["height"])})
+				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
+				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
 				
 			element = childnode.apply(generator, data=child_macros)
 			
