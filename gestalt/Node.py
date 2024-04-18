@@ -414,6 +414,9 @@ class RepeatNode(GroupNode):
 			line = generator.generateAnonymousGroup()
 			
 			for childnode in self.children:
+				if isinstance(childnode, StretchNode):
+					print (self["geometry"]["width"])
+				
 				geom = output["geometry"].val()
 			
 				child_macros.update({
@@ -526,15 +529,17 @@ class StretchNode(Node):
 		self.flow = flow
 		
 	def apply (self, generator, data={}):
-		applied_node = self.subnode.apply(generator, data=data)
-		
-		applied_node["geometry"]["x"] = applied_node["geometry"]["x"] + self["geometry"]["x"]
-		applied_node["geometry"]["y"] = applied_node["geometry"]["y"] + self["geometry"]["y"]
+		applied_node = copy.deepcopy(self.subnode)
 		
 		if self.flow == "vertical" or self.flow == "all":
 			applied_node["geometry"]["height"] = data["__parentheight__"]
 		if self.flow == "horizontal" or self.flow=="all":
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
+			
+		applied_node = applied_node.apply(generator, data=data)
+			
+		applied_node["geometry"]["x"] = applied_node["geometry"]["x"] + self["geometry"]["x"]
+		applied_node["geometry"]["y"] = applied_node["geometry"]["y"] + self["geometry"]["y"]
 			
 		return applied_node
 
