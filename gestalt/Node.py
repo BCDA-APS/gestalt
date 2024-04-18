@@ -413,10 +413,7 @@ class RepeatNode(GroupNode):
 			
 			line = generator.generateAnonymousGroup()
 			
-			for childnode in self.children:
-				if isinstance(childnode, StretchNode):
-					print (self["geometry"]["width"])
-				
+			for childnode in self.children:				
 				geom = output["geometry"].val()
 			
 				child_macros.update({
