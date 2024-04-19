@@ -213,8 +213,8 @@ class GroupNode(Node):
 			child_macros.update({
 				"__parentx__" : int(geom["x"]),
 				"__parenty__" : int(geom["y"]),
-				"__parentwidth__" : int(geom["width"]),
-				"__parentheight__" : int(geom["height"])})
+				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
+				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
 						
 			output.place(child.apply(generator, data=child_macros))
 			
