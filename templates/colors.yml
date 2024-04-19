@@ -4,6 +4,7 @@ _alarm_red:    &alarm_red     $E41E1E
 _alarm_yellow: &alarm_yellow  $E4E41E  
 _alarm_green:  &alarm_green   $1EE41E
 
+_pure_black:   &pure_black    $000000
 _black:        &black         $242424
 
 _grey_darker:  &grey_darker   $444444
@@ -18,6 +19,7 @@ _gray:         &gray          $848484
 _gray_light:   &gray_light    $A4A4A4
 _gray_lighter: &gray_lighter  $C4C4C4
 
+_pure_white:   &pure_white    $FFFFFF
 _white:        &white         $E4E4E4
 
 
