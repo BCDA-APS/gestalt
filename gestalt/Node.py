@@ -465,18 +465,8 @@ class ConditionalNode(GroupNode):
 		conditional = data.get(str(condition), None)
 		
 		if bool(conditional):
-			child_macros = copy.deepcopy(data)
-			
-			for childnode in self.children:
-				geom = output["geometry"].val()
-			
-				child_macros.update({
-					"__parentx__" : int(geom["x"]),
-					"__parenty__" : int(geom["y"]),
-					"__parentwidth__" : int(geom["width"]),
-					"__parentheight__" : int(geom["height"])})
-				
-				output.place(childnode.apply(generator, data=child_macros))
+			for childnode in self.children:	
+				output.place(childnode.apply(generator, data=data))
 		
 		return output
 		
