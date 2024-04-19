@@ -68,7 +68,7 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("channel", "pv")
 		output.link("frameColor", "border-color")
-		output.link("frameWidth", "border-width")
+		output.link("frameLineWidth", "border-width")
 			
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::None")
