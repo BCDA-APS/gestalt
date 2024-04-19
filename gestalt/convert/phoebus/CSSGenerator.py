@@ -10,6 +10,7 @@ from gestalt.convert.phoebus.CSSWidget      import CSSWidget
 from gestalt.convert.phoebus.CSSGroup       import CSSGroup
 from gestalt.convert.phoebus.CSSDisplay     import CSSDisplay
 from gestalt.convert.phoebus.CSSTabbedGroup import CSSTabbedGroup
+from gestalt.convert.phoebus.CSSAnonymous   import CSSAnonymous
 
 
 class CSSGenerator(GestaltGenerator):
@@ -20,7 +21,7 @@ class CSSGenerator(GestaltGenerator):
 		return CSSGroup(node=original, macros=macros)
 		
 	def generateAnonymousGroup(self, macros={}):
-		return CSSGroup()
+		return CSSAnonymous()
 	
 	def generateTabbedGroup(self, original, macros={}):
 		return CSSTabbedGroup(node=original, macros=macros)

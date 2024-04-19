@@ -8,6 +8,7 @@ from gestalt.convert.qt.QtDisplay import QtDisplay
 from gestalt.convert.qt.QtTabbedGroup    import QtTabbedGroup
 from gestalt.convert.qt.QtRelatedDisplay import QtRelatedDisplay
 from gestalt.convert.qt.QtShellCommand   import QtShellCommand
+from gestalt.convert.qt.QtAnonymous      import QtAnonymous
 
 class QtGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
@@ -17,7 +18,7 @@ class QtGenerator(GestaltGenerator):
 		return QtGroup(node=original, macros=macros)
 	
 	def generateAnonymousGroup(self, macros={}):
-		return QtGroup()
+		return QtAnonymous()
 		
 	def generateTabbedGroup(self, original, macros={}):
 		return QtTabbedGroup(node=original, macros=macros)
