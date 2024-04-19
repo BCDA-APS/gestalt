@@ -28,7 +28,8 @@ class QtGroup(QtWidget):
 		border["fillstyle"] = Enum("Outline")		
 		border["lineColor"] = Color(self.pop("border-color"))
 		border["lineSize"] = Number(self.pop("border-width"))
-
-		self.children.insert(0, border)
+		
+		if (int(border["lineSize"]) != 0 or border["lineColor"].val()["alpha"] != 0):
+			self.children.insert(0, border)
 		
 		super(QtGroup, self).write(tree)
