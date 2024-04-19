@@ -2,9 +2,9 @@ from gestalt.Type import *
 
 from gestalt.convert.phoebus.CSSWidget import CSSWidget
 
-class CSSGroup(CSSWidget):
+class CSSAnonymous(CSSWidget):
 	def __init__(self):
-		super(CSSGroup, self).__init__("Group")
+		super(CSSAnonymous, self).__init__("Group")
 
 	def write(self, screen):
 		for child in self.children:
