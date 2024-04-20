@@ -8,6 +8,7 @@ from gestalt.convert.qt.QtDisplay import QtDisplay
 from gestalt.convert.qt.QtTabbedGroup    import QtTabbedGroup
 from gestalt.convert.qt.QtRelatedDisplay import QtRelatedDisplay
 from gestalt.convert.qt.QtShellCommand   import QtShellCommand
+from gestalt.convert.qt.QtMessageButton  import QtMessageButton
 from gestalt.convert.qt.QtAnonymous      import QtAnonymous
 
 class QtGenerator(GestaltGenerator):
@@ -29,17 +30,8 @@ class QtGenerator(GestaltGenerator):
 	def generateShellCommand(self, node, macros={}):
 		return QtShellCommand(node=node, macros=macros)
 		
-		
 	def generateMessageButton(self, node, macros={}):
-		output = QtWidget("caMessageButton", node=node, macros=macros)
-
-		output.link("label", "text")
-		output.link("channel", "pv")
-		output.link("pressMessage", "value")
-			
-		output["colorMode"] = Enum("caMessageButton::Static")
-			
-		return output
+		return QtMessageButton(node=node, macros=macros)
 		
 		
 	def generateText(self, node, macros={}):
