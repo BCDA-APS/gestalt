@@ -128,16 +128,13 @@ class Bool(DataType):
 			super(Bool, self).__init__("bool", data)
 		
 
-class Not(DataType):
+class Not(String):
 	def __init__(self, data):
 		if isinstance(data, String) or isinstance(data, Not):
-			super(Not, self).__init__("inverse", data.value)
+			super(Not, self).__init__(data.value)
 			self.macros = data.macros
 		else:
-			super(Not, self).__init__("inverse", data)
-		
-	def val(self):
-		return str(self.value)
+			super(Not, self).__init__(data)
 	
 
 ###########################
