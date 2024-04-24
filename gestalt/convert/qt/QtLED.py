@@ -19,7 +19,7 @@ class QtLED(QtWidget):
 		self["scaleContents"]   = Bool(True)
 		
 	def write(self, tree):
-		self["ledWidth"] = self["geometry"]["width"]
-		self["ledHeight"] = self["geometry"]["height"]
+		self["ledWidth"] = self["geometry"]["width"] - 2
+		self["ledHeight"] = self["geometry"]["height"] - 2
 		
 		super(QtLED, self).write(tree)
