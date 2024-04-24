@@ -10,6 +10,7 @@ from gestalt.convert.qt.QtRelatedDisplay import QtRelatedDisplay
 from gestalt.convert.qt.QtShellCommand   import QtShellCommand
 from gestalt.convert.qt.QtMessageButton  import QtMessageButton
 from gestalt.convert.qt.QtAnonymous      import QtAnonymous
+from gestalt.convert.qt.QtLED            import QtLED
 
 class QtGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
@@ -33,6 +34,8 @@ class QtGenerator(GestaltGenerator):
 	def generateMessageButton(self, node, macros={}):
 		return QtMessageButton(node=node, macros=macros)
 		
+	def generateLED(self, node, macros={}):
+		return QtLED(node=node, macros=macros)
 		
 	def generateText(self, node, macros={}):
 		output = QtWidget("caLabel", node=node, macros=macros)
@@ -91,24 +94,6 @@ class QtGenerator(GestaltGenerator):
 			output["stackingMode"] = Enum("Row")
 			
 		output["colorMode"] = Enum("caChoice::Static")
-		
-		return output
-		
-		
-	def generateLED(self, node, macros={}):
-		output = QtWidget("caLed", node=node, macros=macros)
-		
-		output.link("channel", "pv")
-		output.link("rectangular", "square")
-		output.link("falseColor", "false-color")
-		output.link("falseValue", "false-value")
-		output.link("trueColor", "true-color")
-		output.link("trueValue", "true-value")
-		output.link("undefinedColor", "undefined-color")
-		output.link("borderColor", "border-color")
-	
-		output["gradientEnabled"] = Bool(False)
-		output["scaleContents"]   = Bool(True)
 		
 		return output
 		
