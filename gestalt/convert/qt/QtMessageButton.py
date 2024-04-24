@@ -6,7 +6,7 @@ from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtMessageButton(QtWidget):
 	def __init__(self, node=None, macros={}):		
-		super(QtMessageButton, self).__init__("Frame")
+		super(QtMessageButton, self).__init__("QFrame")
 
 		self.button = QtWidget("caMessageButton", node=node, macros=macros)
 		self["geometry"] = self.button.pop("geometry")
