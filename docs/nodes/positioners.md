@@ -42,7 +42,7 @@ defined. Any widgets defined afterward may affect the final size of the parent.
 MidPointGroup: !acenter:group    
     children:
         - !TextMontor
-            geometry: 0x0 x 50x20
+            geometry: 50x20
             foreground: *alarm_yellow
             background: *transparent
             alignment: CenterRight
@@ -74,7 +74,7 @@ OPSElements: !hcenter:group
     
     children:
         - !TextMontor
-            geometry: 0x0 x 50x20
+            geometry: 50x20
             foreground: *alarm_yellow
             background: *transparent
             alignment: CenterRight
@@ -153,7 +153,7 @@ widgets defined afterward may affect the final size of the parent.
 
 ```yaml
 UITitle: !hstretch:Text
-    geometry: 0x0 x 0x32
+    geometry: 0x32
             
     text: "Middle"
     alignment: CenterLeft
@@ -176,8 +176,78 @@ You may also use the alias "stretch" to reference the vstretch node.
 
 ```yaml
 UITitle: !vstretch:Text
-    geometry: 0x0 x 32x0
+    geometry: 32x0
             
     text: "Middle"
     alignment: CenterLeft
+```
+
+
+
+### HAnchor
+
+---
+
+Positions a widget at the horizontal extent of its parent node. 
+
+Note that, a parent's size is determined at the point when a widget is defined. Any
+widgets defined afterward may affect the final size of the parent.
+
+
+* **Example**
+
+```yaml
+WideGroup: !Group
+    geometry: 400x20
+    children:
+        - !HAnchor:Text
+            geometry: 50x20
+            text: "I'm at the end"
+```
+
+
+
+### VAnchor
+
+---
+
+Positions a widget at the vertical extent of its parent node.
+
+Note that, a parent's size is determined at the point when a widget is defined. Any
+widgets defined afterward may affect the final size of the parent.
+
+You may also use the alias "anchor" to reference the vachor node.
+
+
+* **Example**
+
+```yaml
+TallGroup: !Group
+    geometry: 40x200
+    children:
+        - !HAnchor:Text
+            geometry: 50x20
+            text: "I'm at the bottom"
+```
+
+
+### AAnchor
+
+---
+
+Positions a widget to be in the lower right corner of its parent node.
+
+Note that, a parent's size is determined at the point when a widget is defined. Any
+widgets defined afterward may affect the final size of the parent.
+
+
+* **Example**
+
+```yaml
+BigGroup: !Group
+    geometry: 400x400
+    children:
+        - !HAnchor:Text
+            geometry: 50x20
+            text: "I'm in the corner"
 ```

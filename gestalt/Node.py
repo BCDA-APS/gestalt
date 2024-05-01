@@ -564,6 +564,25 @@ class CenterNode(Node):
 					
 		return applied_node	
 
+class AnchorNode(Node):
+	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
+		super(AnchorNode, self).__init__("Anchor", name=name, layout=layout)
+		
+		self.subnode = subnode
+		self.flow = flow
+		
+	def apply (self, generator, data={}):
+		applied_node = self.subnode.apply(generator, data=data)
+			
+		if self.flow == "vertical":
+			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+		elif self.flow == "horizontal":
+			applied_node.position(int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), applied_node["geometry"]["y"] + self["geometry"]["y"])
+		elif self.flow == "all":
+			applied_node.position(int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+					
+		return applied_node	
+		
 		
 class RelatedDisplayNode(Node):
 	def __init__(self, name=None, layout={}):

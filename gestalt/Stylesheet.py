@@ -153,6 +153,19 @@ def read_center_node(loader, node, flow="vertical"):
 	except:
 		params = loader.construct_sequence(node, deep=True)
 		return CenterNode(flow=flow, subnode=next(iter(params)))
+		
+def read_anchor_multi(loader, suffix, node, flow="vertical"):
+	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	
+	return AnchorNode(flow=flow, subnode=ret_node)
+		
+def read_anchor_node(loader, node, flow="vertical"):
+	try:
+		params = loader.construct_mapping(node, deep=True)
+		return AnchorNode(flow=flow, subnode=next(iter(params.values())))
+	except:
+		params = loader.construct_sequence(node, deep=True)
+		return AnchorNode(flow=flow, subnode=next(iter(params)))
 
 def read_tab_node(loader, node):
 	try:
@@ -222,6 +235,16 @@ add_constructors("Center",  (lambda l, n: read_center_node(l, n, flow="vertical"
 add_constructors("VCenter", (lambda l, n: read_center_node(l, n, flow="vertical")))
 add_constructors("HCenter", (lambda l, n: read_center_node(l, n, flow="horizontal")))
 add_constructors("ACenter", (lambda l, n: read_center_node(l, n, flow="all")))
+
+add_multi_constructors("Anchor:",  (lambda l, s, n: read_anchor_multi(l, s, n, flow="vertical")))
+add_multi_constructors("VAnchor:", (lambda l, s, n: read_anchor_multi(l, s, n, flow="vertical")))
+add_multi_constructors("HAnchor:", (lambda l, s, n: read_anchor_multi(l, s, n, flow="horizontal")))
+add_multi_constructors("AAnchor:", (lambda l, s, n: read_anchor_multi(l, s, n, flow="all")))
+
+add_constructors("Anchor",  (lambda l, n: read_anchor_node(l, n, flow="vertical")))
+add_constructors("VAnchor", (lambda l, n: read_anchor_node(l, n, flow="vertical")))
+add_constructors("HAnchor", (lambda l, n: read_anchor_node(l, n, flow="horizontal")))
+add_constructors("AAnchor", (lambda l, n: read_anchor_node(l, n, flow="all")))
 
 add_constructors("TabbedGroup",    (lambda l, n: read_special_node(TabbedGroupNode, l, n)))
 add_constructors("Tab",            (lambda l, n: read_tab_node(l, n)))
