@@ -34,8 +34,14 @@ class QtDisplay(QtWidget):
 		
 		margins = Rect(self.form.pop("margins", "0x0x0x0"))
 		
-		self.form["geometry"]["width"]  = self["geometry"]["width"] + margins["x"] + margins["width"]
-		self.form["geometry"]["height"] = self["geometry"]["height"] + margins["y"] + margins["height"]
+		check_width = self["geometry"]["width"] + margins["x"] + margins["width"]
+		check_height = self["geometry"]["height"] + margins["y"] + margins["height"]
+		
+		if check_width > self.form["geometry"]["width"]:
+			self.form["geometry"]["width"] = check_width
+		
+		if check_height > self.form["geometry"]["height"]:
+			self.form["geometry"]["height"] = check_height
 		
 		self["geometry"]["x"] = margins["x"]
 		self["geometry"]["y"] = margins["y"]
