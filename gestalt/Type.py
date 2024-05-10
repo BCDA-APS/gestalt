@@ -1,4 +1,5 @@
 import copy
+import yaml
 from gestalt.Datasheet import *
 
 class DataType(object):
@@ -23,6 +24,15 @@ class DataType(object):
 					else:
 						try:
 							output[key] = str(item).format(**macrolist)
+						except:
+							pass
+			elif isinstance(output, list):
+				for index in range(len(output)):
+					if output[index] is None:
+						output[index] = self.defaultvalue
+					else:
+						try:
+							output[index] = str(item).format(**macrolist)
 						except:
 							pass
 			elif isinstance(output, str):
@@ -322,3 +332,66 @@ class Alignment(DataType):
 	def __str__(self):	
 		return str(self.val()["vertical"]) + str(self.val()["horizontal"])
 			
+		
+######################
+#   LIST DATA TYPE   #
+######################
+
+class List(DataType):
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, List):
+			super(List, self).__init__("list", data.value)
+			self.macros = data.macros
+			self.updates = data.updates
+		else:
+			super(List, self).__init__("list", data)
+
+	def val(self):
+		
+		output = []
+		data = super(List, self).val()
+		
+		if isinstance(data, str):
+			data = yaml.safe_load(data)
+			
+		if isinstance(data, list):
+			return data
+			
+		return None
+
+	def __iter__(self):
+		return self.val().__iter__()
+	   
+	def __str__(self):
+		return yaml.dump(self.val())
+
+class Dict(DataType):
+	def __init__(self, data):
+		if isinstance(data, String) or isinstance(data, Dict):
+			super(Dict, self).__init__("dict", data.value)
+			self.macros = data.macros
+			self.updates = data.updates
+		else:
+			super(Dict, self).__init__("dict", data)
+
+	def val(self):
+		
+		output = []
+		data = super(List, self).val()
+		
+		if isinstance(data, str):
+			data = yaml.safe_load(data)
+			
+		if isinstance(data, dict):
+			return data
+			
+		return None
+
+
+	def __iter__(self):		
+		return self.val()
+		
+	def __str__(self):
+		return yaml.dump(self.val())
+
+		
