@@ -7,18 +7,19 @@ from gestalt.convert.qt.QtWidget import QtWidget
 class QtRelatedDisplay(QtWidget):
 	def __init__(self, node=None, macros={}):		
 		super(QtRelatedDisplay, self).__init__("QFrame")
-
+		
 		self.button = QtWidget("caRelatedDisplay", node=node, macros=macros)
 		self["geometry"] = self.button.pop("geometry")
 		
-		self.button["label"] = String("-" + str(self.button.pop("text")))
+		self.links = String(node.links)
+		self.links.apply(macros)
 		
 		labels = ""
 		files = ""
 		args = ""
 		replace = ""
 		
-		for item in node.links:
+		for item in List(self.links):
 			a_label = String(item.get("label", ""))
 			a_label.apply(macros)
 
@@ -44,12 +45,14 @@ class QtRelatedDisplay(QtWidget):
 		self.button["files"]  = String(files.rstrip(";"))
 		self.button["args"]   = String(args.rstrip(";"))
 		self.button["removeParent"] = String(replace.rstrip(";"))
+		
 		self.button["stackingMode"] = Enum("Menu")
 		
 		
 	def updateProperties(self, macros={}):
 		super(QtRelatedDisplay, self).updateProperties(macros)
 		self.button.updateProperties(macros)
+		self.links.apply(macros)
 		
 	def setProperty(self, key, prop):
 		if key == "geometry":
@@ -58,6 +61,8 @@ class QtRelatedDisplay(QtWidget):
 			self.button.setProperty(key, prop)
 		
 	def write(self, tree):
+		self.button["label"] = String("-" + str(self.button.pop("text")))
+		
 		self.button["geometry"] = Rect((self["geometry"]["width"], self["geometry"]["height"]))
 		self.button.position(x=0,y=0)
 		
