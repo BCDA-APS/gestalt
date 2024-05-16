@@ -53,7 +53,7 @@ class QtMessageButton(QtWidget):
 QPushButton
 {{
     font-family: {family};
-    font: {style} {size}px;
+    font: {style} {size}pt;
 	
     text-align: {lcr};
 }}
