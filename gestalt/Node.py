@@ -462,7 +462,13 @@ class ConditionalNode(GroupNode):
 
 		condition = self.getProperty("condition", internal=True)
 		condition.apply(data)
-		conditional = data.get(str(condition), None)
+		
+		conditional = None
+		
+		try:
+			conditional = data[str(condition)]
+		except KeyError:
+			conditional = str(condition)
 		
 		if bool(conditional):
 			for childnode in self.children:	
