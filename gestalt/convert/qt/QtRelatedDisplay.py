@@ -47,6 +47,7 @@ class QtRelatedDisplay(QtWidget):
 		self.button["removeParent"] = String(replace.rstrip(";"))
 		
 		self.button["stackingMode"] = Enum("Menu")
+		self.button["fontScaleMode"] = Enum("EPushButton::None")
 		
 		
 	def updateProperties(self, macros={}):
@@ -69,6 +70,11 @@ class QtRelatedDisplay(QtWidget):
 		the_font = self.button.pop("font")
 		align = str(self.button.pop("alignment"))
 		
+		style = the_font["style"].lower()
+		
+		if "regular" in style:
+			style = ""
+		
 		frame_align = "center"
 		
 		if "AlignLeft" in align:
@@ -87,7 +93,7 @@ QPushButton
 }}
 """.format(
 	family = the_font["family"],
-	style  = the_font["style"].lower(),
+	style  = style,
 	size   = the_font["size"],
 	lcr    = frame_align))
 	
