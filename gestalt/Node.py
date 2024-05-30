@@ -282,18 +282,22 @@ class GridNode(GroupNode):
 		output = generator.generateGroup(self, macros=data)
 		
 		repeat = output.getProperty("repeat-over", internal=True)
-		
-		macrolist = data.get(str(repeat), None)
 		start_at = output.getProperty("start-at", internal=True)
 		ratio    = output.getProperty("aspect-ratio", internal=True)
 		padding  = output.getProperty("padding", internal=True)
 		margins  = output.getProperty("margins", internal=True).val()
-				
 		
-		if not macrolist:
-			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
-		if not isinstance(macrolist, list):
-			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
+		repeat.apply(data)
+		
+		macrolist = data.get(str(repeat))
+				
+		try:
+			if not macrolist:
+				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
+			if not isinstance(macrolist, list):
+				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
+		except:
+			macrolist = List(repeat).val()
 				
 		num_items = len(macrolist)
 		
@@ -407,18 +411,25 @@ class RepeatNode(GroupNode):
 	def apply (self, generator, data={}):		
 		output = generator.generateGroup(self, macros=data)
 		
-		repeat = output.getProperty("repeat-over", internal=True)
-		
-		macrolist = data.get(str(repeat), None)
+		repeat   = output.getProperty("repeat-over", internal=True)
 		start_at = output.getProperty("start-at", internal=True)
 		padding  = output.getProperty("padding", internal=True)
 		
+		repeat.apply(data)
+		
+		macrolist = data.get(str(repeat))
+			
+		try:
+			if not macrolist:
+				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]	
+			elif not isinstance(macrolist, list):
+				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
+		except:
+			macrolist = List(repeat).val()
+					
 		index = 0
 		
-		if not macrolist:
-			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
-		elif not isinstance(macrolist, list):
-			macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
+		
 					
 		for macroset in macrolist:
 			child_macros = copy.deepcopy(data)
@@ -468,7 +479,8 @@ class ConditionalNode(GroupNode):
 		try:
 			conditional = data[str(condition)]
 		except KeyError:
-			conditional = str(condition)
+			if "{" in condition.value:
+				conditional = str(condition)
 		
 		if bool(conditional):
 			for childnode in self.children:	
