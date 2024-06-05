@@ -6,12 +6,14 @@ from PyQt5.QtCore import QStringListModel
 
 
 class UI(QMainWindow):
-	def __init__(self, form, genfunc, registry):
+	def __init__(self, curr_dir, genfunc, registry, parser):
 		super(UI, self).__init__()
 		self.genfunc = genfunc
 		self.registry = registry
+		self.parser = parser
+		self.curr_dir = curr_dir
 		
-		uic.loadUi(form, self)
+		uic.loadUi(curr_dir + "/.data/Form.ui", self)
 		
 		self.setWindowTitle("GESTALT")
 			
@@ -105,9 +107,9 @@ class UI(QMainWindow):
 			constructed_args.extend(["-o", output_file])
 			constructed_args.extend(["--input", self.InputData.toPlainText()])
 		
-			args = parser.parse_args(constructed_args)
+			args = self.parser.parse_args(constructed_args)
 			
-			args.include_dirs = [".", curr_dir, curr_dir + "/templates", module_selected["path"]]
+			args.include_dirs = [".", self.curr_dir, self.curr_dir + "/templates", module_selected["path"]]
 	
 			self.genfunc(args)
 

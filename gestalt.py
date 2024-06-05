@@ -1,4 +1,4 @@
-#! /APSshare/anaconda3/x86_64/bin/python3
+#! /usr/bin/env python
 
 import os
 import sys
@@ -165,7 +165,7 @@ if __name__ == "__main__":
 	
 		app = QApplication([])
 		
-		window = UI(curr_dir + "/.data/Form.ui", doGenerate, registry)
+		window = UI(curr_dir, doGenerate, registry, parser)
 		app.exec_()
 		
 	elif args.template == None:
