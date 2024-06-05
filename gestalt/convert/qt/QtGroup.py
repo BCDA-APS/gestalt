@@ -6,8 +6,9 @@ class QtGroup(QtWidget):
 	def __init__(self, node=None, macros={}):
 		super(QtGroup, self).__init__("caFrame", node=node, macros=macros)
 	
-		self["frameShape"] = Enum("QFrame::Box")
+		self["frameShape"] = Enum("QFrame::NoFrame")
 		self["backgroundMode"] = Enum("caFrame::Filled")
+		self["visibilityMode"] = Enum("caFrame::All")
 		
 		self["background"] = Color(self.pop("background", "$00000000"))
 		self["border-width"] = Number(self.pop("border-width", 0))
@@ -25,7 +26,7 @@ class QtGroup(QtWidget):
 		border["geometry"]["height"] = self["geometry"]["height"]
 		border["form"] = Enum("caGraphics::Rectangle")
 		border["linestyle"] = Enum("Solid")
-		border["fillstyle"] = Enum("Outline")		
+		border["fillstyle"] = Enum("Outline")
 		border["lineColor"] = Color(self.pop("border-color"))
 		border["lineSize"] = Number(self.pop("border-width"))
 		
