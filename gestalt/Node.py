@@ -612,6 +612,7 @@ class RelatedDisplayNode(Node):
 		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
 		self.setDefault(Color, "foreground", "$000000")
 		self.setDefault(Color, "background", "$57CAE4")
+		self.setDefault(Alignment, "alignment", "Center")
 	
 		if isinstance(self.links, dict):
 			temp = []
@@ -632,6 +633,7 @@ class MessageButtonNode(Node):
 		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
 		self.setDefault(Color,  "foreground", "$000000")
 		self.setDefault(Color,  "background", "$57CAE4")
+		self.setDefault(Alignment, "alignment", "Center")
 	
 
 class TextNode(Node):
@@ -771,6 +773,8 @@ class ShellCommandNode(Node):
 		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout)
 		
 		self.setDefault(String, "text", "")
+		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
+		self.setDefault(Alignment, "alignment", "Center")
 	
 		if isinstance(self.commands, dict):
 			temp = []
