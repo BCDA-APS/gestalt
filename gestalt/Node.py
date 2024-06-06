@@ -307,49 +307,49 @@ class GridNode(GroupNode):
 		index = 0
 		index_x = 0
 		index_y = 0
-		
-		for macroset in macrolist:
-			child_macros = copy.deepcopy(data)
-			child_macros.update(macroset)
-			child_macros.update({"__index__" : index})
-			child_macros.update({"__col__" : index_x})
-			child_macros.update({"__row__" : index_y})
-			
-			element = generator.generateAnonymousGroup()
-			
-			for childnode in self.children:
-				geom = output["geometry"].val()
-			
-				child_macros.update({
-					"__parentx__" : int(geom["x"]),
-					"__parenty__" : int(geom["y"]),
-					"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
-					"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
-					
-				element.place(childnode.apply(generator, data=child_macros))
-			
-			pos_x = index_x * (element["geometry"]["width"] + int(padding))
-			pos_y = index_y * (element["geometry"]["height"] + int(padding))
-			
-			element.position(pos_x, pos_y)
-			
-			index += 1
-			
-			if output.getProperty("horizontal", internal=True):
-				index_x += 1
+		if macrolist:
+			for macroset in macrolist:
+				child_macros = copy.deepcopy(data)
+				child_macros.update(macroset)
+				child_macros.update({"__index__" : index})
+				child_macros.update({"__col__" : index_x})
+				child_macros.update({"__row__" : index_y})
 				
-				if index_x >= cols:
-					index_x = 0
+				element = generator.generateAnonymousGroup()
+				
+				for childnode in self.children:
+					geom = output["geometry"].val()
+				
+					child_macros.update({
+						"__parentx__" : int(geom["x"]),
+						"__parenty__" : int(geom["y"]),
+						"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
+						"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
+						
+					element.place(childnode.apply(generator, data=child_macros))
+				
+				pos_x = index_x * (element["geometry"]["width"] + int(padding))
+				pos_y = index_y * (element["geometry"]["height"] + int(padding))
+				
+				element.position(pos_x, pos_y)
+				
+				index += 1
+				
+				if output.getProperty("horizontal", internal=True):
+					index_x += 1
+					
+					if index_x >= cols:
+						index_x = 0
+						index_y += 1
+						
+				else:
 					index_y += 1
 					
-			else:
-				index_y += 1
+					if index_y >= rows:
+						index_y = 0
+						index_x += 1
 				
-				if index_y >= rows:
-					index_y = 0
-					index_x += 1
-			
-			output.place(element)
+				output.place(element)
 			
 		return output
 
@@ -429,34 +429,33 @@ class RepeatNode(GroupNode):
 					
 		index = 0
 		
-		
+		if macrolist:
+			for macroset in macrolist:
+				child_macros = copy.deepcopy(data)
+				child_macros.update(macroset)
+				child_macros.update({"__index__" : index})
+				
+				line = generator.generateAnonymousGroup()
+				
+				for childnode in self.children:				
+					geom = output["geometry"].val()
+				
+					child_macros.update({
+						"__parentx__" : int(geom["x"]),
+						"__parenty__" : int(geom["y"]),
+						"__parentwidth__" : int(geom["width"]),
+						"__parentheight__" : int(geom["height"])})
 					
-		for macroset in macrolist:
-			child_macros = copy.deepcopy(data)
-			child_macros.update(macroset)
-			child_macros.update({"__index__" : index})
-			
-			line = generator.generateAnonymousGroup()
-			
-			for childnode in self.children:				
-				geom = output["geometry"].val()
-			
-				child_macros.update({
-					"__parentx__" : int(geom["x"]),
-					"__parenty__" : int(geom["y"]),
-					"__parentwidth__" : int(geom["width"]),
-					"__parentheight__" : int(geom["height"])})
+					line.place(childnode.apply(generator, data=child_macros))
+								
+				if self.flow == "vertical":
+					line.position(x=None, y=(index * (line["geometry"]["height"] + int(padding))))
+					
+				elif self.flow == "horizontal":
+					line.position(x=(index * (line["geometry"]["width"] + int(padding))), y=None)
 				
-				line.place(childnode.apply(generator, data=child_macros))
-							
-			if self.flow == "vertical":
-				line.position(x=None, y=(index * (line["geometry"]["height"] + int(padding))))
-				
-			elif self.flow == "horizontal":
-				line.position(x=(index * (line["geometry"]["width"] + int(padding))), y=None)
-			
-			output.place(line)
-			index += 1
+				output.place(line)
+				index += 1
 			
 		return output
 
