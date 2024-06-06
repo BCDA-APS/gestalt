@@ -11,9 +11,9 @@ motor_grid: !grid
     repeat-over: "MOTORS"
     start-at: 1
     
-    aspect-ratio: 10.0
+    aspect-ratio: "{ASPECT}"
     
-    padding: 20
+    padding: "{PADDING}"
     
     children:
         - !group
