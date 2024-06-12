@@ -17,6 +17,7 @@ class QtGroup(QtWidget):
 			self.pop("border-color")
 			self["border-color"] = Color("$00000000")
 		else:
+			self["frameShape"] = Enum("QFrame::Box")
 			self["border-color"] = Color(self.pop("border-color", "$000000"))
 		
 	
@@ -31,6 +32,6 @@ class QtGroup(QtWidget):
 		border["lineSize"] = Number(self.pop("border-width"))
 		
 		if (int(border["lineSize"]) != 0 or border["lineColor"].val()["alpha"] != 0):
-			self.children.insert(0, border)
+			self.children.append(border)
 		
 		super(QtGroup, self).write(tree)
