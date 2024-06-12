@@ -161,6 +161,7 @@ class GroupNode(Node):
 			self.makeInternal(Rect, "margins", "0x0x0x0")
 				
 		self.setDefault(Rect, "margins", "0x0x0x0", internal=True)
+		self.setDefault(Number, "border-width",   0)
 		
 					
 	def append(self, child, keep_original=False):					
@@ -178,16 +179,17 @@ class GroupNode(Node):
 		margins = self.getProperty("margins", internal=True).val()
 		child_geom = child_node["geometry"].val()
 		my_geom = self["geometry"].val()
+		border = int(self["border-width"])
 		
 		if x:
-			child_node["geometry"]["x"] = x + int(margins["x"])
+			child_node["geometry"]["x"] = x + int(margins["x"]) + border
 		else:
-			child_node["geometry"]["x"] = int(child_geom["x"]) + int(margins["x"])
+			child_node["geometry"]["x"] = int(child_geom["x"]) + int(margins["x"]) + border
 			
 		if y:
-			child_node["geometry"]["y"] = y + int(margins["y"])
+			child_node["geometry"]["y"] = y + int(margins["y"]) + border
 		else:
-			child_node["geometry"]["y"] = int(child_geom["y"]) + int(margins["y"])
+			child_node["geometry"]["y"] = int(child_geom["y"]) + int(margins["y"]) + border
 		
 			
 		# Don't use child_geom for x/y as the value may have updated
@@ -206,6 +208,7 @@ class GroupNode(Node):
 		margins = self.getProperty("margins", internal=True).val()
 		
 		child_macros = copy.deepcopy(data)
+		border = int(self["border-width"])
 		
 		for child in self.children:
 			geom = output["geometry"].val()
@@ -213,8 +216,8 @@ class GroupNode(Node):
 			child_macros.update({
 				"__parentx__" : int(geom["x"]),
 				"__parenty__" : int(geom["y"]),
-				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
-				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
+				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
+				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
 						
 			output.place(child.apply(generator, data=child_macros))
 			
