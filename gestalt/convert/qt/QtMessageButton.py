@@ -16,7 +16,7 @@ class QtMessageButton(QtWidget):
 		self.button.link("pressMessage", "value")
 			
 		self.button["colorMode"] = Enum("caMessageButton::Static")
-		self.button["fontScaleMode"] = Enum("EPushButton::None")
+		self.button["fontScaleMode"] = Enum("EPushButton::Height")
 		
 	def updateProperties(self, macros={}):
 		super(QtMessageButton, self).updateProperties(macros)
@@ -53,7 +53,7 @@ class QtMessageButton(QtWidget):
 QPushButton
 {{
     font-family: {family};
-    font: {style} {size}pt;
+    font: {style};
 	
     text-align: {lcr};
 }}

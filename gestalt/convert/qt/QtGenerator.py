@@ -43,7 +43,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("borderColor", "border-color")
 		output.link("borderWidth", "border-width")
 		
-		output["fontScaleMode"] = Enum("ESimpleLabel::None")
+		output["fontScaleMode"] = Enum("ESimpleLabel::Height")
 		
 		return output
 		
@@ -54,7 +54,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("channel", "pv")
 			
 		output["colorMode"]     = Enum("caLineEdit::Static")
-		output["fontScaleMode"] = Enum("caLineEdit::None")
+		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
 		return output
 		
@@ -67,7 +67,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("frameLineWidth", "border-width")
 			
 		output["colorMode"]     = Enum("caLineEdit::Static")
-		output["fontScaleMode"] = Enum("caLineEdit::None")
+		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
 		return output
 		
@@ -192,6 +192,9 @@ class QtGenerator(GestaltGenerator):
 		output["fillstyle"] = Enum("caPolyLine::Outline")
 		
 		xy_pairs = ""
+		
+		#my_points = List(node.points)
+		#my_points.apply(macros)
 		
 		for point in node.points:
 			a_point = Rect(point)

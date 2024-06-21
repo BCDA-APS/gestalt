@@ -25,6 +25,8 @@ class QtShellCommand(QtWidget):
 		self.button["files"]  = String(commands.rstrip(";"))
 		self.button["args"]   = String(args.rstrip(";"))
 		
+		self.button["fontScaleMode"] = Enum("EPushButton::WidthAndHeight")
+		
 		
 	def updateProperties(self, macros={}):
 		super(QtShellCommand, self).updateProperties(macros)
@@ -55,7 +57,7 @@ class QtShellCommand(QtWidget):
 QPushButton
 {{
     font-family: {family};
-    font: {style} {size}pt;
+    font: {style};
 	
     text-align: {lcr};
 }}

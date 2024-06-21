@@ -41,13 +41,13 @@ class QtRelatedDisplay(QtWidget):
 			else:
 				replace += "false;"
 
-		self.button["labels"] = String(labels.rstrip(";"))
-		self.button["files"]  = String(files.rstrip(";"))
-		self.button["args"]   = String(args.rstrip(";"))
-		self.button["removeParent"] = String(replace.rstrip(";"))
+		self.button["labels"] = String(labels.removesuffix(";"))
+		self.button["files"]  = String(files.removesuffix(";"))
+		self.button["args"]   = String(args.removesuffix(";"))
+		self.button["removeParent"] = String(replace.removesuffix(";"))
 		
 		self.button["stackingMode"] = Enum("Menu")
-		self.button["fontScaleMode"] = Enum("EPushButton::None")
+		self.button["fontScaleMode"] = Enum("EPushButton::WidthAndHeight")
 		
 		
 	def updateProperties(self, macros={}):
@@ -87,7 +87,7 @@ class QtRelatedDisplay(QtWidget):
 QPushButton
 {{
     font-family: {family};
-    font: {style} {size}pt;
+    font: {style};
 	
     text-align: {lcr};
 }}
