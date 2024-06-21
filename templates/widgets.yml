@@ -127,26 +127,41 @@ _OnOffText: !Template:OnOffText
                 
 _LabeledReadback: !Template:LabeledReadback
     - !Defaults 
+        text-height: 20
         spacing: 15
         fontname: "Liberation Sans"
+        fontsize: 11
         highlight: *transparent
+        units: False
         
     - !hflow
-        padding: "{spacing}"
         children:
             - !Text
-                geometry: "{text-width}x20"
-                font: "-{fontname} -Regular -11"
-                alignment: CenterRight
+                geometry: "{text-width}x{text-height}"
+                font: "-{fontname} -Regular -{fontsize}"
+                alignment: Right
                 text: "{label}"
+            
+            - !Spacer { geometry: "{spacing}x0" }
                 
             - !TextMonitor
                 foreground: *header_blue
                 background: "{highlight}"
-                geometry: "0x1 x {read-width}x18"
-                font: "-{fontname} -Regular -10"
+                geometry: "{read-width}x{text-height}"
+                font: "-{fontname} -Regular -{fontsize}"
                 pv: "{read-pv}"
                 
+            - !Conditional
+                condition: "{units}"
+                
+                children:
+                    - !Text
+                        geometry: "{spacing}x0 x {units-width}x{text-height}"
+                        alignment: Left
+                        font: "-{fontname} -Regular -{fontsize}"
+                        text: "{units}"
+                
+    
                 
 _LabeledEntry: !Template:LabeledEntry
     - !Defaults 

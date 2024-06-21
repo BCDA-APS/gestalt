@@ -60,7 +60,7 @@ motor_grid: !grid
                     
                     alignment: Center
                     
-                    geometry: 3x1 x 154x21
+                    geometry: 154x21
                     
                     pv: "$(P)$(M{N}).DESC"
                     
