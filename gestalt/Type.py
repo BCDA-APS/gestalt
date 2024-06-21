@@ -50,33 +50,34 @@ class DataType(object):
 			return output
 					
 		elif self.dict:
-			output = copy.deepcopy(self.value)
+			output = {}
 			
-			for key, val in output.items():
+			for key, val in self.value.items():
 				if key in self.updates:
 					output[key] = self.updates[key]
 					continue
 					
 				
 				for macrolist in reversed(self.macros):
-					output[key] = str(val).format(**macrolist)
-				except:
-					pass
+					try:
+						output[key] = str(val).format(**macrolist)
+					except:
+						pass
 			
 			return output
 			
 			
 		elif self.list:
-			output = copy.deepcopy(self.value)
+			output = []
 			
-			for index in range(len(output)):			
+			for index in range(len(self.value)):
 				if index in self.updates:
 					output[index] = self.updates[index]
 					continue
 				
 				for macrolist in reversed(self.macros):
 					try:
-						output[index] = str(output[index]).format(**macrolist)
+						output[index] = str(self.value[index]).format(**macrolist)
 					except:
 						pass
 			

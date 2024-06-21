@@ -106,13 +106,15 @@ class QtWidget(GroupNode):
 			else:
 				tree.start(item.typ, {})
 		
-				if (type(item.val()) is dict):
+				output = item.val()
+				
+				if isinstance(output, dict):
 					for component, value in item.val().items():
 						tree.start(component, {})
 						tree.data(str(value))
 						tree.end(component)
 				else:
-					tree.data(str(item.val()))
+					tree.data(str(output))
 					
 				tree.end(item.typ)
 				
