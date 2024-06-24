@@ -2,58 +2,119 @@ import copy
 import yaml
 from gestalt.Datasheet import *
 
-class DataType(object):
+class DataType(object):	
 	def __init__(self, typ, val):
 		self.typ = typ
-		self.value = val
-		self.defaultvalue = ""
 		self.macros = []
 		self.updates = {}
+		
+		self.standard = True
+		self.dict = False
+		self.list = False
+		
+		if isinstance(val, dict):
+			self.standard = False
+			self.value = val
+			self.dict = True
+			
+		elif isinstance(val, list) or isinstance(val, tuple):
+			self.standard = False
+			self.value = val
+			self.list = True
+			
+		elif isinstance(val, str):
+			self.value = val
+			
+		elif isinstance(val, DataType):
+			self.value    = val.value
+			self.macros   = val.macros
+			self.updates  = val.updates
+			self.standard = val.standard
+			self.dict     = val.dict
+			self.list     = val.list
+			
+		else:
+			self.value = str(val)
+			
 
+	def copy(self):
+		output  = type(self)(copy.copy(self.value))
+		
+		for item in self.macros:
+			output.macros.append(copy.copy(item))
+		#output.macros = copy.deepcopy(self.macros)
+		output.updates = copy.copy(self.updates)
+		return output
+			
+	def val(self):		
+		if self.standard:
+			output = self.value
+						 
+			for macrolist in reversed(self.macros):
+				try:
+					output = output.format(**macrolist)
+				except:
+					pass
+			
+			return output
+					
+		elif self.dict:
+			output = copy.deepcopy(self.value)
+			
+			for key, val in output.items():
+				if key in self.updates:
+					output[key] = self.updates[key]
+					continue
+					
+				
+				for macrolist in reversed(self.macros):
+					try:
+						output[key] = str(val).format(**macrolist)
+					except:
+						pass
+			
+			return output
+			
+			
+		elif self.list:
+			output = copy.deepcopy(self.value)
+			
+			for index in range(len(output)):			
+				if index in self.updates:
+					output[index] = self.updates[index]
+					continue
+				
+				for macrolist in reversed(self.macros):
+					try:
+						output[index] = str(output[index]).format(**macrolist)
+					except:
+						pass
+			
+			return output
+		
+		return None
+			
+		
+		
 	def apply(self, macros):
 		self.macros.append(macros.copy())
 				
-	def val(self):
-		output = copy.deepcopy(self.value)
-		
-		for macrolist in reversed(self.macros):
-			if isinstance(output, dict):
-				for key, item in output.items():
-					if item is None:
-						output[key] = self.defaultvalue
-					else:
-						try:
-							output[key] = str(item).format(**macrolist)
-						except:
-							pass
-			elif isinstance(output, list):
-				for index in range(len(output)):
-					if output[index] is None:
-						output[index] = self.defaultvalue
-					else:
-						try:
-							output[index] = str(item).format(**macrolist)
-						except:
-							pass
-			elif isinstance(output, str):
-				try:
-					output = str(output).format(**macrolist)
-				except KeyError:
-					pass
-					
-		if isinstance(output, dict):
-			output.update(self.updates)
-	
-		return output
-	
+
 	def __setitem__(self, key, data):
 		self.updates[key] = data
 		
 	def __getitem__(self, key):
-		return self.val()[key]
-
+		return self.val()[key]		
+		
+		
 	def __bool__(self):
-		return bool(self.val())
+		if self.val():
+			try:
+				return bool(int(self.value.lower()))
+			except:
+				return not ( self.value.lower() == "false" )
+				
+		return False
 		
 	def __int__(self):
 		return int(self.val())
@@ -72,118 +133,76 @@ class DataType(object):
 #     BASIC DATA TYPES    #
 ###########################
 
-class String(DataType):
+class String(DataType):	
 	def __init__(self, data):
-		if isinstance(data, String):
-			super(String, self).__init__("string", data.value)
-			self.macros = data.macros
-		else:
-			super(String, self).__init__("string", str(data))
+		super().__init__("string", data)
 	
-	def __bool__(self):
-		output = super(String, self).__bool__()
 		
-		if output:
-			try:
-				output = bool(int(self.value.lower()))
-			except:
-				output = not ( self.value.lower() == "false" )
-				
-		return output
-	
 class Number(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Number):
-			super(Number, self).__init__("number", data.value)
-			self.macros = data.macros
-		else:
-			super(Number, self).__init__("number", data)
-	
-			
+		super().__init__("number", data)
+		
+	def val(self):
+		return int(super().val())
+				
+		
 class Double(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Double):
-			super(Double, self).__init__("double", data.value)
-			self.macros = data.macros
-		else:
-			super(Double, self).__init__("double", data)
+		super().__init__("double", data)
 
+	def val(self):
+		return float(super().val())
+		
 			
 class Enum(DataType):	
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Enum):
-			super(Enum, self).__init__("enum", data.value)
-			self.macros = data.macros
-		else:
-			super(Enum, self).__init__("enum", data)
+		super().__init__("enum", data)
 
-	def val(self):
-		return str(self.value)
-			
 class Set(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Set):
-			super(Enum, self).__init__("set", data.value)
-			self.macros = data.macros
-		else:
-			super(Set, self).__init__("set", data)
-		
-	def val(self):
-		return str(self.value)
-	
+		super().__init__("set", data)
 		
 class Bool(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Bool):
-			super(Bool, self).__init__("bool", data.value)
-			self.macros = data.macros
-		else:
-			super(Bool, self).__init__("bool", data)
+		super().__init__("bool", data)
+		
+	def val(self):
+		return bool(super().val())
 		
 
 class Not(String):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Not):
-			super(Not, self).__init__(data.value)
-			self.macros = data.macros
-		else:
-			super(Not, self).__init__(data)
-	
+		super().__init__(data)
+
 
 ###########################
 #    GEOMETRY DATA TYPE   #
 ###########################
 
 
-class Rect(DataType):			
-	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Rect):
-			super(Rect, self).__init__("rect", data.value)
-			self.macros = data.macros
-			self.updates = data.updates
-		
-		elif isinstance(data, Number):
-			super(Rect, self).__init__("rect", "0x{:x}".format(int(data.value)))
+class Rect(DataType):
+	def __init__(self, data):		
+		if isinstance(data, Number):
+			super().__init__("rect", "0x{:x}".format(int(data.value)))
 			self.macros = data.macros
 			self.updates = data.updates
 			
 		elif isinstance(data, int):
-			super(Rect, self).__init__("rect", "0x{:x}".format(data))
+			super().__init__("rect", "0x{:x}".format(data))
 			
 		else:
-			super(Rect, self).__init__("rect", data)
+			super().__init__("rect", data)
 		
 			
 	def val(self):
-		data = super(Rect, self).val()
+		data = super().val()
 		
 		self.labels = ["x", "y", "width", "height"]
 		
-		if isinstance(data, dict):
-			data = [ data.get(key, 0) for key in self.labels ]
-				
-		elif isinstance(data, str):
+		if self.standard:			
 			data = [ int(item) for item in data.split("x")]
+		elif self.dict:
+			data = [ data.get(key, 0) for key in self.labels ]
 				
 		temp = []
 			
@@ -195,6 +214,7 @@ class Rect(DataType):
 			
 		output = dict(zip(self.labels, temp))
 		output.update(self.updates)
+		
 		return output
 		
 	def __getitem__(self, key):
@@ -209,25 +229,20 @@ class Color(DataType):
 	def __init__(self, data):
 		self.labels = ["red", "green", "blue", "alpha"]
 		
-		if isinstance(data, String) or isinstance(data, Color):
-			super(Color, self).__init__("color", data.value)
-			self.macros = data.macros
-			self.updates = data.updates
-			
-		else:
-			super(Color, self).__init__("color", data)
+		super().__init__("color", data)
+		
 		
 	def val(self):
-		data = super(Color, self).val()
+		data = super().val()
 		
-		if isinstance(data, dict):
-			data = [ data.get(key, None) for key in self.labels ]
-		
-		elif isinstance(data, str):
+		if self.standard:
 			data = data.lstrip("$")
 			
 			# Interpret each 2-char chunk as a hex number
 			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
+				
+		elif self.dict:
+			data = [ data.get(key, None) for key in self.labels ]
 			
 		temp = [None, None, None, 255]
 			
@@ -236,6 +251,7 @@ class Color(DataType):
 				
 		output = dict( zip(self.labels, temp))
 		output.update(self.updates)
+		
 		return output
 		
 	def __str__(self):
@@ -254,25 +270,18 @@ class Color(DataType):
 
 class Font(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Font):
-			super(Font, self).__init__("font", data.value)
-			self.macros = data.macros
-			self.updates = data.updates
-			
-		else:
-			super(Font, self).__init__("font", data)
+		super().__init__("font", data)
 		
 	def val(self):
-		data = super(Font, self).val()
+		data = super().val()
 		
 		self.labels = ["family", "style", "size"]
 		
-		if isinstance(data, dict):
-			data = [ data.get(key, None) for key in self.labels ]
-		
-		elif isinstance(data, str):
+		if self.standard:
 			data = [ item.strip() for item in data.lstrip("-").split("-") ]
-			
+		elif self.dict:
+			data = [ data.get(key, None) for key in self.labels ]
+					
 		temp = [None, None, None]
 			
 		for i in range(len(data)):
@@ -280,6 +289,7 @@ class Font(DataType):
 			
 		output = dict(zip(self.labels, temp))
 		output.update(self.updates)
+		
 		return output
 		
 		
@@ -291,19 +301,14 @@ class Font(DataType):
 
 class Alignment(DataType):	
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Alignment):
-			super(Alignment, self).__init__("align", data.value)
-			self.macros = data.macros
-			self.updates = data.updates
-		else:
-			super(Alignment, self).__init__("align", data)
+		super().__init__("align", data)
 	
 	def val(self):
 		self.labels = [ "vertical", "horizontal" ]
 		
-		data = super(Alignment, self).val()
+		data = super().val()
 		
-		if isinstance(data, str):
+		if self.standard:
 			temp = { "vertical" : "Center", "horizontal" : "Center" }
 				
 			data = data.lower()
@@ -330,10 +335,13 @@ class Alignment(DataType):
 					
 				
 			temp.update(self.updates)
+		
 			return temp		
 
-	def __str__(self):	
-		return str(self.val()["vertical"]) + str(self.val()["horizontal"])
+	def __str__(self):
+		output = self.val()
+		
+		return str(output["vertical"]) + str(output["horizontal"])
 			
 		
 ######################
@@ -342,19 +350,14 @@ class Alignment(DataType):
 
 class List(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, List):
-			super(List, self).__init__("list", data.value)
-			self.macros = data.macros
-			self.updates = data.updates
-		else:
-			super(List, self).__init__("list", data)
+		super().__init__("list", data)
+
 
 	def val(self):
-		
 		output = []
-		data = super(List, self).val()
+		data = super().val()
 		
-		if isinstance(data, str):
+		if self.standard:
 			data = yaml.safe_load(data)
 			
 		if isinstance(data, list):
@@ -370,19 +373,13 @@ class List(DataType):
 
 class Dict(DataType):
 	def __init__(self, data):
-		if isinstance(data, String) or isinstance(data, Dict):
-			super(Dict, self).__init__("dict", data.value)
-			self.macros = data.macros
-			self.updates = data.updates
-		else:
-			super(Dict, self).__init__("dict", data)
+		super().__init__("dict", data)
 
 	def val(self):
-		
 		output = []
-		data = super(List, self).val()
+		data = super().val()
 		
-		if isinstance(data, str):
+		if self.standard:
 			data = yaml.safe_load(data)
 			
 		if isinstance(data, dict):

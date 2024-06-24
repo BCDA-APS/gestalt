@@ -15,14 +15,21 @@ class Node(object):
 		self.classname = classname
 		self.name = name
 		
+		self.properties = {}
+		self.properties["attrs"] = {}
+		self.properties["internal"]  = {}
+		
 		if node:
 			self.name = node.name
-			self.properties = copy.deepcopy(node.properties)
+			
+			for typ in ( "attrs", "internal" ):
+				for key,val in node.properties[typ].items():
+					if isinstance(val, DataType):
+						self.properties[typ][key] = val.copy()
+					else:
+						# Profiling shows this to not come up
+						self.properties[typ][key] = copy.deepcopy(val)
 		else:
-			self.properties = {}
-			self.properties["attrs"] = {}
-			self.properties["internal"]  = {}
-		
 			if layout is not None:
 				for key, val in layout.items():
 					self.setProperty(key, val)
@@ -47,6 +54,8 @@ class Node(object):
 		self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key, default))
 		
 	def updateProperties(self, macros={}):
+		if len(macros) == 0: return
+		
 		for attr in self.properties["internal"].values():
 			attr.apply(macros)
 		
@@ -66,6 +75,12 @@ class Node(object):
 			to_assign = Double(input)
 		elif isinstance(input, str):
 			to_assign = String(input)
+		elif isinstance(input, list):
+			to_assign = []
+			for item in input:
+				to_assign.append(copy.copy(item))
+		elif isinstance(input, DataType):
+			to_assign = input.copy()
 		else:
 			to_assign = copy.deepcopy(input)
 							
@@ -207,7 +222,7 @@ class GroupNode(Node):
 		output = generator.generateGroup(self, macros=data)
 		margins = self.getProperty("margins", internal=True).val()
 		
-		child_macros = copy.deepcopy(data)
+		child_macros = copy.copy(data)
 		border = int(self["border-width"])
 		
 		for child in self.children:
@@ -258,7 +273,7 @@ class TabbedGroupNode(GroupNode):
 			border_size = 0
 		
 		for childnode in self.children:
-			child_macros = copy.deepcopy(data)
+			child_macros = copy.copy(data)
 			
 			geom = output["geometry"].val()
 			
@@ -312,7 +327,7 @@ class GridNode(GroupNode):
 		index_y = 0
 		if macrolist:
 			for macroset in macrolist:
-				child_macros = copy.deepcopy(data)
+				child_macros = copy.copy(data)
 				child_macros.update(macroset)
 				child_macros.update({"__index__" : index})
 				child_macros.update({"__col__" : index_x})
@@ -370,7 +385,7 @@ class FlowNode(GroupNode):
 		padding = output.getProperty("padding", internal=True)
 		margins = output.getProperty("margins", internal=True).val()
 		
-		child_macros = copy.deepcopy(data)
+		child_macros = copy.copy(data)
 		
 		first = 0
 		position = 0
@@ -434,7 +449,7 @@ class RepeatNode(GroupNode):
 		
 		if macrolist:
 			for macroset in macrolist:
-				child_macros = copy.deepcopy(data)
+				child_macros = copy.copy(data)
 				child_macros.update(macroset)
 				child_macros.update({"__index__" : index})
 				
@@ -619,7 +634,7 @@ class RelatedDisplayNode(Node):
 		if isinstance(self.links, dict):
 			temp = []
 			
-			for key, val in self.items():
+			for key, val in self.links.items():
 				val["label"] = key
 				temp.append(val)
 				
@@ -781,7 +796,7 @@ class ShellCommandNode(Node):
 		if isinstance(self.commands, dict):
 			temp = []
 			
-			for key, val in self.items():
+			for key, val in self.commands.items():
 				val["label"] = key
 				temp.append(val)
 				
