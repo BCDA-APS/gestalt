@@ -59,9 +59,10 @@ class DataType(object):
 					
 				
 				for macrolist in reversed(self.macros):
-					output[key] = str(val).format(**macrolist)
-				except:
-					pass
+					try:
+						output[key] = str(val).format(**macrolist)
+					except:
+						pass
 			
 			return output
 			
