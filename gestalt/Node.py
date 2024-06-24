@@ -27,6 +27,7 @@ class Node(object):
 					if isinstance(val, DataType):
 						self.properties[typ][key] = val.copy()
 					else:
+						# Profiling shows this to not come up
 						self.properties[typ][key] = copy.deepcopy(val)
 		else:
 			if layout is not None:
@@ -74,6 +75,10 @@ class Node(object):
 			to_assign = Double(input)
 		elif isinstance(input, str):
 			to_assign = String(input)
+		elif isinstance(input, list):
+			to_assign = []
+			for item in input:
+				to_assign.append(copy.copy(item))
 		elif isinstance(input, DataType):
 			to_assign = input.copy()
 		else:
@@ -217,7 +222,7 @@ class GroupNode(Node):
 		output = generator.generateGroup(self, macros=data)
 		margins = self.getProperty("margins", internal=True).val()
 		
-		child_macros = copy.deepcopy(data)
+		child_macros = copy.copy(data)
 		border = int(self["border-width"])
 		
 		for child in self.children:
@@ -268,7 +273,7 @@ class TabbedGroupNode(GroupNode):
 			border_size = 0
 		
 		for childnode in self.children:
-			child_macros = copy.deepcopy(data)
+			child_macros = copy.copy(data)
 			
 			geom = output["geometry"].val()
 			
@@ -322,7 +327,7 @@ class GridNode(GroupNode):
 		index_y = 0
 		if macrolist:
 			for macroset in macrolist:
-				child_macros = copy.deepcopy(data)
+				child_macros = copy.copy(data)
 				child_macros.update(macroset)
 				child_macros.update({"__index__" : index})
 				child_macros.update({"__col__" : index_x})
@@ -380,7 +385,7 @@ class FlowNode(GroupNode):
 		padding = output.getProperty("padding", internal=True)
 		margins = output.getProperty("margins", internal=True).val()
 		
-		child_macros = copy.deepcopy(data)
+		child_macros = copy.copy(data)
 		
 		first = 0
 		position = 0
@@ -444,7 +449,7 @@ class RepeatNode(GroupNode):
 		
 		if macrolist:
 			for macroset in macrolist:
-				child_macros = copy.deepcopy(data)
+				child_macros = copy.copy(data)
 				child_macros.update(macroset)
 				child_macros.update({"__index__" : index})
 				
