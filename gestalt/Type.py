@@ -36,7 +36,16 @@ class DataType(object):
 		else:
 			self.value = str(val)
 			
-	
+
+	def copy(self):
+		output  = type(self)(copy.copy(self.value))
+		
+		for item in self.macros:
+			output.macros.append(copy.copy(item))
+		#output.macros = copy.deepcopy(self.macros)
+		output.updates = copy.copy(self.updates)
+		return output
+			
 	def val(self):		
 		if self.standard:
 			output = self.value

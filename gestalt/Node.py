@@ -15,14 +15,20 @@ class Node(object):
 		self.classname = classname
 		self.name = name
 		
+		self.properties = {}
+		self.properties["attrs"] = {}
+		self.properties["internal"]  = {}
+		
 		if node:
 			self.name = node.name
-			self.properties = copy.deepcopy(node.properties)
+			
+			for typ in ( "attrs", "internal" ):
+				for key,val in node.properties[typ].items():
+					if isinstance(val, DataType):
+						self.properties[typ][key] = val.copy()
+					else:
+						self.properties[typ][key] = copy.deepcopy(val)
 		else:
-			self.properties = {}
-			self.properties["attrs"] = {}
-			self.properties["internal"]  = {}
-		
 			if layout is not None:
 				for key, val in layout.items():
 					self.setProperty(key, val)
@@ -47,6 +53,8 @@ class Node(object):
 		self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key, default))
 		
 	def updateProperties(self, macros={}):
+		if len(macros) == 0: return
+		
 		for attr in self.properties["internal"].values():
 			attr.apply(macros)
 		
@@ -66,6 +74,8 @@ class Node(object):
 			to_assign = Double(input)
 		elif isinstance(input, str):
 			to_assign = String(input)
+		elif isinstance(input, DataType):
+			to_assign = input.copy()
 		else:
 			to_assign = copy.deepcopy(input)
 							
@@ -619,7 +629,7 @@ class RelatedDisplayNode(Node):
 		if isinstance(self.links, dict):
 			temp = []
 			
-			for key, val in self.items():
+			for key, val in self.links.items():
 				val["label"] = key
 				temp.append(val)
 				
@@ -781,7 +791,7 @@ class ShellCommandNode(Node):
 		if isinstance(self.commands, dict):
 			temp = []
 			
-			for key, val in self.items():
+			for key, val in self.commands.items():
 				val["label"] = key
 				temp.append(val)
 				
