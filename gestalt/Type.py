@@ -126,10 +126,7 @@ class DataType(object):
 	def __float__(self):
 		return float(self.val())
 		
-	def __format__(self, format_spec):
-		if (format_spec != ""):
-			print(format_spec)
-		
+	def __format__(self, format_spec):	
 		return str(self).__format__(format_spec)
 		
 
