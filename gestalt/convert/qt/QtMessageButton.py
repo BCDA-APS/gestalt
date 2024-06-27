@@ -18,6 +18,8 @@ class QtMessageButton(QtWidget):
 		self.button["colorMode"] = Enum("caMessageButton::Static")
 		self.button["fontScaleMode"] = Enum("EPushButton::Height")
 		
+		self.tocopy.append("button")
+		
 	def updateProperties(self, macros={}):
 		super(QtMessageButton, self).updateProperties(macros)
 		self.button.updateProperties(macros)

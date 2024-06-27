@@ -49,6 +49,9 @@ class QtRelatedDisplay(QtWidget):
 		self.button["stackingMode"] = Enum("Menu")
 		self.button["fontScaleMode"] = Enum("EPushButton::WidthAndHeight")
 		
+		self.tocopy.append("button")
+		self.tocopy.append("links")
+		
 		
 	def updateProperties(self, macros={}):
 		super(QtRelatedDisplay, self).updateProperties(macros)

@@ -7,6 +7,9 @@ from gestalt.convert.qt.QtWidget import QtWidget
 class QtDisplay(QtWidget):
 	def __init__(self, layout={}):
 		super(QtDisplay, self).__init__("caFrame", name="content")
+		
+		self.tocopy.append("form")
+		self.tocopy.append("widg")
 	
 		self.form = QtWidget("QMainWindow", name="Form", layout=layout)
 		self.widg = QtWidget("QWidget", name="centralwidget", layout={})

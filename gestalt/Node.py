@@ -19,6 +19,8 @@ class Node(object):
 		self.properties["attrs"] = {}
 		self.properties["internal"]  = {}
 		
+		self.tocopy = []
+		
 		if node:
 			self.name = node.name
 			
@@ -150,6 +152,26 @@ class Node(object):
 			return gen_func(self, macros=data)
 		else:
 			return generator.generateWidget(self, macros=data)
+			
+	def __deepcopy__(self, memo):
+		cls = self.__class__
+		output = cls.__new__(cls)
+		
+		output.classname = self.classname
+		output.name = self.name
+		
+		output.properties = {}
+		output.properties["attrs"] = copy.copy(self.properties["attrs"])
+		output.properties["internal"] = copy.copy(self.properties["internal"])
+		
+		output.tocopy = copy.copy(self.tocopy)
+
+		for attr in self.tocopy:
+			setattr(output, attr, copy.deepcopy(getattr(self, attr), memo))
+		
+		memo[id(self)] = output
+		
+		return output
 		
 		
 		
@@ -237,6 +259,14 @@ class GroupNode(Node):
 			output.place(child.apply(generator, data=child_macros))
 			
 		return output
+		
+	def __deepcopy__(self, memo):
+		output = super().__deepcopy__(memo)
+		
+		output.children = copy.copy(self.children)
+		
+		return output
+		
 
 class TabbedGroupNode(GroupNode):
 	def __init__(self, name=None, layout={}):		
@@ -377,13 +407,14 @@ class FlowNode(GroupNode):
 		super(FlowNode, self).__init__("caFrame", layout=layout)
 	
 		self.makeInternal(Number, "padding", 0)
-		self.flow = flow
+		self.setProperty("flow", flow, internal=True)
 		
 		
 	def apply (self, generator, data={}):
 		output = generator.generateGroup(self, macros=data)
 		padding = output.getProperty("padding", internal=True)
 		margins = output.getProperty("margins", internal=True).val()
+		flow = output.getProperty("flow", internal=True).val()
 		
 		child_macros = copy.copy(data)
 		
@@ -401,11 +432,11 @@ class FlowNode(GroupNode):
 				
 			element = childnode.apply(generator, data=child_macros)
 			
-			if self.flow == "vertical":
+			if flow == "vertical":
 				element.position(x=None, y=position + (first*int(padding)))
 				position = int(element["geometry"]["y"]) + int(element["geometry"]["height"])
 				
-			elif self.flow == "horizontal":
+			elif flow == "horizontal":
 				element.position(x=position + (first * int(padding)), y=None)
 				position = int(element["geometry"]["x"]) + int(element["geometry"]["width"])
 			
@@ -423,7 +454,7 @@ class RepeatNode(GroupNode):
 		self.makeInternal(String, "repeat-over", "")
 		self.makeInternal(Number, "start-at", 0)
 		self.makeInternal(Number, "padding", 0)
-		self.flow = flow
+		self.setProperty("flow", flow, internal=True)
 	
 		
 	def apply (self, generator, data={}):		
@@ -432,6 +463,7 @@ class RepeatNode(GroupNode):
 		repeat   = output.getProperty("repeat-over", internal=True)
 		start_at = output.getProperty("start-at", internal=True)
 		padding  = output.getProperty("padding", internal=True)
+		flow     = output.getProperty("flow", internal=True).val()
 		
 		repeat.apply(data)
 		
@@ -466,10 +498,10 @@ class RepeatNode(GroupNode):
 					
 					line.place(childnode.apply(generator, data=child_macros))
 								
-				if self.flow == "vertical":
+				if flow == "vertical":
 					line.position(x=None, y=(index * (line["geometry"]["height"] + int(padding))))
 					
-				elif self.flow == "horizontal":
+				elif flow == "horizontal":
 					line.position(x=(index * (line["geometry"]["width"] + int(padding))), y=None)
 				
 				output.place(line)
@@ -513,6 +545,10 @@ class ApplyNode(Node):
 		self.defaults = defaults
 		self.macros = macros
 		self.subnode = subnode
+		
+		self.tocopy.append("subnode")
+		self.tocopy.append("macros")
+		self.tocopy.append("defaults")
 		
 	def apply(self, generator, data={}):
 		child_macros = {}
@@ -561,15 +597,19 @@ class StretchNode(Node):
 	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
 		super(StretchNode, self).__init__("Stretch", name=name, layout=layout)
 		
+		self.setProperty("flow", flow, internal=True)
+		
 		self.subnode = subnode
-		self.flow = flow
+		self.tocopy.append("subnode")
 		
 	def apply (self, generator, data={}):
 		applied_node = copy.deepcopy(self.subnode)
 		
-		if self.flow == "vertical" or self.flow == "all":
+		flow = self.getProperty("flow", internal=True).val()
+		
+		if flow == "vertical" or flow == "all":
 			applied_node["geometry"]["height"] = data["__parentheight__"]
-		if self.flow == "horizontal" or self.flow=="all":
+		if flow == "horizontal" or flow=="all":
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
 			
 		applied_node = applied_node.apply(generator, data=data)
@@ -584,17 +624,21 @@ class CenterNode(Node):
 	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
 		super(CenterNode, self).__init__("Center", name=name, layout=layout)
 		
+		self.setProperty("flow", flow, internal=True)
+		
 		self.subnode = subnode
-		self.flow = flow
+		self.tocopy.append("subnode")
 		
 	def apply (self, generator, data={}):
 		applied_node = self.subnode.apply(generator, data=data)
+		
+		flow = self.getProperty("flow", internal=True).val()
 			
-		if self.flow == "vertical":
+		if flow == "vertical":
 			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
-		elif self.flow == "horizontal":
+		elif flow == "horizontal":
 			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
-		elif self.flow == "all":
+		elif flow == "all":
 			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 					
 		return applied_node	
@@ -603,17 +647,22 @@ class AnchorNode(Node):
 	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
 		super(AnchorNode, self).__init__("Anchor", name=name, layout=layout)
 		
+		self.setProperty("flow", flow, internal=True)
+		
 		self.subnode = subnode
-		self.flow = flow
+		self.tocopy.append("subnode")
+		
 		
 	def apply (self, generator, data={}):
 		applied_node = self.subnode.apply(generator, data=data)
 			
-		if self.flow == "vertical":
+		flow = self.getProperty("flow", internal=True).val()
+		
+		if flow == "vertical":
 			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
-		elif self.flow == "horizontal":
+		elif flow == "horizontal":
 			applied_node.position(int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), applied_node["geometry"]["y"] + self["geometry"]["y"])
-		elif self.flow == "all":
+		elif flow == "all":
 			applied_node.position(int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
 					
 		return applied_node	
@@ -630,6 +679,8 @@ class RelatedDisplayNode(Node):
 		self.setDefault(Color, "foreground", "$000000")
 		self.setDefault(Color, "background", "$57CAE4")
 		self.setDefault(Alignment, "alignment", "Center")
+		
+		self.tocopy.append("links")
 	
 		if isinstance(self.links, dict):
 			temp = []
@@ -792,6 +843,8 @@ class ShellCommandNode(Node):
 		self.setDefault(String, "text", "")
 		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment", "Center")
+		
+		self.tocopy.append("commands")
 	
 		if isinstance(self.commands, dict):
 			temp = []
@@ -812,6 +865,8 @@ class PolygonNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		
+		self.tocopy.append("points")
 
 		
 class PolylineNode(Node):
@@ -822,5 +877,7 @@ class PolylineNode(Node):
 		
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		
+		self.tocopy.append("points")
 		
 		

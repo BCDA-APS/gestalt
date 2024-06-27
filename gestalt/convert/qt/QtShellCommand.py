@@ -27,6 +27,8 @@ class QtShellCommand(QtWidget):
 		
 		self.button["fontScaleMode"] = Enum("EPushButton::WidthAndHeight")
 		
+		self.tocopy.append("button")
+		
 		
 	def updateProperties(self, macros={}):
 		super(QtShellCommand, self).updateProperties(macros)
