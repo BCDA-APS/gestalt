@@ -181,8 +181,6 @@ class GroupNode(Node):
 		
 		self.children = []
 		
-		#if node and hasattr(node, "children"):
-			#self.children = copy.deepcopy(node.children)
 		if not node:
 			initial = self.pop("children", [])
 		

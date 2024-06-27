@@ -42,8 +42,9 @@ class DataType(object):
 		
 		for item in self.macros:
 			output.macros.append(copy.copy(item))
-		#output.macros = copy.deepcopy(self.macros)
+			
 		output.updates = copy.copy(self.updates)
+		
 		return output
 			
 	def val(self):		
@@ -126,6 +127,9 @@ class DataType(object):
 		return float(self.val())
 		
 	def __format__(self, format_spec):
+		if (format_spec != ""):
+			print(format_spec)
+		
 		return str(self).__format__(format_spec)
 		
 
