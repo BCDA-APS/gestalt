@@ -171,7 +171,10 @@ class QtGenerator(GestaltGenerator):
 		
 		xy_pairs = ""
 		
-		for point in node.points:
+		my_points = List(node.points)
+		my_points.apply(macros)
+		
+		for point in my_points:
 			a_point = Rect(point)
 			a_point.apply(macros)
 			
@@ -193,10 +196,10 @@ class QtGenerator(GestaltGenerator):
 		
 		xy_pairs = ""
 		
-		#my_points = List(node.points)
-		#my_points.apply(macros)
+		my_points = List(node.points)
+		my_points.apply(macros)
 		
-		for point in node.points:
+		for point in my_points:
 			a_point = Rect(point)
 			a_point.apply(macros)
 			

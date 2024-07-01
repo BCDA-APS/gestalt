@@ -185,7 +185,10 @@ class CSSGenerator(GestaltGenerator):
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
 		
-		for point in node.points:
+		my_points = List(node.points)
+		my_points.apply(macros)
+		
+		for point in my_points:
 			a_point = Rect(point)
 			a_point.apply(macros)
 			
@@ -200,7 +203,10 @@ class CSSGenerator(GestaltGenerator):
 		output.link("line", "border-color")
 		output.link("line_width", "border-width")
 		
-		for point in node.points:
+		my_points = List(node.points)
+		my_points.apply(macros)
+		
+		for point in my_points:
 			a_point = Rect(point)
 			a_point.apply(macros)
 			

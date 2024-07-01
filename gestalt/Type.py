@@ -50,7 +50,7 @@ class DataType(object):
 	def val(self):		
 		if self.standard:
 			output = self.value
-						 
+			
 			for macrolist in reversed(self.macros):
 				try:
 					output = output.format(**macrolist)
@@ -66,7 +66,6 @@ class DataType(object):
 				if key in self.updates:
 					output[key] = self.updates[key]
 					continue
-					
 				
 				for macrolist in reversed(self.macros):
 					try:
@@ -76,7 +75,6 @@ class DataType(object):
 			
 			return output
 			
-			
 		elif self.list:
 			output = copy.deepcopy(self.value)
 			
@@ -85,11 +83,15 @@ class DataType(object):
 					output[index] = self.updates[index]
 					continue
 				
-				for macrolist in reversed(self.macros):
-					try:
-						output[index] = str(output[index]).format(**macrolist)
-					except:
-						pass
+				index_val = DataType("temp", output[index])
+					
+				for macrolist in self.macros:
+					index_val.apply(macrolist)
+					
+				try:
+					output[index] = str(index_val).val()
+				except:
+					pass
 			
 			return output
 		
@@ -220,6 +222,10 @@ class Rect(DataType):
 		
 	def __getitem__(self, key):
 		return int(self.val()[key])
+		
+	def __repr__(self):
+		data = self.val()
+		return "{x}x{y}x{width}x{height}".format(**data)
 						
 		
 #######################
@@ -352,7 +358,6 @@ class Alignment(DataType):
 class List(DataType):
 	def __init__(self, data):
 		super().__init__("list", data)
-
 
 	def val(self):
 		output = []
