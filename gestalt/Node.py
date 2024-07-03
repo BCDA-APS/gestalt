@@ -511,25 +511,29 @@ class RepeatNode(GroupNode):
 class ConditionalNode(GroupNode):
 	def __init__(self, layout={}):
 		super(ConditionalNode, self).__init__("caFrame", layout=layout)
+		self.condition = self.pop("condition", "")
 		
-		self.makeInternal(String, "condition", "")
+		self.tocopy.append("condition")
+		#self.makeInternal(String, "condition", "")
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
 		output.position(self["geometry"]["x"], self["geometry"]["y"])
 
-		condition = self.getProperty("condition", internal=True)
-		condition.apply(data)
+		invert = isinstance(self.condition, Not)
+		
+		my_condition = String(self.condition)
+		my_condition.apply(data)
 		
 		conditional = None
 		
 		try:
-			conditional = data[str(condition)]
+			conditional = data[str(my_condition)]
 		except KeyError:
-			if "{" in condition.value:
-				conditional = str(condition)
-		
-		if bool(conditional):
+			if "{" in my_condition.value:
+				conditional = str(my_condition)
+							
+		if bool(conditional) != invert:
 			for childnode in self.children:	
 				output.place(childnode.apply(generator, data=data))
 		
