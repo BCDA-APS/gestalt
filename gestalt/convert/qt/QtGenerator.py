@@ -14,7 +14,7 @@ from gestalt.convert.qt.QtLED            import QtLED
 
 format_conversion = {
 	"String"      : Enum("caLineEdit::string"),
-	"Decimal"     : Enum("caLineEdit::deciaml"),
+	"Decimal"     : Enum("caLineEdit::decimal"),
 	"Engineering" : Enum("caLineEdit::engr_notation"),
 	"Exponential" : Enum("caLineEdit::exponential"),
 	"Compact"     : Enum("caLineEdit::compact"),
