@@ -12,6 +12,16 @@ from gestalt.convert.qt.QtMessageButton  import QtMessageButton
 from gestalt.convert.qt.QtAnonymous      import QtAnonymous
 from gestalt.convert.qt.QtLED            import QtLED
 
+format_conversion = {
+	"String"      : Enum("caLineEdit::string"),
+	"Decimal"     : Enum("caLineEdit::deciaml"),
+	"Engineering" : Enum("caLineEdit::engr_notation"),
+	"Exponential" : Enum("caLineEdit::exponential"),
+	"Compact"     : Enum("caLineEdit::compact"),
+	"Hexadecimal" : Enum("caLineEdit::hexadecimal"),
+	"Binary"      : Enum("caLineEdit::octal")
+}
+
 class QtGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
 		return QtWidget(original.classname, node=original, macros=macros)
@@ -52,6 +62,15 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caTextEntry", node=node, macros=macros)
 		
 		output.link("channel", "pv")
+		
+		format = output.pop("format")
+		format.apply(macros)
+		form_str = format.val()
+		
+		if (form_str in format_conversion):
+			output["formatType"] = format_conversion[form_str]
+		else:
+			print ("Invalid text display format: {name}".format(name=form_str))
 			
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
@@ -65,6 +84,15 @@ class QtGenerator(GestaltGenerator):
 		output.link("channel", "pv")
 		output.link("frameColor", "border-color")
 		output.link("frameLineWidth", "border-width")
+		
+		format = output.pop("format")
+		format.apply(macros)
+		form_str = format.val()
+		
+		if (form_str in format_conversion):
+			output["formatType"] = format_conversion[form_str]
+		else:
+			print ("Invalid text display format: {name}".format(name=form_str))
 			
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::Height")

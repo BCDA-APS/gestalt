@@ -723,6 +723,7 @@ class TextEntryNode(Node):
 	
 		self.setDefault(String,    "pv",         "")
 		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
+		self.setDefault(String,    "format",     "Decimal")
 		self.setDefault(Alignment, "alignment",  "CenterLeft")
 		self.setDefault(Color,     "background", "$57CAE4")
 		self.setDefault(Color,     "foreground", "$000000")
@@ -737,6 +738,7 @@ class TextMonitorNode(Node):
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
+		self.setDefault(String,    "format",       "Decimal")
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
 
 class MenuNode(Node):
