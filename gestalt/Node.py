@@ -11,9 +11,10 @@ import tkinter.font as tkfont
 
 
 class Node(object):
-	def __init__(self, classname, name=None, node=None, layout={}):
+	def __init__(self, classname, name=None, node=None, layout={}, loc=None):
 		self.classname = classname
 		self.name = name
+		self.location = loc
 		
 		self.properties = {}
 		self.properties["attrs"] = {}
@@ -23,6 +24,7 @@ class Node(object):
 		
 		if node:
 			self.name = node.name
+			self.location = node.location
 			
 			for typ in ( "attrs", "internal" ):
 				for key,val in node.properties[typ].items():
@@ -159,6 +161,7 @@ class Node(object):
 		
 		output.classname = self.classname
 		output.name = self.name
+		output.location = self.location
 		
 		output.properties = {}
 		output.properties["attrs"] = copy.copy(self.properties["attrs"])
@@ -176,8 +179,8 @@ class Node(object):
 		
 		
 class GroupNode(Node):
-	def __init__(self, classname, name=None, node=None, layout={}):	
-		super(GroupNode, self).__init__(classname, name=name, node=node, layout=layout)
+	def __init__(self, classname, name=None, node=None, layout={}, loc=None):	
+		super(GroupNode, self).__init__(classname, name=name, node=node, layout=layout, loc=loc)
 		
 		self.children = []
 		
@@ -267,8 +270,8 @@ class GroupNode(Node):
 		
 
 class TabbedGroupNode(GroupNode):
-	def __init__(self, name=None, layout={}):		
-		super(TabbedGroupNode, self).__init__("TabbedGroup", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):		
+		super(TabbedGroupNode, self).__init__("TabbedGroup", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "foreground",     "$000000")
 		self.setDefault(Color,  "background",     "$00000000")
@@ -314,8 +317,8 @@ class TabbedGroupNode(GroupNode):
 		
 		
 class GridNode(GroupNode):
-	def __init__(self, name=None, layout={}):
-		super(GridNode, self).__init__("caFrame", layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(GridNode, self).__init__("caFrame", layout=layout, loc=loc)
 	
 		self.makeInternal(Double, "aspect-ratio", 1.0)
 		self.makeInternal(String, "repeat-over", "")
@@ -401,8 +404,8 @@ class GridNode(GroupNode):
 
 		
 class FlowNode(GroupNode):
-	def __init__(self, layout={}, flow="vertical"):
-		super(FlowNode, self).__init__("caFrame", layout=layout)
+	def __init__(self, layout={}, flow="vertical", loc=None):
+		super(FlowNode, self).__init__("caFrame", layout=layout, loc=loc)
 	
 		self.makeInternal(Number, "padding", 0)
 		self.setProperty("flow", flow, internal=True)
@@ -446,8 +449,8 @@ class FlowNode(GroupNode):
 		
 		
 class RepeatNode(GroupNode):
-	def __init__(self, layout={}, flow="vertical"):
-		super(RepeatNode, self).__init__("caFrame", layout=layout)
+	def __init__(self, layout={}, flow="vertical", loc=None):
+		super(RepeatNode, self).__init__("caFrame", layout=layout, loc=loc)
 	
 		self.makeInternal(String, "repeat-over", "")
 		self.makeInternal(Number, "start-at", 0)
@@ -509,8 +512,8 @@ class RepeatNode(GroupNode):
 
 
 class ConditionalNode(GroupNode):
-	def __init__(self, layout={}):
-		super(ConditionalNode, self).__init__("caFrame", layout=layout)
+	def __init__(self, layout={}, loc=None):
+		super(ConditionalNode, self).__init__("caFrame", layout=layout, loc=loc)
 		self.condition = self.pop("condition", "")
 		
 		self.tocopy.append("condition")
@@ -541,8 +544,8 @@ class ConditionalNode(GroupNode):
 		
 		
 class ApplyNode(Node):
-	def __init__(self, layout={}, defaults={}, macros={}, subnode=None):
-		super(ApplyNode, self).__init__("Apply", layout=layout)
+	def __init__(self, layout={}, defaults={}, macros={}, subnode=None, loc=None):
+		super(ApplyNode, self).__init__("Apply", layout=layout, loc=loc)
 		
 		self.defaults = defaults
 		self.macros = macros
@@ -584,8 +587,8 @@ class ApplyNode(Node):
 
 		
 class SpacerNode(Node):
-	def __init__(self, layout={}):
-		super(SpacerNode, self).__init__("Spacer", layout=layout)
+	def __init__(self, layout={}, loc=None):
+		super(SpacerNode, self).__init__("Spacer", layout=layout, loc=loc)
 	
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
@@ -596,8 +599,8 @@ class SpacerNode(Node):
 		
 		
 class StretchNode(Node):
-	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
-		super(StretchNode, self).__init__("Stretch", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, flow="vertical", subnode=None, loc=None):
+		super(StretchNode, self).__init__("Stretch", name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)
 		
@@ -623,8 +626,8 @@ class StretchNode(Node):
 
 		
 class CenterNode(Node):
-	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
-		super(CenterNode, self).__init__("Center", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, flow="vertical", subnode=None, loc=None):
+		super(CenterNode, self).__init__("Center", name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)
 		
@@ -646,8 +649,8 @@ class CenterNode(Node):
 		return applied_node	
 
 class AnchorNode(Node):
-	def __init__(self, name=None, layout={}, flow="vertical", subnode=None):
-		super(AnchorNode, self).__init__("Anchor", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, flow="vertical", subnode=None, loc=None):
+		super(AnchorNode, self).__init__("Anchor", name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)
 		
@@ -671,10 +674,10 @@ class AnchorNode(Node):
 		
 		
 class RelatedDisplayNode(Node):
-	def __init__(self, name=None, layout={}):
+	def __init__(self, name=None, layout={}, loc=None):
 		self.links = layout.pop("links", [])
 	
-		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout)
+		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "text", "")
 		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
@@ -695,8 +698,8 @@ class RelatedDisplayNode(Node):
 
 			
 class MessageButtonNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout)		
+	def __init__(self, name=None, layout={}, loc=None):
+		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout, loc=loc)
 		self.setDefault(String, "text",  "")
 		self.setDefault(String, "pv",    "")
 		self.setDefault(String, "value", "")
@@ -707,8 +710,8 @@ class MessageButtonNode(Node):
 	
 
 class TextNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(TextNode, self).__init__("Text", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(TextNode, self).__init__("Text", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,     "foreground",   "$000000")
 		self.setDefault(Color,     "background",   "$00000000")
@@ -718,8 +721,8 @@ class TextNode(Node):
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
 
 class TextEntryNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(TextEntryNode, self).__init__("TextEntry", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String,    "pv",         "")
 		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
@@ -729,8 +732,8 @@ class TextEntryNode(Node):
 		self.setDefault(Color,     "foreground", "$000000")
 
 class TextMonitorNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(TextMonitorNode, self).__init__("TextMonitor", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String,    "pv",           "")
 		self.setDefault(Color,     "foreground",   "$000000")
@@ -742,14 +745,14 @@ class TextMonitorNode(Node):
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
 
 class MenuNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(MenuNode, self).__init__("Menu", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(MenuNode, self).__init__("Menu", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String, "pv", "")
 	
 class ChoiceButtonNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(ChoiceButtonNode, self).__init__("ChoiceButton", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(ChoiceButtonNode, self).__init__("ChoiceButton", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String, "pv",         "")
 		self.setDefault(Bool,   "horizontal", True)
@@ -757,8 +760,8 @@ class ChoiceButtonNode(Node):
 		self.setDefault(Color,  "selected",   self["background"])
 	
 class LEDNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(LEDNode, self).__init__("LED", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(LEDNode, self).__init__("LED", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String, "pv",             "")
 		self.setDefault(Bool,   "square",         False)
@@ -773,8 +776,8 @@ class LEDNode(Node):
 
 	
 class ByteMonitorNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(ByteMonitorNode, self).__init__("ByteMonitor", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(ByteMonitorNode, self).__init__("ByteMonitor", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String,  "pv",          "")
 		self.setDefault(Bool,    "horizontal",  True)
@@ -785,8 +788,8 @@ class ByteMonitorNode(Node):
 	
 
 class RectangleNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(RectangleNode, self).__init__("Rectangle", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(RectangleNode, self).__init__("Rectangle", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
@@ -794,8 +797,8 @@ class RectangleNode(Node):
 	
 		
 class EllipseNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(EllipseNode, self).__init__("Ellipse", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(EllipseNode, self).__init__("Ellipse", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
@@ -803,8 +806,8 @@ class EllipseNode(Node):
 	
 
 class ArcNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(ArcNode, self).__init__("Arc", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(ArcNode, self).__init__("Arc", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
@@ -814,23 +817,23 @@ class ArcNode(Node):
 
 		
 class ImageNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(ImageNode, self).__init__("Image", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(ImageNode, self).__init__("Image", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "file", "")
 
 		
 class SliderNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(SliderNode, self).__init__("Slider", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(SliderNode, self).__init__("Slider", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Bool,   "horizontal", True)
 		self.setDefault(String, "pv",         "")
 		
 
 class ScaleNode(Node):
-	def __init__(self, name=None, layout={}):
-		super(ScaleNode, self).__init__("Scale", name=name, layout=layout)
+	def __init__(self, name=None, layout={}, loc=None):
+		super(ScaleNode, self).__init__("Scale", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "pv",          "")
 		self.setDefault(Color,  "background",  "$C0C0C0")
@@ -839,10 +842,10 @@ class ScaleNode(Node):
 
 		
 class ShellCommandNode(Node):
-	def __init__(self, name=None, layout={}):
+	def __init__(self, name=None, layout={}, loc=None):
 		self.commands = layout.pop("commands", [])
 	
-		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout)
+		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "text", "")
 		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
@@ -861,10 +864,10 @@ class ShellCommandNode(Node):
 		
 
 class PolygonNode(Node):
-	def __init__(self, name=None, layout={}):
+	def __init__(self, name=None, layout={}, loc=None):
 		self.points = layout.pop("points", [])
 		
-		super(PolygonNode, self).__init__("Polygon", name=name, layout=layout)
+		super(PolygonNode, self).__init__("Polygon", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
@@ -874,10 +877,10 @@ class PolygonNode(Node):
 
 		
 class PolylineNode(Node):
-	def __init__(self, name=None, layout={}):
+	def __init__(self, name=None, layout={}, loc=None):
 		self.points = layout.pop("points", [])
 		
-		super(PolylineNode, self).__init__("Polyline", name=name, layout=layout)
+		super(PolylineNode, self).__init__("Polyline", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)

@@ -12,11 +12,9 @@ from gestalt.Type import *
 ##########################
 #    Data Type Parsing   #
 ##########################
-
 my_templates = {}
 
-def read_type(cls, loader, node):
-
+def read_type(cls, loader, node):	
 	# Parse Dictionary
 	try:
 		params = loader.construct_mapping(node)
@@ -76,12 +74,12 @@ def read_node(typ, loader, node):
 	except:
 		pass
 
-	return Node(typ, layout=params)
+	return Node(typ, loc=node.start_mark, layout=params)
 
 def read_group_node(typ, loader, node):
 	params = loader.construct_mapping(node, deep=True)
 
-	return GroupNode(typ, layout=params)
+	return GroupNode(typ, loc=node.start_mark, layout=params)
 
 
 def read_special_node(node_type, loader, node, **kwargs):
@@ -92,7 +90,7 @@ def read_special_node(node_type, loader, node, **kwargs):
 	except ConstructorError:
 		pass
 
-	return node_type(layout=params, **kwargs)
+	return node_type(layout=params, loc=node.start_mark, **kwargs)
 
 	
 def read_default_node(loader, node):
@@ -127,52 +125,52 @@ def read_apply_multi(loader, suffix, node):
 		
 	template_node, defaults = my_templates.get(suffix)
 		
-	return ApplyNode(defaults=defaults, macros=macros, subnode=template_node)
+	return ApplyNode(defaults=defaults, macros=macros, subnode=template_node, loc=node.start_mark)
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
 	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
 	
-	return StretchNode(flow=flow, subnode=ret_node)
+	return StretchNode(flow=flow, subnode=ret_node, loc=node.start_mark)
 	
 def read_stretch_node(loader, node, flow="vertical"):
 	try:
 		params = loader.construct_mapping(node, deep=True)
-		return StretchNode(flow=flow, subnode=next(iter(params.values())))
+		return StretchNode(flow=flow, subnode=next(iter(params.values())), loc=node.start_mark)
 	except:
 		params = loader.construct_sequence(node, deep=True)
-		return StretchNode(flow=flow, subnode=next(iter(params)))
+		return StretchNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 
 		
 def read_center_multi(loader, suffix, node, flow="vertical"):
 	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
 	
-	return CenterNode(flow=flow, subnode=ret_node)
+	return CenterNode(flow=flow, subnode=ret_node, loc=node.start_mark)
 		
 def read_center_node(loader, node, flow="vertical"):
 	try:
 		params = loader.construct_mapping(node, deep=True)
-		return CenterNode(flow=flow, subnode=next(iter(params.values())))
+		return CenterNode(flow=flow, subnode=next(iter(params.values())), loc=node.start_mark)
 	except:
 		params = loader.construct_sequence(node, deep=True)
-		return CenterNode(flow=flow, subnode=next(iter(params)))
+		return CenterNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 		
 def read_anchor_multi(loader, suffix, node, flow="vertical"):
 	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
 	
-	return AnchorNode(flow=flow, subnode=ret_node)
+	return AnchorNode(flow=flow, subnode=ret_node, loc=node.start_mark)
 		
 def read_anchor_node(loader, node, flow="vertical"):
 	try:
 		params = loader.construct_mapping(node, deep=True)
-		return AnchorNode(flow=flow, subnode=next(iter(params.values())))
+		return AnchorNode(flow=flow, subnode=next(iter(params.values())), loc=node.start_mark)
 	except:
 		params = loader.construct_sequence(node, deep=True)
-		return AnchorNode(flow=flow, subnode=next(iter(params)))
+		return AnchorNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 
 def read_tab_node(loader, node):
 	try:
 		params = loader.construct_sequence(node, deep=True)
-		return GroupNode("TabNode", layout={"children" : params})
+		return GroupNode("TabNode", layout={"children" : params}, loc=node.start_mark)
 	except:
 		return None
 		

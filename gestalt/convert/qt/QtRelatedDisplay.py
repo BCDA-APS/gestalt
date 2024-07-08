@@ -6,7 +6,7 @@ from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtRelatedDisplay(QtWidget):
 	def __init__(self, node=None, macros={}):		
-		super(QtRelatedDisplay, self).__init__("QFrame")
+		super(QtRelatedDisplay, self).__init__("QFrame", loc=node.location)
 		
 		self.button = QtWidget("caRelatedDisplay", node=node, macros=macros)
 		self["geometry"] = self.button.pop("geometry")
