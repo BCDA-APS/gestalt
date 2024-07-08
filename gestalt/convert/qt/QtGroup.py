@@ -10,16 +10,10 @@ class QtGroup(QtWidget):
 		self["backgroundMode"] = Enum("caFrame::Filled")
 		self["visibilityMode"] = Enum("caFrame::All")
 		
-		self["background"] = Color(self.pop("background", "$00000000"))
-		self["border-width"] = Number(self.pop("border-width", 0))
+		self.setDefault(Color, "background", "$00000000")
+		self.setDefault(Color, "border-color", "$000000")
+		self.setDefault(Number, "border-width", 0)
 		
-		if int(self["border-width"]) == 0:
-			self.pop("border-color")
-			self["border-color"] = Color("$00000000")
-		else:
-			self["border-color"] = Color(self.pop("border-color", "$000000"))
-		
-	
 	def write(self, tree):
 		col = Color(self.pop("border-color")).val()
 		wid = Number(self.pop("border-width")).val()
