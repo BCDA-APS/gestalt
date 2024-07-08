@@ -36,7 +36,7 @@ class QtRelatedDisplay(QtWidget):
 			files  += str(a_file) + ";"
 			args   += str(a_macro) + ";"
 			
-			if "replace" in item and item.replace:
+			if "replace" in item and item["replace"]:
 				replace += "true;"
 			else:
 				replace += "false;"
