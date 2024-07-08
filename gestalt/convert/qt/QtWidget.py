@@ -48,10 +48,12 @@ class QtWidget(GroupNode):
 						
 			
 	def write(self, tree):
+		# Border-width is default in GroupNode
+		self.pop("border-width")
+		
 		tree.start("widget", {"class" : self.classname, "name" : self.name})
 		
 		for key, item in self.properties["attrs"].items():
-			
 			if key == "title":
 				tree.start("attribute", {"name" : key})
 			else:
