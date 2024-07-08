@@ -652,7 +652,8 @@ A widget representing a text entry field.
 | foreground | Color     | Widget foreground color |
 | background | Color     | Widget background color |
 | font       | Font      | Widget display font |
-| alignment  | Alignment | Display text alignment. |
+| alignment  | Alignment | Display text alignment |
+| format     | String    | Text display format, value is one of "String, Decimal, Engineering, Exponential, Compact, Hexadecimal, Binary" |
 | pv         | String    | The PV that will be written to |
 | visibility | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
@@ -686,7 +687,8 @@ A widget representing a text display field
 | border-color | Color     | Widget border color |
 | border-width | Number    | Widget border thickness in pixels |
 | font         | Font      | Widget display font |
-| alignment    | Alignment | Display text alignment. |
+| alignment    | Alignment | Display text alignment |
+| format       | String    | Text display format, value is one of "String, Decimal, Engineering, Exponential, Compact, Hexadecimal, Binary" |
 | pv           | String    | The PV to read data from |
 | visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
