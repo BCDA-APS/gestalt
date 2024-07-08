@@ -21,16 +21,29 @@ class QtGroup(QtWidget):
 		
 	
 	def write(self, tree):
-		border = QtWidget("caGraphics")
-		border["geometry"]["width"] = self["geometry"]["width"]
-		border["geometry"]["height"] = self["geometry"]["height"]
-		border["form"] = Enum("caGraphics::Rectangle")
-		border["linestyle"] = Enum("Solid")
-		border["fillstyle"] = Enum("Outline")
-		border["lineColor"] = Color(self.pop("border-color"))
-		border["lineSize"] = Number(self.pop("border-width"))
+		col = Color(self.pop("border-color")).val()
+		wid = Number(self.pop("border-width")).val()
 		
-		if (int(border["lineSize"]) != 0 or border["lineColor"].val()["alpha"] != 0):
+		if (int(wid) != 0) and (col["alpha"] != 0):
+			border = QtWidget("QFrame")
+			border["geometry"]["width"] = self["geometry"]["width"]
+			border["geometry"]["height"] = self["geometry"]["height"]
+		
+			border["styleSheet"] = String(
+"""\
+QFrame
+{{
+    border-width: {width}px;
+    border-style: solid;
+    border-color: rgba({red},{green},{blue},{alpha});
+}}
+""".format(
+			red=col["red"],
+			green=col["green"],
+			blue=col["blue"],
+			alpha=col["alpha"],
+			width=wid))
+
 			self.children.insert(0, border)
 		
 		super(QtGroup, self).write(tree)
