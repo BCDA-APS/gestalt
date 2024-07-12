@@ -156,7 +156,7 @@ LblRbkTemplate: !Template:lbl_rbk
         padding: 10
         
         children:
-            - !Text { geometry: 150x20, text: "{TITLE}" }
+            - !Text { geometry: 150x20, alignment: Right, text: "{TITLE}" }
             - !TextMonitor
                 <<: *FixedFeedback
                 pv: "$(P){PV}"

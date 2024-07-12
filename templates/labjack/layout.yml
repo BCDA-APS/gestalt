@@ -49,10 +49,11 @@ IO: !hflow
                                             
                                 - !hcenter:hflow
                                     geometry: 0x2 x 0x0
-                                    padding: 5
+                                    padding: 15
                                     
-                                    children:                            
-                                        - !Text { geometry: 70x20, text: "CIO 0-3" }
+                                    children:
+                                        - !Spacer { geometry: 10x0 }
+                                        - !Text { geometry: 70x20, alignment: Right, text: "CIO 0-3" }
                                         - !TextMonitor
                                             <<: *editable
                                             geometry: 80x20
@@ -60,7 +61,7 @@ IO: !hflow
                                             
                                         - !Spacer { geometry: 10x0 }
                                             
-                                        - !Text { geometry: 90x20, text: "MIO 0-2" }
+                                        - !Text { geometry: 90x20, alignment: Right, text: "MIO 0-2" }
                                         - !TextMonitor
                                             geometry: 80x20
                                             <<: *editable
