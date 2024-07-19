@@ -481,6 +481,8 @@ class RepeatNode(GroupNode):
 		index = 0
 		
 		if macrolist:
+			last_position = 0
+			
 			for macroset in macrolist:
 				child_macros = copy.copy(data)
 				child_macros.update(macroset)
@@ -496,14 +498,16 @@ class RepeatNode(GroupNode):
 						"__parenty__" : int(geom["y"]),
 						"__parentwidth__" : int(geom["width"]),
 						"__parentheight__" : int(geom["height"])})
-					
+						
 					line.place(childnode.apply(generator, data=child_macros))
 								
 				if flow == "vertical":
-					line.position(x=None, y=(index * (line["geometry"]["height"] + int(padding))))
+					line.position(x=None, y= last_position)
+					last_position += line["geometry"]["height"] + int(padding)
 					
 				elif flow == "horizontal":
-					line.position(x=(index * (line["geometry"]["width"] + int(padding))), y=None)
+					line.position(x= last_position, y=None)
+					last_position += line["geometry"]["width"] + int(padding)
 				
 				output.place(line)
 				index += 1
