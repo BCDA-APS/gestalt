@@ -105,6 +105,7 @@ def read_template_multi(loader, suffix, node):
 	for item in params:
 		if isinstance(item, dict):
 			defaults.update(item)
+			
 		elif isinstance(item, Node):
 			template_node = item
 			
@@ -126,6 +127,12 @@ def read_apply_multi(loader, suffix, node):
 	template_node, defaults = my_templates.get(suffix)
 		
 	return ApplyNode(defaults=defaults, macros=macros, subnode=template_node, loc=node.start_mark)
+	
+def read_debug_multi(loader, suffix, node):
+	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	ret_node.debug = True
+	
+	return ret_node
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
 	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
@@ -204,6 +211,7 @@ add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
 add_multi_constructors("template", read_template_multi)
 add_multi_constructors("apply",   read_apply_multi)
+add_multi_constructors("debug:",   read_debug_multi)
 add_constructors("defaults", read_default_node)
 
 add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))

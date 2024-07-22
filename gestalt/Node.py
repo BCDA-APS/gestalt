@@ -1,6 +1,7 @@
 import yaml
 import copy
 import math
+import pprint
 import string
 
 from gestalt.Datasheet import *
@@ -15,6 +16,7 @@ class Node(object):
 		self.classname = classname
 		self.name = name
 		self.location = loc
+		self.debug = False
 		
 		self.properties = {}
 		self.properties["attrs"] = {}
@@ -25,6 +27,7 @@ class Node(object):
 		if node:
 			self.name = node.name
 			self.location = node.location
+			self.debug = node.debug
 			
 			for typ in ( "attrs", "internal" ):
 				for key,val in node.properties[typ].items():
@@ -41,6 +44,10 @@ class Node(object):
 			
 		self.setDefault(Rect, "geometry", "0x0x0x0")
 	
+	def log(self, info):
+		if self.debug:
+			print(str(self.name) + ": " + info + "\n")
+		
 		
 	def setDefault(self, datatype, key, default, internal=False):
 		which = "internal" if internal else "attrs"
@@ -60,6 +67,8 @@ class Node(object):
 	def updateProperties(self, macros={}):
 		if len(macros) == 0: return
 		
+		self.log("Updating macros\n" + pprint.pformat(macros))
+			
 		for attr in self.properties["internal"].values():
 			attr.apply(macros)
 		
@@ -87,11 +96,15 @@ class Node(object):
 			to_assign = input.copy()
 		else:
 			to_assign = copy.deepcopy(input)
-							
+
+		if isinstance(to_assign, DataType):
+			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + str(to_assign.value))
+		else:
+			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + pprint.pformat(to_assign))
 		self.properties[which][key] = to_assign
 	
 		
-	def setProperties(self, layout={"internal" : {}, "attrs" : {}}):	
+	def setProperties(self, layout={"internal" : {}, "attrs" : {}}):
 		for key, val in layout["internal"].items():
 			self.setProperty(key, val, internal=True)
 			
@@ -139,9 +152,11 @@ class Node(object):
 				out_y = args[0]["y"]
 
 		if out_x is not None:
+			self.log("Setting x to " + str(out_x))
 			self["geometry"]["x"] = out_x
 		
 		if out_y is not None:
+			self.log("Setting y to " + str(out_y))
 			self["geometry"]["y"] = out_y
 				
 		return self
@@ -149,10 +164,12 @@ class Node(object):
 		
 	def apply (self, generator, data={}):		
 		gen_func = getattr(generator, "generate" + self.classname, None)
-		
+				
 		if gen_func:
+			self.log("Generating " + self.classname)
 			return gen_func(self, macros=data)
 		else:
+			self.log("Generating generic widget")
 			return generator.generateWidget(self, macros=data)
 			
 	def __deepcopy__(self, memo):
@@ -162,6 +179,7 @@ class Node(object):
 		output.classname = self.classname
 		output.name = self.name
 		output.location = self.location
+		output.debug = self.debug
 		
 		output.properties = {}
 		output.properties["attrs"] = copy.copy(self.properties["attrs"])
@@ -202,7 +220,9 @@ class GroupNode(Node):
 		self.setDefault(Number, "border-width",   0)
 		
 					
-	def append(self, child, keep_original=False):					
+	def append(self, child, keep_original=False):
+		self.log("Adding child node " + child.__repr__())
+		
 		if not keep_original:
 			self.children.append(copy.deepcopy(child))
 		else:
@@ -242,6 +262,7 @@ class GroupNode(Node):
 		
 	
 	def apply (self, generator, data={}):
+		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
 		margins = self.getProperty("margins", internal=True).val()
 		
@@ -285,6 +306,7 @@ class TabbedGroupNode(GroupNode):
 		self.setDefault(Font,   "font",           "-Liberation Sans - Regular - 12")
 		
 	def apply(self, generator, data={}):
+		self.log("Generating Tabbed Group")
 		output = generator.generateTabbedGroup(self, macros=data)
 		
 		tk_root = tk.Tk()
