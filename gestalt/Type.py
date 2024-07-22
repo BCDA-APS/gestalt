@@ -147,6 +147,9 @@ class Number(DataType):
 		
 	def val(self):
 		return int(super().val())
+		
+	def __format__(self, format_spec):
+		return self.val().__format__(format_spec)
 				
 		
 class Double(DataType):
