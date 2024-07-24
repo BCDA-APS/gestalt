@@ -71,6 +71,7 @@ AIn_Line: &AIn_Slot
         - !TextMonitor
             geometry: 30x0 x 90x20
             pv: "$(P)Ai{__index__}"
+            alignment: Right
             foreground: *header_blue
             background: *transparent
             font: -Monospace -regular -12
@@ -78,6 +79,7 @@ AIn_Line: &AIn_Slot
         - !Menu
             <<: *editable
             geometry: 140x1 x 90x18
+            font: -Sans Serif -regular -5
             pv: "$(P)Ai{__index__}.SCAN"
             
         - !MessageButton
@@ -115,6 +117,7 @@ AOut_Line: &AOut_Slot
         - !TextMonitor
             <<: *editable
             geometry: 30x0 x 90x20
+            alignment: Right
             pv: "$(P)Ao{__index__}"
             font: -Monospace -regular -9
             
@@ -190,5 +193,7 @@ IOGroupTemplate: !Template:io_group
                     - !Text { geometry: 70x20, text: "{GROUP_NAME} 0-7" }
                     - !TextMonitor
                         <<: *editable
-                        geometry: 75x0 x 80x20                                                
+                        alignment: Right
+                        format: "Hexadecimal"
+                        geometry: 75x0 x 80x20
                         pv: "$(P){GROUP_NAME}In"

@@ -56,6 +56,8 @@ IO: !hflow
                                         - !Text { geometry: 70x20, alignment: Right, text: "CIO 0-3" }
                                         - !TextMonitor
                                             <<: *editable
+                                            alignment: Right
+                                            format: "Hexadecimal"
                                             geometry: 80x20
                                             pv: "$(P)CIOIn"
                                             
@@ -64,6 +66,8 @@ IO: !hflow
                                         - !Text { geometry: 90x20, alignment: Right, text: "MIO 0-2" }
                                         - !TextMonitor
                                             geometry: 80x20
+                                            alignment: Right
+                                            format: "Hexadecimal"
                                             <<: *editable
                                             pv: "$(P)MIOIn"
     
@@ -186,7 +190,7 @@ Status: !hcenter:hflow
                     padding: 10
                 
                     children:
-                        - !Text { geometry: 250x20, text: "Poll Sleep Time (ms)" }
+                        - !Text { geometry: 250x20, text: "Poll Sleep Time (ms)", alignment: Right }
                         - !TextEntry
                             <<: *editable
                             geometry: 100x20
@@ -197,7 +201,7 @@ Status: !hcenter:hflow
                     padding: 10
                 
                     children:
-                        - !Text { geometry: 250x20, text: "Poll Cycle Time (ms)" }
+                        - !Text { geometry: 250x20, text: "Poll Cycle Time (ms)", alignment: Right }
                         - !TextMonitor
                             <<: *FixedFeedback
                             pv: "$(P)PollTimeMS"
@@ -207,7 +211,7 @@ Status: !hcenter:hflow
                     padding: 10
                 
                     children:
-                        - !Text { geometry: 250x20, text: "Reset Device on Exit" }
+                        - !Text { geometry: 250x20, text: "Reset Device on Exit", alignment: Right }
                         - !MessageButton
                             geometry: 100x20
                             pv: "$(P)DeviceReset"
