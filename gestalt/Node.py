@@ -128,34 +128,12 @@ class Node(object):
 		return key in self.properties["attrs"]
 		
 		
-	def position(self, *args, x=None, y=None):
-		out_x = None
-		out_y = None
-			
-		if len(args) == 2:
-			out_x = args[0]
-			out_y = args[1]
-			
-		
+	def position(self, x=None, y=None):
 		if x is not None:
-			out_x = x
-			
-		if y is not None:
-			out_y = y
-			
-		elif len(args) == 1:
-			if isinstance(args[0], list) or isinstance(args[0], tuple):
-				out_x = args[0][0]
-				out_y = args[0][1]
-			elif isinstance(args[0], dict):
-				out_x = args[0]["x"]
-				out_y = args[0]["y"]
-
-		if out_x is not None:
 			self.log("Setting x to " + str(out_x))
 			self["geometry"]["x"] = out_x
 		
-		if out_y is not None:
+		if y is not None:
 			self.log("Setting y to " + str(out_y))
 			self["geometry"]["y"] = out_y
 				
@@ -402,7 +380,7 @@ class GridNode(GroupNode):
 				pos_x = index_x * (element["geometry"]["width"] + int(padding))
 				pos_y = index_y * (element["geometry"]["height"] + int(padding))
 				
-				element.position(pos_x, pos_y)
+				element.position(x=pos_x, y=pos_y)
 				
 				index += 1
 				
@@ -547,7 +525,7 @@ class ConditionalNode(GroupNode):
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
-		output.position(self["geometry"]["x"], self["geometry"]["y"])
+		output.position(x=self["geometry"]["x"], y=self["geometry"]["y"])
 
 		invert = isinstance(self.condition, Not)
 		
@@ -666,11 +644,11 @@ class CenterNode(Node):
 		flow = self.getProperty("flow", internal=True).val()
 			
 		if flow == "vertical":
-			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+			applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 		elif flow == "horizontal":
-			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), applied_node["geometry"]["y"] + self["geometry"]["y"])
+			applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
 		elif flow == "all":
-			applied_node.position(int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+			applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 					
 		return applied_node	
 
@@ -690,11 +668,11 @@ class AnchorNode(Node):
 		flow = self.getProperty("flow", internal=True).val()
 		
 		if flow == "vertical":
-			applied_node.position(applied_node["geometry"]["x"] + self["geometry"]["x"], int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+			applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
 		elif flow == "horizontal":
-			applied_node.position(int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), applied_node["geometry"]["y"] + self["geometry"]["y"])
+			applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
 		elif flow == "all":
-			applied_node.position(int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+			applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
 					
 		return applied_node	
 		
