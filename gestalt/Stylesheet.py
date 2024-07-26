@@ -97,6 +97,14 @@ def read_default_node(loader, node):
 	return loader.construct_mapping(node, deep=True)
 	
 
+def construct_from_suffix(loader, suffix, node):
+	if ":" in suffix:
+		cls, sub_suffix = suffix.split(":", maxsplit=1)
+		return yaml.SafeLoader.yaml_multi_constructors["!" + cls + ":"](loader, sub_suffix, node)
+	else:
+		return yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+
+		
 def read_template_multi(loader, suffix, node):
 	params = loader.construct_sequence(node, deep=True)
 	defaults = {}
@@ -129,13 +137,13 @@ def read_apply_multi(loader, suffix, node):
 	return ApplyNode(defaults=defaults, macros=macros, subnode=template_node, loc=node.start_mark)
 	
 def read_debug_multi(loader, suffix, node):
-	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	ret_node = construct_from_suffix(loader, suffix, node)
 	ret_node.debug = True
 	
 	return ret_node
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
-	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	ret_node = construct_from_suffix(loader, suffix, node)
 	
 	return StretchNode(flow=flow, subnode=ret_node, loc=node.start_mark)
 	
@@ -149,7 +157,7 @@ def read_stretch_node(loader, node, flow="vertical"):
 
 		
 def read_center_multi(loader, suffix, node, flow="vertical"):
-	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	ret_node = construct_from_suffix(loader, suffix, node)
 	
 	return CenterNode(flow=flow, subnode=ret_node, loc=node.start_mark)
 		
@@ -162,7 +170,7 @@ def read_center_node(loader, node, flow="vertical"):
 		return CenterNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 		
 def read_anchor_multi(loader, suffix, node, flow="vertical"):
-	ret_node = yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+	ret_node = construct_from_suffix(loader, suffix, node)
 	
 	return AnchorNode(flow=flow, subnode=ret_node, loc=node.start_mark)
 		
