@@ -130,12 +130,12 @@ class Node(object):
 		
 	def position(self, x=None, y=None):
 		if x is not None:
-			self.log("Setting x to " + str(out_x))
-			self["geometry"]["x"] = out_x
+			self.log("Setting x to " + str(x))
+			self["geometry"]["x"] = x
 		
 		if y is not None:
-			self.log("Setting y to " + str(out_y))
-			self["geometry"]["y"] = out_y
+			self.log("Setting y to " + str(y))
+			self["geometry"]["y"] = y
 				
 		return self
 
