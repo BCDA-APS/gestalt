@@ -46,7 +46,7 @@ class Node(object):
 	
 	def log(self, info):
 		if self.debug:
-			print(str(self.name) + ": " + info + "\n")
+			print(str(self.name) + ": " + info)
 		
 		
 	def setDefault(self, datatype, key, default, internal=False):
