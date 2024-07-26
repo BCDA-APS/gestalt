@@ -233,9 +233,11 @@ class GroupNode(Node):
 		bottom_edge = int(child_node["geometry"]["y"]) + int(child_geom["height"]) + int(margins["height"])
 		
 		if right_edge > int(my_geom["width"]):
+			self.log("Resizing width to " + str(right_edge))
 			self["geometry"]["width"] = right_edge
 			
 		if bottom_edge > int(my_geom["height"]):
+			self.log("Resizing height to " + str(bottom_edge))
 			self["geometry"]["height"] = bottom_edge
 		
 	
