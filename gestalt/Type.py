@@ -226,6 +226,10 @@ class Rect(DataType):
 	def __getitem__(self, key):
 		return int(self.val()[key])
 		
+	def __str__(self):
+		data = self.val()
+		return "{x}x{y}x{width}x{height}".format(**data)
+		
 	def __repr__(self):
 		data = self.val()
 		return "{x}x{y}x{width}x{height}".format(**data)
