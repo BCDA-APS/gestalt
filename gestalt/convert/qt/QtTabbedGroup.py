@@ -1,3 +1,4 @@
+from gestalt.Generator import GestaltGenerator
 from gestalt.Type import *
 
 from gestalt.convert.qt.QtWidget import QtWidget
@@ -20,6 +21,8 @@ QTabWidget::tab-bar
 """.format( inset=int(tab_offset) )
 		
 	
+		the_font = self["font"].val()
+	
 		tab_color      = self.pop("tab-color")
 		font_color     = self.pop("foreground")
 		tab_padding    = self.pop("padding")
@@ -35,6 +38,8 @@ QTabBar::tab
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
+    
+    height: {tab_height}px;
 	
     background: rgba({br},{bg},{bb},{ba});
     color: rgba({tr},{tg},{tb},{ta});
@@ -49,6 +54,7 @@ QTabBar::tab:hover
 """.format( 
 	margin = int(tab_padding),
 	offset = int(content_offset),
+	tab_height = 9 + GestaltGenerator.get_font_height(the_font["family"], int(the_font["size"])),
 	br = int(tab_color["red"]),
 	bg = int(tab_color["green"]),
 	bb = int(tab_color["blue"]),

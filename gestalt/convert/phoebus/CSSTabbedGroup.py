@@ -1,13 +1,10 @@
 from phoebusgen import screen
 
+from gestalt.Generator import GestaltGenerator
 from gestalt.Type import *
 
 from gestalt.convert.phoebus.CSSWidget import CSSWidget
 from gestalt.convert.phoebus.CSSGroup import CSSGroup
-
-import tkinter as tk
-import tkinter.font as tkfont
-
 
 class CSSTabbedGroup(CSSWidget):
 	
@@ -34,18 +31,10 @@ class CSSTabbedGroup(CSSWidget):
 		
 		the_font = self.font.val()
 		
-		# Use Tkinter to determine height and width
-		tk_root = tk.Tk()
-		tk_root.withdraw()
-		
-		tk_font = tkfont.Font(family=the_font["family"], size=int(the_font["size"]))
-		
-		self.tab_height = tk_font.metrics("linespace") + 4
+		self.tab_height = GestaltGenerator.get_font_height(the_font["family"], int(the_font["size"])) + 4
 		self.content_offset = self.content_offset + self.tab_height
 		
 		self.index = 0
-		
-		tk_root.destroy()
 	
 	def write(self, screen):
 		self.pop("font")
@@ -65,16 +54,8 @@ class CSSTabbedGroup(CSSWidget):
 	def place(self, child, x=None, y=None, keep_original=False):
 		the_font = self.font.val()
 		
-		# Use Tkinter to determine height and width
-		tk_root = tk.Tk()
-		tk_root.withdraw()
-		
-		tk_font = tkfont.Font(family=the_font["family"], size=int(the_font["size"]))
-		
-		tab_width = tk_font.measure(child.name) + 10
-		
-		tk_root.destroy()
-		
+		tab_width = GestaltGenerator.get_text_width(the_font["family"], int(the_font["size"]), child.,name) + 10
+				
 		next_tab = CSSWidget("ActionButton", name=child.name + "_tab")
 		next_tab["geometry"] = Rect("{x}x{y}x{wid}x{hei}".format(x=self.tab_offset, y=0, wid=tab_width, hei=self.tab_height))
 		next_tab["font"] = self.font

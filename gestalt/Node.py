@@ -4,12 +4,9 @@ import math
 import pprint
 import string
 
+from gestalt.Generator import GestaltGenerator
 from gestalt.Datasheet import *
 from gestalt.Type import *
-
-import tkinter as tk
-import tkinter.font as tkfont
-
 
 class Node(object):
 	def __init__(self, classname, name=None, node=None, layout={}, loc=None):
@@ -289,16 +286,10 @@ class TabbedGroupNode(GroupNode):
 		self.log("Generating Tabbed Group")
 		output = generator.generateTabbedGroup(self, macros=data)
 		
-		tk_root = tk.Tk()
-		tk_root.withdraw()
-		
 		the_font = output["font"]
 		
-		tk_font = tkfont.Font(family=the_font["family"], size=int(the_font["size"]))
-		
-		tab_bar_height = tk_font.metrics("linespace") + 4 + int(output["offset"])
-		
-		tk_root.destroy()
+		tab_bar_height = GestaltGenerator.get_font_height(the_font["family"], int(the_font["size"]))
+		tab_bar_height += 4 + int(output["offset"])
 		
 		border_size = int(output["border-width"])
 		
@@ -680,7 +671,7 @@ class AnchorNode(Node):
 		
 		
 class RelatedDisplayNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout={}, loc=None):		
 		self.links = layout.pop("links", [])
 	
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout, loc=loc)

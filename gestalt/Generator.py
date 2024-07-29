@@ -1,4 +1,39 @@
+import tkinter as tk
+import tkinter.font as tkfont
+
+DEFAULT_DPI = 96.0
+
 class GestaltGenerator:
+	def get_font_height(font_name, font_size):
+		tk_root = tk.Tk()
+		tk_root.withdraw()
+		
+		tk_font = tkfont.Font(family=font_name, size=font_size)
+		
+		dpi_scale = DEFAULT_DPI / tk_root.winfo_fpixels("1i")
+		
+		ascent = round(tk_font.metrics("ascent") * dpi_scale)
+		descent = round(tk_font.metrics("descent") * dpi_scale)
+		
+		tk_root.destroy()
+		
+		return int(ascent + descent)
+		
+	def get_text_width(font_name, font_size, text):
+		tk_root = tk.Tk()
+		tk_root.withdraw()
+		
+		tk_font = tkfont.Font(family=font_name, size=font_size)
+		
+		dpi_scale = DEFAULT_DPI / tk_root.winfo_fpixels("1i")
+		
+		output = tk_font.measure(text) * dpi_scale
+		
+		tk_root.destroy()
+		
+		return output
+	
+	
 	def generateWidget(self, original, macros={}):
 		pass
 		
