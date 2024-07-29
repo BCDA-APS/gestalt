@@ -34,6 +34,14 @@ class CSSWidget(GroupNode):
 			
 			self.name = classname + str(num)
 			
+		else:
+			num = name_numbering.get(self.name, 0)
+			num += 1
+			name_numbering[self.name] = num
+			
+			if (num > 1):
+				self.name = self.name + str(num)
+			
 		if   (self.classname == "ActionButton"):
 			self.widget = widget.ActionButton(self.name, "", "", 0, 0, 0, 0)
 		elif (self.classname == "Arc"):

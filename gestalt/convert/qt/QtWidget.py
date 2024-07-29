@@ -45,7 +45,14 @@ class QtWidget(GroupNode):
 			name_numbering[classname] = num
 			
 			self.name = classname + str(num)
-						
+			
+		else:
+			num = name_numbering.get(self.name, 0)
+			num += 1
+			name_numbering[self.name] = num
+			
+			if (num > 1):
+				self.name = self.name + str(num)
 			
 	def write(self, tree):
 		# Border-width is default in GroupNode

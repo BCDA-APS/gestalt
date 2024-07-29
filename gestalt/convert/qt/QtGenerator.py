@@ -105,7 +105,7 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("channel", "pv")
 			
-		output["colorMode"] = Enum("caMenu::Static")
+		output["colorMode"]     = Enum("caMenu::Static")
 		
 		return output
 		
@@ -226,7 +226,7 @@ class QtGenerator(GestaltGenerator):
 		
 		my_points = List(node.points)
 		my_points.apply(macros)
-		
+				
 		for point in my_points:
 			a_point = Rect(point)
 			a_point.apply(macros)
@@ -285,6 +285,8 @@ def generateQtFile(template, data, outputfile=""):
 	
 	for key, item in template.items():
 		if isinstance(item, Node):
+			item.name = key
+			
 			if item.classname == "Form":
 				for key, val in item.properties["attrs"].items():
 					a_display.setProperty(key, val)

@@ -580,6 +580,9 @@ class ApplyNode(Node):
 			child_macros.update({key : to_assign})
 		
 				
+		if self.name:
+			self.subnode.name = self.name
+			
 		return self.subnode.apply(generator, data=child_macros)
 
 		
@@ -598,7 +601,7 @@ class SpacerNode(Node):
 class StretchNode(Node):
 	def __init__(self, name=None, layout={}, flow="vertical", subnode=None, loc=None):
 		super(StretchNode, self).__init__("Stretch", name=name, layout=layout, loc=loc)
-		
+				
 		self.setProperty("flow", flow, internal=True)
 		
 		self.subnode = subnode
@@ -613,6 +616,10 @@ class StretchNode(Node):
 			applied_node["geometry"]["height"] = data["__parentheight__"]
 		if flow == "horizontal" or flow=="all":
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
+			
+		if self.name:
+			print(self.location)
+			applied_node.name = self.name
 			
 		applied_node = applied_node.apply(generator, data=data)
 			
@@ -632,6 +639,9 @@ class CenterNode(Node):
 		self.tocopy.append("subnode")
 		
 	def apply (self, generator, data={}):
+		if self.name:
+			self.subnode.name = self.name
+			
 		applied_node = self.subnode.apply(generator, data=data)
 		
 		flow = self.getProperty("flow", internal=True).val()
@@ -656,6 +666,9 @@ class AnchorNode(Node):
 		
 		
 	def apply (self, generator, data={}):
+		if self.name:
+			self.subnode.name = self.name
+			
 		applied_node = self.subnode.apply(generator, data=data)
 			
 		flow = self.getProperty("flow", internal=True).val()

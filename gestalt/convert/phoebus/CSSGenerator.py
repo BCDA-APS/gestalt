@@ -246,6 +246,8 @@ def generateCSSFile(template, data, outputfile=""):
 	
 	for key, item in template.items():
 		if isinstance(item, Node):
+			item.name = key
+			
 			if item.classname == "Form":
 				for key, val in item.properties["attrs"].items():
 					a_display.setProperty(key, val)
