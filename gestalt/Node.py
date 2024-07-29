@@ -618,7 +618,6 @@ class StretchNode(Node):
 			applied_node["geometry"]["width"] = data["__parentwidth__"]
 			
 		if self.name:
-			print(self.location)
 			applied_node.name = self.name
 			
 		applied_node = applied_node.apply(generator, data=data)
