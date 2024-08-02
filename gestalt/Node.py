@@ -50,16 +50,23 @@ class Node(object):
 		which = "internal" if internal else "attrs"
 		self.properties[which][key] = datatype(self.properties[which].pop(key, default))
 			
-	def link(self, newkey, oldkey, internal=False):
-		which = "internal" if internal else "attrs"
-		self.properties[which][newkey] = self.properties[which].pop(oldkey)
+	def link(self, newkey, oldkey):
+		if oldkey in self.properties["internal"]:
+			self.properties["internal"][newkey] = self.properties["internal"].pop(oldkey)
+		else:
+			self.properties["attrs"][newkey] = self.properties["attrs"].pop(oldkey)
 		
-	def pop(self, key, default=None, internal=False):
-		which = "internal" if internal else "attrs"
-		return self.properties[which].pop(key, default)
+	def pop(self, key, default=None):
+		if key in self.properties["internal"]:
+			return self.properties["internal"].pop(key, default)
+		else:
+			return self.properties["attrs"].pop(key, default)
 		
 	def makeInternal(self, datatype, key, default=None):
-		self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key, default))
+		if key not in self.properties["internal"]:
+			self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key, default))
+		elif key in self.properties["attrs"]:
+			self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key))
 		
 	def updateProperties(self, macros={}):
 		if len(macros) == 0: return
@@ -73,8 +80,6 @@ class Node(object):
 			attr.apply(macros)
 			
 	def setProperty(self, key, input, internal=False):
-		which = "internal" if internal else "attrs"
-		
 		to_assign = None
 		
 		if isinstance(input, bool):
@@ -94,10 +99,16 @@ class Node(object):
 		else:
 			to_assign = copy.deepcopy(input)
 
+		which = "attrs"
+			
+		if key in self.properties["internal"] or internal:
+			which = "internal"
+			
 		if isinstance(to_assign, DataType):
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + str(to_assign.value))
 		else:
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + pprint.pformat(to_assign))
+			
 		self.properties[which][key] = to_assign
 	
 		
@@ -110,11 +121,13 @@ class Node(object):
 	
 		
 	def getProperty(self, key, internal=False):
-		which = "internal" if internal else "attrs"
-		return self.properties[which][key]
+		if key not in self.properties["attrs"] or internal:
+			return self.properties["internal"][key]
+		else:
+			return self.properties["attrs"][key]
 		
 		
-	def __setitem__(self, key, data):
+	def __setitem__(self, key, data):		
 		self.setProperty(key, data)	
 		
 		
@@ -209,7 +222,8 @@ class GroupNode(Node):
 		
 		child_node = self.children[-1]
 		
-		margins = self.getProperty("margins", internal=True).val()
+		margins = self["margins"].val()
+		
 		child_geom = child_node["geometry"].val()
 		my_geom = self["geometry"].val()
 		border = int(self["border-width"])
@@ -241,7 +255,7 @@ class GroupNode(Node):
 	def apply (self, generator, data={}):
 		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
-		margins = self.getProperty("margins", internal=True).val()
+		margins = self["margins"].val()
 		
 		child_macros = copy.copy(data)
 		border = int(self["border-width"])
@@ -266,7 +280,6 @@ class GroupNode(Node):
 		
 		return output
 		
-
 class TabbedGroupNode(GroupNode):
 	def __init__(self, name=None, layout={}, loc=None):		
 		super(TabbedGroupNode, self).__init__("TabbedGroup", name=name, layout=layout, loc=loc)
@@ -307,94 +320,140 @@ class TabbedGroupNode(GroupNode):
 			output.place(childnode.apply(generator, data=child_macros))
 			
 		return output
-		
-		
-class GridNode(GroupNode):
+
+
+class LayoutNode(GroupNode):
 	def __init__(self, name=None, layout={}, loc=None):
-		super(GridNode, self).__init__("caFrame", layout=layout, loc=loc)
-	
-		self.makeInternal(Double, "aspect-ratio", 1.0)
+		super(LayoutNode, self).__init__("Layout", name=name, layout=layout, loc=loc)
+		
 		self.makeInternal(String, "repeat-over", "")
-		self.makeInternal(Number, "start-at", 0)
-		self.makeInternal(Number, "padding", 0)
-		self.makeInternal(Bool,   "horizontal", True)
+		self.makeInternal(Number, "start-at",     0)
+		self.makeInternal(Number, "padding",      0)
 		
+		self.makeInternal(Number, "index",     0)
+		self.makeInternal(Number, "num-items", 0)
+		self.makeInternal(Number, "last_x",    0)
+		self.makeInternal(Number, "last_y",    0)
 		
-	def apply (self, generator, data={}):
+	def updateMacros(self, child_macros):
+		child_macros.update({"__index__"   : self["index"].val()})
+		
+	def positionNext(self, output, line):
+		pass
+		
+	def apply(self, generator, data={}):
 		output = generator.generateGroup(self, macros=data)
 		
-		repeat = output.getProperty("repeat-over", internal=True)
-		start_at = output.getProperty("start-at", internal=True)
-		ratio    = output.getProperty("aspect-ratio", internal=True)
-		padding  = output.getProperty("padding", internal=True)
-		margins  = output.getProperty("margins", internal=True).val()
+		repeat   = output["repeat-over"]
+		start_at = output["start-at"]
 		
 		repeat.apply(data)
 		
 		macrolist = data.get(str(repeat))
-				
+			
 		try:
 			if not macrolist:
-				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]
-			if not isinstance(macrolist, list):
+				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]	
+			elif not isinstance(macrolist, list):
 				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
 		except:
 			macrolist = List(repeat).val()
-				
-		num_items = len(macrolist)
+					
+		self["index"] = 0
+		self["num-items"] = len(macrolist)
+		self["last-x"] = 0
+		self["last-y"] = 0
 		
-		cols = round(math.sqrt(num_items * float(ratio)))
-		rows = round(math.sqrt(num_items / float(ratio)))
-		
-		index = 0
-		index_x = 0
-		index_y = 0
 		if macrolist:
 			for macroset in macrolist:
+				geom = output["geometry"].val()
+				
 				child_macros = copy.copy(data)
 				child_macros.update(macroset)
-				child_macros.update({"__index__" : index})
-				child_macros.update({"__col__" : index_x})
-				child_macros.update({"__row__" : index_y})
-				
-				element = generator.generateAnonymousGroup()
-				
-				for childnode in self.children:
-					geom = output["geometry"].val()
-				
-					child_macros.update({
+				child_macros.update({
 						"__parentx__" : int(geom["x"]),
 						"__parenty__" : int(geom["y"]),
-						"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
-						"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
-						
-					element.place(childnode.apply(generator, data=child_macros))
+						"__parentwidth__" : int(geom["width"]),
+						"__parentheight__" : int(geom["height"])})
+				self.updateMacros(child_macros)
 				
-				pos_x = index_x * (element["geometry"]["width"] + int(padding))
-				pos_y = index_y * (element["geometry"]["height"] + int(padding))
+				line = generator.generateAnonymousGroup()
 				
-				element.position(x=pos_x, y=pos_y)
-				
-				index += 1
-				
-				if output.getProperty("horizontal", internal=True):
-					index_x += 1
-					
-					if index_x >= cols:
-						index_x = 0
-						index_y += 1
-						
-				else:
-					index_y += 1
-					
-					if index_y >= rows:
-						index_y = 0
-						index_x += 1
-				
-				output.place(element)
+				for childnode in self.children:						
+					line.place(childnode.apply(generator, data=child_macros))
+								
+				self.positionNext(line)
+				output.place(line)
+				self["index"] = self["index"].val() + 1
 			
 		return output
+		
+		
+class RepeatNode(LayoutNode):
+	def __init__(self, name=None, layout={}, flow="vertical", loc=None):
+		super(RepeatNode, self).__init__(name=name, layout=layout, loc=loc)
+	
+		self.setProperty("flow", flow, internal=True)
+		
+	def positionNext(self, line):		
+		if self["flow"].val() == "vertical":
+			line.position(x=None, y= self["last-y"].val())
+			self["last-y"] = self["last-y"].val() + line["geometry"]["height"] + int(self["padding"])
+			
+		elif self["flow"].val() == "horizontal":
+			line.position(x=self["last-x"].val(), y=None)
+			self["last-x"] = self["last-x"].val() + line["geometry"]["width"] + int(self["padding"])
+		
+class GridNode(LayoutNode):
+	def __init__(self, name=None, layout={}, loc=None):
+		super(GridNode, self).__init__(name=name, layout=layout, loc=loc)
+	
+		self.makeInternal(Double, "aspect-ratio", 1.0)
+		self.makeInternal(Bool,   "horizontal", True)
+		
+		self.makeInternal(Number, "index-x", 0)
+		self.makeInternal(Number, "index-y", 0)
+		
+	def updateMacros(self, child_macros):
+		super().updateMacros(child_macros)
+		
+		child_macros.update({
+			"__col__" : self["index-x"].val(),
+			"__row__" : self["index-y"].val()})
 
+	def positionNext(self, line):
+		ratio = self["aspect-ratio"].val()
+		
+		cols = round(math.sqrt(int(self["num-items"]) * float(ratio)))
+		rows = round(math.sqrt(int(self["num-items"]) / float(ratio)))
+		
+		pos_x = int(self["index-x"]) * (line["geometry"]["width"] + int(self["padding"]))
+		pos_y = int(self["index-y"]) * (line["geometry"]["height"] + int(self["padding"]))
+		
+		line.position(x=pos_x, y=pos_y)
+
+		span, scale = "index-x", "index-y"
+		
+		if self["horizontal"]:
+			self["index-x"] = self["index-x"].val() + 1
+			
+			if int(self["index-x"]) >= cols:
+				self["index-x"] = 0
+				self["index-y"] = self["index-y"].val() + 1
+				
+		else:
+			self["index-y"] = self["index-y"].val() + 1
+			
+			if int(self["index-y"]) >= rows:
+				self["index-y"] = 0
+				self["index-x"] = self["index-x"].val() + 1
+			
+	def apply (self, generator, data={}):
+		self["index-x"] = 0
+		self["index-y"] = 0
+		
+		return super().apply(generator, data)
+		
 		
 class FlowNode(GroupNode):
 	def __init__(self, layout={}, flow="vertical", loc=None):
@@ -406,9 +465,9 @@ class FlowNode(GroupNode):
 		
 	def apply (self, generator, data={}):
 		output = generator.generateGroup(self, macros=data)
-		padding = output.getProperty("padding", internal=True)
-		margins = output.getProperty("margins", internal=True).val()
-		flow = output.getProperty("flow", internal=True).val()
+		padding = output["padding"]
+		margins = output["margins"].val()
+		flow    = output["flow"].val()
 		
 		child_macros = copy.copy(data)
 		
@@ -439,82 +498,15 @@ class FlowNode(GroupNode):
 			first = 1
 			
 		return output
-		
-		
-class RepeatNode(GroupNode):
-	def __init__(self, layout={}, flow="vertical", loc=None):
-		super(RepeatNode, self).__init__("caFrame", layout=layout, loc=loc)
-	
-		self.makeInternal(String, "repeat-over", "")
-		self.makeInternal(Number, "start-at", 0)
-		self.makeInternal(Number, "padding", 0)
-		self.setProperty("flow", flow, internal=True)
-	
-		
-	def apply (self, generator, data={}):		
-		output = generator.generateGroup(self, macros=data)
-		
-		repeat   = output.getProperty("repeat-over", internal=True)
-		start_at = output.getProperty("start-at", internal=True)
-		padding  = output.getProperty("padding", internal=True)
-		flow     = output.getProperty("flow", internal=True).val()
-		
-		repeat.apply(data)
-		
-		macrolist = data.get(str(repeat))
-			
-		try:
-			if not macrolist:
-				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]	
-			elif not isinstance(macrolist, list):
-				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
-		except:
-			macrolist = List(repeat).val()
-					
-		index = 0
-		
-		if macrolist:
-			last_position = 0
-			
-			for macroset in macrolist:
-				child_macros = copy.copy(data)
-				child_macros.update(macroset)
-				child_macros.update({"__index__" : index})
-				
-				line = generator.generateAnonymousGroup()
-				
-				for childnode in self.children:				
-					geom = output["geometry"].val()
-				
-					child_macros.update({
-						"__parentx__" : int(geom["x"]),
-						"__parenty__" : int(geom["y"]),
-						"__parentwidth__" : int(geom["width"]),
-						"__parentheight__" : int(geom["height"])})
-						
-					line.place(childnode.apply(generator, data=child_macros))
-								
-				if flow == "vertical":
-					line.position(x=None, y= last_position)
-					last_position += line["geometry"]["height"] + int(padding)
-					
-				elif flow == "horizontal":
-					line.position(x= last_position, y=None)
-					last_position += line["geometry"]["width"] + int(padding)
-				
-				output.place(line)
-				index += 1
-			
-		return output
 
 
 class ConditionalNode(GroupNode):
 	def __init__(self, layout={}, loc=None):
 		super(ConditionalNode, self).__init__("caFrame", layout=layout, loc=loc)
+		
 		self.condition = self.pop("condition", "")
 		
 		self.tocopy.append("condition")
-		#self.makeInternal(String, "condition", "")
 		
 	def apply(self, generator, data={}):
 		output = generator.generateAnonymousGroup()
@@ -610,7 +602,7 @@ class StretchNode(Node):
 	def apply (self, generator, data={}):
 		applied_node = copy.deepcopy(self.subnode)
 		
-		flow = self.getProperty("flow", internal=True).val()
+		flow = self["flow"].val()
 		
 		if flow == "vertical" or flow == "all":
 			applied_node["geometry"]["height"] = data["__parentheight__"]
@@ -643,7 +635,7 @@ class CenterNode(Node):
 			
 		applied_node = self.subnode.apply(generator, data=data)
 		
-		flow = self.getProperty("flow", internal=True).val()
+		flow = self["flow"].val()
 			
 		if flow == "vertical":
 			applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
@@ -670,7 +662,7 @@ class AnchorNode(Node):
 			
 		applied_node = self.subnode.apply(generator, data=data)
 			
-		flow = self.getProperty("flow", internal=True).val()
+		flow = self["flow"].val()
 		
 		if flow == "vertical":
 			applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
@@ -688,11 +680,11 @@ class RelatedDisplayNode(Node):
 	
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout, loc=loc)
 		
-		self.setDefault(String, "text", "")
-		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
-		self.setDefault(Color, "foreground", "$000000")
-		self.setDefault(Color, "background", "$57CAE4")
-		self.setDefault(Alignment, "alignment", "Center")
+		self.setDefault(String,    "text",       "")
+		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
+		self.setDefault(Color,     "foreground", "$000000")
+		self.setDefault(Color,     "background", "$57CAE4")
+		self.setDefault(Alignment, "alignment",  "Center")
 		
 		self.tocopy.append("links")
 	
@@ -709,13 +701,13 @@ class RelatedDisplayNode(Node):
 class MessageButtonNode(Node):
 	def __init__(self, name=None, layout={}, loc=None):
 		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout, loc=loc)
-		self.setDefault(String, "text",  "")
-		self.setDefault(String, "pv",    "")
-		self.setDefault(String, "value", "")
-		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
-		self.setDefault(Color,  "foreground", "$000000")
-		self.setDefault(Color,  "background", "$57CAE4")
-		self.setDefault(Alignment, "alignment", "Center")
+		self.setDefault(String,    "text",       "")
+		self.setDefault(String,    "pv",         "")
+		self.setDefault(String,    "value",      "")
+		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
+		self.setDefault(Color,     "foreground", "$000000")
+		self.setDefault(Color,     "background", "$57CAE4")
+		self.setDefault(Alignment, "alignment",  "Center")
 	
 
 class TextNode(Node):
