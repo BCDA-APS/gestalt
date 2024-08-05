@@ -22,6 +22,11 @@ format_conversion = {
 	"Binary"      : Enum("caLineEdit::octal")
 }
 
+border_conversion = {
+	"Solid"       : Enum("caGraphics::Solid"),
+	"Dashed"      : Enum("caGraphics::Dash"),
+}
+
 class QtGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
 		return QtWidget(original.classname, node=original, macros=macros)
@@ -62,16 +67,8 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caTextEntry", node=node, macros=macros)
 		
 		output.link("channel", "pv")
+		output.link("formatType", "format", conversion=format_conversion)
 		
-		format = output.pop("format")
-		format.apply(macros)
-		form_str = format.val()
-		
-		if (form_str in format_conversion):
-			output["formatType"] = format_conversion[form_str]
-		else:
-			print ("Invalid text display format: {name}".format(name=form_str))
-			
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
@@ -81,19 +78,11 @@ class QtGenerator(GestaltGenerator):
 	def generateTextMonitor(self, node, macros={}):
 		output = QtWidget("caLineEdit", node=node, macros=macros)
 		
-		output.link("channel", "pv")
-		output.link("frameColor", "border-color")
+		output.link("channel",        "pv")
+		output.link("frameColor",     "border-color")
 		output.link("frameLineWidth", "border-width")
+		output.link("formatType",     "format", conversion=format_conversion)
 		
-		format = output.pop("format")
-		format.apply(macros)
-		form_str = format.val()
-		
-		if (form_str in format_conversion):
-			output["formatType"] = format_conversion[form_str]
-		else:
-			print ("Invalid text display format: {name}".format(name=form_str))
-			
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
@@ -152,6 +141,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("foreground", "background")
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
+		output.link("linestyle",  "border-style", conversion=border_conversion)
 		
 		output["form"] = Enum("caGraphics::Rectangle")
 		output["fillstyle"] = Enum("caGraphics::Filled")
@@ -165,6 +155,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("foreground", "background")
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
+		output.link("linestyle",  "border-style", conversion=border_conversion)
 		
 		output["form"] = Enum("caGraphics::Circle")
 		output["fillstyle"] = Enum("caGraphics::Filled")
@@ -178,6 +169,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("foreground", "background")
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
+		output.link("linestyle",  "border-style", conversion=border_conversion)
 		output.link("startAngle", "start-angle")
 		output.link("spanAngle",  "span")
 		
@@ -193,6 +185,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("foreground", "background")
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
+		output.link("linestyle",  "border-style", conversion=border_conversion)
 		
 		output["polystyle"] = Enum("caPolyLine::Polygon")
 		output["fillstyle"] = Enum("caPolyLine::Filled")
@@ -218,6 +211,7 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
+		output.link("linestyle",  "border-style", conversion=border_conversion)
 		
 		output["polystyle"] = Enum("caPolyLine::Polyline")
 		output["fillstyle"] = Enum("caPolyLine::Outline")

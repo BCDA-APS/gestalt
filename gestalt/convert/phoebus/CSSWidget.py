@@ -352,6 +352,16 @@ class CSSWidget(GroupNode):
 			self.setFontParam("scale", "scale_", check_class=_p._ScaleFont)
 			self.setFontParam("label", "label_", check_class=_p._LabelFont)
 			
+			##############
+			# Line Style #
+			##############
+			
+			if "border-style" in self:
+				if self["border-style"].val() == "Dashed":
+					self.widget.line_style_dashed()
+				else:
+					self.widget.line_style_solid()
+			
 			
 		for child in self.children:
 			child.write(self.widget)

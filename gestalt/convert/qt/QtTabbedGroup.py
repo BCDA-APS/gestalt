@@ -67,11 +67,12 @@ QTabBar::tab:hover
 
 		border_width = self.pop("border-width")
 		border_color = self.pop("border-color")
+		border_style = self.pop("border-style")
 	
 		stylesheet += """\
 QTabWidget::pane
 {{
-    border-style: solid;
+    border-style: {style};
     border-width: {width}px;
     border-color: rgba({bor},{bog},{bob},{boa});
 }}
@@ -81,7 +82,8 @@ QTabWidget::pane
 	bor = int(border_color["red"]),
 	bog = int(border_color["green"]),
 	bob = int(border_color["blue"]),
-	boa = int(border_color["alpha"]))
+	boa = int(border_color["alpha"]),
+	style = str(border_style).lower())
 		
 	
 		select_color = self.pop("selected")

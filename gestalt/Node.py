@@ -50,12 +50,25 @@ class Node(object):
 		which = "internal" if internal else "attrs"
 		self.properties[which][key] = datatype(self.properties[which].pop(key, default))
 			
-	def link(self, newkey, oldkey):
-		if oldkey in self.properties["internal"]:
-			self.properties["internal"][newkey] = self.properties["internal"].pop(oldkey)
-		else:
-			self.properties["attrs"][newkey] = self.properties["attrs"].pop(oldkey)
+	def link(self, newkey, oldkey, conversion=None):
+		which = "attrs"
 		
+		if oldkey in self.properties["internal"]:
+			which = "internal"
+		
+		olddata = self.properties[which].pop(oldkey)
+			
+		if conversion:
+			check_str = olddata.val()
+
+			if (check_str in conversion):
+				olddata = conversion[check_str]
+			else:
+				print ("Invalid format: {name}".format(name=check_str))
+				return None
+
+		self.properties[which][newkey] = olddata
+				
 	def pop(self, key, default=None):
 		if key in self.properties["internal"]:
 			return self.properties["internal"].pop(key, default)
@@ -216,6 +229,8 @@ class GroupNode(Node):
 		else:
 			self.children.append(child)
 		
+	def __iter__(self):
+		return self.children.__iter__()
 		
 	def place(self, child, x=None, y=None, keep_original=False):
 		self.append(child, keep_original=keep_original)
@@ -250,17 +265,17 @@ class GroupNode(Node):
 		if bottom_edge > int(my_geom["height"]):
 			self.log("Resizing height to " + str(bottom_edge))
 			self["geometry"]["height"] = bottom_edge
-		
 	
 	def apply (self, generator, data={}):
 		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
+
 		margins = self["margins"].val()
-		
-		child_macros = copy.copy(data)
 		border = int(self["border-width"])
 		
-		for child in self.children:
+		child_macros = copy.copy(data)
+		
+		for child in self:
 			geom = output["geometry"].val()
 			
 			child_macros.update({
@@ -268,7 +283,7 @@ class GroupNode(Node):
 				"__parenty__" : int(geom["y"]),
 				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
 				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
-						
+			
 			output.place(child.apply(generator, data=child_macros))
 			
 		return output
@@ -289,6 +304,7 @@ class TabbedGroupNode(GroupNode):
 		self.setDefault(Color,  "tab-color",      "$D2D2D2")
 		self.setDefault(Color,  "selected",       "$A8A8A8")
 		self.setDefault(Color,  "border-color",   "$000000")
+		self.setDefault(String, "border-style",   "Solid")
 		self.setDefault(Number, "border-width",   0)
 		self.setDefault(Number, "padding",        5)
 		self.setDefault(Number, "inset",          0)
@@ -379,7 +395,7 @@ class LayoutNode(GroupNode):
 				
 				line = generator.generateAnonymousGroup()
 				
-				for childnode in self.children:						
+				for childnode in self.children:
 					line.place(childnode.apply(generator, data=child_macros))
 								
 				self.positionNext(line)
@@ -795,6 +811,7 @@ class RectangleNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		self.setDefault(String, "border-style", "Solid")
 	
 		
 class EllipseNode(Node):
@@ -804,6 +821,7 @@ class EllipseNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		self.setDefault(String, "border-style", "Solid")
 	
 
 class ArcNode(Node):
@@ -813,6 +831,7 @@ class ArcNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		self.setDefault(String, "border-style", "Solid")
 		self.setDefault(Number, "start-angle", 0)
 		self.setDefault(Number, "span", 90)
 
@@ -873,6 +892,7 @@ class PolygonNode(Node):
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		self.setDefault(String, "border-style", "Solid")
 		
 		self.tocopy.append("points")
 
@@ -885,6 +905,7 @@ class PolylineNode(Node):
 		
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
+		self.setDefault(String, "border-style", "Solid")
 		
 		self.tocopy.append("points")
 		

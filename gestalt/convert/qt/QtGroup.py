@@ -13,10 +13,12 @@ class QtGroup(QtWidget):
 		self.setDefault(Color, "background", "$00000000")
 		self.setDefault(Color, "border-color", "$000000")
 		self.setDefault(Number, "border-width", 0)
+		self.setDefault(String, "border-style", "Solid")
 		
 	def write(self, tree):
 		col = Color(self.pop("border-color")).val()
 		wid = Number(self.pop("border-width")).val()
+		style = String(self.pop("border-style")).val()
 		
 		if (int(wid) != 0) and (col["alpha"] != 0):
 			border = QtWidget("QFrame")
@@ -28,7 +30,7 @@ class QtGroup(QtWidget):
 QFrame
 {{
     border-width: {width}px;
-    border-style: solid;
+    border-style: {style};
     border-color: rgba({red},{green},{blue},{alpha});
 }}
 """.format(
@@ -36,7 +38,8 @@ QFrame
 			green=col["green"],
 			blue=col["blue"],
 			alpha=col["alpha"],
-			width=wid))
+			width=wid,
+			style=style.lower()))
 
 			self.children.insert(0, border)
 		
