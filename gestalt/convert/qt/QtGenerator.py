@@ -27,6 +27,11 @@ border_conversion = {
 	"Dashed"      : Enum("caGraphics::Dash"),
 }
 
+line_conversion = {
+	"Solid"       : Enum("caPolyLine::Solid"),
+	"Dashed"      : Enum("caPolyLine::Dash"),
+}
+
 class QtGenerator(GestaltGenerator):
 	def generateWidget(self, original, macros={}):
 		return QtWidget(original.classname, node=original, macros=macros)
@@ -185,7 +190,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("foreground", "background")
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
-		output.link("linestyle",  "border-style", conversion=border_conversion)
+		output.link("linestyle",  "border-style", conversion=line_conversion)
 		
 		output["polystyle"] = Enum("caPolyLine::Polygon")
 		output["fillstyle"] = Enum("caPolyLine::Filled")
@@ -211,7 +216,7 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("lineSize",   "border-width")
 		output.link("lineColor",  "border-color")
-		output.link("linestyle",  "border-style", conversion=border_conversion)
+		output.link("linestyle",  "border-style", conversion=line_conversion)
 		
 		output["polystyle"] = Enum("caPolyLine::Polyline")
 		output["fillstyle"] = Enum("caPolyLine::Outline")
