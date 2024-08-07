@@ -130,9 +130,9 @@ not changed.
 
 If the macro named by `repeat-over` is parsed and found to be a number, then the node will iterate
 a number of times specified by the macro. On each loop, the children widgets will be provided with
-two macros; `__index__` and another that will be named according to `index-variable` so that the
-child widgets can configure themselves. `__index__` is a number that starts at zero and increments 
-by one every iteration of the loop. The index variable is similar, but starts at a value specified 
+two macros; `__index__` and another that will be named according to `variable` so that the child 
+widgets can configure themselves. `__index__` is a number that starts at zero and increments by 
+one every iteration of the loop. The second macro is similar, but will start at a value specified 
 by the attribute `start-at`.
 
 If, instead, `repeat-over` names a macro that is found to be a list of dictionaries, then the
@@ -142,7 +142,7 @@ group with those macros (alongside any other macros in the data file). The `__in
 mentioned above will also be included.
 
 Finally, if `repeat-over` names a macro that is found to be a list of values, then the values will
-be made available to each child under a name specified by the attribute `value-variable`. The `__index__` 
+be made available to each child under the name specified by the attribute `variable`. The `__index__` 
 macro mentioned above will also be included.
 
 * **Special Attributes**
@@ -151,8 +151,7 @@ macro mentioned above will also be included.
 |----------------|--------|------------|
 | children       | List   | A list of widgets to use as a template to copy along the horizontal axis |
 | repeat-over    | String | The name of a macro that will be provided within the input data file |
-| index-variable | String | The name under which to provide the value of the loop index, 'N' by default |
-| value-variable | String | The name under which to provide the current value when iterating over a list, 'val' by default |
+| variable       | String | The name under which to provide the value of the loop index, 'N' by default |
 | start-at       | Number | An offset value to the loop index to provide children widgets |
 | padding        | Number | The number of pixels between each widget group |
 | background     | Color  | A fill color behind the entirety of each template copy |
@@ -199,9 +198,9 @@ not changed.
 
 If the macro named by `repeat-over` is parsed and found to be a number, then the node will iterate
 a number of times specified by the macro. On each loop, the children widgets will be provided with
-two macros; `__index__` and another that will be named according to `index-variable` so that the
-child widgets can configure themselves. `__index__` is a number that starts at zero and increments 
-by one every iteration of the loop. The index variable is similar, but starts at a value specified 
+two macros; `__index__` and another that will be named according to `variable` so that the child 
+widgets can configure themselves. `__index__` is a number that starts at zero and increments by 
+one every iteration of the loop. The second macro is similar, but will start at a value specified 
 by the attribute `start-at`.
 
 If, instead, `repeat-over` names a macro that is found to be a list of dictionaries, then the
@@ -211,7 +210,7 @@ group with those macros (alongside any other macros in the data file). The `__in
 mentioned above will also be included.
 
 Finally, if `repeat-over` names a macro that is found to be a list of values, then the values will
-be made available to each child under a name specified by the attribute `value-variable`. The `__index__` 
+be made available to each child under the name specified by the attribute `variable`. The `__index__` 
 macro mentioned above will also be included.
 
 You may also use the alias "repeat" to reference the vrepeat node.
@@ -223,8 +222,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 |----------------|--------|------------|
 | children       | List   | A list of widgets to use as a template to copy along the vertical axis |
 | repeat-over    | String | The name of a macro that will be provided within the input data file |
-| index-variable | String | The name under which to provide the value of the loop index, 'N' by default |
-| value-variable | String | The name under which to provide the current value when iterating over a list, 'val' by default |
+| variable       | String | The name under which to provide the value of the loop index, 'N' by default |
 | start-at       | Number | An offset value to the loop index to provide children widgets |
 | padding        | Number | The number of pixels between each widget group |
 | background     | Color  | A fill color behind the entirety of each template copy |
@@ -299,8 +297,7 @@ elements a user provides.
 |----------------|--------|------------|
 | children       | List   | A list of widgets to use as a template to copy in a grid pattern |
 | repeat-over    | String | The name of a macro that will be provided within the input data file |
-| index-variable | String | The name under which to provide the value of the loop index, 'N' by default |
-| value-variable | String | The name under which to provide the current value when iterating over a list, 'val' by default |
+| variable       | String | The name under which to provide the value of the loop index, 'N' by default |
 | start-at       | Number | An offset value to the loop index to provide children widgets |
 | padding        | Number | The number of pixels between each widget group |
 | aspect-ratio   | Double | A ratio indicating the relative number of columns to the number of rows in the grid |
