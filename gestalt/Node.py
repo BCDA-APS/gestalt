@@ -342,7 +342,9 @@ class LayoutNode(GroupNode):
 	def __init__(self, name=None, layout={}, loc=None):
 		super(LayoutNode, self).__init__("Layout", name=name, layout=layout, loc=loc)
 		
-		self.makeInternal(String, "repeat-over", "")
+		self.makeInternal(String, "repeat-over",    "")
+		self.makeInternal(String, "index-variable", "N")
+		self.makeInternal(String, "value-variable", "val")
 		self.makeInternal(Number, "start-at",     0)
 		self.makeInternal(Number, "padding",      0)
 		
@@ -363,15 +365,18 @@ class LayoutNode(GroupNode):
 		repeat   = output["repeat-over"]
 		start_at = output["start-at"]
 		
-		repeat.apply(data)
+		index_var = output["index-variable"]
+		value_var = output["value-variable"]
+		
+		#repeat.apply(data)
 		
 		macrolist = data.get(str(repeat))
 			
 		try:
 			if not macrolist:
-				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]	
+				macrolist = [ {str(index_var) : x} for x in range(int(start_at), int(start_at) + int(repeat)) ]	
 			elif not isinstance(macrolist, list):
-				macrolist = [ {"N" : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
+				macrolist = [ {str(index_var) : x} for x in range(int(start_at), int(start_at) + int(macrolist)) ]
 		except:
 			macrolist = List(repeat).val()
 					
@@ -385,12 +390,18 @@ class LayoutNode(GroupNode):
 				geom = output["geometry"].val()
 				
 				child_macros = copy.copy(data)
-				child_macros.update(macroset)
+				
+				if isinstance(macroset, dict):
+					child_macros.update(macroset)
+				else:
+					child_macros.update({str(value_var) : macroset})
+					
 				child_macros.update({
 						"__parentx__" : int(geom["x"]),
 						"__parenty__" : int(geom["y"]),
 						"__parentwidth__" : int(geom["width"]),
 						"__parentheight__" : int(geom["height"])})
+						
 				self.updateMacros(child_macros)
 				
 				line = generator.generateAnonymousGroup()
