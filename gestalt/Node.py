@@ -364,8 +364,7 @@ class LayoutNode(GroupNode):
 		repeat   = output["repeat-over"]
 		start_at = output["start-at"]
 		
-		index_var = output["index-variable"]
-		value_var = output["value-variable"]
+		value_var = output["variable"]
 		
 		#repeat.apply(data)
 		
