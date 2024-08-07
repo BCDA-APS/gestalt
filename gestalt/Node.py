@@ -476,6 +476,7 @@ class GridNode(LayoutNode):
 	def apply (self, generator, data={}):
 		self["index-x"] = 0
 		self["index-y"] = 0
+		self["aspect-ratio"].apply(data)
 		
 		return super().apply(generator, data)
 		
