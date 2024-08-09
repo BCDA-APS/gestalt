@@ -82,7 +82,6 @@ def read_group_node(typ, loader, node):
 	try:
 		params = loader.construct_mapping(node, deep=True)
 	except Exception as e:
-		print(repr(e))
 		params["children"] = loader.construct_sequence(node, deep=True)
 
 	return GroupNode(typ, loc=node.start_mark, layout=params)
