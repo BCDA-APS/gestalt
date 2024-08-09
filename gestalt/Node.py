@@ -433,6 +433,9 @@ class GridNode(LayoutNode):
 	def __init__(self, name=None, layout={}, loc=None):
 		super(GridNode, self).__init__(name=name, layout=layout, loc=loc)
 	
+		self.makeInternal(Number, "padding-x", self["padding"])
+		self.makeInternal(Number, "padding-y", self["padding"])
+		
 		self.makeInternal(Double, "aspect-ratio", 1.0)
 		self.makeInternal(Bool,   "horizontal", True)
 		
@@ -452,8 +455,8 @@ class GridNode(LayoutNode):
 		cols = round(math.sqrt(int(self["num-items"]) * float(ratio)))
 		rows = round(math.sqrt(int(self["num-items"]) / float(ratio)))
 		
-		pos_x = int(self["index-x"]) * (line["geometry"]["width"] + int(self["padding"]))
-		pos_y = int(self["index-y"]) * (line["geometry"]["height"] + int(self["padding"]))
+		pos_x = int(self["index-x"]) * (line["geometry"]["width"] + int(self["padding-x"]))
+		pos_y = int(self["index-y"]) * (line["geometry"]["height"] + int(self["padding-y"]))
 		
 		line.position(x=pos_x, y=pos_y)
 
@@ -482,10 +485,10 @@ class GridNode(LayoutNode):
 		
 		
 class FlowNode(GroupNode):
-	def __init__(self, layout={}, flow="vertical", loc=None):
-		super(FlowNode, self).__init__("caFrame", layout=layout, loc=loc)
+	def __init__(self, name=None, layout={}, flow="vertical", loc=None):
+		super(FlowNode, self).__init__("caFrame", name=name, layout=layout, loc=loc)
 	
-		self.makeInternal(Number, "padding", 0)
+		self.makeInternal(Number, "padding",   0)
 		self.setProperty("flow", flow, internal=True)
 		
 		
