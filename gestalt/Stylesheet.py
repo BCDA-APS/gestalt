@@ -76,17 +76,6 @@ def read_node(typ, loader, node):
 
 	return Node(typ, loc=node.start_mark, layout=params)
 
-def read_group_node(typ, loader, node):
-	params = {}
-	
-	try:
-		params = loader.construct_mapping(node, deep=True)
-	except Exception as e:
-		params["children"] = loader.construct_sequence(node, deep=True)
-
-	return GroupNode(typ, loc=node.start_mark, layout=params)
-
-
 def read_special_node(node_type, loader, node, **kwargs):
 	params = {}
 	
@@ -97,6 +86,16 @@ def read_special_node(node_type, loader, node, **kwargs):
 
 	return node_type(layout=params, loc=node.start_mark, **kwargs)
 
+def read_special_group(node_type, loader, node, **kwargs):
+	params = {}
+	
+	try:
+		params = loader.construct_mapping(node, deep=True)
+	except ConstructorError:
+		params["children"] = loader.construct_sequence(node, deep=True)
+		
+	return node_type(layout=params, loc=node.start_mark, **kwargs)
+	
 	
 def read_default_node(loader, node):
 	return loader.construct_mapping(node, deep=True)
@@ -139,7 +138,7 @@ def read_apply_multi(loader, suffix, node):
 		
 	template_nodes, defaults = my_templates.get(suffix)
 	
-	return ApplyNode(defaults=defaults, layout={"children":template_nodes}, macros=macros, loc=node.start_mark)
+	return ApplyNode(defaults=defaults, layout={"children" : template_nodes}, macros=macros, loc=node.start_mark)
 	
 def read_debug_multi(loader, suffix, node):
 	ret_node = construct_from_suffix(loader, suffix, node)
@@ -217,7 +216,7 @@ recognized_types = (
 for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
-add_constructors("group", (lambda l, n: read_group_node("caFrame", l, n)))
+add_constructors("group", (lambda l, n: read_special_group(GroupNode, l, n)))
 	
 add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 
@@ -229,9 +228,9 @@ add_constructors("defaults", read_default_node)
 
 add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))
 	
-add_constructors("Flow",  (lambda l, n: read_special_node(FlowNode, l, n, flow="vertical")))
-add_constructors("VFlow", (lambda l, n: read_special_node(FlowNode, l, n, flow="vertical")))
-add_constructors("HFlow", (lambda l, n: read_special_node(FlowNode, l, n, flow="horizontal")))
+add_constructors("Flow",  (lambda l, n: read_special_group(FlowNode, l, n, flow="vertical")))
+add_constructors("VFlow", (lambda l, n: read_special_group(FlowNode, l, n, flow="vertical")))
+add_constructors("HFlow", (lambda l, n: read_special_group(FlowNode, l, n, flow="horizontal")))
 	
 add_constructors("Repeat",  (lambda l, n: read_special_node(RepeatNode, l, n,  flow="vertical")))
 add_constructors("VRepeat", (lambda l, n: read_special_node(RepeatNode, l, n,  flow="vertical")))

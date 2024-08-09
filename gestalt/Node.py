@@ -198,7 +198,7 @@ class Node(object):
 		
 		
 class GroupNode(Node):
-	def __init__(self, classname, name=None, node=None, layout={}, loc=None):	
+	def __init__(self, classname="Group", name=None, node=None, layout={}, loc=None):	
 		super(GroupNode, self).__init__(classname, name=name, node=node, layout=layout, loc=loc)
 		
 		self.children = []
