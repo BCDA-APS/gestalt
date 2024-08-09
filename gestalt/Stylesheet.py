@@ -77,7 +77,13 @@ def read_node(typ, loader, node):
 	return Node(typ, loc=node.start_mark, layout=params)
 
 def read_group_node(typ, loader, node):
-	params = loader.construct_mapping(node, deep=True)
+	params = {}
+	
+	try:
+		params = loader.construct_mapping(node, deep=True)
+	except Exception as e:
+		print(repr(e))
+		params["children"] = loader.construct_sequence(node, deep=True)
 
 	return GroupNode(typ, loc=node.start_mark, layout=params)
 
@@ -108,16 +114,16 @@ def construct_from_suffix(loader, suffix, node):
 def read_template_multi(loader, suffix, node):
 	params = loader.construct_sequence(node, deep=True)
 	defaults = {}
-	template_node = None
+	template_nodes = []
 	
 	for item in params:
 		if isinstance(item, dict):
 			defaults.update(item)
 			
 		elif isinstance(item, Node):
-			template_node = item
+			template_nodes.append(item)
 			
-	my_templates[suffix] = (template_node, defaults)
+	my_templates[suffix] = (template_nodes, defaults)
 		
 	return None
 		
@@ -132,9 +138,9 @@ def read_apply_multi(loader, suffix, node):
 	if suffix not in my_templates:
 		raise ValueError("Could not find template with name: " + suffix.lstrip(":"))
 		
-	template_node, defaults = my_templates.get(suffix)
-		
-	return ApplyNode(defaults=defaults, macros=macros, subnode=template_node, loc=node.start_mark)
+	template_nodes, defaults = my_templates.get(suffix)
+	
+	return ApplyNode(defaults=defaults, layout={"children":template_nodes}, macros=macros, loc=node.start_mark)
 	
 def read_debug_multi(loader, suffix, node):
 	ret_node = construct_from_suffix(loader, suffix, node)

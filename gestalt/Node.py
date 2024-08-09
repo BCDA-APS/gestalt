@@ -558,15 +558,15 @@ class ConditionalNode(GroupNode):
 		return output
 		
 		
-class ApplyNode(Node):
-	def __init__(self, layout={}, defaults={}, macros={}, subnode=None, loc=None):
+class ApplyNode(GroupNode):
+	def __init__(self, layout={}, defaults={}, macros={}, subnodes=[], loc=None):
 		super(ApplyNode, self).__init__("Apply", layout=layout, loc=loc)
 		
 		self.defaults = defaults
 		self.macros = macros
-		self.subnode = subnode
+		self.subnodes = subnodes
 		
-		self.tocopy.append("subnode")
+		self.tocopy.append("subnodes")
 		self.tocopy.append("macros")
 		self.tocopy.append("defaults")
 		
@@ -597,12 +597,18 @@ class ApplyNode(Node):
 				
 			child_macros.update({key : to_assign})
 		
-				
-		if self.name:
-			self.subnode.name = self.name
+		output = generator.generateGroup(self, macros=data)
+		
+		for child in self:
+			child_macros.update({
+				"__parentx__" : data["__parentx__"],
+				"__parenty__" : data["__parenty__"],
+				"__parentwidth__" : data["__parentwidth__"],
+				"__parentheight__" : data["__parentheight__"]})
 			
-		return self.subnode.apply(generator, data=child_macros)
-
+			output.place(child.apply(generator, data=child_macros))
+			
+		return output
 		
 class SpacerNode(Node):
 	def __init__(self, layout={}, loc=None):
