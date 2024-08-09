@@ -146,6 +146,17 @@ def read_debug_multi(loader, suffix, node):
 	
 	return ret_node
 	
+def read_conditional_multi(loader, suffix, node, check_against=True):
+	ret_node = read_special_group(ConditionalNode, loader, node)
+	
+	if check_against == False:
+		ret_node.condition = Not(suffix.lstrip(":"))
+	else:
+		ret_node.condition = String(suffix.lstrip(":"))
+		
+	return ret_node
+	
+	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
 	ret_node = construct_from_suffix(loader, suffix, node)
 	
@@ -221,6 +232,8 @@ add_constructors("group", (lambda l, n: read_special_group(GroupNode, l, n)))
 add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 
 add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
+add_multi_constructors("If",    (lambda l, s, n: read_conditional_multi(l, s, n, check_against=True)))
+add_multi_constructors("IfNot", (lambda l, s, n: read_conditional_multi(l, s, n, check_against=False)))
 add_multi_constructors("template", read_template_multi)
 add_multi_constructors("apply",   read_apply_multi)
 add_multi_constructors("debug:",   read_debug_multi)
