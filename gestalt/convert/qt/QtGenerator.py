@@ -2,7 +2,7 @@ from gestalt.Node import *
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
 
-from gestalt.convert.qt.QtWidget  import QtWidget
+from gestalt.convert.qt.QtWidget  import QtWidget, reset_numbering
 from gestalt.convert.qt.QtGroup   import QtGroup
 from gestalt.convert.qt.QtDisplay import QtDisplay
 from gestalt.convert.qt.QtTabbedGroup    import QtTabbedGroup
@@ -280,6 +280,8 @@ class QtGenerator(GestaltGenerator):
 			
 	
 def generateQtFile(template, data, outputfile=""):
+	reset_numbering()
+	
 	a_display = QtDisplay()
 	the_generator = QtGenerator()
 	

@@ -6,7 +6,7 @@ from gestalt.Generator import GestaltGenerator
 
 from phoebusgen import screen
 
-from gestalt.convert.phoebus.CSSWidget      import CSSWidget
+from gestalt.convert.phoebus.CSSWidget      import CSSWidget, reset_numbering
 from gestalt.convert.phoebus.CSSGroup       import CSSGroup
 from gestalt.convert.phoebus.CSSDisplay     import CSSDisplay
 from gestalt.convert.phoebus.CSSTabbedGroup import CSSTabbedGroup
@@ -241,6 +241,8 @@ class CSSGenerator(GestaltGenerator):
 		
 
 def generateCSSFile(template, data, outputfile=""):
+	reset_numbering()
+	
 	a_display = CSSDisplay()
 	the_generator = CSSGenerator()
 	

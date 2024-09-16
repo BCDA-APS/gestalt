@@ -4,11 +4,14 @@ from gestalt.Node import GroupNode
 
 name_numbering = {}
 
+def reset_numbering():
+	name_numbering = {}
+
 class QtWidget(GroupNode):
-	def __init__(self, classname, node=None, name=None, layout={}, macros={}, loc=None):
+	def __init__(self, classname, node=None, name=None, layout={}, macros={}, loc=None):		
 		super(QtWidget, self).__init__(classname, name=name, node=node, layout=layout, loc=loc)
 		QtWidget.updateProperties(self, macros)
-	
+		
 		if "alignment" in self and not isinstance(self["alignment"], Set):
 			data = str(Alignment(self.pop("alignment")))
 			
