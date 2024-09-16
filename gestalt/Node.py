@@ -435,6 +435,9 @@ class GridNode(LayoutNode):
 	def __init__(self, name=None, layout={}, loc=None):
 		super(GridNode, self).__init__(name=name, layout=layout, loc=loc)
 	
+		self.makeInternal(Number, "max-rows", -1)
+		self.makeInternal(Number, "max-cols", -1)
+		
 		self.makeInternal(Number, "padding-x", self["padding"])
 		self.makeInternal(Number, "padding-y", self["padding"])
 		
@@ -456,6 +459,12 @@ class GridNode(LayoutNode):
 		
 		cols = round(math.sqrt(int(self["num-items"]) * float(ratio)))
 		rows = round(math.sqrt(int(self["num-items"]) / float(ratio)))
+		
+		if self["max-rows"] > 0 and self["max-rows"] < rows:
+			rows = self["max-rows"]
+			
+		if self["max-cols"] > 0 and self["max-cols"] < cols:
+			cols = self["max-cols"]
 		
 		pos_x = int(self["index-x"]) * (line["geometry"]["width"] + int(self["padding-x"]))
 		pos_y = int(self["index-y"]) * (line["geometry"]["height"] + int(self["padding-y"]))
