@@ -366,6 +366,8 @@ class LayoutNode(GroupNode):
 		
 		value_var = output["variable"]
 		
+		self["padding"].apply(data)
+		
 		#repeat.apply(data)
 		
 		macrolist = data.get(str(repeat))
@@ -420,7 +422,7 @@ class RepeatNode(LayoutNode):
 	
 		self.setProperty("flow", flow, internal=True)
 		
-	def positionNext(self, line):		
+	def positionNext(self, line):
 		if self["flow"].val() == "vertical":
 			line.position(x=None, y= self["last-y"].val())
 			self["last-y"] = self["last-y"].val() + line["geometry"]["height"] + int(self["padding"])
