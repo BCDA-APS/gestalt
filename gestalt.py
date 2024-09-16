@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /APSshare/anaconda3/x86_64/bin/python3
 
 import os
 import sys
@@ -6,6 +6,7 @@ import argparse
 import pathlib
 import tempfile
 import traceback
+#import cProfile
 
 from templates import *
 from gestalt import Datasheet, Stylesheet
@@ -146,12 +147,9 @@ def doGenerate(args):
 
 		generateQtFile(styles, data, outputfile=args.out_filename)
 	elif args.out_format == "bob":
-		if importlib.util.find_spec("phoebusgen") is not None:
-			from gestalt.convert.phoebus.CSSGenerator import generateCSSFile
+		from gestalt.convert.phoebus.CSSGenerator import generateCSSFile
 			
-			generateCSSFile(styles, data, outputfile=args.out_filename)
-		else:
-			print("Phoebusgen not installed, can't generate CSS file")
+		generateCSSFile(styles, data, outputfile=args.out_filename)
 	else:
 		print("Unknown file extension: ", write_format)
 
@@ -172,4 +170,5 @@ if __name__ == "__main__":
 		print("Template file required for command-line conversion")
 		
 	else:
+		#cProfile.run("doGenerate(args)")
 		doGenerate(args)

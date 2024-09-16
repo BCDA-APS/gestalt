@@ -18,7 +18,6 @@ class UI(QMainWindow):
 		self.setWindowTitle("GESTALT")
 			
 		self.TemplateSelect.currentIndexChanged.connect(self.template_selected)
-		#self.TemplateSelect.addItems(registry.templates.keys())
 		
 		self.TemplateType.currentIndexChanged.connect(self.type_selected)
 		self.TemplateType.addItems(["Qt", "CSS"])
