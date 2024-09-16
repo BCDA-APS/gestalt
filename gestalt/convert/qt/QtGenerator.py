@@ -100,6 +100,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("channel", "pv")
 			
 		output["colorMode"]     = Enum("caMenu::Static")
+		output["elevation"]     = Enum("caMenu::as_is")
 		
 		return output
 		
