@@ -54,7 +54,7 @@ class CSSTabbedGroup(CSSWidget):
 	def place(self, child, x=None, y=None, keep_original=False):
 		the_font = self.font.val()
 		
-		tab_width = GestaltGenerator.get_text_width(the_font["family"], int(the_font["size"]), child.,name) + 10
+		tab_width = GestaltGenerator.get_text_width(the_font["family"], int(the_font["size"]), child.name) + 10
 				
 		next_tab = CSSWidget("ActionButton", name=child.name + "_tab")
 		next_tab["geometry"] = Rect("{x}x{y}x{wid}x{hei}".format(x=self.tab_offset, y=0, wid=tab_width, hei=self.tab_height))
