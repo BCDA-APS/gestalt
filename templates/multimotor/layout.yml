@@ -17,7 +17,7 @@ motor_grid: !grid
     
     children:
         - !group
-            geometry: 160x204
+            geometry: 160x210
             
             border-color: $00358
             border-width: 3
@@ -52,157 +52,214 @@ motor_grid: !grid
                     eventSignal: caCalc::onAnyChange
                     
                     geometry: 10x10 x 0x0
+                    
                 
-                
-                - !TextMonitor
-                    background: *header_blue
-                    foreground: *white
-                    
-                    alignment: Center
-                    
-                    geometry: 154x21
-                    
-                    pv: "$(P)$(M{N}).DESC"
-                    
-                    
-                - !RelatedDisplay
-                    <<: *editable
-                    geometry: 10x30 x 140x17
-                    font: -Liberation Sans -Regular -10
-                    text: "$(P)$(M{N})"
-                    
-                    links:
-                        - { label: "Help",  file: "motorx_help.ui",  macros: "P=$(P),M=$(M{N})" }
-                        - { label: "More",  file: "motorx_more.ui",  macros: "P=$(P),M=$(M{N})" }
-                        - { label: "Setup", file: "motorx_setup.ui", macros: "P=$(P),M=$(M{N})" }
-                        - { label: "All",   file: "motorx_all.ui",   macros: "P=$(P),M=$(M{N})" }
-                        - { label: "Setup Scan Parameters", file: "scanParms.ui", macros: "P=$(P),Q=$(M{N}),PV=$(M{N})" }
-                    
-                - !TextEntry
+                - !caCalc
+                    foreground: *transparent
                     background: *transparent
-                    foreground: *header_blue
-                    
-                    geometry: 20x50 x 120x17
-                    alignment: Center
-                    
-                    pv: "$(P)$(M{N}).EGU"
                 
-        
-                - !MessageButton
-                    background: *edit_blue
+                    variable: "$(P)$(M{N}):TorqueDisplay"
+                    calc: "(A&2048)=2048"
+                    channel: "$(P)$(M{N}).MSTA"
                     
-                    geometry: 10x140 x 24x24
-                    value: "1"
-                    pv: "$(P)$(M{N}).TWR"
-                    text: "<"
+                    eventSignal: caCalc::onAnyChange
                     
-                - !TextEntry
-                    background: *edit_blue
-                    
-                    geometry: 38x142 x 85x24
-                    
-                    pv: "$(P)$(M{N}).TWV"
+                    geometry: 10x10 x 0x0
                 
-                - !MessageButton
-                    background: *edit_blue
-                    
-                    geometry: 126x140 x 24x24
-                    value: "1"
-                    pv: "$(P)$(M{N}).TWF"
-                    text: ">"
-        
-                - !MessageButton
-                    background: *alarm_red
-                    foreground: *alarm_yellow
-                    
-                    geometry: 10x170 x 140x26
-                    pv: "$(P)$(M{N}).STOP"
-                    value: "1"
-                    text: "STOP"
-                    
                 
-                - !group
-                    visibility: "$(P)$(M{N}):LowLimits"
-                    
-                    geometry: 10x50 x 6x88
+                - !Group
+                    geometry: 154x21
+                    background: *header_blue
                     
                     children:
-                
-                        - !LED
-                            pv: "$(P)$(M{N}):LowLimits"
+                        - !Group
+                            visibility: "$(P)$(M{N}):TorqueDisplay"
+                            children:
+                                - !LED
+                                    geometry: 135x2 x 16x16
+                                    
+                                    border-color: *transparent
+                                    pv: "$(P)$(M{N}).CNEN"
+                                            
+                                    false-color: *alarm_red
+                                    true-color: *alarm_green
+                                    
+                                - !Group
+                                    visibility: "$(P)$(M{N}).CNEN"
+                                    children:
+                                        - !MessageButton
+                                            background: *transparent
+                                            foreground: *transparent
+                                        
+                                            geometry: 133x0 x 21x21
+                                            pv: "$(P)$(M{N}).CNEN"
+                                            value: 0
+                                    
+                                - !Group
+                                    visibility: !Not "$(P)$(M{N}).CNEN"
+                                    children:
+                                        - !MessageButton
+                                            background: *transparent
+                                            foreground: *transparent
+                                        
+                                            geometry: 133x0 x 21x21
+                                            pv: "$(P)$(M{N}).CNEN"
+                                            value: 1
+                        
+                        - !TextMonitor
+                            foreground: *white
                             
-                            false-value: 1
-                            false-color: *alarm_yellow
+                            alignment: Center
                             
-                            true-value: 2
-                            true-color: *alarm_red
+                            geometry: 125x21
                             
-                            undefined-color: *alarm_green
-                            
-                            border-color: *transparent
-                            
-                            square: true
-                            geometry: 0x0 x 6x88
-                
-                - !group
-                    visibility: "$(P)$(M{N}):HighLimits"
+                            pv: "$(P)$(M{N}).DESC"
                     
-                    geometry: 144x50 x 6x88
-                    
+                - !HCenter:VFlow
+                    padding: 5
+                    geometry: 0x27 x 140x0
                     children:
-                        - !LED
-                            pv: "$(P)$(M{N}):HighLimits"
+                        - !HStretch:RelatedDisplay
+                            <<: *editable
+                            geometry: 0x17
+                            font: -Liberation Sans -Regular -10
+                            text: "$(P)$(M{N})"
                             
-                            false-value: 1
-                            false-color: *alarm_yellow
+                            links:
+                                - { label: "Help",  file: "motorx_help.ui",  macros: "P=$(P),M=$(M{N})" }
+                                - { label: "More",  file: "motorx_more.ui",  macros: "P=$(P),M=$(M{N})" }
+                                - { label: "Setup", file: "motorx_setup.ui", macros: "P=$(P),M=$(M{N})" }
+                                - { label: "All",   file: "motorx_all.ui",   macros: "P=$(P),M=$(M{N})" }
+                                - { label: "Setup Scan Parameters", file: "scanParms.ui", macros: "P=$(P),Q=$(M{N}),PV=$(M{N})" }
+                    
+                        - !HCenter:HFlow
+                            geometry: 0x88
+                            padding: 2
+                            children:
+                                - !VStretch:group
+                                    visibility: "$(P)$(M{N}):LowLimits"
+                    
+                                    geometry: 6x0
+                    
+                                    children:
+                                        - !AStretch:LED
+                                            border-color: *transparent
+                                            square: true
+                                            pv: "$(P)$(M{N}):LowLimits"
+                                            
+                                            false-value: 1
+                                            false-color: *alarm_yellow
+                                            
+                                            true-value: 2
+                                            true-color: *alarm_red
+                                            
+                                            undefined-color: *alarm_green
+                                            
+                                - !VFlow
+                                    geometry: 124x0
+                                    children:
+                                        - !HStretch:TextMonitor
+                                            background: *transparent
+                                            foreground: *header_blue
+                                            
+                                            geometry: 0x17
+                                            alignment: Center
+                                            
+                                            pv: "$(P)$(M{N}).EGU"
+                                                     
+                                        - !HStretch:Group
+                                            geometry: 124x35
+                                            children:
+                                                - !AStretch:Group
+                                                    border-color: *black
+                                                    border-width: 3
+                                                    visibility: "$(P)$(M{N}).SET"
+                                                    
+                                                - !ACenter:Group
+                                                    geometry: 120x31
+                                                    border-color: *alarm_yellow
+                                                    border-width: 3
+                                                    visibility: "$(P)$(M{N}).SET"
+                                                                            
+                                                - !ACenter:TextMonitor
+                                                    foreground: *header_blue
+                                                    alignment: Center
+                                                    
+                                                    pv: "$(P)$(M{N}).RBV"
+                                                    
+                                                    geometry: 116x27
+                                            
+                                        - !HStretch:Group
+                                            geometry: 124x35
+                                            children:
+                                                - !AStretch:Group
+                                                    border-color: *alarm_red
+                                                    border-width: 3
+                                                    visibility: "$(P)$(M{N})_able.VAL"
+                                                    
+                                                - !ACenter:Group
+                                                    geometry: 118x29
+                                                    border-color: *black
+                                                    border-width: 3
+                                                    visibility: "$(P)$(M{N})_able.VAL"
+                                            
+                                                - !ACenter:TextEntry
+                                                    <<: *editable
+                                                    geometry: 114x25
+                                                    pv: "$(P)$(M{N}).VAL"
+                                            
+                                - !VStretch:group
+                                    visibility: "$(P)$(M{N}):HighLimits"
+                                    
+                                    geometry: 6x0
+                                    
+                                    children:
+                                        - !AStretch:LED
+                                            border-color: *transparent
+                                            square: true
+                                            pv: "$(P)$(M{N}):HighLimits"
+                                            
+                                            false-value: 1
+                                            false-color: *alarm_yellow
+                                            
+                                            true-value: 2
+                                            true-color: *alarm_red
+                                            
+                                            undefined-color: *alarm_green
+                                            
+                                            
+                        - !HCenter:HFlow
+                            padding: 4
+                            children:
+                                - !MessageButton
+                                    background: *edit_blue
+                                    
+                                    geometry: 24x24
+                                    value: "1"
+                                    pv: "$(P)$(M{N}).TWR"
+                                    text: "<"
+                                    
+                                - !TextEntry
+                                    background: *edit_blue
+                                    
+                                    geometry: 84x24
+                                    
+                                    pv: "$(P)$(M{N}).TWV"
+                                
+                                - !MessageButton
+                                    background: *edit_blue
+                                    
+                                    geometry: 24x24
+                                    value: "1"
+                                    pv: "$(P)$(M{N}).TWF"
+                                    text: ">"
+                
+                        - !HCenter:MessageButton
+                            background: *alarm_red
+                            foreground: *alarm_yellow
                             
-                            true-value: 2
-                            true-color: *alarm_red
-                            
-                            undefined-color: *alarm_green
-                            
-                            border-color: *transparent
-                            
-                            square: true
-                            geometry: 0x0 x 6x88
-                    
-                    
-                - !group
-                    geometry: 18x65 x 124x35
-                    border-color: *black
-                    border-width: 3
-                    visibility: "$(P)$(M{N}).SET"
-                    
-                    children:    
-                        - !group
-                            geometry: 2x2 x 120x31
-                            border-color: *alarm_yellow
-                            border-width: 3
-                            visibility: "$(P)$(M{N}).SET"
-                            
-                            
-                - !TextMonitor
-                    foreground: *header_blue
-                    alignment: Center
-                    
-                    pv: "$(P)$(M{N}).RBV"
-                    
-                    geometry: 20x67 x 116x27
-                    
-                - !group
-                    geometry: 18x100 x 124x35
-                    border-color: *alarm_red
-                    border-width: 3
-                    visibility: "$(P)$(M{N})_able.VAL"
-                    
-                    children:    
-                        - !group
-                            geometry: 3x3 x 118x29
-                            border-color: *black
-                            border-width: 3
-                            visibility: "$(P)$(M{N})_able.VAL"
-
-                - !TextEntry
-                    <<: *editable
-                    geometry: 20x102 x 114x25
-                    pv: "$(P)$(M{N}).VAL"
+                            geometry: 140x26
+                            pv: "$(P)$(M{N}).STOP"
+                            value: "1"
+                            text: "STOP"
+                
