@@ -111,7 +111,7 @@ def doGenerate(args):
 		if args.in_format == "auto":
 			parse_format = pathlib.PurePath(args.in_filename).suffix.lstrip('.')
 
-		if parse_format == "string" or parse_format == "str" or parse_format="":
+		if parse_format == "string" or parse_format == "str" or parse_format=="":
 			data = Datasheet.parseYAMLString(args.in_filename)
 		elif parse_format == "yaml" or parse_format == "yml":
 			data = Datasheet.parseYAMLFile(args.in_filename)
