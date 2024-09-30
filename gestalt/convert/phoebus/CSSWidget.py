@@ -6,9 +6,26 @@ from phoebusgen import widget
 from phoebusgen.widget import properties as _p
 
 name_numbering = {}
+local_pvs = []
 
-def reset_numbering():
+def reset_css():
 	name_numbering = {}
+	local_pvs = []
+	
+def add_local_pv(name):
+	global local_pvs
+	
+	local_pvs.append(name)
+	
+def get_pv(pvname):
+	global local_pvs
+	
+	output = pvname
+	
+	if pvname in local_pvs:
+		output = "loc://pv_" + pvname
+		
+	return output
 
 class CSSWidget(GroupNode):
 	def __init__(self, classname, node=None, name=None, layout={}, macros={}):
@@ -44,7 +61,9 @@ class CSSWidget(GroupNode):
 			
 			if (num > 1):
 				self.name = self.name + str(num)
-			
+		
+		self.tocopy.append("widget")
+				
 		if   (self.classname == "ActionButton"):
 			self.widget = widget.ActionButton(self.name, "", "", 0, 0, 0, 0)
 		elif (self.classname == "Arc"):
@@ -135,11 +154,25 @@ class CSSWidget(GroupNode):
 		vis_zero = isinstance(vis_pv, Not)
 				
 		if vis_pv and vis_zero:
-			self.widget.rule("set_visibility", "visible", { str(vis_pv) : True }, { "pv0==0" : False })
+			self.widget.rule("set_visibility", "visible", { get_pv(str(vis_pv)) : True }, { "pv0==0" : True })
 		elif vis_pv and not vis_zero:
-			self.widget.rule("set_visibility", "visible", { str(vis_pv) : True }, { "pv0!=0" : False })
+			self.widget.rule("set_visibility", "visible", { get_pv(str(vis_pv)) : True }, { "pv0==0" : False })
 			
+	
+	def setPV(self):
+		global local_pvs
+		pvname = ""
+		
+		if "pv" in self:
+			pvname = str(self["pv"])
+		elif "pv_name" in self:
+			pvname = str(self["pv_name"])
+		else:
+			return
 			
+		if isinstance(self.widget, _p._PVName):
+			self.widget.pv_name(get_pv(pvname))
+				
 	def setBasicParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self:
 			getattr(self.widget, set_fun)(self[attribute].val())
@@ -191,7 +224,7 @@ class CSSWidget(GroupNode):
 				getattr(self.widget, prefix + "font_style_" + my_font["style"].lower())()
 				
 		
-	def write(self, screen):			
+	def write(self, screen):
 		if self.widget:
 			self.widget.name(self.name)
 			self.widget.x(self["geometry"]["x"])
@@ -251,10 +284,7 @@ class CSSWidget(GroupNode):
 			#  Strings  #
 			#############
 			
-			if "pv" in self:
-				self.setBasicParam("pv_name",    "pv",             check_class=_p._PVName)
-			else:
-				self.setBasicParam("pv_name",    "pv_name",        check_class=_p._PVName)
+			self.setPV()
 			
 			self.setBasicParam("tab",            "tab",            check_class=_p._Tabs)
 			self.setBasicParam("text",           "text",           check_class=_p._Text)

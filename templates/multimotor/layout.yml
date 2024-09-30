@@ -23,50 +23,27 @@ motor_grid: !grid
             border-width: 3
             
             children:
-                - !caCalc
-                    foreground: *transparent
-                    background: *transparent
+                - !Calc
+                    A: "$(P)$(M{N}).LVIO"
+                    B: "$(P)$(M{N}).DIR"
+                    C: "$(P)$(M{N}).HLS"
+                    D: "$(P)$(M{N}).DMOV"
+                    calc: "((D==0) and (B==1))*3+A*(B==1)+2*C"
+                    pv: "$(P)$(M{N}):HighLimits"
+                    
+                - !Calc
+                    A: "$(P)$(M{N}).LVIO"
+                    B: "$(P)$(M{N}).DIR"
+                    C: "$(P)$(M{N}).LLS"
+                    D: "$(P)$(M{N}).DMOV"
+                    calc: "((D==0) and (B==1))*3+A*(B==1)+2*C"
+                    pv: "$(P)$(M{N}):LowLimits"
                 
-                    variable: "$(P)$(M{N}):HighLimits"
-                    calc: "((D=0)&&(B=1))*3+A*(B=1)+2*C"
-                    channel: "$(P)$(M{N}).LVIO"
-                    channelB: "$(P)$(M{N}).DIR"
-                    channelC: "$(P)$(M{N}).HLS"
-                    channelD: "$(P)$(M{N}).DMOV"
+                - !Calc
+                    A: "$(P)$(M{N}).MSTA"
+                    calc: "(A&2048)==2048"
+                    pv: "$(P)$(M{N}):TorqueDisplay"
                     
-                    eventSignal: caCalc::onAnyChange
-                    
-                    geometry: 10x10 x 0x0
-                    
-                - !caCalc
-                    foreground: *transparent
-                    background: *transparent
-                
-                    variable: "$(P)$(M{N}):LowLimits"
-                    calc: "((D=0)&&(B=1))*3+A*(B=1)+2*C"
-                    channel: "$(P)$(M{N}).LVIO"
-                    channelB: "$(P)$(M{N}).DIR"
-                    channelC: "$(P)$(M{N}).LLS"
-                    channelD: "$(P)$(M{N}).DMOV"
-                    
-                    eventSignal: caCalc::onAnyChange
-                    
-                    geometry: 10x10 x 0x0
-                    
-                
-                - !caCalc
-                    foreground: *transparent
-                    background: *transparent
-                
-                    variable: "$(P)$(M{N}):TorqueDisplay"
-                    calc: "(A&2048)=2048"
-                    channel: "$(P)$(M{N}).MSTA"
-                    
-                    eventSignal: caCalc::onAnyChange
-                    
-                    geometry: 10x10 x 0x0
-                
-                
                 - !Group
                     geometry: 154x21
                     background: *header_blue

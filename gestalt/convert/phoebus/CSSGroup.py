@@ -19,11 +19,11 @@ class CSSGroup(CSSWidget):
 		
 		frame["line"] = Color(self.pop("border-color", "$000000"))
 		frame["line_width"] = Number(self.pop("border-width", 0))
-		frame["border-style"] = String(self.pop("border-style", "Solid"))
+		#frame["border-style"] = String(self.pop("border-style", "Solid"))
 		frame["background"] = Color(self.pop("background", "$00000000"))
 		
 		if ( (int(frame["line_width"]) != 0 and frame["line"].val()["alpha"] != 0) or frame["background"].val()["alpha"] != 0):
 			self.children.insert(0, frame)
-			
+		
 		super(CSSGroup, self).write(screen)
 		

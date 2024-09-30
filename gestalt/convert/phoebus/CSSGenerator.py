@@ -1,3 +1,5 @@
+import re
+import ast
 import pathlib
 
 from gestalt.Node import *
@@ -6,7 +8,7 @@ from gestalt.Generator import GestaltGenerator
 
 from phoebusgen import screen
 
-from gestalt.convert.phoebus.CSSWidget      import CSSWidget, reset_numbering
+from gestalt.convert.phoebus.CSSWidget      import CSSWidget, reset_css, add_local_pv, get_pv
 from gestalt.convert.phoebus.CSSGroup       import CSSGroup
 from gestalt.convert.phoebus.CSSDisplay     import CSSDisplay
 from gestalt.convert.phoebus.CSSTabbedGroup import CSSTabbedGroup
@@ -27,7 +29,9 @@ class CSSGenerator(GestaltGenerator):
 		return CSSTabbedGroup(node=original, macros=macros)
 		
 	def generateTextEntry(self, node, macros={}):
-		return CSSWidget("TextEntry", node=node, macros=macros)
+		output = CSSWidget("TextEntry", node=node, macros=macros)
+		output["show_units"] = Bool("False")
+		return output
 		
 	def generateMenu(self, node, macros={}):
 		return CSSWidget("ComboBox", node=node, macros=macros)
@@ -91,7 +95,7 @@ class CSSGenerator(GestaltGenerator):
 	def generateMessageButton(self, node, macros={}):
 		output = CSSWidget("ActionButton", node=node, macros=macros)
 		
-		output.widget.action_write_pv(str(output.pop("pv")), str(output.pop("value")))
+		output.widget.action_write_pv(get_pv(str(output.pop("pv"))), str(output.pop("value")))
 		
 		return output
 		
@@ -109,6 +113,8 @@ class CSSGenerator(GestaltGenerator):
 		
 	def generateTextMonitor(self, node, macros={}):
 		output = CSSWidget("TextUpdate", node=node, macros=macros)
+		
+		output["show_units"] = Bool(False)
 		
 		output.link("border", "border-color")	
 		output.link("border_width", "border-width")
@@ -239,9 +245,120 @@ class CSSGenerator(GestaltGenerator):
 		
 		return output
 		
+	def generateCalc(self, node, macros={}):
+		output = CSSWidget("TextUpdate", node=node, macros=macros)
+		
+		script = "from org.csstudio.display.builder.runtime.script import PVUtil\n"
+		script += "pvs[1].write(PVUtil.getDouble(pvs[0]))"
+		
+		pvname = str(output.pop("pv"))
+		
+		name = "loc://pv_" + pvname + "<VDouble>(0)"
+		add_local_pv(pvname)
+		
+		equation = str(output.pop("calc"))
+		calc = "="
+		
+		def evalNode(node):			
+			if isinstance(node, ast.Expression):
+				return evalNode(node.body)
+				
+			elif isinstance(node, ast.Constant):
+				return str(node.value)
+				
+			elif isinstance(node, ast.Name):
+				if (node.id in ["A", "B", "C", "D"]):
+					return "`{" + node.id + "}`"
+				else:
+					raise Exception
+				
+			elif isinstance(node, ast.Compare):
+				output = evalNode(node.left)
+				ops_check = { 
+					ast.Eq: "==",
+					ast.NotEq: "!=",
+					ast.Lt: "<",
+					ast.LtE: "<=",
+					ast.Gt: ">",
+					ast.GtE: ">=",
+					ast.Is: "==",
+					ast.IsNot: "!="
+				}
+				
+				for i in range(len(node.ops)):
+					output += ops_check[type(node.ops[i])]
+					output += evalNode(node.comparators[i])
+					
+				return output
+				
+			elif isinstance(node, ast.BoolOp):
+				output = evalNode(node.values[0])
+				
+				for i in range(len(node.values) - 1):
+					if isinstance(node.op, ast.And):
+						output += "&&"
+					elif isinstance(node.op, ast.Or):
+						output += "||"
+					
+					output += evalNode(node.values[i+1])
+				
+				return output
+				
+			elif isinstance(node, ast.BinOp):
+				if isinstance(node.op, ast.BitOr):
+					return "bitOR(" + evalNode(node.left) + "," + evalNode(node.right) + ")"
+					
+				elif isinstance(node.op, ast.BitAnd):
+					return "bitAND(" + evalNode(node.left) + "," + evalNode(node.right) + ")"
+					
+				elif isinstance(node.op, ast.BitXor):
+					return "bitXOR(" + evalNode(node.left) + "," + evalNode(node.right) + ")"
+					
+				elif isinstance(node.op, ast.LShift):
+					return "bitLeftShift(" + evalNode(node.left) + "," + evalNode(node.right) + ")"
+					
+				elif isinstance(node.op, ast.RShift):
+					return "bitRightShift(" + evalNode(node.left) + "," + evalNode(node.right) + ")"
+					
+				else:
+					ops_check = {
+						ast.Add:  "+",
+						ast.Sub:  "-",
+						ast.Mult: "*",
+						ast.Div:  "/",
+						ast.Pow:  "^",
+					}
+					
+					return evalNode(node.left) + ops_check[type(node.op)] + evalNode(node.right)
+					
+			elif isinstance(node, ast.UnaryOp):
+				if isinstance(node.op, ast.Not):
+					return "!(" + evalNode(node.operand) + ")"
+				elif isinstance(node.op, ast.Invert):
+					return "bitNOT(" + evalNode(node.operand) + ")"
+				elif isinstance(node.op, ast.USub):
+					return "-" + evalNode(node.operand)
+			else:
+				print(ast.dump(node, indent=4))
+		
+		calc += evalNode(ast.parse(equation, mode="eval"))
+		
+		calc = calc.format(
+			A = get_pv(str(output.pop("A"))), 
+			B = get_pv(str(output.pop("B"))), 
+			C = get_pv(str(output.pop("C"))), 
+			D = get_pv(str(output.pop("D")))
+		)
+		
+		output.widget.embedded_python_script(script, { calc : True , name : False })
+		
+		output["visibility"] = Bool(False)
+		
+		return output
+		
 
 def generateCSSFile(template, data, outputfile=""):
-	reset_numbering()
+	reset_css()
 	
 	a_display = CSSDisplay()
 	the_generator = CSSGenerator()

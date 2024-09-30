@@ -99,3 +99,6 @@ class GestaltGenerator:
 
 	def generateTabbedGroup(self, node, macros={}):
 		pass
+
+	def generateCalc(self, node, macros={}):
+		pass

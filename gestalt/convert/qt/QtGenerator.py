@@ -1,3 +1,5 @@
+import ast
+
 from gestalt.Node import *
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
@@ -277,7 +279,93 @@ class QtGenerator(GestaltGenerator):
 					
 		return output
 
-			
+	def generateCalc(self, node, macros={}):
+		output = QtWidget("caCalc", node=node, macros=macros)
+		
+		output.link("variable", "pv")
+		output.link("channel",  "A")
+		output.link("channelB", "B")
+		output.link("channelC", "C")
+		output.link("channelD", "D")
+		
+		equation = str(output.pop("calc"))
+		
+		def evalNode(node):
+			if isinstance(node, ast.Expression):
+				return evalNode(node.body)
+				
+			elif isinstance(node, ast.Constant):
+				return str(node.value)
+				
+			elif isinstance(node, ast.Name):
+				return node.id
+				
+			elif isinstance(node, ast.Compare):
+				output = evalNode(node.left)
+				ops_check = { 
+					ast.Eq: "=",
+					ast.NotEq: "#",
+					ast.Lt: "<",
+					ast.LtE: "<=",
+					ast.Gt: ">",
+					ast.GtE: ">=",
+					ast.Is: "=",
+					ast.IsNot: "#"
+				}
+				
+				for i in range(len(node.ops)):
+					output += ops_check[type(node.ops[i])]
+					output += evalNode(node.comparators[i])
+					
+				return output
+				
+			elif isinstance(node, ast.BoolOp):
+				output = evalNode(node.values[0])
+				
+				for i in range(len(node.values) - 1):
+					if isinstance(node.op, ast.And):
+						output += "&&"
+					elif isinstance(node.op, ast.Or):
+						output += "||"
+					
+					output += evalNode(node.values[i+1])
+				
+				return output
+				
+			elif isinstance(node, ast.BinOp):
+				ops_check = {
+					ast.Add:  "+",
+					ast.Sub:  "-",
+					ast.Mult: "*",
+					ast.Div:  "/",
+					ast.Pow:  "^",
+					ast.BitOr: "|",
+					ast.BitAnd: "&",
+					ast.BitXor: " XOR ",
+					ast.LShift: "<<",
+					ast.RShift: ">>"
+				}
+				
+				return "(" + evalNode(node.left) + ops_check[type(node.op)] + evalNode(node.right) + ")"
+					
+			elif isinstance(node, ast.UnaryOp):
+				if isinstance(node.op, ast.Not):
+					return "!(" + evalNode(node.operand) + ")"
+				elif isinstance(node.op, ast.Invert):
+					return "~" + evalNode(node.operand)
+				elif isinstance(node.op, ast.USub):
+					return "-" + evalNode(node.operand)
+			else:
+				print(ast.dump(node, indent=4))
+
+		output["calc"] = String(evalNode(ast.parse(equation, mode="eval")))
+				
+		output["foreground"] = Color("$00000000")
+		output["background"] = Color("$00000000")
+		output["eventSignal"] = Enum("caCalc::onAnyChange")
+		
+		return output
+		
 	
 def generateQtFile(template, data, outputfile=""):
 	reset_numbering()
@@ -304,3 +392,4 @@ def generateQtFile(template, data, outputfile=""):
 
 						
 	a_display.writeQt(outputfile)
+

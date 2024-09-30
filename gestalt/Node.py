@@ -269,7 +269,7 @@ class GroupNode(Node):
 	def apply (self, generator, data={}):
 		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
-
+		
 		margins = self["margins"].val()
 		border = int(self["border-width"])
 		
@@ -942,3 +942,13 @@ class PolylineNode(Node):
 		self.tocopy.append("points")
 		
 		
+class CalcNode(Node):
+	def __init__(self, name=None, layout={}, loc=None):
+		super(CalcNode, self).__init__("Calc", name=name, layout=layout, loc=loc)
+
+		self.setDefault(String, "pv", "")
+		self.setDefault(String, "A", "")
+		self.setDefault(String, "B", "")
+		self.setDefault(String, "C", "")
+		self.setDefault(String, "D", "")
+		self.setDefault(String, "calc", "")

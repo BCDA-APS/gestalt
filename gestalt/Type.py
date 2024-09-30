@@ -35,7 +35,6 @@ class DataType(object):
 			
 		else:
 			self.value = str(val)
-			
 
 	def copy(self):
 		output  = type(self)(copy.copy(self.value))
@@ -47,7 +46,7 @@ class DataType(object):
 		
 		return output
 			
-	def val(self):		
+	def val(self):
 		if self.standard:
 			output = self.value
 			
@@ -171,9 +170,6 @@ class Set(DataType):
 class Bool(DataType):
 	def __init__(self, data):
 		super().__init__("bool", data)
-		
-	def val(self):
-		return bool(super().val())
 		
 
 class Not(String):
