@@ -134,7 +134,7 @@ def read_apply_multi(loader, suffix, node):
 		pass
 	
 	if suffix not in my_templates:
-		raise ValueError("Could not find template with name: " + suffix.lstrip(":"))
+		raise ValueError("Could not find template with name: " + suffix)
 		
 	template_nodes, defaults = my_templates.get(suffix)
 	
@@ -150,9 +150,9 @@ def read_conditional_multi(loader, suffix, node, check_against=True):
 	ret_node = read_special_group(ConditionalNode, loader, node)
 	
 	if check_against == False:
-		ret_node.condition = Not(suffix.lstrip(":"))
+		ret_node.condition = Not(suffix)
 	else:
-		ret_node.condition = String(suffix.lstrip(":"))
+		ret_node.condition = String(suffix)
 		
 	return ret_node
 	
@@ -232,10 +232,10 @@ add_constructors("group", (lambda l, n: read_special_group(GroupNode, l, n)))
 add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 
 add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
-add_multi_constructors("If",    (lambda l, s, n: read_conditional_multi(l, s, n, check_against=True)))
-add_multi_constructors("IfNot", (lambda l, s, n: read_conditional_multi(l, s, n, check_against=False)))
-add_multi_constructors("template", read_template_multi)
-add_multi_constructors("apply",   read_apply_multi)
+add_multi_constructors("If:",    (lambda l, s, n: read_conditional_multi(l, s, n, check_against=True)))
+add_multi_constructors("IfNot:", (lambda l, s, n: read_conditional_multi(l, s, n, check_against=False)))
+add_multi_constructors("template:", read_template_multi)
+add_multi_constructors("apply:",   read_apply_multi)
 add_multi_constructors("debug:",   read_debug_multi)
 add_constructors("defaults", read_default_node)
 
