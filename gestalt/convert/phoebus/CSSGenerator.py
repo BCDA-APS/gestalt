@@ -273,7 +273,7 @@ class CSSGenerator(GestaltGenerator):
 					raise Exception
 				
 			elif isinstance(node, ast.Compare):
-				output = evalNode(node.left)
+				output = "(" + evalNode(node.left)
 				ops_check = { 
 					ast.Eq: "==",
 					ast.NotEq: "!=",
@@ -289,7 +289,7 @@ class CSSGenerator(GestaltGenerator):
 					output += ops_check[type(node.ops[i])]
 					output += evalNode(node.comparators[i])
 					
-				return output
+				return output + ")"
 				
 			elif isinstance(node, ast.BoolOp):
 				output = evalNode(node.values[0])

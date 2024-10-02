@@ -301,7 +301,7 @@ class QtGenerator(GestaltGenerator):
 				return node.id
 				
 			elif isinstance(node, ast.Compare):
-				output = evalNode(node.left)
+				output = "(" + evalNode(node.left)
 				ops_check = { 
 					ast.Eq: "=",
 					ast.NotEq: "#",
@@ -317,7 +317,7 @@ class QtGenerator(GestaltGenerator):
 					output += ops_check[type(node.ops[i])]
 					output += evalNode(node.comparators[i])
 					
-				return output
+				return output + ")"
 				
 			elif isinstance(node, ast.BoolOp):
 				output = evalNode(node.values[0])
