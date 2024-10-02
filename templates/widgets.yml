@@ -123,6 +123,54 @@ _OnOffText: !Template:OnOffText
                 foreground: "{off-color}"
                 font: "-{fontname} -Regular -12"
                 visibility: !Not "{PV}"
+                
+_OnOffLED: !Template:OnOffLED
+    - !Defaults
+        size: 16
+        
+        on-text: "1"
+        on-color: *alarm_green
+        on-value: 1
+        
+        off-text: "0"
+        off-color: *alarm_red
+        off-value: 0
+        
+    
+    - !Group
+        geometry: "{size}x{size}"
+        
+        children:
+            - !AStretch:LED
+                border-color: *transparent
+                pv: "{control-pv}"
+                        
+                false-color: "{off-color}"
+                false-value: "{off-value}"
+                
+                true-color: "{on-color}"
+                true-value: "{on-value}"
+                
+            - !AStretch:Group
+                visibility: "{control-pv}"
+                children:
+                    - !AStretch:Text { alignment: Center, text: "{on-text}" }
+                    
+                    - !AStretch:MessageButton
+                        background: *transparent
+                        foreground: *transparent
+                        pv: "{control-pv}"
+                        value: "{off-value}"
+                
+            - !AStretch:Group
+                visibility: !Not "{control-pv}"
+                children:
+                    - !AStretch:Text { alignment: Center, text: "{off-text}" }
+                    - !AStretch:MessageButton
+                        background: *transparent
+                        foreground: *transparent
+                        pv: "{control-pv}"
+                        value: "{on-value}"
 
                 
 _LabeledReadback: !Template:LabeledReadback
@@ -226,3 +274,154 @@ _LabeledButton: !Template:LabeledButton
                 pv: "{write-pv}"
                 value: "{write-value}"
                 text: "{button-text}"
+
+
+                
+                
+
+_EmbeddedMotor: !Template:EmbededMotor
+    - !group
+        geometry: 160x210
+        
+        border-color: $00358
+        border-width: 3
+        
+        children:
+            - !Calc
+                A: "{motor-pv}.LVIO"
+                B: "{motor-pv}.TDIR"
+                C: "{motor-pv}.HLS"
+                D: "{motor-pv}.DMOV"
+                calc: "((D==0) and (B==1))*3 + A*(B==1) + 2*C"
+                pv: "{motor-pv}:HighLimits"
+                
+            - !Calc
+                A: "{motor-pv}.LVIO"
+                B: "{motor-pv}.TDIR"
+                C: "{motor-pv}.LLS"
+                D: "{motor-pv}.DMOV"
+                calc: "((D==0) and (B==0))*3 + A*(B==0) + 2*C"
+                pv: "{motor-pv}:LowLimits"
+            
+            - !Calc
+                A:    "{motor-pv}.MSTA"
+                calc: "(A&2048)==2048"
+                pv:   "{motor-pv}:TorqueDisplay"
+                
+            - !Group
+                geometry: 154x21
+                background: *header_blue
+                
+                children:
+                    - !AStretch:Group
+                        visibility: "{motor-pv}:TorqueDisplay"
+                        children:
+                            - !HAnchor:VCenter:Apply:OnOffLED
+                                size: 16
+                                control-pv: "{motor-pv}.CNEN"
+                                        
+                    - !TextMonitor { foreground: *white, geometry: 125x21, pv: "{motor-pv}.DESC" }
+                
+                    
+            - !HCenter:VFlow
+                padding: 5
+                geometry: 0x27 x 140x0
+                children:
+                    - !HStretch:RelatedDisplay
+                        <<: *editable
+                        geometry: 0x17
+                        font: -Liberation Sans -Regular -10
+                        text: "{motor-pv}"
+                        
+                        links:
+                            - { label: "Help",  file: "motorx_help.ui",  macros: "P={motor-pv},M=" }
+                            - { label: "More",  file: "motorx_more.ui",  macros: "P={motor-pv},M=" }
+                            - { label: "Setup", file: "motorx_setup.ui", macros: "P={motor-pv},M=" }
+                            - { label: "All",   file: "motorx_all.ui",   macros: "P={motor-pv},M=" }
+                
+                    - !HCenter:HFlow
+                        geometry: 0x88
+                        padding: 2
+                        children:
+                            - !VStretch:group
+                                visibility: "{motor-pv}:LowLimits"
+                
+                                geometry: 6x0
+                
+                                children:
+                                    - !AStretch:LED
+                                        border-color: *transparent
+                                        square: true
+                                        pv: "{motor-pv}:LowLimits"
+                                        
+                                        false-value: 1
+                                        false-color: *alarm_yellow
+                                        
+                                        true-value: 2
+                                        true-color: *alarm_red
+                                        
+                                        undefined-color: *alarm_green
+                                        
+                            - !VFlow
+                                geometry: 124x0
+                                children:
+                                    - !HStretch:TextMonitor
+                                        background: *transparent
+                                        foreground: *header_blue
+                                        
+                                        geometry: 0x17
+                                        alignment: Center
+                                        
+                                        pv: "{motor-pv}.EGU"
+                                                    
+                                    - !HStretch:Group
+                                        geometry: 124x35
+                                        children:
+                                            - !AStretch:Group      { border-color: *black,        border-width: 3, visibility: "{motor-pv}.SET" }
+                                            - !ACenter:Group       { border-color: *alarm_yellow, border-width: 3, visibility: "{motor-pv}.SET", geometry: 120x31 }
+                                            - !ACenter:TextMonitor { foreground: *header_blue, alignment: Center, pv: "{motor-pv}.RBV", geometry: 116x27 }
+                                        
+                                    - !HStretch:Group
+                                        geometry: 124x35
+                                        children:
+                                            - !AStretch:Group    { border-color: *alarm_red, border-width: 3, visibility: "{motor-pv}_able.VAL" }
+                                            - !ACenter:Group     { border-color: *black,     border-width: 3, visibility: "{motor-pv}_able.VAL", geometry: 118x29 }
+                                            - !ACenter:TextEntry { <<: *editable, geometry: 114x25, pv: "{motor-pv}.VAL" }
+                                        
+                            - !VStretch:group
+                                visibility: "{motor-pv}:HighLimits"
+                                
+                                geometry: 6x0
+                                
+                                children:
+                                    - !AStretch:LED
+                                        border-color: *transparent
+                                        square: true
+                                        pv: "{motor-pv}:HighLimits"
+                                        
+                                        false-value: 1
+                                        false-color: *alarm_yellow
+                                        
+                                        true-value: 2
+                                        true-color: *alarm_red
+                                        
+                                        undefined-color: *alarm_green
+                                        
+                                        
+                    - !HCenter:HFlow
+                        padding: 4
+                        children:
+                            - !MessageButton { background: *edit_blue, geometry: 24x24, pv: "{motor-pv}.TWR", value: "1", text: "<" }
+                            - !TextEntry     { background: *edit_blue, geometry: 84x24, pv: "{motor-pv}.TWV" }
+                            - !MessageButton { background: *edit_blue, geometry: 24x24, pv: "{motor-pv}.TWF", value: "1", text: ">" }
+            
+                    - !HCenter:MessageButton
+                        background: *alarm_red
+                        foreground: *alarm_yellow
+                        
+                        geometry: 140x26
+                        pv: "{motor-pv}.STOP"
+                        value: "1"
+                        text: "STOP"
+            
+
