@@ -4,6 +4,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QStringListModel
 
+import traceback
 
 class UI(QMainWindow):
 	def __init__(self, curr_dir, genfunc, registry, parser):
