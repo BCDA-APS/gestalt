@@ -292,7 +292,7 @@ class CSSGenerator(GestaltGenerator):
 				return output + ")"
 				
 			elif isinstance(node, ast.BoolOp):
-				output = evalNode(node.values[0])
+				output = "(" + evalNode(node.values[0])
 				
 				for i in range(len(node.values) - 1):
 					if isinstance(node.op, ast.And):
@@ -302,7 +302,7 @@ class CSSGenerator(GestaltGenerator):
 					
 					output += evalNode(node.values[i+1])
 				
-				return output
+				return output + ")"
 				
 			elif isinstance(node, ast.BinOp):
 				if isinstance(node.op, ast.BitOr):
