@@ -316,9 +316,13 @@ _EmbeddedMotor: !Template:EmbededMotor
                     - !AStretch:Group
                         visibility: "{motor-pv}:TorqueDisplay"
                         children:
-                            - !HAnchor:VCenter:Apply:OnOffLED
-                                size: 16
-                                control-pv: "{motor-pv}.CNEN"
+                            - !HAnchor:VCenter:HFlow
+                                children:
+                                    - !Apply:OnOffLED
+                                        size: 16
+                                        control-pv: "{motor-pv}.CNEN"
+                                        
+                                    - !Spacer { geometry: 5x0 }
                                         
                     - !TextMonitor { foreground: *white, geometry: 125x21, pv: "{motor-pv}.DESC" }
                 
