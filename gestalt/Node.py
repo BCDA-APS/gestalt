@@ -460,11 +460,11 @@ class GridNode(LayoutNode):
 		cols = round(math.sqrt(int(self["num-items"]) * float(ratio)))
 		rows = round(math.sqrt(int(self["num-items"]) / float(ratio)))
 		
-		if int(self["max-rows"]) > 0 and int(self["max-rows"]) < rows:
+		if int(self["max-rows"]) > 0 and int(self["max-rows"]) <= rows:
 			rows = int(self["max-rows"])
 			cols = math.ceil(int(self["num-items"]) / float(rows))
 			
-		if int(self["max-cols"]) > 0 and int(self["max-cols"]) < cols:
+		if int(self["max-cols"]) > 0 and int(self["max-cols"]) <= cols:
 			cols = int(self["max-cols"])
 			rows = math.ceil(int(self["num-items"]) / float(cols))
 		
