@@ -1,4 +1,4 @@
-#! /APSshare/anaconda3/x86_64/bin/python3
+#! /usr/bin/env python3
 
 import os
 import sys
@@ -98,7 +98,7 @@ and gestalt's template directory (for colors.yml).
 
 
 def doGenerate(args):
-	include_dirs = [".", curr_dir + "/templates"]
+	include_dirs = [".", curr_dir + "/widgets"]
 
 	if args.include_dirs:
 		include_dirs.extend(args.include_dirs)		

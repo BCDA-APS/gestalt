@@ -109,7 +109,7 @@ class UI(QMainWindow):
 		
 			args = self.parser.parse_args(constructed_args)
 			
-			args.include_dirs = [".", self.curr_dir, self.curr_dir + "/templates", module_selected["path"]]
+			args.include_dirs = [".", self.curr_dir, self.curr_dir + "/widgets", module_selected["path"]]
 	
 			self.genfunc(args)
 
