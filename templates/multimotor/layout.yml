@@ -16,5 +16,5 @@ motor_grid: !grid
     padding: "{PADDING}"
     
     children:
-        - !Apply:EmbededMotor
+        - !Apply:EmbeddedMotor
             motor-pv: "$(P)$(M{N})"
