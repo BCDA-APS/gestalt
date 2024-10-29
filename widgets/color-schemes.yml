@@ -1,0 +1,27 @@
+#include colors.yml
+
+_editable: &editable
+    foreground: *black
+    background: *edit_blue
+    
+_string_display: &string_display
+    foreground: *black
+    background: *transparent
+    
+_data_display: &data_display
+    background: *gray_darker
+    foreground: *alarm_green
+    alignment:  Center
+
+_centered_label: &centered_label
+    foreground: *black
+    background: *transparent
+    alignment: Center
+
+_alarm_led: &alarm_led
+    false-color: *alarm_green
+    true-color: *alarm_red
+    
+_colored_label: &colored_label
+    foreground: *header_blue
+    background: *transparent

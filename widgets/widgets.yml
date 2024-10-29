@@ -1,51 +1,9 @@
 #include colors.yml
+#include color-schemes.yml
+
+#include screen-header.yml
+#include on-off.yml
 #include embedded-motor.yml
-
-_editable: &editable
-    foreground: *black
-    background: *edit_blue
-    
-_string_display: &string_display
-    foreground: *black
-    background: *transparent
-    
-_data_display: &data_display
-    background: *gray_darker
-    foreground: *alarm_green
-    alignment:  Center
-
-_centered_label: &centered_label
-    foreground: *black
-    background: *transparent
-    alignment: Center
-
-_alarm_led: &alarm_led
-    false-color: *alarm_green
-    true-color: *alarm_red
-    
-_colored_label: &colored_label
-    foreground: *header_blue
-    background: *transparent
-
-    
-_UITitle: !Template:ScreenHeader
-    - !Defaults
-        fontname: "Liberation Sans"
-        fontsize: 16
-        alignment: Center
-        height: 45
-    
-    - !hstretch:Text
-        geometry: "0x0 x 0x{height}"
-        foreground: *white
-        background: *header_blue
-        border-color: *black
-        border-width: 3
-                
-        text: "{title}"
-        font: "-{fontname} - Bold - {fontsize}"
-        alignment: "{alignment}"
-
 
 _LabelMenuReadback: !Template:MenuWithReadback
     - !Defaults 
@@ -98,81 +56,6 @@ _LabelEntryReadback: !Template:EntryWithReadback
                 geometry: "0x1 x {read-width}x18"
                 font: "-{fontname} -Regular -10"
                 pv: "{read-pv}"
-
-                
-_OnOffText: !Template:OnOffText
-    - !Defaults 
-        spacing: 15
-        fontname: "Liberation Sans"
-        on-color: *alarm_green
-        off-color: *alarm_red
-    
-    - !Group   
-        children:
-            - !Text
-                geometry: "{text-width}x20"
-                alignment: Center
-                text: "{on-label}"
-                foreground: "{on-color}"
-                font: "-{fontname} -Regular -12"
-                visibility: "{PV}"
-                
-            - !Text
-                geometry: "{text-width}x20"
-                alignment: Center
-                text: "{off-label}"
-                foreground: "{off-color}"
-                font: "-{fontname} -Regular -12"
-                visibility: !Not "{PV}"
-                
-_OnOffLED: !Template:OnOffLED
-    - !Defaults
-        size: 16
-        
-        on-text: "1"
-        on-color: *alarm_green
-        on-value: 1
-        
-        off-text: "0"
-        off-color: *alarm_red
-        off-value: 0
-        
-    
-    - !Group
-        geometry: "{size}x{size}"
-        
-        children:
-            - !AStretch:LED
-                border-color: *transparent
-                pv: "{control-pv}"
-                        
-                false-color: "{off-color}"
-                false-value: "{off-value}"
-                
-                true-color: "{on-color}"
-                true-value: "{on-value}"
-                
-            - !AStretch:Group
-                visibility: "{control-pv}"
-                children:
-                    - !AStretch:Text { alignment: Center, text: "{on-text}" }
-                    
-                    - !AStretch:MessageButton
-                        background: *transparent
-                        foreground: *transparent
-                        pv: "{control-pv}"
-                        value: "{off-value}"
-                
-            - !AStretch:Group
-                visibility: !Not "{control-pv}"
-                children:
-                    - !AStretch:Text { alignment: Center, text: "{off-text}" }
-                    - !AStretch:MessageButton
-                        background: *transparent
-                        foreground: *transparent
-                        pv: "{control-pv}"
-                        value: "{on-value}"
-
                 
 _LabeledReadback: !Template:LabeledReadback
     - !Defaults 

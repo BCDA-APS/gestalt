@@ -1,0 +1,19 @@
+#include colors.yml
+
+_UITitle: !Template:ScreenHeader
+    - !Defaults
+        fontname: "Liberation Sans"
+        fontsize: 16
+        alignment: Center
+        height: 45
+    
+    - !hstretch:Text
+        geometry: "0x0 x 0x{height}"
+        foreground: *white
+        background: *header_blue
+        border-color: *black
+        border-width: 3
+                
+        text: "{title}"
+        font: "-{fontname} - Bold - {fontsize}"
+        alignment: "{alignment}"
