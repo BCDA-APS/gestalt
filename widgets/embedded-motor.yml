@@ -1,4 +1,5 @@
 #include colors.yml
+#include on-off.yml
 
 _EmbeddedMotor: !Template:EmbeddedMotor
     - !group
