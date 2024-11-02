@@ -1,0 +1,92 @@
+#include colors.yml
+
+_ReadWrite: !Template:PVReadWrite
+    - !Defaults
+        fontname: "Liberation Sans"
+        spacing: 15
+        
+        height: 20
+        
+        label-width:  60
+        write-width:  60
+        entry-width:  "{write-width}"
+        menu-width:   "{write-width}"
+        button-width: "{write-width}"
+        read-width:   60
+        units-width:  60
+        
+        label-background:  *transparent
+        write-background:  *edit_blue
+        entry-background:  "{write-background}"
+        menu-background:   "{write-background}"
+        button-background: "{write-background}"
+        read-background:   *transparent
+        units-background:  *transparent
+        
+        label-foreground:  *black
+        write-foreground:  *black
+        entry-foreground:  "{write-foreground}"
+        menu-foreground:   "{write-foreground}"
+        button-foreground: "{write-foreground}"
+        read-foreground:   *black
+        units-foreground:  *black
+        
+        entry-pv:  False
+        menu-pv:   False
+        button-pv: False
+        read-pv:   False
+        
+        label: False
+        units: False
+        
+        button-text: ""
+        button-value: 1
+        
+    - !HFlow
+        padding: "{spacing}"
+        children:
+            - !If:label
+                - !Text
+                    geometry: "{label-width}x{height}"
+                    font: "-{fontname}"
+                    alignment: CenterRight
+                    text: "{label}"
+                
+            - !If:entry-pv
+                - !TextEntry
+                    geometry: "{entry-width}x{height}"
+                    background: "{entry-background}"
+                    foreground: "{entry-foreground}"
+                    pv: "{entry-pv}"
+                    
+            - !If:menu-pv
+                - !Menu
+                    geometry: "{menu-width}x{height}"
+                    background: "{menu-background}"
+                    foreground: "{menu-foreground}"
+                    pv: "{menu-pv}"
+        
+            - !If:button-pv
+                - !MessageButton
+                    geometry: "{button-width}x{height}"
+                    background: "{button-background}"
+                    foreground: "{button-foreground}"
+                    pv:    "{button-pv}"
+                    value: "{button-value}"
+                    text:  "{button-text}"
+                    
+            - !If:read-pv
+                - !TextMonitor
+                    geometry: "{read-width}x{height}"
+                    background: "{read-background}"
+                    foreground: "{read-foreground}"
+                    font: "-{fontname}"
+                    pv: "{read-pv}"
+                    
+            - !If:units
+                - !Text
+                    geometry: "{units-width}x{height}"
+                    background: "{units-background}"
+                    foreground: "{units-foreground}"
+                    font: "-{fontname}"
+                    text: "{units}"
