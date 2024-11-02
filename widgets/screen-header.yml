@@ -6,11 +6,13 @@ _UITitle: !Template:ScreenHeader
         fontsize: 16
         alignment: Center
         height: 45
+        background-color: *header_blue
+        text-color: *white
     
     - !hstretch:Text
         geometry: "0x0 x 0x{height}"
-        foreground: *white
-        background: *header_blue
+        foreground: "{text-color}"
+        background: "{background-color}"
         border-color: *black
         border-width: 3
                 
