@@ -233,6 +233,9 @@ class GroupNode(Node):
 		return self.children.__iter__()
 		
 	def place(self, child, x=None, y=None, keep_original=False):
+		if (child == None):
+			return
+			
 		self.append(child, keep_original=keep_original)
 		
 		child_node = self.children[-1]
@@ -266,7 +269,7 @@ class GroupNode(Node):
 			self.log("Resizing height to " + str(bottom_edge))
 			self["geometry"]["height"] = bottom_edge
 	
-	def initApply(self):
+	def initApply(self, data):
 		pass
 			
 	def positionNext(self, child):
@@ -276,7 +279,7 @@ class GroupNode(Node):
 		pass
 			
 	def apply (self, generator, data={}):
-		self.initApply()
+		self.initApply(data)
 		
 		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
@@ -349,7 +352,10 @@ class TabbedGroupNode(GroupNode):
 			childnode["geometry"]["width"] = int(geom["width"]) - 2 * border_size
 			childnode["geometry"]["height"] = int(geom["height"]) - tab_bar_height - 2 * border_size
 			
-			output.place(childnode.apply(generator, data=child_macros))
+			widget = childnode.apply(generator, data=child_macros)
+			
+			if (childnode):
+				output.place(widget)
 			
 		return output
 
@@ -368,27 +374,23 @@ class LayoutNode(GroupNode):
 		self.makeInternal(Number, "last_x",    0)
 		self.makeInternal(Number, "last_y",    0)
 		
-	def initApply(self):
+	def initApply(self, data):
 		self["index"] = 0
 		self["last-x"] = 0
 		self["last-y"] = 0
+		self["padding"].apply(data)
 		
 	def updateMacros(self, child_macros):
 		child_macros.update({"__index__"   : self["index"].val()})
 		
 	def apply(self, generator, data={}):
-		self.initApply()
+		self.initApply(data)
 		
 		output = generator.generateGroup(self, macros=data)
 		
 		repeat   = output["repeat-over"]
 		start_at = output["start-at"]
-		
 		value_var = output["variable"]
-		
-		self["padding"].apply(data)
-		
-		#repeat.apply(data)
 		
 		macrolist = data.get(str(repeat))
 		
@@ -464,10 +466,12 @@ class GridNode(LayoutNode):
 		self.makeInternal(Number, "index-x", 0)
 		self.makeInternal(Number, "index-y", 0)
 		
-	def initApply (self):
+	def initApply (self, data):
 		self["index-x"] = 0
 		self["index-y"] = 0
 		self["aspect-ratio"].apply(data)
+		
+		super().initApply(data)
 		
 	def updateMacros(self, child_macros):
 		super().updateMacros(child_macros)
@@ -519,7 +523,7 @@ class FlowNode(GroupNode):
 		self.makeInternal(Number, "padding",   0)
 		self.setProperty("flow", flow, internal=True)
 	
-	def initApply(self):
+	def initApply(self, data):
 		self["last-pos"] = 0
 		
 	def positionNext(self, child):
