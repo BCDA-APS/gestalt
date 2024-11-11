@@ -266,12 +266,23 @@ class GroupNode(Node):
 			self.log("Resizing height to " + str(bottom_edge))
 			self["geometry"]["height"] = bottom_edge
 	
+	def initApply(self):
+		pass
+			
+	def positionNext(self, child):
+		pass
+		
+	def updateMacros(self, macros):
+		pass
+			
 	def apply (self, generator, data={}):
+		self.initApply()
+		
 		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
 		
-		margins = self["margins"].val()
-		border = int(self["border-width"])
+		margins = output["margins"].val()
+		border = int(output["border-width"])
 		
 		child_macros = copy.copy(data)
 		
@@ -284,7 +295,12 @@ class GroupNode(Node):
 				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
 				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
 			
-			output.place(child.apply(generator, data=child_macros))
+			self.updateMacros(child_macros)
+			widget = child.apply(generator, data=child_macros)
+			
+			if widget:
+				self.positionNext(widget)
+				output.place(widget)
 			
 		return output
 		
@@ -352,13 +368,17 @@ class LayoutNode(GroupNode):
 		self.makeInternal(Number, "last_x",    0)
 		self.makeInternal(Number, "last_y",    0)
 		
+	def initApply(self):
+		self["index"] = 0
+		self["last-x"] = 0
+		self["last-y"] = 0
+		
 	def updateMacros(self, child_macros):
 		child_macros.update({"__index__"   : self["index"].val()})
 		
-	def positionNext(self, output, line):
-		pass
-		
 	def apply(self, generator, data={}):
+		self.initApply()
+		
 		output = generator.generateGroup(self, macros=data)
 		
 		repeat   = output["repeat-over"]
@@ -379,11 +399,8 @@ class LayoutNode(GroupNode):
 				macrolist = range(int(start_at), int(start_at) + int(macrolist))
 		except:
 			macrolist = List(repeat).val()
-					
-		self["index"] = 0
+		
 		self["num-items"] = len(macrolist)
-		self["last-x"] = 0
-		self["last-y"] = 0
 		
 		if macrolist:
 			for item in macrolist:
@@ -447,6 +464,11 @@ class GridNode(LayoutNode):
 		self.makeInternal(Number, "index-x", 0)
 		self.makeInternal(Number, "index-y", 0)
 		
+	def initApply (self):
+		self["index-x"] = 0
+		self["index-y"] = 0
+		self["aspect-ratio"].apply(data)
+		
 	def updateMacros(self, child_macros):
 		super().updateMacros(child_macros)
 		
@@ -488,13 +510,6 @@ class GridNode(LayoutNode):
 			if int(self["index-y"]) >= rows:
 				self["index-y"] = 0
 				self["index-x"] = self["index-x"].val() + 1
-			
-	def apply (self, generator, data={}):
-		self["index-x"] = 0
-		self["index-y"] = 0
-		self["aspect-ratio"].apply(data)
-		
-		return super().apply(generator, data)
 		
 		
 class FlowNode(GroupNode):
@@ -503,45 +518,19 @@ class FlowNode(GroupNode):
 	
 		self.makeInternal(Number, "padding",   0)
 		self.setProperty("flow", flow, internal=True)
+	
+	def initApply(self):
+		self["last-pos"] = 0
 		
+	def positionNext(self, child):
+		if self["flow"].val() == "vertical":
+			child.position(x=None, y= self["last-pos"].val())
+			self["last-pos"] = self["last-pos"].val() + child["geometry"]["height"] + int(self["padding"])
+			
+		elif self["flow"].val() == "horizontal":
+			child.position(x=self["last-pos"].val(), y=None)
+			self["last-pos"] = self["last-pos"].val() + child["geometry"]["width"] + int(self["padding"])
 		
-	def apply (self, generator, data={}):
-		output = generator.generateGroup(self, macros=data)
-		padding = output["padding"]
-		margins = output["margins"].val()
-		flow    = output["flow"].val()
-		
-		child_macros = copy.copy(data)
-		
-		first = 0
-		position = 0
-		
-		for childnode in self.children:
-			geom = output["geometry"].val()
-			
-			child_macros.update({
-				"__parentx__" : int(geom["x"]),
-				"__parenty__" : int(geom["y"]),
-				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]),
-				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"])})
-				
-			element = childnode.apply(generator, data=child_macros)
-			
-			if flow == "vertical":
-				element.position(x=None, y=position + (first*int(padding)))
-				position = int(element["geometry"]["y"]) + int(element["geometry"]["height"])
-				
-			elif flow == "horizontal":
-				element.position(x=position + (first * int(padding)), y=None)
-				position = int(element["geometry"]["x"]) + int(element["geometry"]["width"])
-			
-			output.place(element)
-			
-			first = 1
-			
-		return output
-
-
 class ConditionalNode(GroupNode):
 	def __init__(self, layout={}, loc=None):
 		super(ConditionalNode, self).__init__("caFrame", layout=layout, loc=loc)
@@ -570,8 +559,10 @@ class ConditionalNode(GroupNode):
 		if bool(conditional) != invert:
 			for childnode in self.children:	
 				output.place(childnode.apply(generator, data=data))
+				
+			return output
 		
-		return output
+		return None
 		
 		
 class ApplyNode(GroupNode):
