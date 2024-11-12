@@ -299,6 +299,7 @@ class GroupNode(Node):
 				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
 			
 			self.updateMacros(child_macros)
+			
 			widget = child.apply(generator, data=child_macros)
 			
 			if widget:
@@ -380,19 +381,22 @@ class LayoutNode(GroupNode):
 		self["last-y"] = 0
 		self["padding"].apply(data)
 		
+		self["repeat-over"].apply(data)
+		self["start-at"].apply(data)
+		self["variable"].apply(data)
+		
+		self.data = data
+		
 	def updateMacros(self, child_macros):
 		child_macros.update({"__index__"   : self["index"].val()})
+		child_macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
 		
-	def apply(self, generator, data={}):
-		self.initApply(data)
+	def __iter__(self):
+		repeat   = self["repeat-over"]
+		start_at = self["start-at"]
+		value_var = self["variable"]
 		
-		output = generator.generateGroup(self, macros=data)
-		
-		repeat   = output["repeat-over"]
-		start_at = output["start-at"]
-		value_var = output["variable"]
-		
-		macrolist = data.get(str(repeat))
+		macrolist = self.data.get(str(repeat))
 		
 		try:
 			if not macrolist:
@@ -406,34 +410,15 @@ class LayoutNode(GroupNode):
 		
 		if macrolist:
 			for item in macrolist:
-				geom = output["geometry"].val()
-				
-				child_macros = copy.copy(data)
-				
-				if isinstance(item, dict):
-					child_macros.update(item)
-				else:
-					child_macros.update({str(value_var) : item})
-					
-				child_macros.update({
-						"__parentx__" : int(geom["x"]),
-						"__parenty__" : int(geom["y"]),
-						"__parentwidth__" : int(geom["width"]),
-						"__parentheight__" : int(geom["height"])})
-						
-				self.updateMacros(child_macros)
-				
-				line = generator.generateAnonymousGroup()
+				line = GroupNode()
 				
 				for childnode in self.children:
-					line.place(childnode.apply(generator, data=child_macros))
-								
-				self.positionNext(line)
-				output.place(line)
+					line.append(childnode)
+					
+				yield line
+				
 				self["index"] = self["index"].val() + 1
-			
-		return output
-		
+
 		
 class RepeatNode(LayoutNode):
 	def __init__(self, name=None, layout={}, flow="vertical", loc=None):
@@ -524,6 +509,7 @@ class FlowNode(GroupNode):
 		self.setProperty("flow", flow, internal=True)
 	
 	def initApply(self, data):
+		super().initApply(data)
 		self["last-pos"] = 0
 		
 	def positionNext(self, child):
@@ -581,12 +567,17 @@ class ApplyNode(GroupNode):
 		self.tocopy.append("macros")
 		self.tocopy.append("defaults")
 		
-	def apply(self, generator, data={}):
-		child_macros = {}
+	def initApply(self, data):
+		super().initApply(data)
+		self.data = data
+		
+	def updateMacros(self, child_macros):
+		super().updateMacros(child_macros)
+		
 		macro_list = {}
 		
 		macro_list.update(self.defaults)
-		macro_list.update(data)
+		macro_list.update(self.data)
 		macro_list.update(self.macros)
 		
 		for key, val in macro_list.items():			
@@ -604,22 +595,9 @@ class ApplyNode(GroupNode):
 				to_assign = val
 			
 			if isinstance(to_assign, DataType):
-				to_assign.apply(data)
+				to_assign.apply(self.data)
 				
 			child_macros.update({key : to_assign})
-		
-		output = generator.generateGroup(self, macros=data)
-		
-		for child in self:
-			child_macros.update({
-				"__parentx__" : data["__parentx__"],
-				"__parenty__" : data["__parenty__"],
-				"__parentwidth__" : data["__parentwidth__"],
-				"__parentheight__" : data["__parentheight__"]})
-			
-			output.place(child.apply(generator, data=child_macros))
-			
-		return output
 		
 class SpacerNode(Node):
 	def __init__(self, layout={}, loc=None):
