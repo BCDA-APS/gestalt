@@ -287,9 +287,9 @@ class GroupNode(Node):
 		margins = output["margins"].val()
 		border = int(output["border-width"])
 		
-		child_macros = copy.copy(data)
-		
 		for child in self:
+			child_macros = copy.copy(data)
+			
 			geom = output["geometry"].val()
 			
 			child_macros.update({
@@ -388,8 +388,12 @@ class LayoutNode(GroupNode):
 		self.data = data
 		
 	def updateMacros(self, child_macros):
+		super().updateMacros(child_macros)
+		
 		child_macros.update({"__index__"   : self["index"].val()})
 		child_macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
+		child_macros.update(self.curr_macros)
+		
 		
 	def __iter__(self):
 		repeat   = self["repeat-over"]
@@ -397,7 +401,7 @@ class LayoutNode(GroupNode):
 		value_var = self["variable"]
 		
 		macrolist = self.data.get(str(repeat))
-		
+				
 		try:
 			if not macrolist:
 				macrolist = range(int(start_at), int(start_at) + int(repeat))
@@ -410,6 +414,11 @@ class LayoutNode(GroupNode):
 		
 		if macrolist:
 			for item in macrolist:
+				if isinstance(item, dict):
+					self.curr_macros = item
+				else:
+					self.curr_macros = {str(value_var) : item}
+					
 				line = GroupNode()
 				
 				for childnode in self.children:
