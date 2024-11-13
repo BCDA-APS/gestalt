@@ -197,27 +197,30 @@ class Rect(DataType):
 		
 			
 	def val(self):
-		data = super().val()
-		
-		self.labels = ["x", "y", "width", "height"]
-		
-		if self.standard:			
-			data = [ int(item) for item in data.split("x")]
-		elif self.dict:
-			data = [ data.get(key, 0) for key in self.labels ]
-				
-		temp = []
+		try:
+			data = super().val()
 			
-		for i in range(4 - len(data)):
-			temp.append(0)
-				
-		for item in data:
-			temp.append(item)
+			self.labels = ["x", "y", "width", "height"]
 			
-		output = dict(zip(self.labels, temp))
-		output.update(self.updates)
-		
-		return output
+			if self.standard:			
+				data = [ int(item) for item in data.split("x")]
+			elif self.dict:
+				data = [ data.get(key, 0) for key in self.labels ]
+					
+			temp = []
+				
+			for i in range(4 - len(data)):
+				temp.append(0)
+					
+			for item in data:
+				temp.append(item)
+				
+			output = dict(zip(self.labels, temp))
+			output.update(self.updates)
+			
+			return output
+		except:
+			raise Exception("Error resolving Rect datatype from value: " + self.value)
 		
 	def __getitem__(self, key):
 		return int(self.val()[key])
@@ -243,26 +246,30 @@ class Color(DataType):
 		
 		
 	def val(self):
-		data = super().val()
-		
-		if self.standard:
-			data = data.lstrip("$")
+		try:
+			data = super().val()
 			
-			# Interpret each 2-char chunk as a hex number
-			data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
+			if self.standard:
+				data = data.lstrip("$")
 				
-		elif self.dict:
-			data = [ data.get(key, None) for key in self.labels ]
-			
-		temp = [None, None, None, 255]
-			
-		for i in range(len(data)):
-			temp[i] = data[i]
+				# Interpret each 2-char chunk as a hex number
+				data = [ int(data[i:i+2], 16) for i in range(0, len(data), 2) ]
+					
+			elif self.dict:
+				data = [ data.get(key, None) for key in self.labels ]
 				
-		output = dict( zip(self.labels, temp))
-		output.update(self.updates)
-		
-		return output
+			temp = [None, None, None, 255]
+				
+			for i in range(len(data)):
+				temp[i] = data[i]
+					
+			output = dict( zip(self.labels, temp))
+			output.update(self.updates)
+			
+			return output
+			
+		except:
+			raise Exception("Error resolving Color datatype from value: " + self.value)
 		
 	def __str__(self):
 		input = self.val()
@@ -283,25 +290,27 @@ class Font(DataType):
 		super().__init__("font", data)
 		
 	def val(self):
-		data = super().val()
-		
-		self.labels = ["family", "style", "size"]
-		
-		if self.standard:
-			data = [ item.strip() for item in data.lstrip("-").split("-") ]
-		elif self.dict:
-			data = [ data.get(key, None) for key in self.labels ]
-					
-		temp = [None, None, None]
+		try:
+			data = super().val()
 			
-		for i in range(len(data)):
-			temp[i] = data[i]
+			self.labels = ["family", "style", "size"]
 			
-		output = dict(zip(self.labels, temp))
-		output.update(self.updates)
-		
-		return output
-		
+			if self.standard:
+				data = [ item.strip() for item in data.lstrip("-").split("-") ]
+			elif self.dict:
+				data = [ data.get(key, None) for key in self.labels ]
+						
+			temp = [None, None, None]
+				
+			for i in range(len(data)):
+				temp[i] = data[i]
+				
+			output = dict(zip(self.labels, temp))
+			output.update(self.updates)
+			
+			return output
+		except:
+			raise Exception("Error resolving Font datatype from value: " + self.value)
 		
 		
 		
@@ -314,39 +323,42 @@ class Alignment(DataType):
 		super().__init__("align", data)
 	
 	def val(self):
-		self.labels = [ "vertical", "horizontal" ]
-		
-		data = super().val()
-		
-		if self.standard:
-			temp = { "vertical" : "Center", "horizontal" : "Center" }
-				
-			data = data.lower()
+		try:
+			self.labels = [ "vertical", "horizontal" ]
 			
-			if "top" in data:
-				temp["vertical"] = "Top"
-			if "bottom" in data:
-				temp["vertical"] = "Bottom"
-			if "left" in data:
-				temp["horizontal"] = "Left"
-			if "right" in data:
-				temp["horizontal"] = "Right"
+			data = super().val()
 			
-			data = temp
-				
-		if isinstance(data, dict):
-			temp = { "vertical" : "Center", "horizontal" : "Center"}
-			
-			if "vertical" in data:
-				temp["vertical"] = str(data["vertical"]).capitalize()
-			
-			if "horizontal" in data:
-				temp["horizontal"] = str(data["horizontal"]).capitalize()
+			if self.standard:
+				temp = { "vertical" : "Center", "horizontal" : "Center" }
 					
+				data = data.lower()
 				
-			temp.update(self.updates)
-		
-			return temp		
+				if "top" in data:
+					temp["vertical"] = "Top"
+				if "bottom" in data:
+					temp["vertical"] = "Bottom"
+				if "left" in data:
+					temp["horizontal"] = "Left"
+				if "right" in data:
+					temp["horizontal"] = "Right"
+				
+				data = temp
+					
+			if isinstance(data, dict):
+				temp = { "vertical" : "Center", "horizontal" : "Center"}
+				
+				if "vertical" in data:
+					temp["vertical"] = str(data["vertical"]).capitalize()
+				
+				if "horizontal" in data:
+					temp["horizontal"] = str(data["horizontal"]).capitalize()
+						
+					
+				temp.update(self.updates)
+			
+				return temp	
+		except:
+			raise Exception("Error resolving Alignment datatype from value: " + self.value)
 
 	def __str__(self):
 		output = self.val()
@@ -363,16 +375,19 @@ class List(DataType):
 		super().__init__("list", data)
 
 	def val(self):
-		output = []
-		data = super().val()
-		
-		if self.standard:
-			data = yaml.safe_load(data)
+		try:
+			output = []
+			data = super().val()
 			
-		if isinstance(data, list):
-			return data
-			
-		return None
+			if self.standard:
+				data = yaml.safe_load(data)
+				
+			if isinstance(data, list):
+				return data
+				
+			return None
+		except:
+			raise Exception("Error resolving List datatype from value: " + self.value)
 
 	def __iter__(self):
 		return self.val().__iter__()
@@ -385,16 +400,19 @@ class Dict(DataType):
 		super().__init__("dict", data)
 
 	def val(self):
-		output = []
-		data = super().val()
-		
-		if self.standard:
-			data = yaml.safe_load(data)
+		try:
+			output = []
+			data = super().val()
 			
-		if isinstance(data, dict):
-			return data
-			
-		return None
+			if self.standard:
+				data = yaml.safe_load(data)
+				
+			if isinstance(data, dict):
+				return data
+				
+			return None
+		except:
+			raise Exception("Error resolving Dict datatype from value: " + self.value)
 
 
 	def __iter__(self):		

@@ -401,15 +401,22 @@ class LayoutNode(GroupNode):
 		value_var = self["variable"]
 		
 		macrolist = self.data.get(str(repeat))
-				
+		
 		try:
 			if not macrolist:
 				macrolist = range(int(start_at), int(start_at) + int(repeat))
 			elif not isinstance(macrolist, list):
 				macrolist = range(int(start_at), int(start_at) + int(macrolist))
 		except:
-			macrolist = List(repeat).val()
+			macrolist = List(repeat)
+			macrolist.apply(self.data)
+			macrolist = macrolist.val()
 		
+		
+		if not macrolist:
+			print("Could not resolve repeat-over into an iterable value")
+			print("\trepeat-over: " + str(repeat))
+			
 		self["num-items"] = len(macrolist)
 		
 		if macrolist:
