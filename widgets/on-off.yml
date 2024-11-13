@@ -2,7 +2,7 @@
 
 _OnOffText: !Template:OnOffText
     - !Defaults 
-        spacing: 15
+        height: 20
         fontname: "Liberation Sans"
         on-color: *alarm_green
         off-color: *alarm_red
@@ -10,19 +10,19 @@ _OnOffText: !Template:OnOffText
     - !Group   
         children:
             - !Text
-                geometry: "{text-width}x20"
+                geometry: "{text-width}x{height}"
                 alignment: Center
                 text: "{on-label}"
                 foreground: "{on-color}"
-                font: "-{fontname} -Regular -12"
+                font: "-{fontname}"
                 visibility: "{PV}"
                 
             - !Text
-                geometry: "{text-width}x20"
+                geometry: "{text-width}x{height}"
                 alignment: Center
                 text: "{off-label}"
                 foreground: "{off-color}"
-                font: "-{fontname} -Regular -12"
+                font: "-{fontname}"
                 visibility: !Not "{PV}"
                 
 _OnOffLED: !Template:OnOffLED
