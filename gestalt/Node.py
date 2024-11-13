@@ -414,8 +414,7 @@ class LayoutNode(GroupNode):
 		
 		
 		if not macrolist:
-			print("Could not resolve repeat-over into an iterable value")
-			print("\trepeat-over: " + str(repeat))
+			raise Exception("Could not resolve repeat-over (" + str(repeat) + ") into an iterable value")
 			
 		self["num-items"] = len(macrolist)
 		
@@ -596,7 +595,7 @@ class ApplyNode(GroupNode):
 		macro_list.update(self.data)
 		macro_list.update(self.macros)
 		
-		for key, val in macro_list.items():			
+		for key, val in macro_list.items():
 			to_assign = None
 			
 			if isinstance(val, bool):
