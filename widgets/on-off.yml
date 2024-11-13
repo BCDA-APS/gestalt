@@ -6,6 +6,9 @@ _OnOffText: !Template:OnOffText
         fontname: "Liberation Sans"
         on-color: *alarm_green
         off-color: *alarm_red
+        
+        on-label: "On"
+        off-label: "Off"
     
     - !Group   
         children:
