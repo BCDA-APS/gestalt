@@ -786,6 +786,8 @@ class MenuNode(Node):
 		super(MenuNode, self).__init__("Menu", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String, "pv", "")
+		self.setDefault(Color, "background", "$57CAE4")
+		self.setDefault(Color, "foreground", "$000000")
 	
 class ChoiceButtonNode(Node):
 	def __init__(self, name=None, layout={}, loc=None):
