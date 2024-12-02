@@ -9,6 +9,8 @@ _OnOffText: !Template:OnOffText
         
         on-label: "On"
         off-label: "Off"
+        
+        control-pv: "{PV}"
     
     - !Group   
         children:
@@ -18,7 +20,7 @@ _OnOffText: !Template:OnOffText
                 text: "{on-label}"
                 foreground: "{on-color}"
                 font: "-{fontname}"
-                visibility: "{PV}"
+                visibility: "{control-pv}"
                 
             - !Text
                 geometry: "{text-width}x{height}"
@@ -26,7 +28,7 @@ _OnOffText: !Template:OnOffText
                 text: "{off-label}"
                 foreground: "{off-color}"
                 font: "-{fontname}"
-                visibility: !Not "{PV}"
+                visibility: !Not "{control-pv}"
                 
 _OnOffLED: !Template:OnOffLED
     - !Defaults
