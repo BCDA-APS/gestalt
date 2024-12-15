@@ -610,7 +610,9 @@ class ApplyNode(GroupNode):
 				to_assign = val
 			
 			if isinstance(to_assign, DataType):
+				to_assign.apply(self.defaults)
 				to_assign.apply(self.data)
+				to_assign.apply(self.macros)
 				
 			child_macros.update({key : to_assign})
 		
