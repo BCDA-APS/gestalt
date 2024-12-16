@@ -4,6 +4,7 @@
 #include screen-header.yml
 #include on-off.yml
 #include embedded-motor.yml
+#include read-write.yml
 
 _LabelMenuReadback: !Template:MenuWithReadback
     - !Defaults 
