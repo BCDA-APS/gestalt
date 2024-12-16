@@ -7,29 +7,36 @@ _ReadWrite: !Template:PVReadWrite
         
         height: 20
         
-        desc-width:   60
-        label-width:  60
-        entry-width:  60
-        menu-width:   60
-        button-width: 60
-        read-width:   60
-        units-width:  60
+        element-width: 60
+        
+        desc-width:   "{element-width}"
+        label-width:  "{element-width}"
+        entry-width:  "{element-width}"
+        menu-width:   "{element-width}"
+        button-width: "{element-width}"
+        read-width:   "{element-width}"
+        units-width:  "{element-width}"
+        
+        editable-color: *edit_blue
         
         desc-background:   *grey_light
         label-background:  *transparent
-        entry-background:  *edit_blue
-        menu-background:   *edit_blue
-        button-background: *edit_blue
+        entry-background:  "{editable-color}"
+        menu-background:   "{editable-color}"
+        button-background: "{editable-color}"
         read-background:   *transparent
         units-background:  *transparent
         
-        desc-foreground:   *black
-        label-foreground:  *black
-        entry-foreground:  *black
-        menu-foreground:   *black
-        button-foreground: *black
-        read-foreground:   *black
-        units-foreground:  *black
+        
+        text-color: *black
+        
+        desc-foreground:   "{text-color}"
+        label-foreground:  "{text-color}"
+        entry-foreground:  "{text-color}"
+        menu-foreground:   "{text-color}"
+        button-foreground: "{text-color}"
+        read-foreground:   "{text-color}"
+        units-foreground:  "{text-color}"
         
         desc-pv:   False
         entry-pv:  False
@@ -50,6 +57,8 @@ _ReadWrite: !Template:PVReadWrite
                     geometry: "0x0x{label-width}x{height}"
                     font: "-{fontname}"
                     alignment: CenterRight
+                    background: "{label-background}"
+                    foreground: "{label-foreground}"
                     text: "{label}"
                     
             - !If:label        
