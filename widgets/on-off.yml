@@ -3,6 +3,7 @@
 _OnOffText: !Template:OnOffText
     - !Defaults 
         height: 20
+        text-width: 100
         width: "{text-width}"
         
         geometry: "{width}x{height}"
@@ -37,18 +38,25 @@ _OnOffText: !Template:OnOffText
 _OnOffLED: !Template:OnOffLED
     - !Defaults
         size: 16
+        width: "{size}"
+        height: "{size}"
+        geometry: "{width}x{height}"
         
         on-text: "1"
+        on-label: "{on-text}"
         on-color: *alarm_green
         on-value: 1
         
         off-text: "0"
+        off-label: "{off-text}"
         off-color: *alarm_red
         off-value: 0
         
+        fontname: "Liberation Sans"
+        
     
     - !Group
-        geometry: "{size}x{size}"
+        geometry: "{geometry}"
         
         children:
             - !AStretch:LED
@@ -64,7 +72,7 @@ _OnOffLED: !Template:OnOffLED
             - !AStretch:Group
                 visibility: "{control-pv}"
                 children:
-                    - !AStretch:Text { alignment: Center, text: "{on-text}" }
+                    - !AStretch:Text { font: "{fontname}", alignment: Center, text: "{on-text}" }
                     
                     - !AStretch:MessageButton
                         background: *transparent
@@ -75,7 +83,7 @@ _OnOffLED: !Template:OnOffLED
             - !AStretch:Group
                 visibility: !Not "{control-pv}"
                 children:
-                    - !AStretch:Text { alignment: Center, text: "{off-text}" }
+                    - !AStretch:Text { font: "{fontname}", alignment: Center, text: "{off-text}" }
                     - !AStretch:MessageButton
                         background: *transparent
                         foreground: *transparent
