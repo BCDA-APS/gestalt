@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Nodes
-nav_order: 3
+parent: Reference
+nav_order: 1
 has_children: true
 ---
 

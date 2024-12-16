@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Command Line
-nav_order: 4
+title: Using the Command Line
+nav_order: 3
 ---
 
 ## Table of contents
@@ -14,10 +14,11 @@ nav_order: 4
 
 ## Command Line
 
-While Gestalt can be run without any commands to use it to generate screens from 
-the built-in templates, it's built to be able to take input data from many different
-files and build screens from user-defined templates. The structure of a call using 
-Gestalt is:
+Gestalt has a number of command line options to be able to generate screens beyond just
+the built-in templates. As well, users are able to provide input data in a variety of 
+formats beyond just YAML. 
+
+The structure of calling Gestalt on the command line is:
 
 > gestalt.py [OPTIONS] [TEMPLATE]
 
@@ -62,12 +63,17 @@ Gestalt will attempt to determine what file format to output based upon the file
 output filename. If no output file path is specified, then you must specify which output format
 to write.
 
+Recognized values for file writer are:
+
+* **qt**, **ui** - Output file is for caQtDM  
+* **css**, **bob** - Output file is for CSS-Phoebus  
+
 
 ### --include
 
 Additional folder to include in your search path for template files that may be included using
 '#include' statements. This option can be applied multiple times, each time specifying a new
-folder to append to the search path. By default, Gestalt's templates folder is already included 
+folder to append to the search path. By default, Gestalt's widgets folder is already included 
 in the search path (for widgets.yml and colors.yml).
 
 
