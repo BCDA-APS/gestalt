@@ -4,6 +4,9 @@ _OnOffText: !Template:OnOffText
     - !Defaults 
         height: 20
         width: "{text-width}"
+        
+        geometry: "{width}x{height}"
+        
         fontname: "Liberation Sans"
         on-color: *alarm_green
         off-color: *alarm_red
@@ -16,7 +19,7 @@ _OnOffText: !Template:OnOffText
     - !Group   
         children:
             - !Text
-                geometry: "{width}x{height}"
+                geometry: "{geometry}"
                 alignment: Center
                 text: "{on-label}"
                 foreground: "{on-color}"
@@ -24,7 +27,7 @@ _OnOffText: !Template:OnOffText
                 visibility: "{control-pv}"
                 
             - !Text
-                geometry: "{width}x{height}"
+                geometry: "{geometry}"
                 alignment: Center
                 text: "{off-label}"
                 foreground: "{off-color}"
