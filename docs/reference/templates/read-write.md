@@ -45,7 +45,7 @@ Enabled elements are displayed in a horizontal row in the order shown above.
 | button-width    | Number | Width for the MessageButton element, default: "{element-width}" |
 | read-width      | Number | Width for the readback element, default: "{element-width}" |
 | units-width     | Number | Width for the units element, default: "{element-width}" |
-| ---             | ---    | --- |
+| /////////////// | ////// | /////////////////////////////////////////////////////// |
 | editable-color  | Color  | Default color for the general input fields (entry, menu, button), default: *edit_blue |
 | label-background| Color  | Background color for the label element, default: *transparent |
 | desc-background | Color  | Background color for the description element, default: *grey_light |
@@ -54,7 +54,7 @@ Enabled elements are displayed in a horizontal row in the order shown above.
 | button-background|Color  | Background color for the MessageButton element, default: "{editable-color}" |
 | read-background | Color  | Background color for the readback element, default: *transparent |
 | units-background| Color  | Background color for the units element, default: *transparent |
-| ---             | ---    | --- |
+| /////////////// | ////// | /////////////////////////////////////////////////////// |
 | text-color      | Color  | Default color for the text used in all elements, default: *black |
 | label-foreground| Color  | Text color for the label element, default: "{text-color}" |
 | desc-foreground | Color  | Text color for the description element, default: "{text-color}" |
@@ -63,7 +63,7 @@ Enabled elements are displayed in a horizontal row in the order shown above.
 | button-foreground|Color  | Text color for the MessageButton element, default: "{text-color}" |
 | read-foreground | Color  | Text color for the readback element, default: "{text-color}" |
 | units-foreground| Color  | Text color for the units element, default: "{text-color}" |
-| ---             | ---    | --- |
+| /////////////// | ////// | /////////////////////////////////////////////////////// |
 | label           | String | Display text for label element |
 | desc-pv         | String | Connected pv for description element | 
 | entry-pv        | String | Connected pv for basic text entry element | 
