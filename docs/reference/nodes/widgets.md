@@ -2,6 +2,7 @@
 layout: default
 title: Widgets
 parent: Nodes
+grand_parent: Reference
 nav_order: 1
 ---
 

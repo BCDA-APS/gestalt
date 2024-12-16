@@ -2,6 +2,7 @@
 layout: default
 title: Layouts
 parent: Nodes
+grand_parent: Reference
 nav_order: 3
 ---
 

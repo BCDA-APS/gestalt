@@ -2,6 +2,7 @@
 layout: default
 title: embedded-motor.yml
 parent: Templates
+grand_parent: Reference
 nav_order: 1
 ---
 
