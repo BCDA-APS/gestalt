@@ -45,6 +45,7 @@ Enabled elements are displayed in a horizontal row in the order shown above.
 | button-width    | Number | Width for the MessageButton element, default: "{element-width}" |
 | read-width      | Number | Width for the readback element, default: "{element-width}" |
 | units-width     | Number | Width for the units element, default: "{element-width}" |
+| spacing         | Number | Spacing between any two enabled elements, default: 15   |
 | /////////////// | ////// | /////////////////////////////////////////////////////// |
 | editable-color  | Color  | Default color for the general input fields (entry, menu, button), default: *edit_blue |
 | label-background| Color  | Background color for the label element, default: *transparent |
