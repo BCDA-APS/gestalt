@@ -333,9 +333,11 @@ LED_Grid: !Grid
 
 A widget representing a stack of display areas, with each only being displayed upon the user clicking a corresponding tab button.
 
-The 'children' attribute works slightly differently for this layout. Each individual child node must be a '!Tab', which is a tag
-that can be affixed to lists. Each child node will be associated with a specific tab, and selecting that tab will display all the
-widgets that are in the corresponding '!Tab' list. If one defines the 'children' attribute as a dictionary, then the key values will
+The 'children' attribute works slightly differently for this layout. Each individual child node must be a '!Tab'. Tabs are pass-through
+Group nodes, with the children attribute specifying the widgets that are displayed for that tag.
+
+Each child node in the TabbedGroup will be associated with a specific tab, and selecting that tab will display all the
+widgets that are in the corresponding '!Tab'. If one defines the 'children' attribute as a dictionary, then the key values will
 be used as the tab names. If 'children' is a list, then the tabs will display as "Tab 1", "Tab 2", etc.
 
 The macros __parentwidth__ and __parentheight__ will be passed along to children widgets, these are set to the size of the display
@@ -361,6 +363,48 @@ pane, which will depend on the values of certain attributes.
 
 
 * **Example**
+
+```yaml
+- !TabbedGroup
+    geometry: 570x200
+        
+    inset: 5
+    offset: 3
+    
+    border-color: *header_blue
+    tab-color: *header_blue
+    foreground: *white
+    selected: $3970C4
+    
+    font: -DejaVu Sans Mono - Bold - 9
+
+    children:
+        Motors: !Tab
+            children:
+                - !AStretch:Spacer
+            
+        Optics: !Tab
+            children:
+                - !AStretch:Spacer
+            
+        Detectors: !Tab
+            children:
+                - !AStretch:Spacer
+            
+        Direct I/O: !Tab
+            children:
+                - !AStretch:Spacer
+            
+        Devices: !Tab
+            children:
+                - !AStretch:Spacer
+            
+        Tools: !Tab
+            children:
+                - !AStretch:Spacer
+```
+
+To save space, the !Tab node type can be directly applied to the list of children nodes.
 
 ```yaml
 - !TabbedGroup

@@ -202,7 +202,8 @@ def read_tab_node(loader, node):
 		params = loader.construct_sequence(node, deep=True)
 		return GroupNode("TabNode", layout={"children" : params}, loc=node.start_mark)
 	except:
-		return None
+		params = loader.construct_mapping(node, deep=True)
+		return GroupNode("TabNode", layout=params, loc=node.start_mark)
 		
 
 recognized_types = (
