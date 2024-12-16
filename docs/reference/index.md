@@ -6,6 +6,16 @@ has_children: true
 has_toc: false
 ---
 
+# Reference
+{: .no_toc}
+
+## Table of contents
+{: .no_toc .text-delta }
+
+- TOC
+{:toc}
+
+
 ## Nodes
 
 The default element underlying the generation of any output files in Gestalt is
