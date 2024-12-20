@@ -21,9 +21,9 @@ class QtShellCommand(QtWidget):
 			args   += ";"
 			
 			
-		self.button["labels"] = String(labels.rstrip(";"))
-		self.button["files"]  = String(commands.rstrip(";"))
-		self.button["args"]   = String(args.rstrip(";"))
+		self.button["labels"] = String(labels.removesuffix(";"))
+		self.button["files"]  = String(commands.removesuffix(";"))
+		self.button["args"]   = String(args.removesuffix(";"))
 		
 		self.button["fontScaleMode"] = Enum("EPushButton::WidthAndHeight")
 		
