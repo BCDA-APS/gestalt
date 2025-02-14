@@ -43,7 +43,10 @@ class CSSGenerator(GestaltGenerator):
 	def generateRelatedDisplay(self, node, macros={}):
 		output = CSSWidget("ActionButton", node=node, macros=macros)
 		
-		for item in node.links:
+		links = String(node.links)
+		links.apply(macros)
+		
+		for item in List(links):
 			_file = String(item.get("file", ""))
 			_file.apply(macros)
 			_file = _file.val()
