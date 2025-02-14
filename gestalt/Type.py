@@ -2,6 +2,12 @@ import copy
 import yaml
 from gestalt.Datasheet import *
 
+class PartialSub(dict):
+	def __missing__(self, key):
+		return "{" + key + "}"
+
+
+
 class DataType(object):	
 	def __init__(self, typ, val):
 		self.typ = typ
@@ -53,7 +59,7 @@ class DataType(object):
 			for macrolist in reversed(self.macros):
 				for macro, macro_val in reversed(macrolist.items()):
 					try:
-						output = output.format(**{macro : macro_val })
+						output = output.format_map(PartialSub({macro : macro_val }))
 					except:
 						pass
 			
@@ -70,7 +76,7 @@ class DataType(object):
 				for macrolist in reversed(self.macros):
 					for macro, macro_val in reversed(macrolist.items()):
 						try:
-							output[key] = str(val).format(**{macro : macro_val})
+							output[key] = str(val).format_map(PartialSub({macro : macro_val}))
 						except:
 							pass
 			
