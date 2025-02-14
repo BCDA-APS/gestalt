@@ -45,6 +45,7 @@ class CSSTabbedGroup(CSSWidget):
 		self.pop("offset")
 		self.pop("border-width")
 		self.pop("border-color")
+		self.pop("border-style")
 		self.pop("selected")
 		self.pop("background")
 		
@@ -57,7 +58,7 @@ class CSSTabbedGroup(CSSWidget):
 		tab_width = GestaltGenerator.get_text_width(the_font["family"], int(the_font["size"]), child.name) + 10
 				
 		next_tab = CSSWidget("ActionButton", name=child.name + "_tab")
-		next_tab["geometry"] = Rect("{x}x{y}x{wid}x{hei}".format(x=self.tab_offset, y=0, wid=tab_width, hei=self.tab_height))
+		next_tab["geometry"] = Rect("{x}x{y}x{wid}x{hei}".format(x=int(self.tab_offset), y=0, wid=int(tab_width), hei=int(self.tab_height)))
 		next_tab["font"] = self.font
 		next_tab["foreground"] = self.font_color
 		next_tab["background"] = self.tab_color
@@ -74,6 +75,7 @@ class CSSTabbedGroup(CSSWidget):
 		intermediary["geometry"] = Rect("{x}x{y}x{wid}x{hei}".format(x=0, y=self.content_offset, wid=self["geometry"]["width"], hei=self["geometry"]["height"] - self.content_offset))
 		intermediary["border-color"] = self.border_color
 		intermediary["border-width"] = self.border_width
+		#intermediary["border-style"] = self.pop("border-style", "Solid")
 		intermediary["background"] = self.background
 		intermediary.widget.rule("visibility", "visible", { self.pv_name : True }, {"pv0!=" + str(self.index) : False})
 		
