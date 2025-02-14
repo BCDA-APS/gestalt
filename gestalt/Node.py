@@ -247,12 +247,12 @@ class GroupNode(Node):
 		border = int(self["border-width"])
 		
 		if x:
-			child_node["geometry"]["x"] = x + int(margins["x"]) + border
+			child_node["geometry"]["x"] = int(x) + int(margins["x"]) + border
 		else:
 			child_node["geometry"]["x"] = int(child_geom["x"]) + int(margins["x"]) + border
 			
 		if y:
-			child_node["geometry"]["y"] = y + int(margins["y"]) + border
+			child_node["geometry"]["y"] = int(y) + int(margins["y"]) + border
 		else:
 			child_node["geometry"]["y"] = int(child_geom["y"]) + int(margins["y"]) + border
 		
