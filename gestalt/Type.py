@@ -51,10 +51,11 @@ class DataType(object):
 			output = self.value
 			
 			for macrolist in reversed(self.macros):
-				try:
-					output = output.format(**macrolist)
-				except:
-					pass
+				for macro, macro_val in reversed(macrolist.items()):
+					try:
+						output = output.format(**{macro : macro_val })
+					except:
+						pass
 			
 			return output
 					
@@ -67,10 +68,11 @@ class DataType(object):
 					continue
 				
 				for macrolist in reversed(self.macros):
-					try:
-						output[key] = str(val).format(**macrolist)
-					except:
-						pass
+					for macro, macro_val in reversed(macrolist.items()):
+						try:
+							output[key] = str(val).format(**{macro : macro_val})
+						except:
+							pass
 			
 			return output
 			
@@ -290,7 +292,7 @@ class Font(DataType):
 		super().__init__("font", data)
 		
 	def val(self):
-		try:
+		try:			
 			data = super().val()
 			
 			self.labels = ["family", "style", "size"]
