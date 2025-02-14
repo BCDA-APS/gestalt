@@ -1,0 +1,29 @@
+#include colors.yml
+
+_RDGridTemplate: !Template:RelatedDisplayGrid
+    - !Defaults
+        button-width: 200
+        button-height: 40
+        button-background: *menu_green
+        button-foreground: *white
+    
+        aspect-ratio: 1.25
+        padding: 10
+        margins: 10x10x10x10
+        
+
+    - !ACenter:AStretch:Grid
+        margins: "{margins}"
+        repeat-over: "{buttons}"
+        padding: "{padding}"
+        horizontal: True
+        aspect-ratio: "{aspect-ratio}"
+        
+        children:
+            - !RelatedDisplay
+                geometry: "{button-width}x{button-height}"
+                background: "{button-background}"
+                foreground: "{button-foreground}"
+                font: -DejaVu Sans Mono -Bold -9
+                text:  "{title:^20s}"
+                links: "{links}"

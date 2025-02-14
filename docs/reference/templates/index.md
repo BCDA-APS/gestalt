@@ -29,4 +29,4 @@ the value of a control-pv.
 * [read-write.yml](read-write.md) - Contains a generic setup for having an input with readback.  
 * [screen-header.yml](screen-header.yml) - Contains a template for a simple title bar at the top
 of the screen.
-
+* [link-grid.yml](link-grid.yml) - Contains a simple grid of Related Display widgets
