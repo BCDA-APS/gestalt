@@ -297,7 +297,7 @@ class GroupNode(Node):
 				"__parenty__" : int(geom["y"]),
 				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
 				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
-			
+									
 			self.updateMacros(child_macros)
 			
 			widget = child.apply(generator, data=child_macros)
@@ -329,6 +329,7 @@ class TabbedGroupNode(GroupNode):
 		self.setDefault(Number, "padding",        5)
 		self.setDefault(Number, "inset",          0)
 		self.setDefault(Number, "offset",         0)
+		self.setDefault(Number, "tabbar-height",  0, internal = True)
 		self.setDefault(Font,   "font",           "-Liberation Sans - Regular - 12")
 		
 	def apply(self, generator, data={}):
@@ -337,9 +338,13 @@ class TabbedGroupNode(GroupNode):
 		
 		the_font = output["font"]
 		
-		tab_bar_height = GestaltGenerator.get_font_height(the_font["family"], int(the_font["size"]))
-		tab_bar_height += 4 + int(output["offset"])
+		tab_bar_height = int(output["tabbar-height"])
 		
+		if tab_bar_height == 0:
+			tab_bar_height = int(int(output["geometry"]["height"]) * 0.1)
+		
+		output["tabbar-height"] = Number(tab_bar_height)
+			
 		border_size = int(output["border-width"])
 		
 		if output["border-color"]["alpha"] == 0:

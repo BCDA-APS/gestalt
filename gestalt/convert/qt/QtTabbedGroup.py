@@ -34,8 +34,8 @@ QTabBar::tab
     margin-right: {margin}px;
     margin-bottom: {offset}px;
 	
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     padding-left: 5px;
     padding-right: 5px;
     
@@ -54,7 +54,7 @@ QTabBar::tab:hover
 """.format( 
 	margin = int(tab_padding),
 	offset = int(content_offset),
-	tab_height = 9 + GestaltGenerator.get_font_height(the_font["family"], int(the_font["size"])),
+	tab_height = int(self["tabbar-height"]) - int(content_offset),
 	br = int(tab_color["red"]),
 	bg = int(tab_color["green"]),
 	bb = int(tab_color["blue"]),
@@ -64,7 +64,6 @@ QTabBar::tab:hover
 	tb = int(font_color["blue"]),
 	ta = int(font_color["alpha"]))
 		
-
 		border_width = self.pop("border-width")
 		border_color = self.pop("border-color")
 		border_style = self.pop("border-style")
@@ -127,7 +126,7 @@ QWidget[Fill="True"]
 		intermediary["Fill"] = String("True")
 		
 		intermediary.place(child, x, y, keep_original)
-		self.append(intermediary)
+		super().place(intermediary)
 
 		
 		

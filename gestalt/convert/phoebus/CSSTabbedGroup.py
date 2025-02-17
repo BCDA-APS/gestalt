@@ -31,9 +31,6 @@ class CSSTabbedGroup(CSSWidget):
 		
 		the_font = self.font.val()
 		
-		self.tab_height = GestaltGenerator.get_font_height(the_font["family"], int(the_font["size"])) + 4
-		self.content_offset = self.content_offset + self.tab_height
-		
 		self.index = 0
 	
 	def write(self, screen):
@@ -53,6 +50,10 @@ class CSSTabbedGroup(CSSWidget):
 		
 		
 	def place(self, child, x=None, y=None, keep_original=False):
+		
+		self.content_offset = int(self["tabbar-height"])
+		self.tab_height = self.content_offset - int(self["offset"])
+		
 		the_font = self.font.val()
 		
 		tab_width = GestaltGenerator.get_text_width(the_font["family"], int(the_font["size"]), child.name) + 10
@@ -79,7 +80,7 @@ class CSSTabbedGroup(CSSWidget):
 		intermediary["background"] = self.background
 		intermediary.widget.rule("visibility", "visible", { self.pv_name : True }, {"pv0!=" + str(self.index) : False})
 		
-		intermediary.place(child, x=self.border_width, y=self.border_width, keep_original=keep_original)
+		intermediary.place(child, x=0, y=0, keep_original=keep_original)
 		
 		self.append(next_tab)
 		self.append(intermediary)

@@ -13,8 +13,8 @@ class CSSDisplay(GroupNode):
 		
 		margins = Rect(self.pop("margins", "0x0x0x0"))
 		
-		self.form.width(  self["geometry"]["width"] + margins["x"] + margins["width"] )
-		self.form.height( self["geometry"]["height"] + margins["y"] + margins["height"] )
+		self.form.width(  self["geometry"]["width"] )
+		self.form.height( self["geometry"]["height"] )
 		
 		col = None
 		
@@ -27,13 +27,7 @@ class CSSDisplay(GroupNode):
 		
 		self.form.background_color(col["red"], col["green"], col["blue"], col["alpha"])
 		
-		self["geometry"]["x"] = margins["x"]
-		self["geometry"]["y"] = margins["y"]
-		
-		for child in self.children:
-			child["geometry"]["x"] = child["geometry"]["x"] + self["geometry"]["x"]
-			child["geometry"]["y"] = child["geometry"]["y"] + self["geometry"]["y"]
-			
+		for child in self.children:	
 			child.write(self.form)
 		
 		#self.write(self.form)
