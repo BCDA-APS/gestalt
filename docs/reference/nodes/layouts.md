@@ -359,6 +359,7 @@ pane, which will depend on the values of certain attributes.
 | padding      | Number    | The number of pixels between each tab, defaults to 5 |
 | inset        | Number    | The number of pixels to horizontally offset the tab bar from the display pane, defaults to 0 |
 | offset       | Number    | The number of pixels to vertically offset the display pane from the tab bar, defaults to 0 |
+| tabbar-height| Number    | The number of pixels out of the total widget height to devote to the tab bar (includes the above offset), defaults to 10% of height |
 | font         | Font      | The display font for the tabs, defaults to Liberation Sans 12 |
 
 
