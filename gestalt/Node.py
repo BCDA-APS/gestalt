@@ -297,9 +297,9 @@ class GroupNode(Node):
 				"__parenty__" : int(geom["y"]),
 				"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
 				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
-									
+				
 			self.updateMacros(child_macros)
-			
+						
 			widget = child.apply(generator, data=child_macros)
 			
 			if widget:
@@ -656,7 +656,7 @@ class StretchNode(Node):
 			applied_node.name = self.name
 			
 		applied_node = applied_node.apply(generator, data=data)
-			
+		
 		applied_node["geometry"]["x"] = applied_node["geometry"]["x"] + self["geometry"]["x"]
 		applied_node["geometry"]["y"] = applied_node["geometry"]["y"] + self["geometry"]["y"]
 			

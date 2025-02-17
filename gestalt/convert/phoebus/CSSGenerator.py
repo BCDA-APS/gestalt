@@ -376,11 +376,11 @@ def generateCSSFile(template, data, outputfile=""):
 				a_display.updateProperties(data)
 			else:
 				data.update({
-					"__parentx__" : a_display["geometry"]["x"],
-					"__parenty__" : a_display["geometry"]["y"],
-					"__parentwidth__" : a_display["geometry"]["width"],
-					"__parentheight__" : a_display["geometry"]["height"]})
-			
+					"__parentx__" : a_display.content["geometry"]["x"],
+					"__parenty__" : a_display.content["geometry"]["y"],
+					"__parentwidth__" : a_display.content["geometry"]["width"],
+					"__parentheight__" : a_display.content["geometry"]["height"]})
+					
 				a_display.place(item.apply(the_generator, data=data))
 
 						

@@ -3,6 +3,8 @@ import tkinter.font as tkfont
 
 DEFAULT_DPI = 96.0
 
+size_cache = {}
+
 class GestaltGenerator:
 	def get_font_height(font_name, font_size):
 		tk_root = tk.Tk()
@@ -18,6 +20,28 @@ class GestaltGenerator:
 		tk_root.destroy()
 		
 		return int(ascent + descent)
+		
+	def get_size_for_height(font_name, height):
+		font_size = 1
+		
+		if font_name not in size_cache:
+			size_cache[font_name] = {}
+			
+		if height in size_cache[font_name]:
+			return size_cache[font_name][height]
+			
+		while True:
+			estimated_size = GestaltGenerator.get_font_height(font_name, font_size) 
+			needed_height = height * 0.75
+			
+			font_size += 1
+			
+			if (estimated_size > needed_height):
+				break
+		
+		size_cache[font_name][height] = font_size - 1
+				
+		return font_size - 1
 		
 	def get_text_width(font_name, font_size, text):
 		tk_root = tk.Tk()

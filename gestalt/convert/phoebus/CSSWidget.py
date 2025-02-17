@@ -1,6 +1,7 @@
 from gestalt.Type import *
 
 from gestalt.Node import GroupNode
+from gestalt.Generator import GestaltGenerator
 
 from phoebusgen import widget
 from phoebusgen.widget import properties as _p
@@ -30,7 +31,7 @@ def get_pv(pvname):
 class CSSWidget(GroupNode):
 	def __init__(self, classname, node=None, name=None, layout={}, macros={}):
 		super(CSSWidget, self).__init__(classname, name=name, node=node, layout=layout)
-		self.updateProperties(macros)
+		CSSWidget.updateProperties(self,macros)
 		
 		if "alignment" in self:
 			data = str(Alignment(self.pop("alignment")))
@@ -216,9 +217,11 @@ class CSSWidget(GroupNode):
 				return
 				
 			getattr(self.widget, prefix + "font_family")(my_font["family"])
-				
+			
+			font_size = GestaltGenerator.get_size_for_height(my_font["family"], int(self["geometry"]["height"]))
+			
 			if my_font["size"]:
-				getattr(self.widget, prefix + "font_size")(int(my_font["size"]))
+				getattr(self.widget, prefix + "font_size")(int(font_size))
 				
 			if my_font["style"]:
 				getattr(self.widget, prefix + "font_style_" + my_font["style"].lower())()
