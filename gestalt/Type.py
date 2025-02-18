@@ -2,9 +2,19 @@ import copy
 import yaml
 from gestalt.Datasheet import *
 
-class PartialSub(dict):
+class PartialSubFormatter:
+	def __init__(self, macro):
+		self.macro = macro
+		
+	def __format__(self, format_spec):
+		if format_spec:
+			return "{" + self.macro + ":" + format_spec + "}"
+		else:
+			return "{" + self.macro + "}"
+
+class PartialSubDict(dict):
 	def __missing__(self, key):
-		return "{" + key + "}"
+		return PartialSubFormatter(key)
 
 
 
@@ -59,7 +69,7 @@ class DataType(object):
 			for macrolist in reversed(self.macros):
 				for macro, macro_val in reversed(macrolist.items()):
 					try:
-						output = output.format_map(PartialSub({macro : macro_val }))
+						output = output.format_map(PartialSubDict({macro : macro_val }))
 					except:
 						pass
 			
@@ -76,7 +86,7 @@ class DataType(object):
 				for macrolist in reversed(self.macros):
 					for macro, macro_val in reversed(macrolist.items()):
 						try:
-							output[key] = str(val).format_map(PartialSub({macro : macro_val}))
+							output[key] = str(val).format_map(PartialSubDict({macro : macro_val}))
 						except:
 							pass
 			
