@@ -105,10 +105,10 @@ Options: !TabbedGroup
 
     children:
         Motor: !Tab 
-            - !Label { geometry: 10x10, text: "A" }
+            - !Text { geometry: 10x10, text: "A" }
             
         Other: !Tab
-            - !Label { geometry: 10x10, text: "B" }
+            - !Text { geometry: 10x10, text: "B" }
             
             
     
