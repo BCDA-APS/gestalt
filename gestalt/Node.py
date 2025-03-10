@@ -198,7 +198,7 @@ class Node(object):
 		
 		
 class GroupNode(Node):
-	def __init__(self, classname="Group", name=None, node=None, layout={}, loc=None):	
+	def __init__(self, classname="Group", name=None, node=None, layout={}, loc=None, anonymous=False):
 		super(GroupNode, self).__init__(classname, name=name, node=node, layout=layout, loc=loc)
 		
 		self.children = []
@@ -219,6 +219,7 @@ class GroupNode(Node):
 				
 		self.setDefault(Rect, "margins", "0x0x0x0", internal=True)
 		self.setDefault(Number, "border-width",   0)
+		self.makeInternal(Bool, "anonymous", anonymous)
 		
 					
 	def append(self, child, keep_original=False):
@@ -282,7 +283,12 @@ class GroupNode(Node):
 		self.initApply(data)
 		
 		self.log("Generating group node")
-		output = generator.generateGroup(self, macros=data)
+		output = None
+		
+		if self["anonymous"]:
+			output = generator.generateAnonymousGroup(macros=data)
+		else:
+			output = generator.generateGroup(self, macros=data)
 		
 		margins = output["margins"].val()
 		border = int(output["border-width"])
@@ -377,8 +383,8 @@ class LayoutNode(GroupNode):
 		
 		self.makeInternal(Number, "index",     0)
 		self.makeInternal(Number, "num-items", 0)
-		self.makeInternal(Number, "last_x",    0)
-		self.makeInternal(Number, "last_y",    0)
+		self.makeInternal(Number, "last-x",    0)
+		self.makeInternal(Number, "last-y",    0)
 		
 	def initApply(self, data):
 		self["index"] = 0
@@ -430,7 +436,7 @@ class LayoutNode(GroupNode):
 				else:
 					self.curr_macros = {str(value_var) : item}
 					
-				line = GroupNode()
+				line = GroupNode(anonymous=True)
 				
 				for childnode in self.children:
 					line.append(childnode)
@@ -526,6 +532,7 @@ class FlowNode(GroupNode):
 		super(FlowNode, self).__init__("caFrame", name=name, layout=layout, loc=loc)
 	
 		self.makeInternal(Number, "padding",   0)
+		self.makeInternal(Number, "last-pos",  0)
 		self.setProperty("flow", flow, internal=True)
 	
 	def initApply(self, data):
@@ -577,7 +584,7 @@ class ConditionalNode(GroupNode):
 		
 class ApplyNode(GroupNode):
 	def __init__(self, layout={}, defaults={}, macros={}, subnodes=[], loc=None):
-		super(ApplyNode, self).__init__("Apply", layout=layout, loc=loc)
+		super(ApplyNode, self).__init__("Apply", layout=layout, loc=loc, anonymous=True)
 		
 		self.defaults = defaults
 		self.macros = macros
@@ -761,6 +768,7 @@ class TextNode(Node):
 		self.setDefault(Color,     "background",   "$00000000")
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
+		self.setDefault(String,    "border-style", "Solid")
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
 
@@ -784,6 +792,7 @@ class TextMonitorNode(Node):
 		self.setDefault(Color,     "background",   "$00000000")
 		self.setDefault(Color,     "border-color", "$000000")
 		self.setDefault(Number,    "border-width", 0)
+		self.setDefault(String,    "border-style", "Solid")
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
 		self.setDefault(String,    "format",       "Decimal")
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
@@ -897,6 +906,8 @@ class ShellCommandNode(Node):
 		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "text", "")
+		self.setDefault(Color,     "foreground", "$000000")
+		self.setDefault(Color,     "background", "$57CAE4")
 		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment", "Center")
 		
