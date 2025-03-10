@@ -7,6 +7,12 @@ size_cache = {}
 
 class GestaltGenerator:
 	def get_font_height(font_name, font_size):
+		if font_name not in size_cache:
+			size_cache[font_name] = {}
+			
+		if font_size in size_cache[font_name]:
+			return size_cache[font_name][font_size]
+		
 		tk_root = tk.Tk()
 		tk_root.withdraw()
 		
@@ -19,29 +25,43 @@ class GestaltGenerator:
 		
 		tk_root.destroy()
 		
+		size_cache[font_name][font_size] = int(ascent + descent)
+		
 		return int(ascent + descent)
 		
 	def get_size_for_height(font_name, height):
-		font_size = 1
+		needed_height = int(height * 0.75)
 		
-		if font_name not in size_cache:
-			size_cache[font_name] = {}
-			
-		if height in size_cache[font_name]:
-			return size_cache[font_name][height]
-			
+		lower_bound = 6
+		upper_bound = -1
+		
 		while True:
-			estimated_size = GestaltGenerator.get_font_height(font_name, font_size) 
-			needed_height = height * 0.75
+			upper_bound = lower_bound * 2
 			
-			font_size += 1
+			estimated_size = GestaltGenerator.get_font_height(font_name, upper_bound)
 			
-			if (estimated_size > needed_height):
+			if estimated_size == needed_height:
+				return upper_bound
+			
+			if estimated_size > needed_height:
 				break
-		
-		size_cache[font_name][height] = font_size - 1
 				
-		return font_size - 1
+			lower_bound = upper_bound
+		
+		while True:
+			check = int((lower_bound + upper_bound) / 2)
+			
+			if check == lower_bound:
+				return lower_bound
+				
+			estimated_size = GestaltGenerator.get_font_height(font_name, check)
+				
+			if estimated_size == needed_height:
+				return check
+			elif estimated_size < needed_height:
+				lower_bound = check
+			else:
+				upper_bound = check
 		
 	def get_text_width(font_name, font_size, text):
 		tk_root = tk.Tk()
