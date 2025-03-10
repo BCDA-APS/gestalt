@@ -21,7 +21,7 @@ class UI(QMainWindow):
 		self.TemplateSelect.currentIndexChanged.connect(self.template_selected)
 		
 		self.TemplateType.currentIndexChanged.connect(self.type_selected)
-		self.TemplateType.addItems(["Qt", "CSS"])
+		self.TemplateType.addItems(["Qt", "CSS", "PyDM"])
 		
 		self.LoadButton.clicked.connect(self.load_data)
 		self.WriteButton.clicked.connect(self.write_data)
@@ -42,6 +42,8 @@ class UI(QMainWindow):
 			check_attr = "qt_stylesheet"
 		elif output_type == "CSS":
 			check_attr = "css_stylesheet"
+		elif output_type == "PyDM":
+			check_attr = "pydm_stylesheet"
 		
 		for key, item in self.registry.templates.items():
 			if check_attr in item:
@@ -91,6 +93,9 @@ class UI(QMainWindow):
 		elif output_type == "Qt":
 			current_stylesheet = module_selected["qt_stylesheet"]
 			output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.ui")[0]
+		elif output_type == "PyDM":
+			current_stylesheet = module_selected["pydm_stylesheet"]
+			output_file = QFileDialog.getSaveFileName(self, "Save Generated File", "", filter="*.ui")[0]
 		
 		
 		if output_file == "":
@@ -103,6 +108,8 @@ class UI(QMainWindow):
 				constructed_args.extend(["-t", "css"])
 			elif output_type == "Qt":
 				constructed_args.extend(["-t", "qt"])
+			elif output_type == "PyDM":
+				constructed_args.extend(["-t", "pydm"])
 		
 			constructed_args.extend(["-o", output_file])
 			constructed_args.extend(["--input", self.InputData.toPlainText()])

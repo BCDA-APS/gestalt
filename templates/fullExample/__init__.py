@@ -3,6 +3,7 @@ from .. import registry
 registry.add("Full Example", path=__path__,
 	css_stylesheet = "layout.yml",
 	qt_stylesheet = "layout.yml",
+	pydm_stylesheet = "layout.yml",
 	required_inputs=[
 ("Inputs", "Number of TextEntry fields"),
 ("LEDs", "Number of LED widgets"),

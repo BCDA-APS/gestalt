@@ -43,14 +43,14 @@ parser.add_argument("-t", "-w", "--to", "--write",
 File type conversion that should be used for the output 
 UI file. 
 
-Recognized values are ['qt', 'css', 'ui', 'bob', "auto"]
+Recognized values are ['qt', 'css', 'ui', 'bob', "pydm", "dm", "auto"]
 (Default: 'auto')
 
 
 """, 
 	type=str,
 	default="auto", 
-	choices=["qt", "bob", "ui", "css", "auto"])
+	choices=["qt", "bob", "ui", "css", "pydm", "dm", "auto"])
 			
 parser.add_argument("-o", "--output",
 	metavar="FILE",
@@ -138,6 +138,9 @@ def doGenerate(args):
 		args.out_format = "ui"
 	elif args.out_format == "css":
 		args.out_format = "bob"
+	elif args.out_format == "pydm":
+		args.out_format = "dm"
+		
 	
 	if not args.out_filename:
 		args.out_filename = pathlib.PurePath(args.template).stem + "." + args.out_format
@@ -150,6 +153,11 @@ def doGenerate(args):
 		from gestalt.convert.phoebus.CSSGenerator import generateCSSFile
 			
 		generateCSSFile(styles, data, outputfile=args.out_filename)
+	elif args.out_format == "dm":
+		from gestalt.convert.pydm.DMGenerator import generateDMFile
+		
+		generateDMFile(styles, data, outputfile=args.out_filename)
+		
 	else:
 		print("Unknown file extension: ", write_format)
 

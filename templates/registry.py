@@ -5,7 +5,7 @@ class Input:
 
 templates = {}
 
-def add(name, path='', qt_stylesheet=None, css_stylesheet=None, required_inputs=[], example=''):
+def add(name, path='', qt_stylesheet=None, css_stylesheet=None, pydm_stylesheet=None, required_inputs=[], example=''):
 	data = {}
 	data["path"] = path[0]
 	
@@ -14,6 +14,9 @@ def add(name, path='', qt_stylesheet=None, css_stylesheet=None, required_inputs=
 	
 	if css_stylesheet:
 		data["css_stylesheet"] = path[0] + "/" + str(css_stylesheet)
+		
+	if pydm_stylesheet:
+		data["pydm_stylesheet"] = path[0] + "/" + str(pydm_stylesheet)
 		
 	data["thumbnail"] = path[0] + "/thumbnail.png"
 	data["required_inputs"] = required_inputs
