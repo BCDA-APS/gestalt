@@ -118,7 +118,10 @@ class DataType(object):
 		
 	def apply(self, macros):
 		self.macros.append(macros.copy())
-				
+		
+	def flatten(self):
+		return type(self)(self.val())
+
 
 	def __setitem__(self, key, data):
 		self.updates[key] = data
@@ -279,7 +282,7 @@ class Color(DataType):
 			temp = [None, None, None, 255]
 				
 			for i in range(len(data)):
-				temp[i] = data[i]
+				temp[i] = int(data[i])
 					
 			output = dict( zip(self.labels, temp))
 			output.update(self.updates)

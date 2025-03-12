@@ -604,8 +604,13 @@ class ApplyNode(GroupNode):
 		macro_list = {}
 		
 		macro_list.update(self.defaults)
+		macro_list.update(self.data)
 		macro_list.update(self.macros)
-				
+		
+		less = {}
+		less.update(self.defaults)
+		less.update(self.macros)
+		
 		for key, val in macro_list.items():
 			to_assign = None
 			
@@ -621,8 +626,9 @@ class ApplyNode(GroupNode):
 				to_assign = val
 			
 			if isinstance(to_assign, DataType):
+				to_assign.apply(less)				
+				to_assign = to_assign.flatten()
 				to_assign.apply(self.data)
-				to_assign.apply(macro_list)
 				
 			child_macros.update({key : to_assign})
 		
