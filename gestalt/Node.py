@@ -305,7 +305,7 @@ class GroupNode(Node):
 				"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
 				
 			self.updateMacros(child_macros)
-						
+			
 			widget = child.apply(generator, data=child_macros)
 			
 			if widget:
@@ -604,9 +604,8 @@ class ApplyNode(GroupNode):
 		macro_list = {}
 		
 		macro_list.update(self.defaults)
-		macro_list.update(self.data)
 		macro_list.update(self.macros)
-		
+				
 		for key, val in macro_list.items():
 			to_assign = None
 			
@@ -622,9 +621,8 @@ class ApplyNode(GroupNode):
 				to_assign = val
 			
 			if isinstance(to_assign, DataType):
-				to_assign.apply(self.defaults)
 				to_assign.apply(self.data)
-				to_assign.apply(self.macros)
+				to_assign.apply(macro_list)
 				
 			child_macros.update({key : to_assign})
 		
