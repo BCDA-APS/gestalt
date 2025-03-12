@@ -6,6 +6,11 @@
 #include embedded-motor.yml
 #include read-write.yml
 
+
+##############
+# Deprecated #
+##############
+
 _LabelMenuReadback: !Template:MenuWithReadback
     - !Defaults 
         spacing: 15
