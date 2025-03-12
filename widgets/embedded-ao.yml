@@ -1,0 +1,70 @@
+#include colors.yml
+#include color-schemes.yml
+
+_EmbedAO: !Template:EmbeddedAO
+    - !defaults
+        AO-rbv-pv:    "{AO-pv}"
+        tweak-pos-pv: "{AO-pv}TweakUp"
+        tweak-neg-pv: "{AO-pv}TweakDown"
+        tweak-val-pv: "{AO-pv}TweakVal"
+        
+
+    - !group
+        geometry: 160x0
+        
+        border-color: $00358
+        border-width: 3
+        margins: 0x0x0x10
+        
+        children:
+            - !TextMonitor
+                geometry: 154x21
+                background: *header_blue
+                foreground: *white
+                
+                alignment: Center
+                
+                pv: "{AO-pv}.DESC"
+                
+            - !HCenter:VFlow
+                padding: 5
+                geometry: 0x27 x 140x0
+                children:
+                    - !HStretch:TextMonitor
+                        foreground: *header_blue
+                        alignment: Center
+                        
+                        pv: "{AO-rbv-pv}"
+                        
+                        geometry: 116x27
+                
+                    - !HStretch:TextEntry
+                        <<: *editable
+                        geometry: 114x25
+                        pv: "{AO-pv}"
+                                        
+                    - !HCenter:HFlow
+                        padding: 4
+                        children:
+                            - !MessageButton
+                                background: *edit_blue
+                                
+                                geometry: 24x24
+                                value: "1"
+                                pv: "{tweak-neg-pv}.PROC"
+                                text: "<"
+                                
+                            - !TextEntry
+                                background: *edit_blue
+                                
+                                geometry: 84x24
+                                
+                                pv: "{tweak-val-pv}"
+                            
+                            - !MessageButton
+                                background: *edit_blue
+                                
+                                geometry: 24x24
+                                value: "1"
+                                pv: "{tweak-pos-pv}.PROC"
+                                text: ">"

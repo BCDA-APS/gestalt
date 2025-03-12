@@ -3,7 +3,9 @@
 
 #include screen-header.yml
 #include on-off.yml
+#include embedded-ao.yml
 #include embedded-motor.yml
+#include motor-line.yml
 #include read-write.yml
 
 
