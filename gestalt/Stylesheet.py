@@ -229,6 +229,8 @@ for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
 add_constructors("group", (lambda l, n: read_special_group(GroupNode, l, n)))
+add_constructors("anon", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
+add_constructors("anonymous", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
 	
 add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
 

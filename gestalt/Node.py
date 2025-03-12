@@ -283,12 +283,15 @@ class GroupNode(Node):
 		self.initApply(data)
 		
 		self.log("Generating group node")
-		output = None
+		output = generator.generateGroup(self, macros=data)
 		
-		if self["anonymous"]:
-			output = generator.generateAnonymousGroup(macros=data)
-		else:
-			output = generator.generateGroup(self, macros=data)
+		basically_anonymous = (int(output["border-width"]) == 0 or int(output["border-color"].val()["alpha"]) == 0) and int(output["background"].val()["alpha"]) == 0
+		
+		if output["anonymous"] or basically_anonymous:
+			temp = generator.generateAnonymousGroup()
+			temp["geometry"] = output["geometry"]
+			temp["margins"] = output["margins"]
+			output = temp
 		
 		margins = output["margins"].val()
 		border = int(output["border-width"])
