@@ -285,7 +285,7 @@ class GroupNode(Node):
 		self.log("Generating group node")
 		output = generator.generateGroup(self, macros=data)
 		
-		basically_anonymous = (int(output["border-width"]) == 0 or int(output["border-color"].val()["alpha"]) == 0) and int(output["background"].val()["alpha"]) == 0
+		basically_anonymous = (int(output["border-width"]) == 0 or int(output["border-color"].val()["alpha"]) == 0) and int(output["background"].val()["alpha"]) == 0 and self.classname != "TabNode"
 		
 		if output["anonymous"] or basically_anonymous:
 			temp = generator.generateAnonymousGroup()
