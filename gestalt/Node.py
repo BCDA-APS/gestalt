@@ -445,7 +445,7 @@ class LayoutNode(GroupNode):
 					
 				line = GroupNode(anonymous=True)
 				
-				for childnode in self.children:
+				for childnode in super().__iter__():
 					line.append(childnode)
 					
 				yield line
@@ -545,6 +545,9 @@ class FlowNode(GroupNode):
 	def initApply(self, data):
 		super().initApply(data)
 		self["last-pos"] = 0
+		
+	def __iter__(self):	
+		return self.children.__iter__()
 		
 	def positionNext(self, child):
 		if self["flow"].val() == "vertical":
