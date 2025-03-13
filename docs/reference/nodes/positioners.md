@@ -27,6 +27,16 @@ positioner's type. So if you have a Text widget, which is normally indicated wit
 type, and you want to horizontally center it within its parent, you would change that type
 to '!hcenter:Text'.
 
+Positioners are set up to be generated last among a set of unordered children nodes. This allows 
+the rest of the nodes to expand the size of a parent widget before determining positioning. Be
+careful though, as this does mean that the later generated widgets will appear above any other
+widgets they share area with, despite being written in the stylesheet earlier. You can overwrite
+this behavior by setting the "render-order" attribute to 0, but you may then have to define your
+positioner node in a later part of the stylesheet in order for it to see the correct parent height
+and width.
+
+As well, it's important to note that this is only for unordered sets of children nodes. FlowNodes
+will ignore this order and will place children nodes in the order they are defined in the template.
 
 
 ### ACenter
@@ -34,8 +44,7 @@ to '!hcenter:Text'.
 ---
 
 Positions a widget so that the midpoint of the widget matches up with the midpoint of the
-widget's parent. Note that, a parent's size is determined at the point when a widget is 
-defined. Any widgets defined afterward may affect the final size of the parent.
+widget's parent.
 
 * **Example**
 
@@ -63,9 +72,7 @@ MidPointGroup: !acenter:group
 ---
 
 Positions a widget so that the midpoint of the widget on the horizontal axis matches up 
-with the midpoint of the widget's parent on the same axis. Note that, a parent's size is 
-determined at the point when a widget is defined. Any widgets defined afterward may affect 
-the final size of the parent.
+with the midpoint of the widget's parent on the same axis.
 
 * **Example**
 
@@ -94,9 +101,7 @@ OPSElements: !hcenter:group
 ---
 
 Positions a widget so that the midpoint of the widget on the vertical axis matches up 
-with the midpoint of the widget's parent on the same axis. Note that, a parent's size 
-is determined at the point when a widget is defined. Any widgets defined afterward may 
-affect the final size of the parent.
+with the midpoint of the widget's parent on the same axis.
 
 You may also use the alias "center" to reference the vcenter node.
 
@@ -128,8 +133,6 @@ OPSElements: !vcenter:group
 ---
 
 Determines a widget's width and height to match up respectively with the widget's parent values.
-Note that, a parent's size is determined at the point when a widget is defined. Any
-widgets defined afterward may affect the final size of the parent.
 
 * **Example**
 
@@ -146,8 +149,6 @@ Fill_Parent: !astretch:Text
 ---
 
 Determines a widget's width to match up with the size of the widget's parent width.
-Note that, a parent's size is determined at the point when a widget is defined. Any
-widgets defined afterward may affect the final size of the parent.
 
 
 * **Example**
@@ -167,8 +168,6 @@ UITitle: !hstretch:Text
 ---
 
 Determines a widget's width to match up with the size of the widget's parent width.
-Note that, a parent's size is determined at the point when a widget is defined. Any
-widgets defined afterward may affect the final size of the parent.
 
 You may also use the alias "stretch" to reference the vstretch node.
 
@@ -189,10 +188,7 @@ UITitle: !vstretch:Text
 
 ---
 
-Positions a widget at the horizontal extent of its parent node. 
-
-Note that, a parent's size is determined at the point when a widget is defined. Any
-widgets defined afterward may affect the final size of the parent.
+Positions a widget at the horizontal extent of its parent node.
 
 
 * **Example**
@@ -214,9 +210,6 @@ WideGroup: !Group
 
 Positions a widget at the vertical extent of its parent node.
 
-Note that, a parent's size is determined at the point when a widget is defined. Any
-widgets defined afterward may affect the final size of the parent.
-
 You may also use the alias "anchor" to reference the vachor node.
 
 
@@ -237,9 +230,6 @@ TallGroup: !Group
 ---
 
 Positions a widget to be in the lower right corner of its parent node.
-
-Note that, a parent's size is determined at the point when a widget is defined. Any
-widgets defined afterward may affect the final size of the parent.
 
 
 * **Example**
