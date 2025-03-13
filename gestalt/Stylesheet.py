@@ -350,5 +350,12 @@ def read_file(filename, includes_locations, included_files):
 	
 	
 	
+def render_sort(item):
+	check = item[1]
+	if not isinstance(check, Node):
+		return 0
+	else:
+		return int(check["render-order"])
+	
 def parse(filename, includes_dirs):
-	return yaml.safe_load(read_file(filename, includes_dirs, []))
+	return dict(sorted(yaml.safe_load(read_file(filename, includes_dirs, [])).items(), key=render_sort))

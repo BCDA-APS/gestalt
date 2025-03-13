@@ -4,9 +4,12 @@ import math
 import pprint
 import string
 
+from enum import Enum
+
 from gestalt.Generator import GestaltGenerator
 from gestalt.Datasheet import *
 from gestalt.Type import *
+
 
 class Node(object):
 	def __init__(self, classname, name=None, node=None, layout={}, loc=None):
@@ -40,6 +43,7 @@ class Node(object):
 		
 			
 		self.setDefault(Rect, "geometry", "0x0x0x0")
+		self.makeInternal(Number, "render-order", 0)		
 	
 	def log(self, info):
 		if self.debug:
@@ -230,8 +234,8 @@ class GroupNode(Node):
 		else:
 			self.children.append(child)
 		
-	def __iter__(self):
-		return self.children.__iter__()
+	def __iter__(self):	
+		return sorted(self.children, key=lambda x: int(x["render-order"])).__iter__()
 		
 	def place(self, child, x=None, y=None, keep_original=False):
 		if (child == None):
@@ -296,7 +300,7 @@ class GroupNode(Node):
 		margins = output["margins"].val()
 		border = int(output["border-width"])
 		
-		for child in self:
+		for child in self:			
 			child_macros = copy.copy(data)
 			
 			geom = output["geometry"].val()
@@ -591,9 +595,11 @@ class ApplyNode(GroupNode):
 		
 		self.defaults = defaults
 		self.macros = macros
-		self.subnodes = subnodes
 		
-		self.tocopy.append("subnodes")
+		for item in self:
+			if int(item["render-order"]) > int(self["render-order"]):
+				self["render-order"] = item["render-order"]
+		
 		self.tocopy.append("macros")
 		self.tocopy.append("defaults")
 		
@@ -652,6 +658,7 @@ class StretchNode(Node):
 		super(StretchNode, self).__init__("Stretch", name=name, layout=layout, loc=loc)
 				
 		self.setProperty("flow", flow, internal=True)
+		self.setProperty("render-order", 1)
 		
 		self.subnode = subnode
 		self.tocopy.append("subnode")
@@ -682,6 +689,7 @@ class CenterNode(Node):
 		super(CenterNode, self).__init__("Center", name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)
+		self.setProperty("render-order", 1)
 		
 		self.subnode = subnode
 		self.tocopy.append("subnode")
@@ -708,6 +716,7 @@ class AnchorNode(Node):
 		super(AnchorNode, self).__init__("Anchor", name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)
+		self.setProperty("render-order", 1)
 		
 		self.subnode = subnode
 		self.tocopy.append("subnode")
