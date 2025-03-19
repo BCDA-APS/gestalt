@@ -50,6 +50,8 @@ _ReadWrite: !Template:PVReadWrite
         button-text: ""
         button-value: 1
         
+        read-first: False
+        
     - !HFlow
         children:
             - !If:label
@@ -73,6 +75,30 @@ _ReadWrite: !Template:PVReadWrite
                     
             - !If:desc-pv        
                 - !Spacer { geometry: "{spacing}x0" }
+                
+                
+            - !If:read-first
+                - !If:read-pv
+                    - !TextMonitor
+                        geometry: "0x0x{read-width}x{height}"
+                        background: "{read-background}"
+                        foreground: "{read-foreground}"
+                        font: "-{fontname}"
+                        pv: "{read-pv}"
+                        
+                - !If:read-pv        
+                    - !Spacer { geometry: "{spacing}x0" }
+                        
+                - !If:units
+                    - !Text
+                        geometry: "0x0x{units-width}x{height}"
+                        background: "{units-background}"
+                        foreground: "{units-foreground}"
+                        font: "-{fontname}"
+                        text: "{units}"
+                        
+                - !If:units
+                    - !Spacer { geometry: "{spacing}x0" }
                     
             - !If:entry-pv
                 - !TextEntry
@@ -103,24 +129,25 @@ _ReadWrite: !Template:PVReadWrite
                     value: "{button-value}"
                     text:  "{button-text}"
                     
-            - !If:button-pv
-                - !Spacer { geometry: "{spacing}x0" }
+            - !IfNot:read-first
+                - !If:button-pv
+                    - !Spacer { geometry: "{spacing}x0" }
                     
-            - !If:read-pv
-                - !TextMonitor
-                    geometry: "0x0x{read-width}x{height}"
-                    background: "{read-background}"
-                    foreground: "{read-foreground}"
-                    font: "-{fontname}"
-                    pv: "{read-pv}"
-                    
-            - !If:read-pv        
-                - !Spacer { geometry: "{spacing}x0" }
-                    
-            - !If:units
-                - !Text
-                    geometry: "0x0x{units-width}x{height}"
-                    background: "{units-background}"
-                    foreground: "{units-foreground}"
-                    font: "-{fontname}"
-                    text: "{units}"
+                - !If:read-pv
+                    - !TextMonitor
+                        geometry: "0x0x{read-width}x{height}"
+                        background: "{read-background}"
+                        foreground: "{read-foreground}"
+                        font: "-{fontname}"
+                        pv: "{read-pv}"
+                        
+                - !If:read-pv        
+                    - !Spacer { geometry: "{spacing}x0" }
+                        
+                - !If:units
+                    - !Text
+                        geometry: "0x0x{units-width}x{height}"
+                        background: "{units-background}"
+                        foreground: "{units-foreground}"
+                        font: "-{fontname}"
+                        text: "{units}"

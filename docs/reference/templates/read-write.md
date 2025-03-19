@@ -30,7 +30,8 @@ The possible elements that are included are:
 * a Text label for appending units onto the readback
 
 Each of the elements are disabled by default and enabled by providing a value for their text (for labels) or pv (for input/output fields).
-Enabled elements are displayed in a horizontal row in the order shown above.
+By default, enabled elements are displayed in a horizontal row in the order shown above. The attribute "read-first" will move the readback
+and units label before the input fields, but still after the description.
 
 * **Attributes**
 
@@ -74,6 +75,8 @@ Enabled elements are displayed in a horizontal row in the order shown above.
 | units           | String | Display text for units element | 
 | button-text     | String | Display text for MessageButton element | 
 | button-value    | String | Value to send MessageButton pv |
+| /////////////// | ////// | /////////////////////////////////////////////////////// |
+| read-first      | Bool   | Swaps the location of the output fields and the readback |
 
 
 * **Example**
