@@ -86,9 +86,11 @@ _ReadWrite: !Template:PVReadWrite
                         font: "-{fontname}"
                         pv: "{read-pv}"
                         
-                - !If:read-pv        
+            - !If:read-first            
+                - !If:read-pv
                     - !Spacer { geometry: "{spacing}x0" }
-                        
+            
+            - !If:read-first
                 - !If:units
                     - !Text
                         geometry: "0x0x{units-width}x{height}"
@@ -96,7 +98,7 @@ _ReadWrite: !Template:PVReadWrite
                         foreground: "{units-foreground}"
                         font: "-{fontname}"
                         text: "{units}"
-                        
+            - !If:read-first
                 - !If:units
                     - !Spacer { geometry: "{spacing}x0" }
                     
@@ -132,7 +134,8 @@ _ReadWrite: !Template:PVReadWrite
             - !IfNot:read-first
                 - !If:button-pv
                     - !Spacer { geometry: "{spacing}x0" }
-                    
+            
+            - !IfNot:read-first
                 - !If:read-pv
                     - !TextMonitor
                         geometry: "0x0x{read-width}x{height}"
@@ -141,9 +144,11 @@ _ReadWrite: !Template:PVReadWrite
                         font: "-{fontname}"
                         pv: "{read-pv}"
                         
+            - !IfNot:read-first
                 - !If:read-pv        
                     - !Spacer { geometry: "{spacing}x0" }
-                        
+                    
+            - !IfNot:read-first
                 - !If:units
                     - !Text
                         geometry: "0x0x{units-width}x{height}"
