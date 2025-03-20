@@ -459,7 +459,7 @@ class RepeatNode(LayoutNode):
 	
 		self.setProperty("flow", flow, internal=True)
 		
-	def positionNext(self, line):
+	def positionNext(self, line):		
 		if self["flow"].val() == "vertical":
 			line.position(x=None, y= self["last-y"].val())
 			self["last-y"] = self["last-y"].val() + line["geometry"]["height"] + int(self["padding"])
@@ -544,6 +544,7 @@ class FlowNode(GroupNode):
 	
 	def initApply(self, data):
 		super().initApply(data)
+		self["padding"].apply(data)
 		self["last-pos"] = 0
 		
 	def __iter__(self):	
@@ -582,12 +583,13 @@ class ConditionalNode(GroupNode):
 		except KeyError:
 			if "{" in my_condition.value:
 				conditional = str(my_condition)
-							
+
 		if bool(conditional) != invert:
 			for childnode in self.children:	
 				output.place(childnode.apply(generator, data=data))
 				
-			return output
+			if len(output.children):
+				return output
 		
 		return None
 		
