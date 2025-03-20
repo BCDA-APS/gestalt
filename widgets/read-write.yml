@@ -53,6 +53,7 @@ _ReadWrite: !Template:PVReadWrite
         read-first: False
         
     - !HFlow
+        padding: "{spacing}"
         children:
             - !If:label
                 - !Text
@@ -63,9 +64,6 @@ _ReadWrite: !Template:PVReadWrite
                     foreground: "{label-foreground}"
                     text: "{label}"
                     
-            - !If:label        
-                - !Spacer { geometry: "{spacing}x0" }
-                
             - !If:desc-pv
                 - !TextEntry
                     geometry: "0x0x{desc-width}x{height}"
@@ -73,10 +71,6 @@ _ReadWrite: !Template:PVReadWrite
                     foreground: "{desc-foreground}"
                     pv: "{desc-pv}"
                     
-            - !If:desc-pv        
-                - !Spacer { geometry: "{spacing}x0" }
-                
-                
             - !If:read-first
                 - !If:read-pv
                     - !TextMonitor
@@ -86,10 +80,6 @@ _ReadWrite: !Template:PVReadWrite
                         font: "-{fontname}"
                         pv: "{read-pv}"
                         
-            - !If:read-first            
-                - !If:read-pv
-                    - !Spacer { geometry: "{spacing}x0" }
-            
             - !If:read-first
                 - !If:units
                     - !Text
@@ -98,9 +88,6 @@ _ReadWrite: !Template:PVReadWrite
                         foreground: "{units-foreground}"
                         font: "-{fontname}"
                         text: "{units}"
-            - !If:read-first
-                - !If:units
-                    - !Spacer { geometry: "{spacing}x0" }
                     
             - !If:entry-pv
                 - !TextEntry
@@ -109,18 +96,12 @@ _ReadWrite: !Template:PVReadWrite
                     foreground: "{entry-foreground}"
                     pv: "{entry-pv}"
                     
-            - !If:entry-pv        
-                - !Spacer { geometry: "{spacing}x0" }
-                    
             - !If:menu-pv
                 - !Menu
                     geometry: "0x0x{menu-width}x{height}"
                     background: "{menu-background}"
                     foreground: "{menu-foreground}"
                     pv: "{menu-pv}"
-            
-            - !If:menu-pv
-                - !Spacer { geometry: "{spacing}x0" }
         
             - !If:button-pv
                 - !MessageButton
@@ -130,10 +111,6 @@ _ReadWrite: !Template:PVReadWrite
                     pv:    "{button-pv}"
                     value: "{button-value}"
                     text:  "{button-text}"
-                    
-            - !IfNot:read-first
-                - !If:button-pv
-                    - !Spacer { geometry: "{spacing}x0" }
             
             - !IfNot:read-first
                 - !If:read-pv
@@ -143,10 +120,6 @@ _ReadWrite: !Template:PVReadWrite
                         foreground: "{read-foreground}"
                         font: "-{fontname}"
                         pv: "{read-pv}"
-                        
-            - !IfNot:read-first
-                - !If:read-pv        
-                    - !Spacer { geometry: "{spacing}x0" }
                     
             - !IfNot:read-first
                 - !If:units
