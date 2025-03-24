@@ -375,13 +375,18 @@ def generateCSSFile(template, data, outputfile=""):
 					a_display.setProperty(key, val)
 				a_display.updateProperties(data)
 			else:
-				data.update({
-					"__parentx__" : a_display.content["geometry"]["x"],
-					"__parenty__" : a_display.content["geometry"]["y"],
-					"__parentwidth__" : a_display.content["geometry"]["width"],
-					"__parentheight__" : a_display.content["geometry"]["height"]})
-					
-				a_display.place(item.apply(the_generator, data=data))
-
+				applier = item.apply(the_generator)
+				
+				while True:
+					data.update({
+						"__parentx__" : a_display.content["geometry"]["x"],
+						"__parenty__" : a_display.content["geometry"]["y"],
+						"__parentwidth__" : a_display.content["geometry"]["width"],
+						"__parentheight__" : a_display.content["geometry"]["height"]})
+				
+					try:
+						a_display.place(applier.send(data))
+					except StopIteration:
+						break
 						
 	a_display.writeCSS(outputfile)

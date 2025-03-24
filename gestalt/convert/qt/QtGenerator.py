@@ -382,14 +382,19 @@ def generateQtFile(template, data, outputfile=""):
 					a_display.setProperty(key, val)
 				a_display.updateProperties(data)
 			else:
-				data.update({
-					"__parentx__" : a_display["geometry"]["x"],
-					"__parenty__" : a_display["geometry"]["y"],
-					"__parentwidth__" : a_display["geometry"]["width"],
-					"__parentheight__" : a_display["geometry"]["height"]})
-			
-				a_display.place(item.apply(the_generator, data=data))
-
+				applier = item.apply(the_generator)
+				
+				while True:
+					data.update({
+						"__parentx__" : a_display["geometry"]["x"],
+						"__parenty__" : a_display["geometry"]["y"],
+						"__parentwidth__" : a_display["geometry"]["width"],
+						"__parentheight__" : a_display["geometry"]["height"]})
+					
+					try:
+						a_display.place(applier.send(data))
+					except StopIteration:
+						break
 						
 	a_display.writeQt(outputfile)
 
