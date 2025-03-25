@@ -385,6 +385,7 @@ def generateCSSFile(template, data, outputfile=""):
 						"__parentheight__" : a_display.content["geometry"]["height"]})
 				
 					try:
+						next(applier)
 						a_display.place(applier.send(data))
 					except StopIteration:
 						break

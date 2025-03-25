@@ -50,7 +50,7 @@ class Node(object):
 		
 			
 		self.setDefault(Rect, "geometry", "0x0x0x0")
-		self.makeInternal(Number, "render-order", 0)		
+		self.makeInternal(Number, "render-order", 0)
 	
 	def log(self, info):
 		if self.debug:
@@ -173,12 +173,12 @@ class Node(object):
 				
 		return self
 
-	@wait_for_data
+	
 	def apply (self, generator):
 		data = yield
 		
 		gen_func = getattr(generator, "generate" + self.classname, None)
-				
+		
 		if gen_func:
 			self.log("Generating " + self.classname)
 			yield gen_func(self, macros=data)
@@ -292,7 +292,7 @@ class GroupNode(Node):
 	def updateMacros(self, macros):
 		pass
 			
-	@wait_for_data
+	
 	def apply (self, generator):
 		data = yield
 		
@@ -329,6 +329,7 @@ class GroupNode(Node):
 				self.updateMacros(child_macros)
 				
 				try:
+					next(applier)
 					widget = applier.send(child_macros)
 					
 					if widget:
@@ -338,7 +339,6 @@ class GroupNode(Node):
 				except StopIteration:
 					break
 				
-			
 		yield output
 		
 	def __deepcopy__(self, memo):
@@ -365,7 +365,7 @@ class TabbedGroupNode(GroupNode):
 		self.setDefault(Number, "tabbar-height",  0, internal = True)
 		self.setDefault(Font,   "font",           "-Liberation Sans - Regular - 12")
 		
-	@wait_for_data
+	
 	def apply(self, generator):
 		data = yield
 		
@@ -396,6 +396,7 @@ class TabbedGroupNode(GroupNode):
 			
 			while True:
 				try:
+					next(applier)
 					child_macros = copy.copy(data)
 					widget = applier.send(child_macros)
 					
@@ -595,7 +596,7 @@ class ConditionalNode(GroupNode):
 		
 		self.tocopy.append("condition")
 		
-	@wait_for_data
+	
 	def apply(self, generator):
 		data = yield
 		
@@ -615,20 +616,20 @@ class ConditionalNode(GroupNode):
 			if "{" in my_condition.value:
 				conditional = str(my_condition)
 
-		if bool(conditional) != invert:
+		if bool(conditional) != invert:		
 			for childnode in self.children:
 				applier = childnode.apply(generator)
 				
 				while True:
 					try:
+						next(applier)
 						output.place(applier.send(data))
+						
 					except StopIteration:
 						break
 				
 			if len(output.children):
 				yield output
-		
-		yield None
 		
 		
 class ApplyNode(GroupNode):
@@ -687,7 +688,7 @@ class SpacerNode(Node):
 	def __init__(self, layout={}, loc=None):
 		super(SpacerNode, self).__init__("Spacer", layout=layout, loc=loc)
 	
-	@wait_for_data
+	
 	def apply(self, generator):
 		data = yield
 		
@@ -708,32 +709,30 @@ class StretchNode(Node):
 		self.subnode = subnode
 		self.tocopy.append("subnode")
 		
-	@wait_for_data
+	
 	def apply (self, generator):
-		data = yield
-		
-		applied_node = copy.deepcopy(self.subnode)
+		if self.name:
+			self.subnode.name = self.name
 		
 		flow = self["flow"].val()
-		
-		if flow == "vertical" or flow == "all":
-			applied_node["geometry"]["height"] = data["__parentheight__"]
-		if flow == "horizontal" or flow=="all":
-			applied_node["geometry"]["width"] = data["__parentwidth__"]
 			
-		if self.name:
-			applied_node.name = self.name
+		applier = self.subnode.apply(generator)
 		
-		try:
-			applier = applied_node.apply(generator)
-			applied_node = applier.send(data)
-			
-			applied_node["geometry"]["x"] = applied_node["geometry"]["x"] + self["geometry"]["x"]
-			applied_node["geometry"]["y"] = applied_node["geometry"]["y"] + self["geometry"]["y"]
+		while True:
+			data = yield
+		
+			try: 
+				next(applier)
+				applied_node = applier.send(data)
 				
-			yield applied_node
-		except StopIteration:
-			yield None
+				if flow == "vertical" or flow == "all":
+					applied_node["geometry"]["height"] = data["__parentheight__"]
+				if flow == "horizontal" or flow=="all":
+					applied_node["geometry"]["width"] = data["__parentwidth__"]
+			
+				yield applied_node
+			except StopIteration:
+				return
 
 		
 class CenterNode(Node):
@@ -746,29 +745,38 @@ class CenterNode(Node):
 		self.subnode = subnode
 		self.tocopy.append("subnode")
 		
-	@wait_for_data
+	
 	def apply (self, generator):
-		data = yield
-		
 		if self.name:
 			self.subnode.name = self.name
-			
-		applier = self.subnode.apply(generator)
 		
-		try:
-			applied_node = applier.send(data)
-			flow = self["flow"].val()
+		flow = self["flow"].val()
+		
+		applier = self.subnode.apply(generator)
+		applied_node = None
+		
+		index = 0
+		
+		while True:			
+			data = yield
 			
-			if flow == "vertical":
-				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
-			elif flow == "horizontal":
-				applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
-			elif flow == "all":
-				applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
-						
-			yield applied_node
-		except StopIteration:
-			yield None
+			# Adjust position of previously returned node (accounts for size changes of parent widget)
+			if applied_node:
+				if flow == "vertical":
+					applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+				elif flow == "horizontal":
+					applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
+				elif flow == "all":
+					applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+				
+			try:
+				next(applier)
+				applied_node = applier.send(data)
+				
+				yield applied_node
+				
+			except StopIteration:
+				return
 		
 		
 
@@ -783,29 +791,33 @@ class AnchorNode(Node):
 		self.tocopy.append("subnode")
 		
 		
-	@wait_for_data
+	
 	def apply (self, generator):
-		data = yield
-		
 		if self.name:
 			self.subnode.name = self.name
 			
-		try:
-			applier = self.subnode.apply(generator)
-			applied_node = applier.send(data)
-				
-			flow = self["flow"].val()
+		flow = self["flow"].val()
 			
-			if flow == "vertical":
-				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
-			elif flow == "horizontal":
-				applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
-			elif flow == "all":
-				applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
-						
-			yield applied_node	
-		except StopIteration:
-			yield None
+		applier = self.subnode.apply(generator)
+		
+		while True:	
+			data = yield
+			
+			try: 
+				next(applier)
+				applied_node = applier.send(data)
+				
+				if flow == "vertical":
+					applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+				elif flow == "horizontal":
+					applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
+				elif flow == "all":
+					applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+				
+				yield applied_node	
+		
+			except StopIteration:
+				return
 		
 		
 class RelatedDisplayNode(Node):

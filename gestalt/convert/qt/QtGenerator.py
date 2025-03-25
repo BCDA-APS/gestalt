@@ -392,6 +392,7 @@ def generateQtFile(template, data, outputfile=""):
 						"__parentheight__" : a_display["geometry"]["height"]})
 					
 					try:
+						next(applier)
 						a_display.place(applier.send(data))
 					except StopIteration:
 						break
