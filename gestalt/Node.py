@@ -10,14 +10,6 @@ from gestalt.Generator import GestaltGenerator
 from gestalt.Datasheet import *
 from gestalt.Type import *
 
-def wait_for_data(need_start_func):
-    def start_func(*args, **kwargs):
-        output = need_start_func(*args, **kwargs)
-        next(output)
-        return output
-    return start_func
-
-
 class Node(object):
 	def __init__(self, classname, name=None, node=None, layout={}, loc=None):
 		self.classname = classname
@@ -315,7 +307,7 @@ class GroupNode(Node):
 		for child in self:
 			applier = child.apply(generator)
 			
-			while True:
+			for increment in applier:
 				child_macros = copy.copy(data)
 				
 				geom = output["geometry"].val()
@@ -328,17 +320,16 @@ class GroupNode(Node):
 					
 				self.updateMacros(child_macros)
 				
+				# Center Node wants to stop iteration in send, so we need try/except
 				try:
-					next(applier)
 					widget = applier.send(child_macros)
-					
+			
 					if widget:
 						self.positionNext(widget)
 						output.place(widget)
-						
-				except StopIteration:
+				except:
 					break
-				
+
 		yield output
 		
 	def __deepcopy__(self, memo):
@@ -394,17 +385,17 @@ class TabbedGroupNode(GroupNode):
 			
 			applier = childnode.apply(generator)
 			
-			while True:
+			for increment in applier:
+				child_macros = copy.copy(data)
+				
 				try:
-					next(applier)
-					child_macros = copy.copy(data)
 					widget = applier.send(child_macros)
-					
+						
 					if widget:
 						output.place(widget)
-				except StopIteration:
+				except:
 					break
-			
+				
 		yield output
 
 
@@ -588,11 +579,16 @@ class FlowNode(GroupNode):
 			child.position(x=self["last-pos"].val(), y=None)
 			self["last-pos"] = self["last-pos"].val() + child["geometry"]["width"] + int(self["padding"])
 		
+			
 class ConditionalNode(GroupNode):
 	def __init__(self, layout={}, loc=None):
 		super(ConditionalNode, self).__init__("caFrame", layout=layout, loc=loc)
 		
 		self.condition = self.pop("condition", "")
+		
+		for item in self:
+			if int(item["render-order"]) > int(self["render-order"]):
+				self["render-order"] = item["render-order"]
 		
 		self.tocopy.append("condition")
 		
@@ -620,16 +616,18 @@ class ConditionalNode(GroupNode):
 			for childnode in self.children:
 				applier = childnode.apply(generator)
 				
-				while True:
+				for increment in applier:
 					try:
-						next(applier)
-						output.place(applier.send(data))
-						
-					except StopIteration:
+						widget = applier.send(data)
+						output.place(widget)
+					except:
 						break
 				
 			if len(output.children):
 				yield output
+				return
+			
+		yield None
 		
 		
 class ApplyNode(GroupNode):
@@ -718,21 +716,17 @@ class StretchNode(Node):
 			
 		applier = self.subnode.apply(generator)
 		
-		while True:
+		for increment in applier:
 			data = yield
-		
-			try: 
-				next(applier)
-				applied_node = applier.send(data)
-				
-				if flow == "vertical" or flow == "all":
-					applied_node["geometry"]["height"] = data["__parentheight__"]
-				if flow == "horizontal" or flow=="all":
-					applied_node["geometry"]["width"] = data["__parentwidth__"]
 			
-				yield applied_node
-			except StopIteration:
-				return
+			applied_node = applier.send(data)	
+				
+			if flow == "vertical" or flow == "all":
+				applied_node["geometry"]["height"] = data["__parentheight__"]
+			if flow == "horizontal" or flow=="all":
+				applied_node["geometry"]["width"] = data["__parentwidth__"]
+			
+			yield applied_node
 
 		
 class CenterNode(Node):
@@ -757,7 +751,7 @@ class CenterNode(Node):
 		
 		index = 0
 		
-		while True:			
+		for increment in applier:
 			data = yield
 			
 			# Adjust position of previously returned node (accounts for size changes of parent widget)
@@ -769,15 +763,17 @@ class CenterNode(Node):
 				elif flow == "all":
 					applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 				
-			try:
-				next(applier)
-				applied_node = applier.send(data)
+			applied_node = applier.send(data)
 				
-				yield applied_node
-				
-			except StopIteration:
-				return
-		
+			yield applied_node
+		else:
+			if flow == "vertical":
+				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+			elif flow == "horizontal":
+				applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
+			elif flow == "all":
+				applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+
 		
 
 class AnchorNode(Node):
@@ -789,8 +785,6 @@ class AnchorNode(Node):
 		
 		self.subnode = subnode
 		self.tocopy.append("subnode")
-		
-		
 	
 	def apply (self, generator):
 		if self.name:
@@ -800,24 +794,19 @@ class AnchorNode(Node):
 			
 		applier = self.subnode.apply(generator)
 		
-		while True:	
+		for increment in applier:
 			data = yield
 			
-			try: 
-				next(applier)
-				applied_node = applier.send(data)
-				
-				if flow == "vertical":
-					applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
-				elif flow == "horizontal":
-					applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
-				elif flow == "all":
-					applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
-				
-				yield applied_node	
-		
-			except StopIteration:
-				return
+			applied_node = applier.send(data)
+			
+			if flow == "vertical":
+				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+			elif flow == "horizontal":
+				applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
+			elif flow == "all":
+				applied_node.position(x=int(data["__parentwidth__"]) - int(applied_node["geometry"]["width"]), y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))
+			
+			yield applied_node	
 		
 		
 class RelatedDisplayNode(Node):
