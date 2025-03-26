@@ -1,3 +1,4 @@
+import os
 import re
 import yaml
 import json
@@ -24,13 +25,55 @@ def parseJSONFile(filename):
 def parseJSONString(data):
 	return json.loads(data) or {}
 	
+	
+	
+include_regex = re.compile(r'^#include\s*(.*)$')
+
+def read_file(filename, includes_locations, included_files):
+	the_data_out = ""
+	
+	with open (filename) as the_file:
+		the_data_in = the_file.readlines()
+		
+		for line in the_data_in:
+			check = include_regex.match(line)
+			
+			if check:
+				include_file = check.group(1).strip()
+				include_file_path = ""
+				
+				for check_dir in includes_locations:
+					
+					test_path = os.path.abspath(check_dir + "/" + include_file)
+						
+					if os.path.exists(test_path):
+						include_file_path = test_path
+						break
+					
+				
+				if include_file_path == "":
+					print( "Include file does not exist in path (" + include_file + ")")
+					continue
+				
+				
+				if include_file not in included_files:
+					included_files.append(include_file)
+					the_data_out += read_file(include_file_path, includes_locations, included_files)
+					
+			else:
+				the_data_out += line
+				
+	return the_data_out
+
+	
 def parseYAMLFile(filename):
-	with open(filename) as the_file:
-		return yaml.safe_load(the_file.read()) or {}
+	return yaml.safe_load(read_file(filename, [os.path.dirname(filename)], []))
 
 def parseYAMLString(data):
-	return yaml.safe_load(data) or {}
+	return yaml.safe_load(data) or {}	
 
+	
+	
 def parseSubstitutionFile(filename):
 	output = {}
 	
