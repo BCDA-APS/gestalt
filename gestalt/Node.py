@@ -304,6 +304,8 @@ class GroupNode(Node):
 		margins = output["margins"].val()
 		border = int(output["border-width"])
 		
+		placed = False
+		
 		for child in self:
 			applier = child.apply(generator)
 			
@@ -323,14 +325,16 @@ class GroupNode(Node):
 				# Center Node wants to stop iteration in send, so we need try/except
 				try:
 					widget = applier.send(child_macros)
-			
+					
 					if widget:
+						placed = True
 						self.positionNext(widget)
 						output.place(widget)
 				except:
 					break
 
-		yield output
+		if placed:
+			yield output
 		
 	def __deepcopy__(self, memo):
 		output = super().__deepcopy__(memo)
@@ -479,7 +483,7 @@ class RepeatNode(LayoutNode):
 	
 		self.setProperty("flow", flow, internal=True)
 		
-	def positionNext(self, line):		
+	def positionNext(self, line):
 		if self["flow"].val() == "vertical":
 			line.position(x=None, y= self["last-y"].val())
 			self["last-y"] = self["last-y"].val() + line["geometry"]["height"] + int(self["padding"])
