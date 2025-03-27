@@ -77,6 +77,7 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{read-width}x{height}"
                         background: "{read-background}"
                         foreground: "{read-foreground}"
+                        alignment: BottomRight
                         font: "-{fontname}"
                         pv: "{read-pv}"
                         
@@ -86,6 +87,7 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{units-width}x{height}"
                         background: "{units-background}"
                         foreground: "{units-foreground}"
+                        alignment: BottomLeft
                         font: "-{fontname}"
                         text: "{units}"
                     
@@ -118,6 +120,7 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{read-width}x{height}"
                         background: "{read-background}"
                         foreground: "{read-foreground}"
+                        alignment: CenterRight
                         font: "-{fontname}"
                         pv: "{read-pv}"
                     
@@ -127,5 +130,6 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{units-width}x{height}"
                         background: "{units-background}"
                         foreground: "{units-foreground}"
+                        alignment: CenterLeft
                         font: "-{fontname}"
                         text: "{units}"
