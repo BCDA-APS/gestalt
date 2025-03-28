@@ -35,18 +35,21 @@ _EmbeddedMotor: !Template:EmbeddedMotor
                 background: *header_blue
                 
                 children:
+                    - !AStretch:TextMonitor { foreground: *white, pv: "{motor-pv}.DESC" }
+                    
                     - !AStretch:Group
                         visibility: "{motor-pv}:TorqueDisplay"
                         children:
                             - !HAnchor:VCenter:HFlow
+                                background: *header_blue
                                 children:
+                                    - !Spacer { geometry: 5x0 }
+                                    
                                     - !Apply:OnOffLED
                                         size: 16
                                         control-pv: "{motor-pv}.CNEN"
                                         
                                     - !Spacer { geometry: 5x0 }
-                                        
-                    - !TextMonitor { foreground: *white, geometry: 125x21, pv: "{motor-pv}.DESC" }
                 
                     
             - !HCenter:VFlow
