@@ -16,6 +16,7 @@ class Node(object):
 		self.name = name
 		self.location = loc
 		self.debug = False
+		self.placed_order = None
 		
 		self.properties = {}
 		self.properties["attrs"] = {}
@@ -27,6 +28,7 @@ class Node(object):
 			self.name = node.name
 			self.location = node.location
 			self.debug = node.debug
+			self.placed_order = node.placed_order
 			
 			for typ in ( "attrs", "internal" ):
 				for key,val in node.properties[typ].items():
@@ -43,7 +45,9 @@ class Node(object):
 			
 		self.setDefault(Rect, "geometry", "0x0x0x0")
 		self.makeInternal(Number, "render-order", 0)
+		self.makeInternal(Number, "z-order", 0)
 	
+		
 	def log(self, info):
 		if self.debug:
 			print(str(self.name) + ": " + info)
@@ -52,7 +56,8 @@ class Node(object):
 	def setDefault(self, datatype, key, default, internal=False):
 		which = "internal" if internal else "attrs"
 		self.properties[which][key] = datatype(self.properties[which].pop(key, default))
-			
+		
+		
 	def link(self, newkey, oldkey, conversion=None):
 		which = "attrs"
 		
@@ -71,13 +76,15 @@ class Node(object):
 				return None
 
 		self.properties[which][newkey] = olddata
-				
+		
+		
 	def pop(self, key, default=None):
 		if key in self.properties["internal"]:
 			return self.properties["internal"].pop(key, default)
 		else:
 			return self.properties["attrs"].pop(key, default)
 		
+			
 	def makeInternal(self, datatype, key, default=None):
 		if key not in self.properties["internal"]:
 			self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key, default))
@@ -186,6 +193,7 @@ class Node(object):
 		output.name = self.name
 		output.location = self.location
 		output.debug = self.debug
+		output.placed_order = self.placed_order
 		
 		output.properties = {}
 		output.properties["attrs"] = copy.copy(self.properties["attrs"])
@@ -230,13 +238,22 @@ class GroupNode(Node):
 	def append(self, child, keep_original=False):
 		self.log("Adding child node " + child.__repr__())
 		
-		if not keep_original:
-			self.children.append(copy.deepcopy(child))
-		else:
-			self.children.append(child)
+		to_append = child
 		
-	def __iter__(self):			
+		if not keep_original:
+			to_append = copy.deepcopy(child)
+			
+		if not to_append.placed_order:
+			to_append.placed_order = len(self.children)
+			
+		self.children.append(to_append)
+		
+	def __iter__(self):
 		return sorted(self.children, key=lambda x: int(x["render-order"])).__iter__()
+		
+	def write_order(self):
+		return sorted(self.children, key=lambda x: (int(x.placed_order or 0), int(x["z-order"]))).__iter__()
+		
 		
 	def place(self, child, x=None, y=None, keep_original=False):
 		if (child == None):
@@ -306,7 +323,7 @@ class GroupNode(Node):
 		
 		placed = False
 		
-		for child in self:
+		for child in self:			
 			applier = child.apply(generator)
 			
 			for increment in applier:
@@ -328,6 +345,7 @@ class GroupNode(Node):
 					
 					if widget:
 						placed = True
+						widget.placed_order = child.placed_order
 						self.positionNext(widget)
 						output.place(widget)
 				except:
@@ -596,8 +614,8 @@ class ConditionalNode(GroupNode):
 		self.condition = self.pop("condition", "")
 		
 		for item in self:
-			if int(item["render-order"]) > int(self["render-order"]):
-				self["render-order"] = item["render-order"]
+			self["render-order"] = max(int(item["render-order"]), int(self["render-order"]))
+			self["z-order"]      = max(int(item["z-order"]), int(self["z-order"]))
 		
 		self.tocopy.append("condition")
 		
@@ -647,8 +665,8 @@ class ApplyNode(GroupNode):
 		self.macros = macros
 		
 		for item in self:
-			if int(item["render-order"]) > int(self["render-order"]):
-				self["render-order"] = item["render-order"]
+			self["render-order"] = max(int(item["render-order"]), int(self["render-order"]))
+			self["z-order"]      = max(int(item["z-order"]), int(self["z-order"]))
 		
 		self.tocopy.append("macros")
 		self.tocopy.append("defaults")
@@ -735,7 +753,8 @@ class StretchNode(Node):
 			if flow == "horizontal" or flow=="all":
 				the_node["geometry"]["width"] = data["__parentwidth__"]
 			
-			applied_node = applier.send(data)	
+			applied_node = applier.send(data)
+			applied_node.placed_order = self.placed_order
 			
 			yield applied_node
 
@@ -775,6 +794,7 @@ class CenterNode(Node):
 					applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
 				
 			applied_node = applier.send(data)
+			applied_node.placed_order = self.placed_order
 				
 			yield applied_node
 		else:
@@ -809,6 +829,7 @@ class AnchorNode(Node):
 			data = yield
 			
 			applied_node = applier.send(data)
+			applied_node.placed_order = self.placed_order
 			
 			if flow == "vertical":
 				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentheight__"]) - int(applied_node["geometry"]["height"]))

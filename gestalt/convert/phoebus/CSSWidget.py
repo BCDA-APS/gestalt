@@ -399,7 +399,7 @@ class CSSWidget(GroupNode):
 					self.widget.line_style_solid()
 			
 			
-		for child in self.children:
+		for child in self.write_order():
 			child.write(self.widget)
 			
 		screen.add_widget(self.widget)

@@ -133,7 +133,7 @@ class QtWidget(GroupNode):
 			else:
 				tree.end("property")
 						
-		for child in self:
+		for child in self.write_order():
 			child.write(tree)
 			
 		tree.end("widget")
