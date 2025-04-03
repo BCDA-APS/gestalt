@@ -2,7 +2,7 @@ from phoebusgen import screen
 
 from gestalt.Type import *
 
-from gestalt.Node import GroupNode
+from gestalt.nodes.GroupNode import GroupNode
 from gestalt.convert.phoebus.CSSAnonymous   import CSSAnonymous
 
 class CSSDisplay(CSSAnonymous):

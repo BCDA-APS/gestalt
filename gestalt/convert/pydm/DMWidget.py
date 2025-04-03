@@ -2,7 +2,7 @@ from gestalt.Type import *
 from gestalt.convert.pydm.DMTypes import *
 
 from gestalt.Generator import GestaltGenerator
-from gestalt.Node import GroupNode
+from gestalt.nodes.GroupNode import GroupNode
 
 import json
 

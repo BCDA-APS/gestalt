@@ -2,7 +2,7 @@ import re
 import ast
 import pathlib
 
-from gestalt.Node import *
+from gestalt.nodes.Node import Node
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
 

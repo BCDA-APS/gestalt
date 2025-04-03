@@ -1,6 +1,6 @@
 from gestalt.Type import *
 
-from gestalt.Node import GroupNode
+from gestalt.nodes.GroupNode import GroupNode
 
 name_numbering = {}
 

@@ -1,6 +1,6 @@
 from gestalt.Type import *
 
-from gestalt.Node import GroupNode
+from gestalt.nodes.GroupNode import GroupNode
 from gestalt.Generator import GestaltGenerator
 
 from phoebusgen import widget

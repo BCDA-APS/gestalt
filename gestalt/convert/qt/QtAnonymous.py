@@ -13,6 +13,6 @@ class QtAnonymous(QtWidget):
 			child_geom = child["geometry"].val()
 			
 			child.position(x=my_geom["x"] + child_geom["x"], y=my_geom["y"] + child_geom["y"])
-			
+					
 			child.write(tree)
 	

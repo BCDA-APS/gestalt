@@ -51,8 +51,8 @@ class QtRelatedDisplay(QtWidget):
 		
 		self.tocopy.append("button")
 		self.tocopy.append("links")
-		
-		
+
+
 	def updateProperties(self, macros={}):
 		super(QtRelatedDisplay, self).updateProperties(macros)
 		self.button.updateProperties(macros)

@@ -6,7 +6,7 @@ from yaml.constructor import ConstructorError
 
 import pprint
 
-from gestalt.Node import *
+from gestalt.nodes import *
 from gestalt.Type import *
 
 ##########################
