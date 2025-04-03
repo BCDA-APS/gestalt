@@ -51,19 +51,17 @@ class Node(object):
 	def log(self, info):
 		if self.debug:
 			print(str(self.name) + ": " + info)
-		
-		
+			
 	def setDefault(self, datatype, key, default, internal=False):
 		which = "internal" if internal else "attrs"
 		self.properties[which][key] = datatype(self.properties[which].pop(key, default))
-		
+	
+	def makeInternal(self, datatype, key, default=None):
+		self.setDefault(datatype, key, self.properties["attrs"].pop(key, default), internal=True)
 		
 	def link(self, newkey, oldkey, conversion=None):
-		which = "attrs"
-		
-		if oldkey in self.properties["internal"]:
-			which = "internal"
-		
+		which = "internal" if oldkey in self.properties["internal"] else "attrs"
+				
 		olddata = self.properties[which].pop(oldkey)
 			
 		if conversion:
@@ -84,13 +82,6 @@ class Node(object):
 		else:
 			return self.properties["attrs"].pop(key, default)
 		
-			
-	def makeInternal(self, datatype, key, default=None):
-		if key not in self.properties["internal"]:
-			self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key, default))
-		elif key in self.properties["attrs"]:
-			self.properties["internal"][key] = datatype(self.properties["attrs"].pop(key))
-		
 	def updateProperties(self, macros={}):
 		if len(macros) == 0: return
 		
@@ -101,6 +92,7 @@ class Node(object):
 		
 		for attr in self.properties["attrs"].values():
 			attr.apply(macros)
+			
 			
 	def setProperty(self, key, input, internal=False):
 		to_assign = None
@@ -122,10 +114,7 @@ class Node(object):
 		else:
 			to_assign = copy.deepcopy(input)
 
-		which = "attrs"
-			
-		if key in self.properties["internal"] or internal:
-			which = "internal"
+		which = "internal" if key in self.properties["internal"] else "attrs"
 			
 		if isinstance(to_assign, DataType):
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + str(to_assign.value))
@@ -133,18 +122,10 @@ class Node(object):
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + pprint.pformat(to_assign))
 			
 		self.properties[which][key] = to_assign
-	
 		
-	def setProperties(self, layout={"internal" : {}, "attrs" : {}}):
-		for key, val in layout["internal"].items():
-			self.setProperty(key, val, internal=True)
-			
-		for key, val in layout["attrs"].items():
-			self.setProperty(key, val)
-	
 		
 	def getProperty(self, key, internal=False):
-		if key not in self.properties["attrs"] or internal:
+		if internal or key not in self:
 			return self.properties["internal"][key]
 		else:
 			return self.properties["attrs"][key]
@@ -152,7 +133,6 @@ class Node(object):
 		
 	def __setitem__(self, key, data):		
 		self.setProperty(key, data)	
-		
 		
 	def __getitem__(self, key):
 		return self.getProperty(key)
@@ -184,6 +164,7 @@ class Node(object):
 		else:
 			self.log("Generating generic widget")
 			yield generator.generateWidget(self, macros=data)
+			
 			
 	def __deepcopy__(self, memo):
 		cls = self.__class__
