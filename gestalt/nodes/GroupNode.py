@@ -45,7 +45,7 @@ class GroupNode(Node):
 		return sorted(self.children, key=lambda x: int(x["render-order"])).__iter__()
 		
 	def write_order(self):
-		return sorted(self.children, key=lambda x: (int(x.placed_order or 0), int(x["z-order"]))).__iter__()
+		return sorted(self.children, key=lambda x: (int(x["z-order"]), int(x.placed_order or 0))).__iter__()
 		
 		
 	def place(self, child, x=None, y=None, keep_original=False):
