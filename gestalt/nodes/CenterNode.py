@@ -21,18 +21,19 @@ class CenterNode(Node):
 		applied_node = None
 		
 		index = 0
-		
+					
 		for increment in applier:
 			data = yield
-			
+						
 			# Adjust position of previously returned node (accounts for size changes of parent widget)
 			if applied_node:
+				
 				if flow == "vertical":
-					applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+					applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))
 				elif flow == "horizontal":
-					applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
+					applied_node.position(x=int(data["__parentcenterx__"]) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
 				elif flow == "all":
-					applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+					applied_node.position(x=int(data["__parentcenterx__"]) - int(int(applied_node["geometry"]["width"]) / 2), y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))
 				
 			applied_node = applier.send(data)
 			applied_node.placed_order = self.placed_order
@@ -40,8 +41,8 @@ class CenterNode(Node):
 			yield applied_node
 		else:
 			if flow == "vertical":
-				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))
 			elif flow == "horizontal":
-				applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
+				applied_node.position(x=int(data["__parentcenterx__"]) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
 			elif flow == "all":
-				applied_node.position(x=int(int(data["__parentwidth__"]) / 2) - int(int(applied_node["geometry"]["width"]) / 2), y=int(int(data["__parentheight__"]) / 2) - int(int(applied_node["geometry"]["height"]) / 2))
+				applied_node.position(x=int(data["__parentcenterx__"]) - int(int(applied_node["geometry"]["width"]) / 2), y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))

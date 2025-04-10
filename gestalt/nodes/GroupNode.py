@@ -71,7 +71,6 @@ class GroupNode(Node):
 			child_node["geometry"]["y"] = int(y) + int(margins["y"]) + border
 		else:
 			child_node["geometry"]["y"] = int(child_geom["y"]) + int(margins["y"]) + border
-		
 			
 		# Don't use child_geom for x/y as the value may have updated
 		right_edge  = int(child_node["geometry"]["x"]) + int(child_geom["width"]) + int(margins["width"])
@@ -128,7 +127,9 @@ class GroupNode(Node):
 					"__parentx__" : int(geom["x"]),
 					"__parenty__" : int(geom["y"]),
 					"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
-					"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border})
+					"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border,
+					"__parentcenterx__" : int((int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border) / 2 + int(margins["x"]) + border),
+					"__parentcentery__" : int((int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border) / 2 + int(margins["y"]) + border)})
 					
 				self.updateMacros(child_macros)
 				
