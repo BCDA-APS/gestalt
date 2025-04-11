@@ -465,12 +465,8 @@ def generateDMFile(template, data, outputfile=""):
 				applier = item.apply(the_generator)
 				
 				while True:
-					data.update({
-						"__parentx__" : a_display["geometry"]["x"],
-						"__parenty__" : a_display["geometry"]["y"],
-						"__parentwidth__" : a_display["geometry"]["width"],
-						"__parentheight__" : a_display["geometry"]["height"]})
-				
+					a_display.updateMacros(a_display, data)
+					
 					try:
 						next(applier)
 						a_display.place(applier.send(data))

@@ -26,10 +26,10 @@ class GridNode(LayoutNode):
 		
 		super().initApply(data)
 		
-	def updateMacros(self, child_macros):
-		super().updateMacros(child_macros)
+	def updateMacros(self, output, macros):
+		super().updateMacros(output, macros)
 		
-		child_macros.update({
+		macros.update({
 			"__col__" : self["index-x"].val(),
 			"__row__" : self["index-y"].val()})
 

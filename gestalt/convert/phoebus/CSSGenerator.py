@@ -378,11 +378,7 @@ def generateCSSFile(template, data, outputfile=""):
 				applier = item.apply(the_generator)
 				
 				while True:
-					data.update({
-						"__parentx__" : a_display.content["geometry"]["x"],
-						"__parenty__" : a_display.content["geometry"]["y"],
-						"__parentwidth__" : a_display.content["geometry"]["width"],
-						"__parentheight__" : a_display.content["geometry"]["height"]})
+					a_display.updateMacros(a_display, data)
 				
 					try:
 						next(applier)

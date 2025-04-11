@@ -27,12 +27,12 @@ class LayoutNode(GroupNode):
 		
 		self.data = data
 		
-	def updateMacros(self, child_macros):
-		super().updateMacros(child_macros)
+	def updateMacros(self, output, macros):
+		super().updateMacros(output, macros)
 		
-		child_macros.update({"__index__"   : self["index"].val()})
-		child_macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
-		child_macros.update(self.curr_macros)
+		macros.update({"__index__"   : self["index"].val()})
+		macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
+		macros.update(self.curr_macros)
 		
 		
 	def __iter__(self):

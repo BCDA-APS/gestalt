@@ -20,7 +20,7 @@ class GroupNode(Node):
 			elif isinstance(initial, list):
 				for child in initial:
 					self.append(child)
-		
+					
 			self.makeInternal(Rect, "margins", "0x0x0x0")
 				
 		self.setDefault(Rect, "margins", "0x0x0x0", internal=True)
@@ -51,7 +51,7 @@ class GroupNode(Node):
 	def place(self, child, x=None, y=None, keep_original=False):
 		if (child == None):
 			return
-			
+		
 		self.append(child, keep_original=keep_original)
 		
 		child_node = self.children[-1]
@@ -90,8 +90,18 @@ class GroupNode(Node):
 	def positionNext(self, child):
 		pass
 		
-	def updateMacros(self, macros):
-		pass
+	def updateMacros(self, output, macros):
+		geom = output["geometry"].val()
+		margins = output["margins"].val()
+		border = int(output["border-width"])
+		
+		macros.update({
+			"__parentx__" : int(geom["x"]),
+			"__parenty__" : int(geom["y"]),
+			"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
+			"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border,
+			"__parentcenterx__" : int((int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border) / 2 + int(margins["x"]) + border),
+			"__parentcentery__" : int((int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border) / 2 + int(margins["y"]) + border)})
 			
 	
 	def apply (self, generator):
@@ -110,9 +120,6 @@ class GroupNode(Node):
 			temp["margins"] = output["margins"]
 			output = temp
 		
-		margins = output["margins"].val()
-		border = int(output["border-width"])
-		
 		placed = False
 		
 		for child in self:			
@@ -120,18 +127,8 @@ class GroupNode(Node):
 			
 			for increment in applier:
 				child_macros = copy.copy(data)
-				
-				geom = output["geometry"].val()
-				
-				child_macros.update({
-					"__parentx__" : int(geom["x"]),
-					"__parenty__" : int(geom["y"]),
-					"__parentwidth__" : int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border,
-					"__parentheight__" : int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border,
-					"__parentcenterx__" : int((int(geom["width"]) - int(margins["x"]) - int(margins["width"]) - 2 * border) / 2 + int(margins["x"]) + border),
-					"__parentcentery__" : int((int(geom["height"]) - int(margins["y"]) - int(margins["height"]) - 2 * border) / 2 + int(margins["y"]) + border)})
 					
-				self.updateMacros(child_macros)
+				self.updateMacros(output, child_macros)
 				
 				# Center Node wants to stop iteration in send, so we need try/except
 				try:

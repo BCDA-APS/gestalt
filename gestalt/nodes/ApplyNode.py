@@ -19,8 +19,8 @@ class ApplyNode(GroupNode):
 		super().initApply(data)
 		self.data = data
 		
-	def updateMacros(self, child_macros):
-		super().updateMacros(child_macros)
+	def updateMacros(self, output, macros):
+		super().updateMacros(output, macros)
 		
 		macro_list = {}
 		
@@ -51,4 +51,4 @@ class ApplyNode(GroupNode):
 				to_assign = to_assign.flatten()
 				to_assign.apply(self.data)
 				
-			child_macros.update({key : to_assign})
+			macros.update({key : to_assign})

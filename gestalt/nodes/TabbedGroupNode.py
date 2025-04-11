@@ -52,7 +52,7 @@ class TabbedGroupNode(GroupNode):
 			
 			for increment in applier:
 				child_macros = copy.copy(data)
-				self.updateMacros(child_macros)
+				self.updateMacros(output, child_macros)
 				
 				try:
 					widget = applier.send(child_macros)
