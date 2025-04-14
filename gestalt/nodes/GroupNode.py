@@ -120,8 +120,6 @@ class GroupNode(Node):
 			temp["margins"] = output["margins"]
 			output = temp
 		
-		placed = False
-		
 		for child in self:			
 			applier = child.apply(generator)
 			
@@ -135,15 +133,13 @@ class GroupNode(Node):
 					widget = applier.send(child_macros)
 					
 					if widget:
-						placed = True
 						widget.placed_order = child.placed_order
 						self.positionNext(widget)
 						output.place(widget)
 				except:
 					break
 
-		if placed:
-			yield output
+		yield output
 		
 	def __deepcopy__(self, memo):
 		output = super().__deepcopy__(memo)
