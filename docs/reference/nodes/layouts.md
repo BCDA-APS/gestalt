@@ -159,6 +159,7 @@ macro mentioned above will also be included.
 | border-color   | Color  | The color of the group's border surrounding each template copy |
 | border-width   | Number | The thickness of the group's border in pixels |
 | visibility     | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| ignore-empty   | Bool   | Defines whether or not to adjust positioning of elements if a repeated instance is an empty group. Useful for dealing with Conditional nodes. default: False |
 
 
 * **Example**
@@ -230,6 +231,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 | border-color   | Color  | The color of the group's border surrounding each template copy |
 | border-width   | Number | The thickness of the group's border in pixels |
 | visibility     | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| ignore-empty   | Bool   | Defines whether or not to adjust positioning of elements if a repeated instance is an empty group. Useful for dealing with Conditional nodes. default: False |
 
 
 * **Example**
@@ -307,6 +309,7 @@ elements a user provides.
 | border-width   | Number | The thickness of the group's border in pixels |
 | horizontal     | Bool   | Fill direction of the layout. Macros will be mapped to widgets across columns first, then proceed to the next row, rather than the reverse. True by default |
 | visibility     | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| ignore-empty   | Bool   | Defines whether or not to adjust positioning of elements if a repeated instance is an empty group. Useful for dealing with Conditional nodes. default: False |
 
 
 * **Example**
