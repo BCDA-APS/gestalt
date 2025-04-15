@@ -7,11 +7,11 @@ class ShellCommandNode(Node):
 	
 		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout, loc=loc)
 		
-		self.setDefault(String, "text", "")
+		self.setDefault(String,    "text",       "")
 		self.setDefault(Color,     "foreground", "$000000")
 		self.setDefault(Color,     "background", "$57CAE4")
-		self.setDefault(Font,  "font", "-Liberation Sans - Regular - 12")
-		self.setDefault(Alignment, "alignment", "Center")
+		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
+		self.setDefault(Alignment, "alignment",  "Center")
 		
 		self.tocopy.append("commands")
 	
