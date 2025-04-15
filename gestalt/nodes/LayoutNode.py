@@ -66,6 +66,7 @@ class LayoutNode(GroupNode):
 					self.curr_macros = {str(value_var) : item}
 					
 				line = GroupNode(anonymous=True)
+				line["ignore-empty"] = self["ignore-empty"]
 				
 				for childnode in super().__iter__():
 					line.append(childnode)

@@ -9,7 +9,7 @@ class GroupNode(Node):
 		
 		self.children = []
 		
-		if not node:
+		if not node:			
 			initial = self.pop("children", [])
 		
 			if isinstance(initial, dict):
@@ -22,11 +22,11 @@ class GroupNode(Node):
 					self.append(child)
 					
 			self.makeInternal(Rect, "margins", "0x0x0x0")
-				
+			
 		self.setDefault(Rect, "margins", "0x0x0x0", internal=True)
+		self.setDefault(Bool, "ignore-empty", False, internal=True)
 		self.setDefault(Number, "border-width",   0)
 		self.makeInternal(Bool, "anonymous", anonymous)
-		self.makeInternal(Bool, "ignore-empty", False)
 		
 					
 	def append(self, child, keep_original=False):
@@ -119,11 +119,12 @@ class GroupNode(Node):
 			temp = generator.generateAnonymousGroup()
 			temp["geometry"] = output["geometry"]
 			temp["margins"] = output["margins"]
+			temp["ignore-empty"] = output["ignore-empty"]
 			output = temp
 		
 		placed = False
 			
-		for child in self:			
+		for child in self:		
 			applier = child.apply(generator)
 			
 			for increment in applier:
@@ -134,7 +135,7 @@ class GroupNode(Node):
 				# Center Node wants to stop iteration in send, so we need try/except
 				try:
 					widget = applier.send(child_macros)
-					
+
 					if widget:
 						placed = True
 						widget.placed_order = child.placed_order
@@ -142,8 +143,8 @@ class GroupNode(Node):
 						output.place(widget)
 				except:
 					break
-
-		if not self["ignore-empty"] or placed:
+					
+		if not output["ignore-empty"] or placed:
 			yield output
 		
 	def __deepcopy__(self, memo):
