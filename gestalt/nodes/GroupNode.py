@@ -26,6 +26,7 @@ class GroupNode(Node):
 		self.setDefault(Rect, "margins", "0x0x0x0", internal=True)
 		self.setDefault(Number, "border-width",   0)
 		self.makeInternal(Bool, "anonymous", anonymous)
+		self.makeInternal(Bool, "ignore-empty", False)
 		
 					
 	def append(self, child, keep_original=False):
@@ -120,6 +121,8 @@ class GroupNode(Node):
 			temp["margins"] = output["margins"]
 			output = temp
 		
+		placed = False
+			
 		for child in self:			
 			applier = child.apply(generator)
 			
@@ -133,13 +136,15 @@ class GroupNode(Node):
 					widget = applier.send(child_macros)
 					
 					if widget:
+						placed = True
 						widget.placed_order = child.placed_order
 						self.positionNext(widget)
 						output.place(widget)
 				except:
 					break
 
-		yield output
+		if not self["ignore-empty"] or placed:
+			yield output
 		
 	def __deepcopy__(self, memo):
 		output = super().__deepcopy__(memo)
