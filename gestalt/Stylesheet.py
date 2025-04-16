@@ -151,7 +151,7 @@ def read_apply_multi(loader, suffix, node):
 		
 	template_nodes, defaults = my_templates.get(suffix)
 	
-	return ApplyNode(defaults=defaults, layout={"children" : template_nodes}, macros=macros, loc=node.start_mark)
+	return ApplyNode(defaults=defaults, template=suffix, layout={"children" : template_nodes}, macros=macros, loc=node.start_mark)
 	
 def read_debug_multi(loader, suffix, node):
 	ret_node = construct_from_suffix(loader, suffix, node)

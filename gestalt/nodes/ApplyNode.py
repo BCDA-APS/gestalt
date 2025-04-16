@@ -2,11 +2,13 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class ApplyNode(GroupNode):
-	def __init__(self, layout={}, defaults={}, macros={}, subnodes=[], loc=None):
+	def __init__(self, template="", layout={}, defaults={}, macros={}, subnodes=[], loc=None):
 		super(ApplyNode, self).__init__("Apply", layout=layout, loc=loc, anonymous=True)
-		
+				
 		self.defaults = defaults
 		self.macros = macros
+		
+		self.template = template
 		
 		for item in self:
 			self["render-order"] = max(int(item["render-order"]), int(self["render-order"]))
@@ -14,25 +16,26 @@ class ApplyNode(GroupNode):
 		
 		self.tocopy.append("macros")
 		self.tocopy.append("defaults")
+		self.tocopy.append("template")
 		
 	def initApply(self, data):
 		super().initApply(data)
 		self.data = data
 		
-	def updateMacros(self, output, macros):
+	def updateMacros(self, output, macros):		
 		super().updateMacros(output, macros)
 		
-		macro_list = {}
+		output = {}
+		output.update(self.defaults)
+		output.update(self.data)
+		output.update(self.macros)
 		
-		macro_list.update(self.defaults)
-		macro_list.update(self.data)
-		macro_list.update(self.macros)
+		to_apply = {}
+		to_apply.update(self.defaults)
+		to_apply.update(self.macros)
+		to_apply.update(self.data)
 		
-		less = {}
-		less.update(self.defaults)
-		less.update(self.macros)
-		
-		for key, val in macro_list.items():
+		for key, val in output.items():
 			to_assign = None
 			
 			if isinstance(val, bool):
@@ -47,8 +50,10 @@ class ApplyNode(GroupNode):
 				to_assign = val
 			
 			if isinstance(to_assign, DataType):
-				to_assign.apply(less)				
-				to_assign = to_assign.flatten()
-				to_assign.apply(self.data)
+				to_assign.apply(to_apply)
+				#to_assign = to_assign.flatten()
+				#to_assign.apply(self.data)
 				
 			macros.update({key : to_assign})
+					
+		return
