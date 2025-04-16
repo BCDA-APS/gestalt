@@ -11,4 +11,4 @@ class EmbedNode(GroupNode):
 		
 		for item in List(data.get(str(self["embedding"]), [])):
 			if isinstance(item, Node):
-				self.append(item)
+				self.append(item, keep_original=True)
