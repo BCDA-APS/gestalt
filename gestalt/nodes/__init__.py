@@ -7,6 +7,7 @@ from gestalt.nodes.CenterNode import CenterNode
 from gestalt.nodes.ChoiceButtonNode import ChoiceButtonNode
 from gestalt.nodes.ConditionalNode import ConditionalNode
 from gestalt.nodes.EllipseNode import EllipseNode
+from gestalt.nodes.EmbedNode import EmbedNode
 from gestalt.nodes.FlowNode import FlowNode
 from gestalt.nodes.GridNode import GridNode
 from gestalt.nodes.GroupNode import GroupNode
@@ -45,6 +46,7 @@ __all__ = [
 	"ChoiceButtonNode",
 	"ConditionalNode",
 	"EllipseNode",
+	"EmbedNode",
 	"FlowNode",
 	"GridNode",
 	"ImageNode",

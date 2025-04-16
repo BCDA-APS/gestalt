@@ -108,6 +108,19 @@ def construct_from_suffix(loader, suffix, node):
 	else:
 		return yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
 
+def read_embed_multi(loader, suffix, node):
+	# Should be nothing, but might be useful in the future
+	params = {}
+	
+	try:
+		params = loader.construct_mapping(node, deep=True)
+	except:
+		loader.construct_scalar(node)
+		
+	params["embedding"] = String(suffix.lstrip(":"))
+	
+	return EmbedNode(layout=params, loc=node.start_mark)
+		
 		
 def read_template_multi(loader, suffix, node):
 	params = loader.construct_sequence(node, deep=True)
@@ -155,7 +168,6 @@ def read_conditional_multi(loader, suffix, node, check_against=True):
 		ret_node.condition = String(suffix)
 		
 	return ret_node
-	
 	
 def read_stretch_multi(loader, suffix, node, flow="vertical"):
 	ret_node = construct_from_suffix(loader, suffix, node)
@@ -228,19 +240,23 @@ recognized_types = (
 for widget_type in recognized_types:
 	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
 	
-add_constructors("group", (lambda l, n: read_special_group(GroupNode, l, n)))
-add_constructors("anon", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
-add_constructors("anonymous", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
+add_constructors("Group", (lambda l, n: read_special_group(GroupNode, l, n)))
+add_constructors("Anon", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
+add_constructors("Anonymous", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
 	
-add_constructors("grid", (lambda l, n: read_special_node(GridNode, l, n)))
+add_constructors("Grid", (lambda l, n: read_special_node(GridNode, l, n)))
 
-add_constructors("conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
+add_constructors("Conditional", (lambda l, n: read_special_node(ConditionalNode, l, n)))
 add_multi_constructors("If:",    (lambda l, s, n: read_conditional_multi(l, s, n, check_against=True)))
 add_multi_constructors("IfNot:", (lambda l, s, n: read_conditional_multi(l, s, n, check_against=False)))
-add_multi_constructors("template:", read_template_multi)
-add_multi_constructors("apply:",   read_apply_multi)
-add_multi_constructors("debug:",   read_debug_multi)
-add_constructors("defaults", read_default_node)
+
+add_multi_constructors("Template:", read_template_multi)
+add_multi_constructors("Apply:",   read_apply_multi)
+
+add_multi_constructors("Debug:",   read_debug_multi)
+add_constructors("Defaults", read_default_node)
+
+add_multi_constructors("Embed", read_embed_multi)
 
 add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))
 	
