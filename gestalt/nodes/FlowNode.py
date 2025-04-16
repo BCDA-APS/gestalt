@@ -15,9 +15,6 @@ class FlowNode(GroupNode):
 		self["padding"].apply(data)
 		self["last-pos"] = 0
 		
-	def __iter__(self):	
-		return self.children.__iter__()
-		
 	def positionNext(self, child):
 		if self["flow"].val() == "vertical":
 			child.position(x=None, y= self["last-pos"].val())
