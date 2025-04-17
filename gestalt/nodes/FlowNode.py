@@ -9,7 +9,10 @@ class FlowNode(GroupNode):
 		self.makeInternal(Number, "padding",   0)
 		self.makeInternal(Number, "last-pos",  0)
 		self.setProperty("flow", flow, internal=True)
-	
+
+	def __iter__(self):
+		return self.children.__iter__()
+		
 	def initApply(self, data):
 		super().initApply(data)
 		self["padding"].apply(data)
