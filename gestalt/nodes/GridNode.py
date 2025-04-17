@@ -7,8 +7,10 @@ class GridNode(LayoutNode):
 	def __init__(self, name=None, layout={}, loc=None):
 		super(GridNode, self).__init__(name=name, layout=layout, loc=loc)
 	
-		self.makeInternal(Number, "max-rows", -1)
-		self.makeInternal(Number, "max-cols", -1)
+		self.makeInternal(Number, "min-rows", 0)
+		self.makeInternal(Number, "min-cols", 0)
+		self.makeInternal(Number, "max-rows", 0)
+		self.makeInternal(Number, "max-cols", 0)
 		
 		self.makeInternal(Number, "padding-x", self["padding"])
 		self.makeInternal(Number, "padding-y", self["padding"])
@@ -23,7 +25,7 @@ class GridNode(LayoutNode):
 		self["index-x"] = 0
 		self["index-y"] = 0
 		self["aspect-ratio"].apply(data)
-		
+				
 		super().initApply(data)
 		
 	def updateMacros(self, output, macros):
@@ -39,14 +41,25 @@ class GridNode(LayoutNode):
 		cols = round(math.sqrt(int(self["num-items"]) * float(ratio)))
 		rows = round(math.sqrt(int(self["num-items"]) / float(ratio)))
 		
-		if int(self["max-rows"]) > 0 and int(self["max-rows"]) <= rows:
-			rows = int(self["max-rows"])
-			cols = math.ceil(int(self["num-items"]) / float(rows))
+		if int(self["max-rows"]) > 0: 
+			rows = min(rows, int(self["max-rows"]))
+		if int(self["max-cols"]) > 0:
+			cols = min(cols, int(self["max-cols"]))
 			
-		if int(self["max-cols"]) > 0 and int(self["max-cols"]) <= cols:
-			cols = int(self["max-cols"])
-			rows = math.ceil(int(self["num-items"]) / float(cols))
+		rows = max(rows, int(self["min-rows"]))
+		cols = max(cols, int(self["min-cols"]))
 		
+		while cols * rows < int(self["num-items"]):
+			if self["horizontal"]:
+				cols += 1
+			else:
+				rows += 1
+		
+		if self["horizontal"]:
+			rows = math.ceil(int(self["num-items"]) / float(cols))
+		else:
+			cols = math.ceil(int(self["num-items"]) / float(rows))
+				
 		pos_x = int(self["index-x"]) * (line["geometry"]["width"] + int(self["padding-x"]))
 		pos_y = int(self["index-y"]) * (line["geometry"]["height"] + int(self["padding-y"]))
 		
@@ -67,3 +80,4 @@ class GridNode(LayoutNode):
 			if int(self["index-y"]) >= rows:
 				self["index-y"] = 0
 				self["index-x"] = self["index-x"].val() + 1
+				
