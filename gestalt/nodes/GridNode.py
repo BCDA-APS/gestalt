@@ -38,13 +38,11 @@ class GridNode(LayoutNode):
 	def positionNext(self, line):
 		ratio = self["aspect-ratio"].val()
 		
-		cols = round(math.sqrt(int(self["num-items"]) * float(ratio)))
-		rows = round(math.sqrt(int(self["num-items"]) / float(ratio)))
+		cols_calc = round(math.sqrt(int(self["num-items"]) * float(ratio)))
+		rows_calc = round(math.sqrt(int(self["num-items"]) / float(ratio)))
 		
-		if int(self["max-rows"]) > 0: 
-			rows = min(rows, int(self["max-rows"]))
-		if int(self["max-cols"]) > 0:
-			cols = min(cols, int(self["max-cols"]))
+		rows = rows_calc
+		cols = cols_calc
 			
 		rows = max(rows, int(self["min-rows"]))
 		cols = max(cols, int(self["min-cols"]))
@@ -55,11 +53,19 @@ class GridNode(LayoutNode):
 			else:
 				rows += 1
 		
-		if self["horizontal"]:
+		if int(self["max-rows"]) > 0: 
+			rows = min(rows, int(self["max-rows"]))
+		if int(self["max-cols"]) > 0:
+			cols = min(cols, int(self["max-cols"]))
+		
+		cols_diff = (cols != cols_calc)
+		rows_diff = (rows != rows_calc)
+		
+		if cols_diff and (not rows_diff or self["horizontal"]):
 			rows = math.ceil(int(self["num-items"]) / float(cols))
-		else:
+		elif rows_diff and (not cols_diff or not self["horizontal"]):
 			cols = math.ceil(int(self["num-items"]) / float(rows))
-				
+			
 		pos_x = int(self["index-x"]) * (line["geometry"]["width"] + int(self["padding-x"]))
 		pos_y = int(self["index-y"]) * (line["geometry"]["height"] + int(self["padding-y"]))
 		
