@@ -12,6 +12,8 @@ class CenterNode(Node):
 		
 	
 	def apply (self, generator):
+		data = yield
+		
 		if self.name:
 			self.subnode.name = self.name
 		
@@ -21,25 +23,16 @@ class CenterNode(Node):
 		applied_node = None
 		
 		index = 0
-					
-		for increment in applier:
-			data = yield
-						
-			# Adjust position of previously returned node (accounts for size changes of parent widget)
-			if applied_node:
-				
-				if flow == "vertical":
-					applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))
-				elif flow == "horizontal":
-					applied_node.position(x=int(data["__parentcenterx__"]) - int(int(applied_node["geometry"]["width"]) / 2), y=applied_node["geometry"]["y"] + self["geometry"]["y"])
-				elif flow == "all":
-					applied_node.position(x=int(data["__parentcenterx__"]) - int(int(applied_node["geometry"]["width"]) / 2), y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))
-				
+		
+		for increment in applier:			
 			applied_node = applier.send(data)
 			applied_node.placed_order = self.placed_order
 				
 			yield applied_node
-		else:
+			
+			# Adjust position of previously returned node (accounts for size changes of parent widget by getting the next set of macros)
+			data = yield
+			
 			if flow == "vertical":
 				applied_node.position(x=applied_node["geometry"]["x"] + self["geometry"]["x"], y=int(data["__parentcentery__"]) - int(int(applied_node["geometry"]["height"]) / 2))
 			elif flow == "horizontal":
