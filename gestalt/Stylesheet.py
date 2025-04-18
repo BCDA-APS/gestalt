@@ -117,7 +117,7 @@ def read_embed_multi(loader, suffix, node):
 	except:
 		loader.construct_scalar(node)
 		
-	params["embedding"] = String(suffix.lstrip(":"))
+	params["embedding"] = String(suffix)
 	
 	return EmbedNode(layout=params, loc=node.start_mark)
 		
@@ -256,7 +256,7 @@ add_multi_constructors("Apply:",   read_apply_multi)
 add_multi_constructors("Debug:",   read_debug_multi)
 add_constructors("Defaults", read_default_node)
 
-add_multi_constructors("Embed", read_embed_multi)
+add_multi_constructors("Embed:", read_embed_multi)
 
 add_constructors("spacer", (lambda l, n: read_special_node(SpacerNode, l, n)))
 	
