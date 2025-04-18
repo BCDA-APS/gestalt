@@ -293,6 +293,13 @@ would be specifying that the node should attempt to have twice as many columns a
 an idealized ratio and it may not be possible to exactly match the ratio as given with the number of
 elements a user provides.
 
+You can also control the shape by specifying the minimum and maximum numbers of columns and rows. Using
+'min-cols', 'max-cols', 'min-rows', and 'max-rows', you can restrict the automatic shaping done based
+off of 'aspect-ratio'. If there is a conflict between the number of iterations, the aspect-ratio, and
+the minimum/maximum values, then the 'horizontal' attribute will be used to determine which restrictions
+to weight heavier. If 'horizontal' is True, then size will break any horizontal constraints (adding additional
+columns). If 'horizontal' is False, then the vertical constraints will be broken (adding additional rows).
+
 
 * **Special Attributes**
 
