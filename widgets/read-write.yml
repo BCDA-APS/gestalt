@@ -38,6 +38,10 @@ _ReadWrite: !Template:PVReadWrite
         read-foreground:   "{text-color}"
         units-foreground:  "{text-color}"
         
+        label-alignment: CenterRight
+        read-alignment:  BottomRight
+        units-alginment: BottomLeft
+        
         desc-pv:   False
         entry-pv:  False
         menu-pv:   False
@@ -59,7 +63,7 @@ _ReadWrite: !Template:PVReadWrite
                 - !Text
                     geometry: "0x0x{label-width}x{height}"
                     font: "-{fontname}"
-                    alignment: CenterRight
+                    alignment: "{label-alignment}"
                     background: "{label-background}"
                     foreground: "{label-foreground}"
                     text: "{label}"
@@ -77,7 +81,7 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{read-width}x{height}"
                         background: "{read-background}"
                         foreground: "{read-foreground}"
-                        alignment: BottomRight
+                        alignment: "{read-alignment}"
                         font: "-{fontname}"
                         pv: "{read-pv}"
                         
@@ -87,7 +91,7 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{units-width}x{height}"
                         background: "{units-background}"
                         foreground: "{units-foreground}"
-                        alignment: BottomLeft
+                        alignment: "{units-alignment}"
                         font: "-{fontname}"
                         text: "{units}"
                     
@@ -120,7 +124,7 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{read-width}x{height}"
                         background: "{read-background}"
                         foreground: "{read-foreground}"
-                        alignment: CenterRight
+                        alignment: "{read-alignment}"
                         font: "-{fontname}"
                         pv: "{read-pv}"
                     
@@ -130,6 +134,6 @@ _ReadWrite: !Template:PVReadWrite
                         geometry: "0x0x{units-width}x{height}"
                         background: "{units-background}"
                         foreground: "{units-foreground}"
-                        alignment: CenterLeft
+                        alignment: "{units-alignment}"
                         font: "-{fontname}"
                         text: "{units}"
