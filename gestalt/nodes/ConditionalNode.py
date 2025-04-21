@@ -18,9 +18,6 @@ class ConditionalNode(GroupNode):
 	def apply(self, generator):
 		data = yield
 		
-		output = generator.generateAnonymousGroup()
-		output.position(x=self["geometry"]["x"], y=self["geometry"]["y"])
-
 		invert = isinstance(self.condition, Not)
 		
 		my_condition = String(self.condition)
@@ -34,19 +31,17 @@ class ConditionalNode(GroupNode):
 			if "{" in my_condition.value:
 				conditional = str(my_condition)
 
-		if bool(conditional) != invert:		
-			for childnode in self.children:
-				applier = childnode.apply(generator)
+		if bool(conditional) != invert:
+			for child in self.children:				
+				applier = child.apply(generator)
 				
 				for increment in applier:
+					child_macros = copy.copy(data)
+					
 					try:
-						widget = applier.send(data)
-						output.place(widget)
+						widget = applier.send(child_macros)
+						yield widget
 					except:
 						break
 				
-			if len(output.children):
-				yield output
-				return
-			
-		yield None
+					data = yield
