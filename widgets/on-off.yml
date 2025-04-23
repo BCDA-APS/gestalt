@@ -12,26 +12,37 @@ _OnOffText: !Template:OnOffText
         on-color: *alarm_green
         off-color: *alarm_red
         
+        on-background: *transparent
+        off-background: *transparent
+        
+        border-color: *black
+        border-width: 0
+        
         on-label: "On"
         off-label: "Off"
         
         control-pv: "{PV}"
     
     - !Group   
+        geometry: "{geometry}"
+        border-width: "{border-width}"
+        border-color: "{border-color}"
+
         children:
-            - !Text
-                geometry: "{geometry}"
+            - !AStretch:Text
                 alignment: Center
                 text: "{on-label}"
                 foreground: "{on-color}"
+                background: "{on-background}"
+                
                 font: "-{fontname}"
                 visibility: "{control-pv}"
                 
-            - !Text
-                geometry: "{geometry}"
+            - !AStretch:Text
                 alignment: Center
                 text: "{off-label}"
                 foreground: "{off-color}"
+                background: "{off-background}"
                 font: "-{fontname}"
                 visibility: !Not "{control-pv}"
                 
