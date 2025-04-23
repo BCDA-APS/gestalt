@@ -1,5 +1,6 @@
 import os
 import re
+import copy
 import yaml
 
 from yaml.constructor import ConstructorError
@@ -336,12 +337,18 @@ def read_file(filename, includes_locations, included_files):
 		
 		for line in the_data_in:
 			check = include_regex.match(line)
+			check_locations = copy.copy(includes_locations)
+			
+			current_dir = os.path.dirname(filename)
+			
+			if current_dir not in check_locations:
+				check_locations.append(current_dir)
 			
 			if check:
 				include_file = check.group(1).strip()
 				include_file_path = ""
 				
-				for check_dir in includes_locations:
+				for check_dir in check_locations:
 					
 					test_path = os.path.abspath(check_dir + "/" + include_file)
 						
