@@ -9,6 +9,7 @@ class LayoutNode(GroupNode):
 		self.makeInternal(String, "variable",     "N")
 		self.makeInternal(Number, "start-at",     0)
 		self.makeInternal(Number, "padding",      0)
+		self.makeInternal(Number, "increment",    1)
 		
 		self.makeInternal(Number, "index",     0)
 		self.makeInternal(Number, "num-items", 0)
@@ -24,6 +25,7 @@ class LayoutNode(GroupNode):
 		self["repeat-over"].apply(data)
 		self["start-at"].apply(data)
 		self["variable"].apply(data)
+		self["increment"].apply(data)
 		
 		self.data = data
 		
@@ -39,15 +41,17 @@ class LayoutNode(GroupNode):
 		repeat   = self["repeat-over"]
 		start_at = self["start-at"]
 		value_var = self["variable"]
+		inc_val = self["increment"]
 		
 		macrolist = self.data.get(str(repeat))
 		
 		try:
 			if not macrolist:
-				macrolist = range(int(start_at), int(start_at) + int(repeat))
+				macrolist = range(int(start_at), int(start_at) + (int(repeat) * int(inc_val)), int(inc_val))
 			elif not isinstance(macrolist, list):
-				macrolist = range(int(start_at), int(start_at) + int(macrolist))
-		except:
+				macrolist = range(int(start_at), int(start_at) + (int(macrolist) * int(inc_val)), int(inc_val))
+		except Exception as e:
+			print(e)
 			macrolist = List(repeat)
 			macrolist.apply(self.data)
 			macrolist = macrolist.val()
