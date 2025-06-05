@@ -51,7 +51,6 @@ class LayoutNode(GroupNode):
 			elif not isinstance(macrolist, list):
 				macrolist = range(int(start_at), int(start_at) + (int(macrolist) * int(inc_val)), int(inc_val))
 		except Exception as e:
-			print(e)
 			macrolist = List(repeat)
 			macrolist.apply(self.data)
 			macrolist = macrolist.val()
