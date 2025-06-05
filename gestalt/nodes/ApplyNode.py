@@ -51,7 +51,7 @@ class ApplyNode(GroupNode):
 			
 			if isinstance(to_assign, DataType):
 				to_assign.apply(to_apply)
-				#to_assign = to_assign.flatten()
+				to_assign = to_assign.flatten()
 				#to_assign.apply(self.data)
 				
 			macros.update({key : to_assign})
