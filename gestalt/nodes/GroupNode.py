@@ -85,9 +85,6 @@ class GroupNode(Node):
 			self.log("Resizing height to " + str(bottom_edge))
 			self["geometry"]["height"] = bottom_edge
 	
-	def initApply(self, data):
-		pass
-			
 	def positionNext(self, child):
 		pass
 		

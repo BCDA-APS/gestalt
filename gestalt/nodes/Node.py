@@ -146,9 +146,14 @@ class Node(object):
 				
 		return self
 
+		
+	def initApply(self, data):
+		pass
 	
 	def apply (self, generator):
 		data = yield
+		
+		self.initApply(data)
 		
 		gen_func = getattr(generator, "generate" + self.classname, None)
 		
