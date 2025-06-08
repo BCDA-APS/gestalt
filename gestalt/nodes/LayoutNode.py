@@ -55,7 +55,6 @@ class LayoutNode(GroupNode):
 			macrolist.apply(self.data)
 			macrolist = macrolist.val()
 		
-		
 		if not macrolist:
 			raise Exception("Could not resolve repeat-over (" + str(repeat) + ") into an iterable value")
 			
@@ -66,7 +65,14 @@ class LayoutNode(GroupNode):
 				if isinstance(item, dict):
 					self.curr_macros = item
 				else:
-					self.curr_macros = {str(value_var) : item}
+					test = Dict(item)
+					test.apply(self.data)
+					check = test.val()
+					
+					if isinstance(check, dict):
+						self.curr_macros = check
+					else:
+						self.curr_macros = {str(value_var) : item}
 					
 				line = GroupNode(anonymous=True)
 				line["ignore-empty"] = self["ignore-empty"]

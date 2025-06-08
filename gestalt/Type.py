@@ -82,6 +82,11 @@ class DataType(object):
 								out.macros = self.macros
 								return out.val()
 								
+							if self.typ == "dict" and isinstance(check, dict):
+								out = Dict(check)
+								out.macros = self.macros
+								return out.val()
+								
 						except:
 							pass
 						
@@ -424,7 +429,6 @@ class List(DataType):
 				
 			return None
 		except Exception as e:
-			print(e)
 			raise Exception("Error resolving List datatype from value: " + self.value)
 
 	def __iter__(self):
@@ -442,14 +446,14 @@ class Dict(DataType):
 			output = []
 			data = super().val()
 			
-			if self.standard:
+			if self.standard and hasattr(data, 'read'):
 				data = yaml.safe_load(data)
 				
 			if isinstance(data, dict):
 				return data
 				
 			return None
-		except:
+		except Exception as e:
 			raise Exception("Error resolving Dict datatype from value: " + self.value)
 
 
