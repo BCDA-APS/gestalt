@@ -35,7 +35,7 @@ class DataType(object):
 			
 		elif isinstance(val, list) or isinstance(val, tuple):
 			self.standard = False
-			self.value = val
+			self.value = list(val)
 			self.list = True
 			
 		elif isinstance(val, str):
@@ -61,8 +61,8 @@ class DataType(object):
 		output.updates = copy.copy(self.updates)
 		
 		return output
-			
-	def val(self):
+		
+	def val(self):	
 		if self.standard:
 			output = self.value
 			
@@ -73,6 +73,18 @@ class DataType(object):
 					except:
 						pass
 			
+					if self.typ == "list" or self.typ == "dict":
+						try:
+							check = yaml.safe_load(output)
+							
+							if self.typ == "list" and isinstance(check, list):
+								out = List(check)
+								out.macros = self.macros
+								return out.val()
+								
+						except:
+							pass
+						
 			return output
 					
 		elif self.dict:
@@ -84,32 +96,34 @@ class DataType(object):
 					continue
 				
 				for macrolist in reversed(self.macros):
-					for macro, macro_val in reversed(macrolist.items()):
-						try:
-							output[key] = str(val).format_map(PartialSubDict({macro : macro_val}))
-						except:
-							pass
-			
+					temp_val = DataType("temp", val)
+					temp_val.macros = self.macros
+					
+					try:
+						output[key] = temp_val.val()
+						#output[key] = str(val).format_map(PartialSubDict({macro : macro_val}))
+					except:
+						pass
+		
 			return output
 			
-		elif self.list:
+		elif self.list:		
 			output = copy.deepcopy(self.value)
 			
-			for index in range(len(output)):			
+			for index in range(len(output)):
 				if index in self.updates:
 					output[index] = self.updates[index]
 					continue
 				
 				index_val = DataType("temp", output[index])
-					
-				for macrolist in self.macros:
-					index_val.apply(macrolist)
+				index_val.macros = self.macros
 					
 				try:
-					output[index] = str(index_val).val()
-				except:
+					output[index] = index_val.val()
+				except Exception as e:
+					print(e)
 					pass
-			
+					
 			return output
 		
 		return None
@@ -151,7 +165,7 @@ class DataType(object):
 	def __float__(self):
 		return float(self.val())
 		
-	def __format__(self, format_spec):	
+	def __format__(self, format_spec):
 		return str(self).__format__(format_spec)
 		
 
@@ -162,7 +176,6 @@ class DataType(object):
 class String(DataType):	
 	def __init__(self, data):
 		super().__init__("string", data)
-	
 		
 class Number(DataType):
 	def __init__(self, data):
@@ -403,14 +416,15 @@ class List(DataType):
 			output = []
 			data = super().val()
 			
-			if self.standard:
+			if self.standard and hasattr(data, 'read'):
 				data = yaml.safe_load(data)
 				
 			if isinstance(data, list):
 				return data
 				
 			return None
-		except:
+		except Exception as e:
+			print(e)
 			raise Exception("Error resolving List datatype from value: " + self.value)
 
 	def __iter__(self):
