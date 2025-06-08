@@ -1,10 +1,10 @@
+import pathlib
+
 from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class RelatedDisplayNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):		
-		self.links = layout.pop("links", [])
-	
+	def __init__(self, name=None, layout={}, loc=None):	
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String,    "text",       "")
@@ -13,13 +13,23 @@ class RelatedDisplayNode(Node):
 		self.setDefault(Color,     "background", "$57CAE4")
 		self.setDefault(Alignment, "alignment",  "Center")
 		
-		self.tocopy.append("links")
-	
-		if isinstance(self.links, dict):
-			temp = []
+		self.makeInternal(List, "links", [])
+
 			
-			for key, val in self.links.items():
-				val["label"] = key
-				temp.append(val)
-				
-			self.links = temp
+	def initApply(self, macros):
+		self["links"].apply(macros)
+		
+		output = []
+		
+		for item in self["links"]:
+			a_link = Dict(item)
+			a_link.apply(macros)
+			a_link = a_link.val()
+		
+			filename = a_link.get("file", "")
+			
+			a_link["file"] = filename.removesuffix(pathlib.PurePath(filename).suffix)
+			output.append(a_link)
+			
+		self["links"] = List(output)
+		

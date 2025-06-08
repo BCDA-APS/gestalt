@@ -62,27 +62,14 @@ class DMGenerator(GestaltGenerator):
 		output.addStyleWriter(write_color)
 		output.addStyleWriter(style_button)
 		
-		links = String(node.links)
-		links.apply(macros)
-		
 		labels = []
 		files = []
 		args = []
 		
-		for item in List(links):
-			a_label = String(item.get("label", ""))
-			a_label.apply(macros)
-
-			a_file = String(item.get("file", ""))
-			a_file.apply(macros)
-			a_file = str(a_file).removesuffix( pathlib.PurePath(str(a_file)).suffix ) + ".ui"
-			
-			a_macro = String(item.get("macros", ""))
-			a_macro.apply(macros)
-			
-			labels.append(str(a_label))
-			files.append(str(a_file))
-			args.append(str(a_macro))
+		for item in node["links"]:
+			labels.append(item.get("label",""))
+			files.append(item.get("file","") + ".ui")
+			args.append(item.get("macros",""))
 			
 		output["titles"] = List(labels)
 		output["filenames"] = List(files)

@@ -11,30 +11,15 @@ class QtRelatedDisplay(QtWidget):
 		self.button = QtWidget("caRelatedDisplay", node=node, macros=macros)
 		self["geometry"] = self.button.pop("geometry")
 		
-		self.links = String(node.links)
-		self.links.apply(macros)
-		
 		labels = ""
 		files = ""
 		args = ""
 		replace = ""
-		
-		for item in List(self.links):
-			a_label = String(item.get("label", ""))
-			a_label.apply(macros)
 
-			a_file = String(item.get("file", ""))
-			a_file.apply(macros)
-			a_file = str(a_file).removesuffix( pathlib.PurePath(str(a_file)).suffix ) + ".ui"
-
-			
-			a_macro = String(item.get("macros", ""))
-			a_macro.apply(macros)
-			
-			
-			labels += str(a_label) + ";"
-			files  += str(a_file) + ";"
-			args   += str(a_macro) + ";"
+		for item in node["links"]:
+			labels += item.get("label", "") + ";"
+			files += item.get("file", "") + ".ui;"
+			args += item.get("macros", "") + ";"
 			
 			if "replace" in item and item["replace"]:
 				replace += "true;"
@@ -50,7 +35,6 @@ class QtRelatedDisplay(QtWidget):
 		self.button["fontScaleMode"] = Enum("EPushButton::WidthAndHeight")
 		
 		self.tocopy.append("button")
-		self.tocopy.append("links")
 
 
 	def updateProperties(self, macros={}):
