@@ -36,6 +36,8 @@ class LayoutNode(GroupNode):
 		macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
 		macros.update(self.curr_macros)
 		
+		print(macros)
+		
 		
 	def __iter__(self):
 		repeat   = self["repeat-over"]
@@ -54,6 +56,20 @@ class LayoutNode(GroupNode):
 			macrolist = List(repeat)
 			macrolist.apply(self.data)
 			macrolist = macrolist.val()
+			
+			if not macrolist:
+				macrolist = Dict(repeat)
+				macrolist.apply(self.data)
+				temp = macrolist.val()
+				
+				output = []
+				
+				for key, val in temp.items():
+					val.update({str(value_var) : key})
+					output.append(val)
+					
+				macrolist = output
+			
 		
 		if not macrolist:
 			raise Exception("Could not resolve repeat-over (" + str(repeat) + ") into an iterable value")
