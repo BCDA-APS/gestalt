@@ -300,6 +300,7 @@ add_constructors("HAnchor", (lambda l, n: read_anchor_node(l, n, flow="horizonta
 add_constructors("AAnchor", (lambda l, n: read_anchor_node(l, n, flow="all")))
 
 add_constructors("TabbedGroup",    (lambda l, n: read_special_node(TabbedGroupNode, l, n)))
+add_constructors("TabbedRepeat",    (lambda l, n: read_special_node(TabbedRepeatNode, l, n)))
 add_constructors("Tab",            (lambda l, n: read_tab_node(l, n)))
 
 add_constructors("ShellCommand",   (lambda l, n: read_special_node(ShellCommandNode, l, n)))
