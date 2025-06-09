@@ -2,8 +2,8 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class LayoutNode(GroupNode):
-	def __init__(self, name=None, layout={}, loc=None):
-		super(LayoutNode, self).__init__("Layout", name=name, layout=layout, loc=loc)
+	def __init__(self, classname="Layout", name=None, layout={}, loc=None):
+		super(LayoutNode, self).__init__(classname, name=name, layout=layout, loc=loc)
 		
 		self.makeInternal(String, "repeat-over",  "")
 		self.makeInternal(String, "variable",     "N")
@@ -35,8 +35,6 @@ class LayoutNode(GroupNode):
 		macros.update({"__index__"   : self["index"].val()})
 		macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
 		macros.update(self.curr_macros)
-		
-		print(macros)
 		
 		
 	def __iter__(self):
