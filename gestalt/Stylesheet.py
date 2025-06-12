@@ -347,25 +347,22 @@ def read_file(filename, includes_locations, included_files):
 			
 			if check:
 				include_file = check.group(1).strip()
-				include_file_path = ""
+				include_file_fullpath = ""
 				
 				for check_dir in check_locations:
-					
-					test_path = os.path.abspath(check_dir + "/" + include_file)
+					include_file_fullpath = os.path.abspath(check_dir + "/" + include_file)
 						
-					if os.path.exists(test_path):
-						include_file_path = test_path
+					if os.path.exists(include_file_fullpath):
 						break
 					
-				
-				if include_file_path == "":
+				if include_file_fullpath == "":
 					print( "Include file does not exist in path (" + include_file + ")")
 					continue
 				
 				
-				if include_file not in included_files:
-					included_files.append(include_file)
-					the_data_out += read_file(include_file_path, includes_locations, included_files)
+				if include_file_fullpath not in included_files:
+					included_files.append(include_file_fullpath)
+					the_data_out += read_file(include_file_fullpath, includes_locations, included_files)
 					
 			else:
 				the_data_out += line
