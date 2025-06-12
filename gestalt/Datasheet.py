@@ -55,8 +55,6 @@ def read_file(filename, includes_locations, included_files):
 						
 					if os.path.exists(include_file_fullpath):
 						break
-					
-				print (include_file_fullpath)
 				
 				if include_file_fullpath == "":
 					print( "Include file does not exist in path (" + include_file + ")")
