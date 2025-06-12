@@ -300,7 +300,7 @@ add_constructors("HAnchor", (lambda l, n: read_anchor_node(l, n, flow="horizonta
 add_constructors("AAnchor", (lambda l, n: read_anchor_node(l, n, flow="all")))
 
 add_constructors("TabbedGroup",    (lambda l, n: read_special_node(TabbedGroupNode, l, n)))
-add_constructors("TabbedRepeat",    (lambda l, n: read_special_node(TabbedRepeatNode, l, n)))
+add_constructors("TabbedRepeat",   (lambda l, n: read_special_node(TabbedRepeatNode, l, n)))
 add_constructors("Tab",            (lambda l, n: read_tab_node(l, n)))
 
 add_constructors("ShellCommand",   (lambda l, n: read_special_node(ShellCommandNode, l, n)))
@@ -350,9 +350,10 @@ def read_file(filename, includes_locations, included_files):
 				include_file_fullpath = ""
 				
 				for check_dir in check_locations:
-					include_file_fullpath = os.path.abspath(check_dir + "/" + include_file)
+					path = os.path.abspath(check_dir + "/" + include_file)
 						
-					if os.path.exists(include_file_fullpath):
+					if os.path.exists(path):
+						include_file_fullpath = path
 						break
 					
 				if include_file_fullpath == "":

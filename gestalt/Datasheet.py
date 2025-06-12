@@ -47,13 +47,13 @@ def read_file(filename, includes_locations, included_files):
 			
 			if check:
 				include_file = check.group(1).strip()
-				
 				include_file_fullpath = ""
 				
 				for check_dir in check_locations:
-					include_file_fullpath = os.path.abspath(check_dir + "/" + include_file)
+					path = os.path.abspath(check_dir + "/" + include_file)
 						
-					if os.path.exists(include_file_fullpath):
+					if os.path.exists(path):
+						include_file_fullpath = path
 						break
 				
 				if include_file_fullpath == "":
@@ -72,7 +72,7 @@ def read_file(filename, includes_locations, included_files):
 
 	
 def parseYAMLFile(filename):
-	return yaml.safe_load(read_file(filename, [os.path.dirname(filename)], []))
+	return yaml.safe_load(read_file(filename, [os.path.abspath(os.path.dirname(filename))], []))
 
 def parseYAMLString(data):
 	return yaml.safe_load(data) or {}	
