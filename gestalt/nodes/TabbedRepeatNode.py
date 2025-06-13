@@ -42,7 +42,7 @@ class TabbedRepeatNode(LayoutNode):
 		
 		placed = False
 		
-		for child in self:
+		for child in self:			
 			applier = child.apply(generator)
 			
 			for increment in applier:
@@ -54,11 +54,16 @@ class TabbedRepeatNode(LayoutNode):
 					widget = applier.send(child_macros)
 					
 					if widget:
-						placed = True
-						widget.placed_order = child.placed_order
-						widget.name = child_macros.get(str(self["variable"]), widget.name)
-						self.positionNext(widget)
-						output.place(widget)
+						try:
+							
+							placed = True
+							widget.placed_order = child.placed_order						
+							widget.name = str(child_macros.get("__index__", widget.name))
+							self.positionNext(widget)
+							output.place(widget)
+							
+						except Exception as e:
+							print(e)
 				except:
 					break
 					

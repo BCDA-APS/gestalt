@@ -17,7 +17,6 @@ class LayoutNode(GroupNode):
 		self.makeInternal(Number, "last-y",    0)
 		
 	def initApply(self, data):
-		self["index"] = 0
 		self["last-x"] = 0
 		self["last-y"] = 0
 		self["padding"].apply(data)
@@ -32,68 +31,67 @@ class LayoutNode(GroupNode):
 	def updateMacros(self, output, macros):
 		super().updateMacros(output, macros)
 		
-		macros.update({"__index__"   : self["index"].val()})
-		macros.update({str(self["variable"]) : int(self["index"].val()) + int(self["start-at"].val())})
+		macros.update({"__index__"   : self["index"]})
+		macros.update({str(self["variable"]) : self.iterating[self["index"].val()]})
 		macros.update(self.curr_macros)
 		
 		
 	def __iter__(self):
-		repeat   = self["repeat-over"]
-		start_at = self["start-at"]
-		value_var = self["variable"]
-		inc_val = self["increment"]
+		repeat    = self["repeat-over"]
+		start_at  = int(self["start-at"])
+		value_var = str(self["variable"])
+		inc_val   = int(self["increment"])
+
+		self.iterating = None
 		
-		macrolist = self.data.get(str(repeat))
+		check = repeat.val()
 		
-		try:
-			if not macrolist:
-				macrolist = range(int(start_at), int(start_at) + (int(repeat) * int(inc_val)), int(inc_val))
-			elif not isinstance(macrolist, list):
-				macrolist = range(int(start_at), int(start_at) + (int(macrolist) * int(inc_val)), int(inc_val))
-		except Exception as e:
-			macrolist = List(repeat)
-			macrolist.apply(self.data)
-			macrolist = macrolist.val()
+		if isinstance(check, str):
+			check = DataType("temp", self.data.get(check, check)).val()
 			
-			if not macrolist:
-				macrolist = Dict(repeat)
-				macrolist.apply(self.data)
-				temp = macrolist.val()
-				
-				output = []
-				
-				for key, val in temp.items():
-					val.update({str(value_var) : key})
-					output.append(val)
-					
-				macrolist = output
 			
-		
-		if not macrolist:
+		if isinstance(check, dict):
+			check = Dict(check)
+			check.apply(self.data)
+			self.iterating = check.val()
+			
+		elif isinstance(check, list):
+			check = List(check)
+			check.apply(self.data)
+			self.iterating = dict(enumerate(check.val()))
+			
+		else:
+			try:
+				self.iterating = dict( enumerate( range(start_at, start_at + (int(check) * inc_val), inc_val)))
+			except Exception as e:
+				pass
+			
+				
+		if not self.iterating:
 			raise Exception("Could not resolve repeat-over (" + str(repeat) + ") into an iterable value")
-			
-		self["num-items"] = len(macrolist)
+						
+		self["num-items"] = len(self.iterating)
 		
-		if macrolist:
-			for item in macrolist:
-				if isinstance(item, dict):
-					self.curr_macros = item
-				else:
-					test = Dict(item)
-					test.apply(self.data)
-					check = test.val()
-					
-					if isinstance(check, dict):
-						self.curr_macros = check
-					else:
-						self.curr_macros = {str(value_var) : item}
-					
-				line = GroupNode(anonymous=True)
-				line["ignore-empty"] = self["ignore-empty"]
+		for key, val in self.iterating.items():
+			self["index"] = key
+			self.curr_macros = {}
+			
+			if isinstance(val, dict):
+				self.curr_macros = val
+			else:
+				test = Dict(val)
+				test.apply(self.data)
+				check = test.val()
 				
-				for childnode in super().__iter__():
-					line.append(childnode)
-					
-				yield line
+				if isinstance(check, dict):
+					self.curr_macros = check
 				
-				self["index"] = self["index"].val() + 1
+			line = GroupNode(anonymous=True)
+			line["ignore-empty"] = self["ignore-empty"]
+			
+			for childnode in super().__iter__():
+				line.append(childnode)
+				
+			yield line
+			
+			
