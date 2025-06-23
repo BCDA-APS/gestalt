@@ -3,7 +3,7 @@ from gestalt.nodes.Node import Node
 
 class ShellCommandNode(Node):
 	def __init__(self, name=None, layout={}, loc=None):
-		self.commands = layout.pop("commands", [])
+		self.proto_commands = List(layout.pop("proto_commands", []))
 	
 		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout, loc=loc)
 		
@@ -13,13 +13,20 @@ class ShellCommandNode(Node):
 		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment",  "Center")
 		
-		self.tocopy.append("commands")
-	
-		if isinstance(self.commands, dict):
-			temp = []
+		self.makeInternal(List, "commands", [])
+		
+		self.tocopy.append("proto_commands")
+
 			
-			for key, val in self.commands.items():
-				val["label"] = key
-				temp.append(val)
-				
-			self.commands = temp
+	def initApply(self, macros):
+		copy_commands = copy.deepcopy(self.proto_commands)
+		copy_commands.apply(macros)
+		
+		output = []
+		
+		for item in copy_commands:
+			a_command = Dict(item)
+			a_command.apply(macros)
+			output.append(a_command.val())
+			
+		self["commands"] = List(output)

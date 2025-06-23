@@ -11,14 +11,11 @@ class QtShellCommand(QtWidget):
 		
 		self.button["label"] = String("-" + str(self.button.pop("text")))
 		
-		self.commands = String(node.commands)
-		self.commands.apply(macros)
-		
 		labels = ""
 		commands = ""
 		args = ""
 		
-		for item in List(self.commands):
+		for item in node["commands"]:
 			labels += str(item.get("label", "")) + ";"
 			commands  += str(item.get("command", "")) + ";"
 			args   += ";"
