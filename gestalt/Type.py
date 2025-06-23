@@ -16,8 +16,19 @@ class PartialSubDict(dict):
 	def __missing__(self, key):
 		return PartialSubFormatter(key)
 
-
-
+def json_like(input):
+	if not isinstance(input, str):
+		return False
+		
+	if input.startswith("{") and input.endswith("}") and ":" in input:
+		return True
+		
+	if input.startswith("[") and input.endswith("]"):
+		return True
+		
+	return False
+		
+		
 class DataType(object):	
 	def __init__(self, typ, val):
 		self.typ = typ
@@ -27,16 +38,35 @@ class DataType(object):
 		self.standard = True
 		self.dict = False
 		self.list = False
-		
+	
+		if json_like(val):
+			try:
+				check = yaml.safe_load(val)
+			
+				if len(check) > 0:
+					if isinstance(check, list) and check[0]:
+						val = check
+					elif isinstance(check, dict) and next(iter(check.values())):
+						val = check
+						
+			except:
+				pass
+			
 		if isinstance(val, dict):
 			self.standard = False
 			self.value = val
 			self.dict = True
 			
+			if self.typ == None:
+				self.typ = "dict"
+			
 		elif isinstance(val, list) or isinstance(val, tuple):
 			self.standard = False
 			self.value = list(val)
 			self.list = True
+			
+			if self.typ == None:
+				self.typ = "list"
 			
 		elif isinstance(val, str):
 			self.value = val
@@ -52,6 +82,7 @@ class DataType(object):
 		else:
 			self.value = str(val)
 
+			
 	def copy(self):
 		output  = type(self)(copy.copy(self.value))
 		
@@ -65,29 +96,31 @@ class DataType(object):
 	def val(self):	
 		if self.standard:
 			output = self.value
-			
-			for macrolist in reversed(self.macros):
+			index = 0
+			for macrolist in reversed(self.macros):				
 				for macro, macro_val in reversed(macrolist.items()):
+					index += 1
+					last_output = output
 					try:
 						output = output.format_map(PartialSubDict({macro : macro_val }))
-					except:
+						
+					except TypeError:
 						pass
-			
-					if self.typ == "list" or self.typ == "dict":
+						
+					if json_like(output):
 						try:
 							check = yaml.safe_load(output)
-							
-							if self.typ == "list" and isinstance(check, list):
-								out = List(check)
-								out.macros = self.macros
-								return out.val()
-								
-							if self.typ == "dict" and isinstance(check, dict):
-								out = Dict(check)
-								out.macros = self.macros
-								return out.val()
-								
-						except:
+						
+							if len(check) > 0:
+								if isinstance(check, list) and check[0]:
+									out = List(check)
+									out.macros = self.macros
+									return out.val()
+								elif isinstance(check, dict) and next(iter(check.values())):
+									out = Dict(check)
+									out.macros = self.macros
+									return out.val()
+						except Exception as e:
 							pass
 						
 			return output
@@ -99,36 +132,53 @@ class DataType(object):
 				if key in self.updates:
 					output[key] = self.updates[key]
 					continue
-				
-				for macrolist in reversed(self.macros):
-					temp_val = DataType("temp", val)
-					temp_val.macros = self.macros
 					
-					try:
+				try:
+					if isinstance(val, str):
+						temp = yaml.safe_load(val)
+						
+						if isinstance(temp, dict) and len(temp) == 1 and temp[temp.keys()[0]] == None:
+							raise Exception
+							
+						temp_val = DataType(None, temp)
+						temp_val.macros = self.macros
+						
 						output[key] = temp_val.val()
-						#output[key] = str(val).format_map(PartialSubDict({macro : macro_val}))
-					except:
-						pass
+
+					else:
+						raise Exception
+				except:
+					temp_val = DataType(None, val)
+					temp_val.macros = self.macros
+					output[key] = temp_val.val()
 		
 			return output
 			
-		elif self.list:		
+		elif self.list:
 			output = copy.deepcopy(self.value)
 			
 			for index in range(len(output)):
 				if index in self.updates:
 					output[index] = self.updates[index]
 					continue
-				
-				index_val = DataType("temp", output[index])
-				index_val.macros = self.macros
 					
 				try:
+					if isinstance(output[index], str):
+						temp = yaml.safe_load(output[index])
+						
+						if isinstance(temp, dict) and len(temp) == 1 and temp[temp.keys()[0]] == None:
+							raise Exception
+						
+						index_val = DataType(None, temp)
+						index_val.macros = self.macros
+						output[index] = index_val.val()
+					else:
+						raise Exception
+				except:
+					index_val = DataType(None, output[index])
+					index_val.macros = self.macros
 					output[index] = index_val.val()
-				except Exception as e:
-					print(e)
-					pass
-					
+						
 			return output
 		
 		return None
@@ -225,7 +275,7 @@ class Not(String):
 
 
 class Rect(DataType):
-	def __init__(self, data):		
+	def __init__(self, data):
 		if isinstance(data, Number):
 			super().__init__("rect", "0x{:x}".format(int(data.value)))
 			self.macros = data.macros
@@ -288,7 +338,7 @@ class Color(DataType):
 		
 		
 	def val(self):
-		try:
+		try:			
 			data = super().val()
 			
 			if self.standard:
@@ -310,7 +360,7 @@ class Color(DataType):
 			
 			return output
 			
-		except:
+		except Exception as e:
 			raise Exception("Error resolving Color datatype from value: " + self.value)
 		
 	def __str__(self):
@@ -421,7 +471,7 @@ class List(DataType):
 			output = []
 			data = super().val()
 			
-			if self.standard and hasattr(data, 'read'):
+			if isinstance(data, str) or (self.standard and hasattr(data, 'read')):
 				data = yaml.safe_load(data)
 				
 			if isinstance(data, list):
@@ -443,10 +493,10 @@ class Dict(DataType):
 
 	def val(self):
 		try:
-			output = []
+			output = {}
 			data = super().val()
 			
-			if self.standard and hasattr(data, 'read'):
+			if isinstance(data, str) or (self.standard and hasattr(data, 'read')):
 				data = yaml.safe_load(data)
 				
 			if isinstance(data, dict):
@@ -460,7 +510,5 @@ class Dict(DataType):
 	def __iter__(self):		
 		return self.val()
 		
-	def __str__(self):
+	def __str__(self):		
 		return yaml.dump(self.val())
-
-		

@@ -121,7 +121,7 @@ class GroupNode(Node):
 		
 		placed = False
 			
-		for child in self:		
+		for child in self:			
 			applier = child.apply(generator)
 			
 			for increment in applier:
@@ -138,7 +138,7 @@ class GroupNode(Node):
 						widget.placed_order = child.placed_order
 						self.positionNext(widget)
 						output.place(widget)
-				except StopIteration:
+				except Exception as e:
 					break
 					
 		if not output["ignore-empty"] or placed:

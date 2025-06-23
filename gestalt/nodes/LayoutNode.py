@@ -1,3 +1,5 @@
+import yaml
+
 from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
@@ -47,8 +49,10 @@ class LayoutNode(GroupNode):
 		check = repeat.val()
 		
 		if isinstance(check, str):
-			check = DataType("temp", self.data.get(check, check)).val()
+			check = DataType(None, self.data.get(check, check)).val()
 			
+		if isinstance(check, str):
+			check = yaml.safe_load(check)
 			
 		if isinstance(check, dict):
 			check = Dict(check)
@@ -58,6 +62,7 @@ class LayoutNode(GroupNode):
 		elif isinstance(check, list):
 			check = List(check)
 			check.apply(self.data)
+			
 			self.iterating = dict(enumerate(check.val()))
 			
 		else:
@@ -65,9 +70,8 @@ class LayoutNode(GroupNode):
 				self.iterating = dict( enumerate( range(start_at, start_at + (int(check) * inc_val), inc_val)))
 			except Exception as e:
 				pass
-			
 				
-		if not self.iterating:
+		if not self.iterating:				
 			raise Exception("Could not resolve repeat-over (" + str(repeat) + ") into an iterable value")
 						
 		self["num-items"] = len(self.iterating)
@@ -76,7 +80,7 @@ class LayoutNode(GroupNode):
 			self["index"] = key
 			self.curr_macros = {}
 			
-			if isinstance(val, dict):
+			if isinstance(val, dict):				
 				self.curr_macros = val
 			else:
 				test = Dict(val)
@@ -85,7 +89,7 @@ class LayoutNode(GroupNode):
 				
 				if isinstance(check, dict):
 					self.curr_macros = check
-				
+					
 			line = GroupNode(anonymous=True)
 			line["ignore-empty"] = self["ignore-empty"]
 			
@@ -93,5 +97,4 @@ class LayoutNode(GroupNode):
 				line.append(childnode)
 				
 			yield line
-			
-			
+				
