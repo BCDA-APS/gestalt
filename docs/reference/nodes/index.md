@@ -3,7 +3,6 @@ layout: default
 title: Nodes
 parent: Reference
 nav_order: 1
-has_children: true
 has_toc: false
 ---
 
@@ -28,16 +27,109 @@ the logic of how to apply those attributes to a given output data format.
 
 ## Widgets
 
-Currently, the way that widgets are supported is by directly interfacing with the
-widget types of each of the output formats. Widget Nodes are created by giving the
-widget name of the caQtDM or CSS widget that will be created and then specifying
-attributes with names and values equivalent to the names and values within their
-equivalent designer programs. Further information about this is described in the 
-[Templates](../../templates.md) section.
+Widget nodes are the representations of individual widgets within each UI tool that
+gestalt outputs to. There are a variety of output-independent widgets defined for
+use which can be referenced here. These nodes will be automatically matched up to
+the equivalent widget in CSS-Phoebus or caQtDM or pyDM when writing the output file.
+Care has been taken to attempt to match up visuals and behavior so that generated screens 
+will be near identical between UI tools.
 
-Eventually, a set of output-independent widgets will be created with their own 
-property naming convention that will be capable of converting such properties into
-the correct attributes in both caQtDM and CSS.
+As well, there is support for directly interfacing with widgets for a specific tool.
+Directly using the widget name of a specific caQtDM or CSS widget will allow you to
+set attributes with names and values equivalent to the names and values within their
+equivalent designer programs (caQtDM or phoebusgen). 
+
+### CSS Widget
+
+---
+
+The list of recognized CSS Widgets is as follows: "ActionButton", "Array", "BooleanButton", 
+"CheckBox", "ComboBox", "DataBrowser", "EmbeddedDisplay", "FileSelector", "LEDMultiState", 
+"Label", "Meter", "NavigationTabs", "Picture", "ProgressBar", "RadioButton", "ScaledSlider", 
+"Scrollbar", "SlideButton", "Spinner", "StripChart", "Symbol", "Table", "Tabs", "Tank", 
+"TextSymbol", "TextUpdate", "Thermometer", "ThreeDViewer", "WebBrowser", and "XYPlot".
+
+Attributes are set using the name of the function used by phoebusgen. For example, a label's `Auto Size`
+field in CSS-Phoebus would be set with the `auto_size` attribute in Gestalt.
+
+
+* **Special Attributes**
+
+|    Name   |  Type  | Description|
+|-----------|--------|------------|
+| geometry  | Rect   | A rectangle describig the position and dimensions of the widget |
+
+
+* **Example**
+
+```yaml
+- !Label
+    geometry: 5x0 x 120x20
+    
+    text: "Label {N}"
+    transparent: false
+    background: *header_blue
+    foreground: Attention
+    font: -Liberation Sans - bold - 12
+```
+
+### caQtDM Widget
+
+---
+
+The list of recognized caQtDM Widgets is as follows: "caLabel", "caLineEdit", "caTextEntry", 
+"caMenu", "caRelatedDisplay", "caNumeric", "caApplyNumeric", "caSlider", "caChoice", "caTextEntry",
+"caMessageButton", "caToggleButton", "caSpinbox", "caByteController", "caLabelVertical", 
+"caGraphics", "caPolyLine", "caImage", "caInclude", "caDoubleTabWidget", "caClock", "caLed", 
+"caLinearGauge", "caMeter", "caCircularGauge", "caMultiLineString", "caThermo", "caCartesianPlot",
+"caStripPlot", "caByte", "caTable", "caWaveTable", "caBitnames", "caCamera", "caCalc", 
+"caWaterfallPlot", "caScan2D", "caLineDraw", "caShellCommand", "caScriptButton", "caMimeDisplay".
+
+Attributes are set with the same names used for the widget's Qt properties.
+
+
+* **Special Attributes**
+
+caQtDM widgets don't have any special attributes.
+
+
+* **Example**
+
+```yaml
+- !caMessageButton
+    background: *edit_blue
+    colorMode: caMessageButton::Static
+    
+    geometry: 126x140 x 24x24
+    pressMessage: "1"
+    channel: "$(P)$(M{N}).TWF"
+    label: ">"
+```
+
+### Form
+
+---
+
+A special widget used to set values for the top-level window.
+
+
+* **Special Attributes**
+
+|    Name    |  Type  | Description|
+|------------|--------|------------|
+| geometry   | Rect   | A rectangle describing the position and dimensions of the widget |
+| margins    | Rect   | A set of numbers describing the number of pixels to leave clear on the left, top, right, and bottom of the window respectively |
+| background | Color  | The background color for the Form, $BBBBBB by default |
+| title      | String | The display name in the header bar of the window |
+
+
+* **Example**  
+
+```yaml
+Form: !Form
+    background: $123456
+    margins: 5x5x5x5
+```
 
 
 ## Logical Groups
@@ -56,8 +148,6 @@ basic group.
 The Template and Apply system saves sets of Nodes to later be included in other definitions
 while being able to define certain attributes with macros.
 
-[Full Documentation](logic.md)
-
 
 ## Layouts
 
@@ -74,18 +164,27 @@ using a set of macros to configure each repeated line according to the user's in
 * Grids work like the Repeat node, but will copy the widgets according to
 a grid pattern, using a specified ratio to determine the number of columns and rows.
 
-[Full Documentation](layouts.md)
-
 
 ## Positioners
 
-Positioners are a way to define a widget's position or size that is in some way dependent 
-on the parent widget. There are two types of positioners provided, stretch and center.
 
-* Stretches set the size of a widget's axis to the same value as the widget's parent.
+Positioners are special tags that can be applied to a widget type which overwrite the
+geometry of the given widget when the output file is written. All other attributes of
+the widget are defined as normal and not touched by the positioner.
 
-* Centers set a widget's position so that the center of the widget aligns with the center
-of its parent along a given axis.
+When defining the widget you want to position, just prepend with widget's type with the
+positioner's type. So if you have a Text widget, which is normally indicated with the '!Text'
+type, and you want to horizontally center it within its parent, you would change that type
+to '!hcenter:Text'.
 
-[Full Documentation](positioners.md)
+Positioners are set up to be generated last among a set of unordered children nodes. This allows 
+the rest of the nodes to expand the size of a parent widget before determining positioning. Be
+careful though, as this does mean that the later generated widgets will appear above any other
+widgets they share area with, despite being written in the stylesheet earlier. You can overwrite
+this behavior by setting the "render-order" attribute to 0, but you may then have to define your
+positioner node in a later part of the stylesheet in order for it to see the correct parent height
+and width.
+
+As well, it's important to note that this is only for unordered sets of children nodes. FlowNodes
+will ignore this order and will place children nodes in the order they are defined in the template.
 

@@ -1,0 +1,34 @@
+{% include header.md title='TextMonitorNode' parent='Nodes' nav_order=33 %}
+<a id="TextMonitorNode"></a>
+
+# TextMonitorNode
+
+A widget representing a text display field
+
+* **Special Attributes**
+
+|     Name     |    Type   | Description|
+|--------------|-----------|------------|
+| geometry     | Rect      | A rectangle describing the position and dimensions of the widget |
+| foreground   | Color     | Widget foreground color |
+| background   | Color     | Widget background color |
+| border-color | Color     | Widget border color |
+| border-width | Number    | Widget border thickness in pixels |
+| font         | Font      | Widget display font |
+| alignment    | Alignment | Display text alignment |
+| format       | String    | Text display format, value is one of "String, Decimal, Engineering, Exponential, Compact, Hexadecimal, Binary" |
+| pv           | String    | The PV to read data from |
+| visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+
+
+* **Example**
+
+```yaml
+- !TextMonitor
+    geometry: 5x0 x 120x20
+
+    pv: "$(P)$(R)Description_RBV"
+
+    alignment: CenterRight
+```
+
