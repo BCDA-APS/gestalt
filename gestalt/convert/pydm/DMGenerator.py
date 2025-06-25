@@ -300,6 +300,15 @@ class DMGenerator(GestaltGenerator):
 		
 		return output
 		
+	def generateInclude(self, node, macros={}):
+		output = DMWidget("PyDMEmbeddedDisplay", node=node, macros=macros)
+		
+		output["file"] = output["file"] + ".ui"
+		
+		output.link("filename", "file")
+		
+		return output
+		
 		
 	def generateSlider(self, node, macros={}):
 		output = DMWidget("PyDMSlider", node=node, macros=macros)

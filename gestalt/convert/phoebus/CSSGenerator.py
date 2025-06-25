@@ -221,6 +221,13 @@ class CSSGenerator(GestaltGenerator):
 		
 		return output
 		
+	def generateInclude(self, node, macros={}):
+		output = CSSWidget("EmbeddedDisplay", node=node, macros=macros)
+		
+		output["file"] = output["file"] + ".bob"
+		
+		return output
+		
 		
 	def generateSlider(self, node, macros={}):
 		output = CSSWidget("Scrollbar", node=node, macros=macros)

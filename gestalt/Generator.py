@@ -146,3 +146,6 @@ class GestaltGenerator:
 
 	def generateCalc(self, node, macros={}):
 		pass
+
+	def generateInclude(self, node, macros={}):
+		pass

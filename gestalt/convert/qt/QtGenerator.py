@@ -247,6 +247,14 @@ class QtGenerator(GestaltGenerator):
 		
 		return output
 		
+	def generateInclude(self, node, macros={}):
+		output = QtWidget("caInclude", node=node, macros=macros)
+		
+		output["file"] = output["file"] + ".ui"
+		output.link("filename", "file")
+		
+		return output
+		
 		
 	def generateSlider(self, node, macros={}):
 		output = QtWidget("caSlider", node=node, macros=macros)
