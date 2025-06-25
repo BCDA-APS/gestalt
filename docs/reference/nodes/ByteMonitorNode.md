@@ -1,4 +1,12 @@
-{% include header.md title='ByteMonitorNode' parent='Nodes' nav_order=4 %}
+---
+layout: default
+title: ByteMonitorNode
+parent: Nodes
+nav_order: 4
+has_toc: false
+---
+
+
 <a id="ByteMonitorNode"></a>
 
 # ByteMonitorNode

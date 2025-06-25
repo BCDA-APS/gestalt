@@ -1,4 +1,12 @@
-{% include header.md title='ArcNode' parent='Nodes' nav_order=3 %}
+---
+layout: default
+title: ArcNode
+parent: Nodes
+nav_order: 3
+has_toc: false
+---
+
+
 <a id="ArcNode"></a>
 
 # ArcNode

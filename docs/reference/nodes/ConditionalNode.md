@@ -1,4 +1,12 @@
-{% include header.md title='ConditionalNode' parent='Nodes' nav_order=8 %}
+---
+layout: default
+title: ConditionalNode
+parent: Nodes
+nav_order: 8
+has_toc: false
+---
+
+
 <a id="ConditionalNode"></a>
 
 # ConditionalNode

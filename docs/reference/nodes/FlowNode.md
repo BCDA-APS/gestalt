@@ -1,4 +1,12 @@
-{% include header.md title='FlowNode' parent='Nodes' nav_order=11 %}
+---
+layout: default
+title: FlowNode
+parent: Nodes
+nav_order: 11
+has_toc: false
+---
+
+
 <a id="FlowNode"></a>
 
 # FlowNode

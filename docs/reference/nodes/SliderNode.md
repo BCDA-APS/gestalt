@@ -1,4 +1,12 @@
-{% include header.md title='SliderNode' parent='Nodes' nav_order=27 %}
+---
+layout: default
+title: SliderNode
+parent: Nodes
+nav_order: 27
+has_toc: false
+---
+
+
 <a id="SliderNode"></a>
 
 # SliderNode

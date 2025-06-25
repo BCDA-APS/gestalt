@@ -1,0 +1,3 @@
+#include area-detector.yml
+                
+MyDisplay: !Apply:ADPlugins

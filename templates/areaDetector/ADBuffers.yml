@@ -1,0 +1,30 @@
+#include colors.yml
+#include widgets.yml
+#include templates.yml
+
+BuffersSection: !Template:BuffersSection
+    - !Group
+        geometry: 350x0
+        border-width: 1
+        border-color: *black
+        margins: 5x0x5x5
+        
+        children:
+            - !Vflow
+                geometry: 0x30 x 0x0
+                padding: 5
+                
+                children:
+                    - !Apply:LabeledReadback   { label: "Buffers Used",             read-pv: "$(P)$(R)PoolUsedBuffers" }
+                    - !Apply:LabeledReadback   { label: "Buffers Alloc/Free",       read-pv: "$(P)$(R)PoolAllocBuffers" }
+                    - !Apply:LabeledReadback   { label: "Memory Max/Used (MB)",     read-pv: "$(P)$(R)PoolMaxMem" }
+                    - !Apply:LabeledMenu       { label: "Buffer and Memory Pooling",write-pv: "$(P)$(R)PoolUsedMem.SCAN" } 
+                    - !Apply:LabeledButton     { label: "Empty Free List",          write-pv: "$(P)$(R)EmptyFreeList", button-text: "Empty"}
+                    
+            - !Apply:SectionHeader { label: "Buffers" }
+                    
+
+TestDisplay: !Apply:BuffersSection
+    text-width: 210
+    write-width: 90
+    read-width:  90

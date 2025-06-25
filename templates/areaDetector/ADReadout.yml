@@ -1,0 +1,144 @@
+#include colors.yml
+#include widgets.yml
+#include templates.yml
+
+ColumnHeaders: !Template:ColumnHeaders
+    - !hflow
+        padding: "{spacing}"
+        
+        children:
+            - !Spacer { geometry: "{text-width}x20" }
+            - !Text
+                geometry: "0x1 x {write-width}x18"
+                alignment: Center
+                font: "-{fontname} -Regular -8"
+                text: "{header1}"
+                
+            - !Text
+                geometry: "0x1 x {read-width}x18"
+                alignment: Center
+                font: "-{fontname} -Regular -8"
+                text: "{header2}"
+
+XYReadback: !Template:XYReadback
+    - !hflow
+        padding: "{spacing}"
+
+        children:
+            - !Text
+                geometry: "{text-width}x20"
+                alignment: CenterRight
+                font: "-{fontname} -Regular -11"
+                text: "{label}"
+                
+            - !TextMonitor
+                <<: *colored_label
+                geometry: "0x1 x {write-width}x18"
+                alignment: Center
+                font: "-{fontname} -Regular -10"
+                pv: "$(P)$(R){PV}X_RBV"
+                
+            - !TextMonitor
+                <<: *colored_label
+                geometry: "0x1 x {read-width}x18"
+                alignment: Center
+                font: "-{fontname} -Regular -10"
+                pv: "$(P)$(R){PV}Y_RBV"
+
+
+
+XYSetValues: !Template:XYSetValues
+    - !vflow
+        padding: 5
+    
+        children:
+            - !Apply:XYReadback { label: "" }
+            - !hflow
+                padding: "{spacing}"
+                
+                children:
+                    - !Text
+                        geometry: "{text-width}x20"
+                        alignment: CenterRight
+                        font: "-{fontname} -Regular -11"
+                        text: "{label}"
+                        
+                    - !TextEntry
+                        <<: *editable
+                        geometry: "{write-width}x20"
+                        pv: "$(P)$(R){PV}X"
+                        
+                    - !TextEntry
+                        <<: *editable
+                        geometry: "{read-width}x20"
+                        pv: "$(P)$(R){PV}Y"
+
+            
+XYMenu: !Template:XYSelect
+    - !vflow
+        padding: 5
+        
+        children:
+            - !Apply:XYReadback { label: "" }
+            - !hflow
+                padding: "{spacing}"
+                
+                children:
+                    - !Text
+                        geometry: "{text-width}x20"
+                        alignment: CenterRight
+                        font: "-{fontname} -Regular -11"
+                        text: "{label}"
+                        
+                    - !Menu
+                        <<: *editable
+                        geometry: "{write-width}x20"
+                        pv: "$(P)$(R){PV}X"
+                        
+                    - !Menu
+                        <<: *editable
+                        geometry: "{read-width}x20"
+                        pv: "$(P)$(R){PV}Y"          
+
+ReadoutSection: !Template:ReadoutSection
+    - !Group
+        geometry: 350x0
+        border-width: 1
+        border-color: *black
+        margins: 5x0x5x5
+        
+        children:
+            - !vflow
+                geometry: 0x30 x 0x0
+                padding: 5
+                
+                children: 
+                    - !Apply:ColumnHeaders { header1: "X", header2: "Y" }
+                    - !Apply:XYReadback { label: "Sensor Size",  PV: "MaxSize" }
+                    
+                    - !Apply:XYSetValues { label: "Binning",      PV: "Bin" }
+                    - !Apply:XYSetValues { label: "Region Start", PV: "Min" }
+                    - !Apply:XYSetValues { label: "Region Size",  PV: "Size" }
+                    - !Apply:XYSelect    { label: "Reverse",      PV: "Reverse" }
+
+                    - !Spacer { geometry: 0x5 }
+                    
+                    - !Apply:XYReadback { label: "Image Dims",   PV: "ArraySize" }
+                    - !Apply:XYReadback { label: "Image Size",   PV: "ArraySize_RBV" }
+                    
+                    - !Spacer { geometry: 0x5 }
+                    
+                    - !Apply:EntryWithReadback { label: "Gain",       write-pv: "$(P)$(R)Gain",      read-pv:  "$(P)$(R)Gain_RBV" }
+                    - !Apply:MenuWithReadback  { label: "Data Type",  write-pv: "$(P)$(R)DataType",  read-pv:  "$(P)$(R)DataType_RBV" }
+                    - !Apply:MenuWithReadback  { label: "Color Mode", write-pv: "$(P)$(R)ColorMode", read-pv:  "$(P)$(R)ColorMode_RBV" }
+            
+            - !Apply:SectionHeader { label: "Readout" }
+
+                
+                
+MyDisplay: !Apply:ReadoutSection
+    fontname: "Cantarell"
+    text-width:  130
+    write-width: 75
+    read-width:  75
+    spacing:     15

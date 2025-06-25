@@ -1,0 +1,1298 @@
+<ui version="4.0">
+  <class>Form</class>
+  <widget class="QMainWindow" name="Form">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>350</width>
+        <height>295</height>
+      </rect>
+    </property>
+    <property name="styleSheet">
+      <string>QWidget#centralwidget {background: rgba(187,187,187,255);}
+QPushButton::menu-indicator {image: url(none.png); width: 0}</string>
+    </property>
+    <property name="windowTitle">
+      <string></string>
+    </property>
+    <widget class="QWidget" name="centralwidget">
+      <property name="geometry">
+        <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>0</width>
+          <height>0</height>
+        </rect>
+      </property>
+      <widget class="caFrame" name="content">
+        <property name="geometry">
+          <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>350</width>
+            <height>295</height>
+          </rect>
+        </property>
+        <widget class="caFrame" name="caFrame1">
+          <property name="geometry">
+            <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>350</width>
+              <height>295</height>
+            </rect>
+          </property>
+          <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="backgroundMode">
+            <enum>caFrame::Filled</enum>
+          </property>
+          <property name="visibilityMode">
+            <enum>caFrame::All</enum>
+          </property>
+          <property name="background">
+            <color alpha="0">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+            </color>
+          </property>
+          <widget class="QFrame" name="QFrame4">
+            <property name="geometry">
+              <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>350</width>
+                <height>295</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QFrame
+{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(36,36,36,255);
+}
+</string>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel1">
+            <property name="text">
+              <string>Setup</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>0</red>
+                <green>53</green>
+                <blue>132</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="255">
+                <red>218</red>
+                <green>218</green>
+                <blue>218</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+                <pointsize>12</pointsize>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>120</x>
+                <y>2</y>
+                <width>110</width>
+                <height>22</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel2">
+            <property name="text">
+              <string>asyn port</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>35</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit1">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>35</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)PortName_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel3">
+            <property name="text">
+              <string>Manufacturer</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>60</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit2">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>60</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)Manufacturer_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel4">
+            <property name="text">
+              <string>Model</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>85</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit3">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>85</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)Model_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel5">
+            <property name="text">
+              <string>Serial Number</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>110</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit4">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>110</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)SerialNumber_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel6">
+            <property name="text">
+              <string>Firmware Version</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>135</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit5">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>135</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)FirmwareVersion_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel7">
+            <property name="text">
+              <string>SDK Version</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>160</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit6">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>160</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)SDKVersion_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel8">
+            <property name="text">
+              <string>Driver Version</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>185</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit7">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>185</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)DriverVersion_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel9">
+            <property name="text">
+              <string>ADCore Version</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>8</x>
+                <y>210</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLineEdit" name="caLineEdit8">
+            <property name="foreground">
+              <color alpha="255">
+                <red>36</red>
+                <green>36</green>
+                <blue>36</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>173</x>
+                <y>210</y>
+                <width>150</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)ADCoreVersion_RBV</string>
+            </property>
+            <property name="frameColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="frameLineWidth">
+              <number>0</number>
+            </property>
+            <property name="formatType">
+              <enum>caLineEdit::decimal</enum>
+            </property>
+            <property name="colorMode">
+              <enum>caLineEdit::Static</enum>
+            </property>
+            <property name="fontScaleMode">
+              <enum>caLineEdit::Height</enum>
+            </property>
+          </widget>
+          <widget class="QFrame" name="QFrame1">
+            <property name="geometry">
+              <rect>
+                <x>43</x>
+                <y>270</y>
+                <width>100</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay1">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>36</red>
+                  <green>36</green>
+                  <blue>36</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>87</red>
+                  <green>202</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string>asyn record;save restore status</string>
+              </property>
+              <property name="files">
+                <string>asynRecord.ui;save_restoreStatus_more.ui</string>
+              </property>
+              <property name="args">
+                <string>P=$(P),R=$(R)AsynIO;P=$(P)</string>
+              </property>
+              <property name="removeParent">
+                <string>false;false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-Debugging</string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>100</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame2">
+            <property name="geometry">
+              <rect>
+                <x>178</x>
+                <y>270</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caMessageButton" name="caMessageButton1">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>36</red>
+                  <green>36</green>
+                  <blue>36</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>87</red>
+                  <green>202</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="label">
+                <string>Connect</string>
+              </property>
+              <property name="channel">
+                <string>$(P)$(R)AsynIO.CNCT</string>
+              </property>
+              <property name="pressMessage">
+                <string>1</string>
+              </property>
+              <property name="colorMode">
+                <enum>caMessageButton::Static</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::Height</enum>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame3">
+            <property name="geometry">
+              <rect>
+                <x>263</x>
+                <y>270</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caMessageButton" name="caMessageButton2">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>36</red>
+                  <green>36</green>
+                  <blue>36</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>87</red>
+                  <green>202</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="label">
+                <string>Disconnect</string>
+              </property>
+              <property name="channel">
+                <string>$(P)$(R)AsynIO.CNCT</string>
+              </property>
+              <property name="pressMessage">
+                <string>0</string>
+              </property>
+              <property name="colorMode">
+                <enum>caMessageButton::Static</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::Height</enum>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="caLabel" name="caLabel10">
+            <property name="text">
+              <string>Connected</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>30</red>
+                <green>228</green>
+                <blue>30</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>200</x>
+                <y>240</y>
+                <width>120</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)AsynIO.CNCT</string>
+            </property>
+            <property name="visibility">
+              <enum>caLabel::IfNotZero</enum>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel11">
+            <property name="text">
+              <string>Disconnected</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>228</red>
+                <green>30</green>
+                <blue>30</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="0">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>200</x>
+                <y>240</y>
+                <width>120</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+            </property>
+            <property name="channel">
+              <string>$(P)$(R)AsynIO.CNCT</string>
+            </property>
+            <property name="visibility">
+              <enum>caLabel::IfZero</enum>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+        </widget>
+      </widget>
+    </widget>
+  </widget>
+</ui>

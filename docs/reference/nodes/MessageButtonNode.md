@@ -1,4 +1,12 @@
-{% include header.md title='MessageButtonNode' parent='Nodes' nav_order=18 %}
+---
+layout: default
+title: MessageButtonNode
+parent: Nodes
+nav_order: 18
+has_toc: false
+---
+
+
 <a id="MessageButtonNode"></a>
 
 # MessageButtonNode

@@ -1,4 +1,12 @@
-{% include header.md title='ShellCommandNode' parent='Nodes' nav_order=26 %}
+---
+layout: default
+title: ShellCommandNode
+parent: Nodes
+nav_order: 26
+has_toc: false
+---
+
+
 <a id="ShellCommandNode"></a>
 
 # ShellCommandNode

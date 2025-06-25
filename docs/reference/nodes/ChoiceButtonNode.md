@@ -1,4 +1,12 @@
-{% include header.md title='ChoiceButtonNode' parent='Nodes' nav_order=7 %}
+---
+layout: default
+title: ChoiceButtonNode
+parent: Nodes
+nav_order: 7
+has_toc: false
+---
+
+
 <a id="ChoiceButtonNode"></a>
 
 # ChoiceButtonNode

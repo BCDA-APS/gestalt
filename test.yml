@@ -1,0 +1,24 @@
+#include area-detector.yml
+
+Form: !Form
+    margins: 10x10x10x10
+
+Desc: !TabbedRepeat
+    foreground: *white
+    tab-color: $003584
+    selected: $3970C4
+    border-color: $003584
+    border-width: 3
+    inset: 10
+    offset: 5
+    padding: 10
+    font: -DejaVu Sans Mono -Bold -9
+
+    geometry: 860x240
+
+    repeat-over: "example"
+    
+    children:
+        - !Text
+            geometry: 80x40
+            text: "{N}"

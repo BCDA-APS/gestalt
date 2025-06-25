@@ -1,4 +1,12 @@
-{% include header.md title='LEDNode' parent='Nodes' nav_order=15 %}
+---
+layout: default
+title: LEDNode
+parent: Nodes
+nav_order: 15
+has_toc: false
+---
+
+
 <a id="LEDNode"></a>
 
 # LEDNode

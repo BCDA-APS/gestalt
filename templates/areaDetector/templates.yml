@@ -1,0 +1,9 @@
+#include colors.yml
+
+SectionHeader: !Template:SectionHeader
+    - !hcenter:Text
+        geometry: 0x1 x 110x22
+        background: $DADADA
+        foreground: *header_blue
+        alignment: Center
+        text: "{label}"

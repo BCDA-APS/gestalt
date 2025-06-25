@@ -1,4 +1,12 @@
-{% include header.md title='CenterNode' parent='Nodes' nav_order=6 %}
+---
+layout: default
+title: CenterNode
+parent: Nodes
+nav_order: 6
+has_toc: false
+---
+
+
 <a id="CenterNode"></a>
 
 # CenterNode

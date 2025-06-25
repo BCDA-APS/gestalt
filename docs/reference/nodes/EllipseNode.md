@@ -1,4 +1,12 @@
-{% include header.md title='EllipseNode' parent='Nodes' nav_order=9 %}
+---
+layout: default
+title: EllipseNode
+parent: Nodes
+nav_order: 9
+has_toc: false
+---
+
+
 <a id="EllipseNode"></a>
 
 # EllipseNode

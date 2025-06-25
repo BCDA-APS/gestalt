@@ -1,0 +1,360 @@
+#include colors.yml
+#include color-schemes.yml
+
+#include on-off.yml
+#include read-write.yml
+
+_ADSectionHeader: !Template:ADSectionHeader
+    - !HCenter:Text
+        geometry: 0x1 x 110x22
+        background: $DADADA
+        foreground: *header_blue
+        alignment: Center
+        text: "{title}"
+
+    
+_ADReadWriteList: !Template:ADReadWriteList
+    - !Defaults
+        items: []
+        
+    - !VRepeat
+        repeat-over: "{items}"
+        padding: 5
+        children:
+            Output: !Apply:PVReadWrite
+    
+    
+_ADSection: !Template:ADSection
+    - !Defaults
+        title: ""
+        items: []
+        content: 
+            - !Apply:ADReadWriteList
+
+    - !Group
+        border-width: 1
+        border-color: *black
+        margins: 5x0x5x10
+        geometry: 350x0
+        
+        children:
+            Header: !Apply:ADSectionHeader { title: "{title}" }
+            Flow:   !HCenter:VFlow { geometry: 0x34 x 0x0, padding: 10, children: [ !Embed:content ] }
+
+
+_ADReadoutXY: !Template:ADReadoutXY
+    - !Defaults
+        Writable: False
+        Select: False
+
+    - !VFlow
+        padding: 5
+        children:
+            - !HFlow
+                padding: 15
+        
+                children:
+                    - !If:Writable
+                        - !Apply:PVReadWrite { read-width: 75, read-pv: "$(P)$(R){PV}X_RBV", read-foreground: *header_blue, label-width: 130, label: " " }
+                    - !IfNot:Writable
+                        - !Apply:PVReadWrite { read-width: 75, read-pv: "$(P)$(R){PV}X_RBV", read-foreground: *header_blue, label-width: 130 }
+                        
+                    - !Apply:PVReadWrite     { read-width: 75, read-pv: "$(P)$(R){PV}Y_RBV", read-foreground: *header_blue, label: False }
+            
+            - !If:Writable
+                - !HFlow
+                    padding: 15
+                    children:
+                        - !IfNot:Select
+                            - !Apply:PVReadWrite { entry-width: 75, entry-pv: "$(P)$(R){PV}X", read-foreground: *header_blue, label-width: 130 }
+                            - !Apply:PVReadWrite { entry-width: 75, entry-pv: "$(P)$(R){PV}Y", read-foreground: *header_blue, label: False }
+                        - !If:Select
+                            - !Apply:PVReadWrite { menu-width: 75, menu-pv: "$(P)$(R){PV}X", read-foreground: *header_blue, label-width: 130 }
+                            - !Apply:PVReadWrite { menu-width: 75, menu-pv: "$(P)$(R){PV}Y", read-foreground: *header_blue, label: False }
+            
+    
+##############################
+#         ADSetup            #
+##############################
+        
+_ADSetupSection: !Template:ADSetup
+    - !Defaults
+        label-width: 150
+        text-width: 160
+        read-width: 150
+        connect: True
+        items:
+            - { label: "asyn port",        read-pv: "$(P)$(R)PortName_RBV" }
+            - { label: "Manufacturer",     read-pv: "$(P)$(R)Manufacturer_RBV" }
+            - { label: "Model",            read-pv: "$(P)$(R)Model_RBV" }
+            - { label: "Serial Number",    read-pv: "$(P)$(R)SerialNumber_RBV" }
+            - { label: "Firmware Version", read-pv: "$(P)$(R)FirmwareVersion_RBV" }
+            - { label: "SDK Version",      read-pv: "$(P)$(R)SDKVersion_RBV" }
+            - { label: "Driver Version",   read-pv: "$(P)$(R)DriverVersion_RBV" }
+            - { label: "ADCore Version",   read-pv: "$(P)$(R)ADCoreVersion_RBV" }
+
+    - !Apply:ADSection
+        title: "Setup"
+        content:    
+            - !VRepeat 
+                repeat-over: "{items}"
+                padding: 5
+                children:
+                    - !Apply:PVReadWrite
+            
+            - !If:connect            
+                - !HStretch:VFlow
+                    padding: 10
+                    children:
+                        - !HCenter:Apply:OnOffText
+                            width: 120
+                        
+                            on-label: "Connected"
+                            off-label: "Disconnected"
+                            
+                            PV: "$(P)$(R)AsynIO.CNCT"
+                        
+                        - !HCenter:Hflow
+                            padding: 5
+                            children:
+                                - !MessageButton { <<: *editable, geometry: 80x20, text: "Connect",    pv: "$(P)$(R)AsynIO.CNCT", value: 1 }
+                                - !MessageButton { <<: *editable, geometry: 80x20, text: "Disconnect", pv: "$(P)$(R)AsynIO.CNCT", value: 0 }
+                                - !RelatedDisplay
+                                    <<: *editable
+                                    text: "Debug"
+                                    geometry: 80x20
+                                    links:
+                                        - { label: "asyn record", file: "asynRecord.ui", macros: "P=$(P),R=$(R)AsynIO" }
+                                        - { label: "save restore status", file: "save_restoreStatus_more.ui", macros: "P=$(P)" }
+
+
+
+##############################
+#         ADPlugins          #
+##############################
+                                            
+                                            
+_ADPluginsSection: !Template:ADPlugins
+    - !Defaults
+        buttons:
+            - name: "All"
+              links:
+                - { label: "Common Plugins", file: "commonPlugins.ui", macros: "P=$(P)" }
+            
+            - name: "File"
+              links:
+                - { label: "netCDF #1",    file: "NDFileCDF.ui",    macros: "P=$(P),R=netCDF1:,EXT=nc" }
+                - { label: "Tiff #1",      file: "NDFileTIFF.ui",   macros: "P=$(P),R=TIFF1:,EXT=tif" }
+                - { label: "JPEG #1",      file: "NDFileJPEG.ui",   macros: "P=$(P),R=JPEG1:,EXT=jpg" }
+                - { label: "Nexus #1",     file: "NDFileNexus.ui",  macros: "P=$(P),R=Nexus1:,EXT=h5" }
+                - { label: "Magick #1",    file: "NDFileMagick.ui", macros: "P=$(P),R=Magick1:,EXT=tif" }
+                - { label: "HDF5 #1",      file: "NDFileHDF5.ui",   macros: "P=$(P),R=HDF1:,EXT=h5" }
+                - { label: "Null #1",      file: "NDFileNull.ui",   macros: "P=$(P),R=Null1:,EXT=null" }
+                - { label: "ffmpegStream", file: "ffmpegStream.ui", macros: "P=$(P),R=ffmstream1:,EXT=nc" }
+                - { label: "EDF Plugin",   file: "NDFileEDF.ui",    macros: "P=$(P),R=EDF1:,EXT=nc" }
+                - { label: "Bar Plugin",   file: "NDPluginBar.ui",  macros: "P=$(P),R=Bar1:,EXT=nc" }
+            
+            - name: "ROI"
+              links:
+                - { label: "ROI #1", file: "NDROI.ui", macros: "P=$(P),R=ROI1:" }
+                - { label: "ROI #2", file: "NDROI.ui", macros: "P=$(P),R=ROI2:" }
+                - { label: "ROI #3", file: "NDROI.ui", macros: "P=$(P),R=ROI3:" }
+                - { label: "ROI #4", file: "NDROI.ui", macros: "P=$(P),R=ROI4:" }
+                - { label: "ROI #1-4 combined", file: "NDROI4.ui", macros: "P=$(P),R1=ROI1:,R2=ROI2:,R3=ROI3:,R4=ROI4:" }
+            
+            - name: "Stats"
+              links:
+                - { label: "Statistics #1", file: "NDStats.ui", macros: "P=$(P),R=Stats1:" }
+                - { label: "Statistics #2", file: "NDStats.ui", macros: "P=$(P),R=Stats2:" }
+                - { label: "Statistics #3", file: "NDStats.ui", macros: "P=$(P),R=Stats3:" }
+                - { label: "Statistics #4", file: "NDStats.ui", macros: "P=$(P),R=Stats4:" }
+                - { label: "Statistics #5", file: "NDStats.ui", macros: "P=$(P),R=Stats5:" }
+                - { label: "Statistics 1-5", file: "NDStats5.ui", macros: "P=$(P),R1=Stats1:,R2=Stats2:,R3=Stats3:,R4=Stats4:,R5=Stats5:" }
+            
+            - name: "Other"
+              links:
+                - { label: "Image #1",           file: "NDStdArrays.ui",       macros: "P=$(P),R=image1:" }
+                - { label: "PVA #1",             file: "NDPva.ui",             macros: "P=$(P),R=Pva1:" }
+                - { label: "Process #1",         file: "NDProcess.ui",         macros: "P=$(P),R=Proc1:" }
+                - { label: "Transform #1",       file: "NDTransform.ui",       macros: "P=$(P),R=Trans1:" }
+                - { label: "Color Convert #1",   file: "NDColorConvert.ui",    macros: "P=$(P),R=CC1:" }
+                - { label: "Color Convert #2",   file: "NDColorConvert.ui",    macros: "P=$(P),R=CC2:" }
+                - { label: "Overlay #1",         file: "NDOverlay.ui",         macros: "P=$(P),R=Over1:" }
+                - { label: "Overlays 1-8",       file: "NDOverlay8.ui",        macros: "P=$(P),R=Over1,O1=Over1:1:,O2=Over1:2:,O3=Over1:3:,O4=Over1:4:,O5=Over1:5:,O6=Over1:6:,O7=Over1:7:,O8=Over1:8:" }
+                - { label: "Circular Buffer #1", file: "NDCircularBuff.ui",    macros: "P=$(P),R=CB1:" }
+                - { label: "ROI Statistics #1",  file: "NDROIStat.ui",         macros: "P=$(P),R=ROIStat1:" }
+                - { label: "Attribute #1",       file: "NDPluginAttribute.ui", macros: "P=$(P),R=Attr1:" }
+                - { label: "FFT #1",             file: "NDFFT.ui",             macros: "P=$(P),R=FFT1:" }
+                - { label: "Scatter #1",         file: "NDScatter.ui",         macros: "P=$(P),R=Scatter1:" }
+                - { label: "Gather #1",          file: "NDGather8.ui",         macros: "P=$(P),R=Gather1:" }
+                - { label: "Codec #1",           file: "NDCodec.ui",           macros: "P=$(P),R=Codec1:" }
+                - { label: "Codec #2",           file: "NDCodec.ui",           macros: "P=$(P),R=Codec2:" }
+            
+            - name: "Misc"
+              links:
+                - { label: "", file: "", macros: "" }
+
+    - !Apply:ADSection
+        title: "Plugins"
+        content:
+            - !HCenter:Grid
+                max-cols: 3
+                padding: 10
+                repeat-over: "buttons"
+            
+                children:
+                    - !RelatedDisplay
+                        geometry: 80x20
+                        background: *menu_green
+                        foreground: *white
+                        text: "{name:^10s}"
+                        links: "{links}"
+                            
+
+##############################
+#         ADCollect          #
+##############################
+
+                        
+_ADCollectSection: !Template:ADCollect
+    - !Defaults
+        label-width: 175
+        spacing:     15
+        
+        fontname: "Liberation Sans"
+        
+        before-acquire:
+            - { label: "Exposure Time",  entry-pv: "$(P)$(R)AcquireTime",   read-pv: "$(P)$(R)AcquireTime_RBV" }
+            - { label: "Acquire Period", entry-pv: "$(P)$(R)AcquirePeriod", read-pv: "$(P)$(R)AcquirePeriod_RBV" }
+            - { label: "# Images",       entry-pv: "$(P)$(R)NumImages",     read-pv: "$(P)$(R)NumImages_RBV" }
+            - { label: "# Exp. / Image", entry-pv: "$(P)$(R)NumExposures",  read-pv: "$(P)$(R)NumExposures_RBV" }
+            - { spacer: 5 }
+            - { label: "Image Mode",  menu-pv: "$(P)$(R)ImageMode",  read-pv: "$(P)$(R)ImageMode_RBV", label-width: 115, menu-width: 120 }
+            - { label: "Trigger Mode",menu-pv: "$(P)$(R)TriggerMode",read-pv: "$(P)$(R)TriggerMode_RBV", label-width: 115, menu-width: 120 }
+    
+        after-acquire:
+            - { label: "Busy",   read-pv: "$(P)$(R)AcquireBusy",       label-width: 65, read-width: 259, read-background: $DADADA }
+            - { label: "State",  read-pv: "$(P)$(R)DetectorState_RBV", label-width: 65, read-width: 259, read-background: $DADADA }
+            - { label: "Status", read-pv: "$(P)$(R)StatusMessage_RBV", label-width: 65, read-width: 259, read-background: $DADADA }
+            - { spacer: 10 }
+            - { label: "Image Counter",   entry-pv: "$(P)$(R)ArrayCounter", read-pv: "$(P)$(R)ArrayCounter_RBV", read-first: True }
+            - { label: "Images Complete", read-pv: "$(P)$(R)NumImagesCounter_RBV" }
+            - { label: "Queued Arrays",   read-pv: "$(P)$(R)NumQueuedArrays" }
+            - { label: "Image Rate",      read-pv: "$(P)$(R)ArrayRate_RBV" }
+            - { label: "Time Remaining",  read-pv: "$(P)$(R)TimeRemaining_RBV" }
+            - { spacer: 5 }
+            - { label: "Array Callbacks",write-pv: "$(P)$(R)ArrayCallbacks",read-pv: "$(P)$(R)ArrayCallbacks_RBV", label-width: 115, write-width: 120 }
+            - { label: "Wait for Plugins", write-pv: "$(P)$(R)WaitForPlugins", label-width: 115, write-width: 120 }
+            
+    
+    - !Apply:ADSection
+        title: "Collect"
+        content:
+            - !VRepeat
+                padding: 5
+                repeat-over: "before-acquire"
+                children:
+                    - !If:spacer
+                        - !spacer { geometry: "0x{spacer}" }
+                    - !IfNot:spacer
+                        - !Apply:PVReadWrite
+            
+            - !Spacer { geometry: 0x10 }
+            
+            - !HFlow
+                padding: 20
+                children:
+                    - !Text          { geometry: 65x20, alignment: CenterRight, font: "-{fontname}", text: "Acquire" }
+                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Start", pv: "$(P)$(R)Acquire", value: 1 }
+                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Stop",  pv: "$(P)$(R)Acquire", value: 0 }
+                    - !Apply:OnOffText
+                        text-width: 94
+                    
+                        on-label: "Collecting"
+                        on-color: *alarm_yellow
+                        
+                        off-label: "Idle"
+                        off-color: *menu_green
+                        
+                        PV: "$(P)$(R)Acquire"
+            
+            - !Spacer { geometry: 0x10 }
+            
+            - !VRepeat
+                repeat-over: "after-acquire"
+                padding: 5
+                children:
+                    - !If:spacer
+                        - !spacer { geometry: "0x{spacer}" }
+                    - !IfNot:spacer
+                        - !Apply:PVReadWrite
+                    
+                    
+##############################
+#         ADBuffers          #
+##############################
+            
+_ADBuffersSection: !Template:ADBuffers
+    - !Apply:ADSection
+        title: "Buffers"
+        label-width: 210
+        element-width: 90
+        items:
+            - { label: "Buffers Used",             read-pv: "$(P)$(R)PoolUsedBuffers" }
+            - { label: "Buffers Alloc/Free",       read-pv: "$(P)$(R)PoolAllocBuffers" }
+            - { label: "Memory Max/Used (MB)",     read-pv: "$(P)$(R)PoolMaxMem" }
+            - { label: "Buffer and Memory Pooling",menu-pv: "$(P)$(R)PoolUsedMem.SCAN" } 
+            - { label: "Empty Free List",          button-pv: "$(P)$(R)EmptyFreeList", button-text: "Empty"}
+                    
+            
+
+##############################
+#       ADAttributes         #
+##############################
+_ADAttributesSection: !Template:ADAttributes
+    - !Apply:ADSection
+        title: "Attributes"
+        label-width: 60
+        element-width: 260
+        items:
+            - { label: "File",    entry-pv: "$(P)$(R)NDAttributesFile" }
+            - { label: "Macros",  entry-pv: "$(P)$(R)NDAttributesMacros" }
+            - { label: "Status",  read-pv: "$(P)$(R)NDAttributesStatus", read-background: $DADADA }
+              
+
+##############################
+#       ADAttributes         #
+##############################
+_ADReadoutSection: !Template:ADReadout
+    - !Apply:ADSection
+        title: "Readout"
+        content:
+            - !vflow
+                padding: 5
+                
+                children: 
+                    - !HFlow
+                        padding: 15
+                        children:
+                            - !Spacer { geometry: "130x20" }
+                            - !Apply:PVReadWrite { label: "X", element-width: 75, label-alignment: Center }
+                            - !Apply:PVReadWrite { label: "Y", element-width: 75, label-alignment: Center }
+
+                    - !Apply:ADReadoutXY      { label: "Sensor Size",  PV: "MaxSize" }
+                    - !Apply:ADReadoutXY      { label: "Binning",      PV: "Bin",     Writable: True }
+                    - !Apply:ADReadoutXY      { label: "Region Start", PV: "Min",     Writable: True }
+                    - !Apply:ADReadoutXY      { label: "Region Size",  PV: "Size",    Writable: True }
+                    - !Apply:ADReadoutXY      { label: "Reverse",      PV: "Reverse", Writable: True, Select: True }
+
+                    - !Spacer { geometry: 0x5 }
+                    
+                    - !Apply:ADReadoutXY { label: "Image Dims",   PV: "ArraySize" }
+                    - !Apply:ADReadoutXY { label: "Image Size",   PV: "ArraySize_RBV" }
+                    
+                    - !Spacer { geometry: 0x5 }
+                    
+                    - !Apply:PVReadWrite { label: "Gain",       entry-pv: "$(P)$(R)Gain",     read-pv:  "$(P)$(R)Gain_RBV",     label-width: 130, element-width: 75 }
+                    - !Apply:PVReadWrite { label: "Data Type",  entry-pv: "$(P)$(R)DataType", read-pv:  "$(P)$(R)DataType_RBV", label-width: 130, element-width: 75 }
+                    - !Apply:PVReadWrite { label: "Color Mode", menu-pv: "$(P)$(R)ColorMode", read-pv:  "$(P)$(R)ColorMode_RBV",label-width: 130, element-width: 75 }
+                    
+                    

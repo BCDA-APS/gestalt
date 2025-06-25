@@ -1,4 +1,12 @@
-{% include header.md title='GridNode' parent='Nodes' nav_order=12 %}
+---
+layout: default
+title: GridNode
+parent: Nodes
+nav_order: 12
+has_toc: false
+---
+
+
 <a id="GridNode"></a>
 
 # GridNode

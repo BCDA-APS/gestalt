@@ -1,4 +1,12 @@
-{% include header.md title='ScaleNode' parent='Nodes' nav_order=25 %}
+---
+layout: default
+title: ScaleNode
+parent: Nodes
+nav_order: 25
+has_toc: false
+---
+
+
 <a id="ScaleNode"></a>
 
 # ScaleNode

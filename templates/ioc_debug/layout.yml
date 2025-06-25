@@ -1,0 +1,98 @@
+#include colors.yml
+#include widgets.yml
+
+
+Form: !Form
+    title: "{Header}"
+    margins: 10x0x10x10
+
+    
+LinkTabs: !Template:LinkTabs
+    - !ACenter:AStretch:Grid
+        margins: 10x10x10x10
+        aspect-ratio: 1.25
+        repeat-over: "__index__"
+        padding: 10
+        horizontal: True
+        
+        children:
+            - !RelatedDisplay
+                geometry: 200x40
+                background: *menu_green
+                foreground: *white
+                font: -DejaVu Sans Mono - Bold - 11
+                
+                text: "{title}"
+                links: "{links}"
+    
+    
+Content: !vflow
+    geometry: 0x35 x 0x0
+
+    padding: 15
+    
+    children:
+        - !TabbedRepeat
+            geometry: 570x200
+        
+            inset: 5
+            offset: 3
+            
+            border-color: *header_blue
+            tab-color: *header_blue
+            foreground: *white
+            selected: $3970C4
+            
+            font: -DejaVu Sans Mono - Bold - 9
+            
+            repeat-over: "{tabs}"
+            
+            children:
+                - !Apply:LinkTabs
+    
+        - !hflow
+            padding: 10
+        
+            children:                
+                - !RelatedDisplay
+                    geometry: 0x5 x 150x20
+                    background: *menu_green
+                    foreground: *white
+                    text: "Status"
+                    
+                    font: -DejaVu Sans Mono - Bold - 11
+                    
+                    links:
+                        - { label: "IOC Status Soft IOC",    file: "ioc_stats_soft",     macros: "ioc=xxx" }
+                        - { label: "IOC Status vxWorks IOC", file: "ioc_stats_vxworks",  macros: "ioc=xxx" }
+                        - { label: "saveRestore Status",     file: "save_restoreStatus", macros: "P=xxx:"  }
+                        - { label: "alive record",           file: "aliveRecord",        macros: "P=xxx:"  }
+    
+
+                - !RelatedDisplay
+                    geometry: 0x5 x 150x20
+                    background: *menu_green
+                    foreground: *white
+                    text: "APS Ops"
+                    
+                    font: -DejaVu Sans Mono - Bold - 11
+                    
+                    links:
+                        - { label: "24hr Beam History",      file: "beamHistory",      macros: "P=xxx:,xx=28us" }
+                        - { label: "24hr Beam History, etc", file: "beamHistory_full", macros: "P=xxx:,xx=28us" }
+                        
+                        
+                        
+                - !Spacer { geometry: 80x0 }
+                
+                - !MessageButton
+                    geometry: 160x31
+                    background: *alarm_red
+                    foreground: *alarm_yellow
+                    text: All Stop
+                    
+                    pv: "xxx:allstop.VAL"
+                    value: 1
+
+
+Header: !Apply:ScreenHeader { title: "XXX", fontname: "Verdana", fontsize: 13, height: 25, alignment: Left }

@@ -1,4 +1,12 @@
-{% include header.md title='MenuNode' parent='Nodes' nav_order=17 %}
+---
+layout: default
+title: MenuNode
+parent: Nodes
+nav_order: 17
+has_toc: false
+---
+
+
 <a id="MenuNode"></a>
 
 # MenuNode

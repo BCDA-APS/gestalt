@@ -1,0 +1,131 @@
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    margins: 10x5x10x5
+
+    
+Labels: !hflow
+    padding: 20
+    
+    children:
+        - !Text
+            text: "Serial #"
+            alignment: Center
+            geometry: 200x20
+            
+        - !Text
+            text: "Frequency"
+            alignment: Center
+            geometry: 145x20
+            
+        - !Text
+            text: "Voltage"
+            alignment: Center
+            geometry: 145x20
+            
+        - !Text
+            text: "Offset"
+            alignment: Center
+            geometry: 145x20
+            
+    
+
+Axes: !vrepeat
+    geometry: 0x30 x 0x0
+
+    padding: 10
+
+    repeat-over: "AXES"
+    start-at: 1
+    
+    children:
+        - !hflow
+            padding: 5
+        
+            children:
+                - !TextMonitor
+                    foreground: *black
+                    background: *transparent
+                    pv: $(P)$(R)AX{N}:SERIAL
+                    
+                    geometry: 200x20
+                
+                - !Spacer
+                    geometry: 10x0
+                    
+                - !TextEntry
+                    <<: *editable
+                    geometry: 60x20
+                    pv: $(P)$(R)AX{N}:FREQ_OUT
+                    
+                - !TextMonitor
+                    <<: *data_display
+                    geometry: 80x20
+                    pv: $(P)$(R)AX{N}:FREQ_IN
+
+                - !spacer
+                    geometry: 10x0
+                    
+                - !TextEntry
+                    <<: *editable
+                    geometry: 60x20
+                    pv: $(P)$(R)AX{N}:V_OUT
+                    
+                - !TextMonitor
+                    <<: *data_display
+                    geometry: 80x20
+                    pv: $(P)$(R)AX{N}:V_IN
+                    
+                - !spacer
+                    geometry: 10x0
+                    
+                - !TextEntry
+                    <<: *editable
+                    geometry: 60x20
+                    pv: $(P)$(R)AX{N}:OFFSET_OUT
+                    
+                - !TextMonitor
+                    <<: *data_display
+                    geometry: 80x20
+                    pv: $(P)$(R)AX{N}:OFFSET_IN
+
+                - !Spacer
+                    geometry: 10x0
+                    
+                - !MessageButton
+                    <<: *editable
+                    
+                    text: "<"
+                    value: "1"
+                    geometry: 20x20
+                    
+                    pv: $(P)$(R)AX{N}:STEP_DOWN
+                    
+                - !TextMonitor
+                    <<: *data_display
+                    geometry: 80x20
+                    pv: $(P)$(R)AX{N}:VOLTS
+                    
+                - !MessageButton
+                    <<: *editable
+                    
+                    text: ">"
+                    value: "1"
+                    geometry: 20x20
+                    
+                    pv: $(P)$(R)AX{N}:STEP_DOWN
+                    
+                - !spacer
+                    geometry: 10x0
+                
+                    
+                - !MessageButton
+                    foreground: *alarm_yellow
+                    background: *alarm_red
+                    
+                    text: "STOP"
+                    value: "1"
+                    
+                    geometry: 60x20
+                    pv: $(P)$(R)AX{N}:STOP

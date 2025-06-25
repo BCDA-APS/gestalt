@@ -1,4 +1,12 @@
-{% include header.md title='AnchorNode' parent='Nodes' nav_order=1 %}
+---
+layout: default
+title: AnchorNode
+parent: Nodes
+nav_order: 1
+has_toc: false
+---
+
+
 <a id="AnchorNode"></a>
 
 # AnchorNode

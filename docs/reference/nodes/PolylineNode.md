@@ -1,4 +1,12 @@
-{% include header.md title='PolylineNode' parent='Nodes' nav_order=21 %}
+---
+layout: default
+title: PolylineNode
+parent: Nodes
+nav_order: 21
+has_toc: false
+---
+
+
 <a id="PolylineNode"></a>
 
 # PolylineNode

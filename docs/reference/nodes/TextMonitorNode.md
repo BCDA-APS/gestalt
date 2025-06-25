@@ -1,4 +1,12 @@
-{% include header.md title='TextMonitorNode' parent='Nodes' nav_order=33 %}
+---
+layout: default
+title: TextMonitorNode
+parent: Nodes
+nav_order: 33
+has_toc: false
+---
+
+
 <a id="TextMonitorNode"></a>
 
 # TextMonitorNode

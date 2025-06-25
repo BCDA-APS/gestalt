@@ -1,4 +1,12 @@
-{% include header.md title='ApplyNode' parent='Nodes' nav_order=2 %}
+---
+layout: default
+title: ApplyNode
+parent: Nodes
+nav_order: 2
+has_toc: false
+---
+
+
 <a id="ApplyNode"></a>
 
 # ApplyNode

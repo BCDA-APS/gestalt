@@ -1,4 +1,12 @@
-{% include header.md title='RectangleNode' parent='Nodes' nav_order=22 %}
+---
+layout: default
+title: RectangleNode
+parent: Nodes
+nav_order: 22
+has_toc: false
+---
+
+
 <a id="RectangleNode"></a>
 
 # RectangleNode

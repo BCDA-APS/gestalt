@@ -1,4 +1,12 @@
-{% include header.md title='ImageNode' parent='Nodes' nav_order=14 %}
+---
+layout: default
+title: ImageNode
+parent: Nodes
+nav_order: 14
+has_toc: false
+---
+
+
 <a id="ImageNode"></a>
 
 # ImageNode

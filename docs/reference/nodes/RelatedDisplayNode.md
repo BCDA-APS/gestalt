@@ -1,4 +1,12 @@
-{% include header.md title='RelatedDisplayNode' parent='Nodes' nav_order=23 %}
+---
+layout: default
+title: RelatedDisplayNode
+parent: Nodes
+nav_order: 23
+has_toc: false
+---
+
+
 <a id="RelatedDisplayNode"></a>
 
 # RelatedDisplayNode

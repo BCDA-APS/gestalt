@@ -1,0 +1,527 @@
+<ui version="4.0">
+  <class>Form</class>
+  <widget class="QMainWindow" name="Form">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>350</width>
+        <height>90</height>
+      </rect>
+    </property>
+    <property name="styleSheet">
+      <string>QWidget#centralwidget {background: rgba(187,187,187,255);}
+QPushButton::menu-indicator {image: url(none.png); width: 0}</string>
+    </property>
+    <property name="windowTitle">
+      <string></string>
+    </property>
+    <widget class="QWidget" name="centralwidget">
+      <property name="geometry">
+        <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>0</width>
+          <height>0</height>
+        </rect>
+      </property>
+      <widget class="caFrame" name="content">
+        <property name="geometry">
+          <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>350</width>
+            <height>90</height>
+          </rect>
+        </property>
+        <widget class="caFrame" name="caFrame1">
+          <property name="geometry">
+            <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>350</width>
+              <height>90</height>
+            </rect>
+          </property>
+          <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="backgroundMode">
+            <enum>caFrame::Filled</enum>
+          </property>
+          <property name="visibilityMode">
+            <enum>caFrame::All</enum>
+          </property>
+          <property name="background">
+            <color alpha="0">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+            </color>
+          </property>
+          <widget class="QFrame" name="QFrame7">
+            <property name="geometry">
+              <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>350</width>
+                <height>90</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QFrame
+{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(36,36,36,255);
+}
+</string>
+            </property>
+          </widget>
+          <widget class="caLabel" name="caLabel1">
+            <property name="text">
+              <string>Plugins</string>
+            </property>
+            <property name="foreground">
+              <color alpha="255">
+                <red>0</red>
+                <green>53</green>
+                <blue>132</blue>
+              </color>
+            </property>
+            <property name="background">
+              <color alpha="255">
+                <red>218</red>
+                <green>218</green>
+                <blue>218</blue>
+              </color>
+            </property>
+            <property name="border-style">
+              <string>Solid</string>
+            </property>
+            <property name="font">
+              <font>
+                <family>Liberation Sans</family>
+                <pointsize>12</pointsize>
+              </font>
+            </property>
+            <property name="geometry">
+              <rect>
+                <x>120</x>
+                <y>2</y>
+                <width>110</width>
+                <height>22</height>
+              </rect>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+            </property>
+            <property name="borderColor">
+              <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+              </color>
+            </property>
+            <property name="borderWidth">
+              <number>0</number>
+            </property>
+            <property name="fontScaleMode">
+              <enum>ESimpleLabel::Height</enum>
+            </property>
+          </widget>
+          <widget class="QFrame" name="QFrame1">
+            <property name="geometry">
+              <rect>
+                <x>45</x>
+                <y>35</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay1">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>228</red>
+                  <green>228</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>53</red>
+                  <green>132</green>
+                  <blue>0</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string>Common Plugins</string>
+              </property>
+              <property name="files">
+                <string>commonPlugins.ui</string>
+              </property>
+              <property name="args">
+                <string>P=$(P)</string>
+              </property>
+              <property name="removeParent">
+                <string>false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-   All    </string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame2">
+            <property name="geometry">
+              <rect>
+                <x>135</x>
+                <y>35</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay2">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>228</red>
+                  <green>228</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>53</red>
+                  <green>132</green>
+                  <blue>0</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string>netCDF #1;Tiff #1;JPEG #1;Nexus #1;Magick #1;HDF5 #1;Null #1;ffmpegStream;EDF Plugin;Bar Plugin</string>
+              </property>
+              <property name="files">
+                <string>NDFileCDF.ui;NDFileTIFF.ui;NDFileJPEG.ui;NDFileNexus.ui;NDFileMagick.ui;NDFileHDF5.ui;NDFileNull.ui;ffmpegStream.ui;NDFileEDF.ui;NDPluginBar.ui</string>
+              </property>
+              <property name="args">
+                <string>P=$(P),R=netCDF1:,EXT=nc;P=$(P),R=TIFF1:,EXT=tif;P=$(P),R=JPEG1:,EXT=jpg;P=$(P),R=Nexus1:,EXT=h5;P=$(P),R=Magick1:,EXT=tif;P=$(P),R=HDF1:,EXT=h5;P=$(P),R=Null1:,EXT=null;P=$(P),R=ffmstream1:,EXT=nc;P=$(P),R=EDF1:,EXT=nc;P=$(P),R=Bar1:,EXT=nc</string>
+              </property>
+              <property name="removeParent">
+                <string>false;false;false;false;false;false;false;false;false;false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-   File   </string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame3">
+            <property name="geometry">
+              <rect>
+                <x>225</x>
+                <y>35</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay3">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>228</red>
+                  <green>228</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>53</red>
+                  <green>132</green>
+                  <blue>0</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string>ROI #1;ROI #2;ROI #3;ROI #4;ROI #1-4 combined</string>
+              </property>
+              <property name="files">
+                <string>NDROI.ui;NDROI.ui;NDROI.ui;NDROI.ui;NDROI4.ui</string>
+              </property>
+              <property name="args">
+                <string>P=$(P),R=ROI1:;P=$(P),R=ROI2:;P=$(P),R=ROI3:;P=$(P),R=ROI4:;P=$(P),R1=ROI1:,R2=ROI2:,R3=ROI3:,R4=ROI4:</string>
+              </property>
+              <property name="removeParent">
+                <string>false;false;false;false;false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-   ROI    </string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame4">
+            <property name="geometry">
+              <rect>
+                <x>45</x>
+                <y>65</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay4">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>228</red>
+                  <green>228</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>53</red>
+                  <green>132</green>
+                  <blue>0</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string>Statistics #1;Statistics #2;Statistics #3;Statistics #4;Statistics #5;Statistics 1-5</string>
+              </property>
+              <property name="files">
+                <string>NDStats.ui;NDStats.ui;NDStats.ui;NDStats.ui;NDStats.ui;NDStats5.ui</string>
+              </property>
+              <property name="args">
+                <string>P=$(P),R=Stats1:;P=$(P),R=Stats2:;P=$(P),R=Stats3:;P=$(P),R=Stats4:;P=$(P),R=Stats5:;P=$(P),R1=Stats1:,R2=Stats2:,R3=Stats3:,R4=Stats4:,R5=Stats5:</string>
+              </property>
+              <property name="removeParent">
+                <string>false;false;false;false;false;false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-  Stats   </string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame5">
+            <property name="geometry">
+              <rect>
+                <x>135</x>
+                <y>65</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay5">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>228</red>
+                  <green>228</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>53</red>
+                  <green>132</green>
+                  <blue>0</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string>Image #1;PVA #1;Process #1;Transform #1;Color Convert #1;Color Convert #2;Overlay #1;Overlays 1-8;Circular Buffer #1;ROI Statistics #1;Attribute #1;FFT #1;Scatter #1;Gather #1;Codec #1;Codec #2</string>
+              </property>
+              <property name="files">
+                <string>NDStdArrays.ui;NDPva.ui;NDProcess.ui;NDTransform.ui;NDColorConvert.ui;NDColorConvert.ui;NDOverlay.ui;NDOverlay8.ui;NDCircularBuff.ui;NDROIStat.ui;NDPluginAttribute.ui;NDFFT.ui;NDScatter.ui;NDGather8.ui;NDCodec.ui;NDCodec.ui</string>
+              </property>
+              <property name="args">
+                <string>P=$(P),R=image1:;P=$(P),R=Pva1:;P=$(P),R=Proc1:;P=$(P),R=Trans1:;P=$(P),R=CC1:;P=$(P),R=CC2:;P=$(P),R=Over1:;P=$(P),R=Over1,O1=Over1:1:,O2=Over1:2:,O3=Over1:3:,O4=Over1:4:,O5=Over1:5:,O6=Over1:6:,O7=Over1:7:,O8=Over1:8:;P=$(P),R=CB1:;P=$(P),R=ROIStat1:;P=$(P),R=Attr1:;P=$(P),R=FFT1:;P=$(P),R=Scatter1:;P=$(P),R=Gather1:;P=$(P),R=Codec1:;P=$(P),R=Codec2:</string>
+              </property>
+              <property name="removeParent">
+                <string>false;false;false;false;false;false;false;false;false;false;false;false;false;false;false;false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-  Other   </string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+          <widget class="QFrame" name="QFrame6">
+            <property name="geometry">
+              <rect>
+                <x>225</x>
+                <y>65</y>
+                <width>80</width>
+                <height>20</height>
+              </rect>
+            </property>
+            <property name="styleSheet">
+              <string>QPushButton
+{
+    font-family: Liberation Sans;
+    font: ;
+	
+    text-align: center;
+}
+</string>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay6">
+              <property name="foreground">
+                <color alpha="255">
+                  <red>228</red>
+                  <green>228</green>
+                  <blue>228</blue>
+                </color>
+              </property>
+              <property name="background">
+                <color alpha="255">
+                  <red>53</red>
+                  <green>132</green>
+                  <blue>0</blue>
+                </color>
+              </property>
+              <property name="labels">
+                <string></string>
+              </property>
+              <property name="files">
+                <string>.ui</string>
+              </property>
+              <property name="args">
+                <string></string>
+              </property>
+              <property name="removeParent">
+                <string>false</string>
+              </property>
+              <property name="stackingMode">
+                <enum>Menu</enum>
+              </property>
+              <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+              </property>
+              <property name="label">
+                <string>-   Misc   </string>
+              </property>
+              <property name="geometry">
+                <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>20</height>
+                </rect>
+              </property>
+            </widget>
+          </widget>
+        </widget>
+      </widget>
+    </widget>
+  </widget>
+</ui>

@@ -1,0 +1,28 @@
+#include colors.yml
+#include widgets.yml
+#include templates.yml
+
+AttributesSection: !Template:AttributesSection
+    - !Group
+        geometry: 350x0
+        border-width: 1
+        border-color: *black
+        margins: 5x0x5x5
+        
+        children:
+            - !Vflow
+                geometry: 0x30 x 0x0
+                padding: 5
+                
+                children:
+                    - !Apply:LabeledEntry      { label: "File",    write-pv: "$(P)$(R)NDAttributesFile" }
+                    - !Apply:LabeledEntry      { label: "Macros",  write-pv: "$(P)$(R)NDAttributesMacros" }
+                    - !Apply:LabeledReadback   { label: "Status",  read-pv: "$(P)$(R)NDAttributesStatus", highlight: $DADADA }
+                    
+            - !Apply:SectionHeader { label: "Attributes" }
+                    
+
+TestDisplay: !Apply:AttributesSection
+    text-width: 60
+    write-width: 275
+    read-width:  275

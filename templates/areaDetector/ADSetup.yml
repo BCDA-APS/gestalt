@@ -1,0 +1,71 @@
+#include colors.yml
+#include widgets.yml
+#include templates.yml
+
+SetupSection: !Template:SetupSection
+    - !Defaults
+        label-width: 150
+        text-width: 160
+        read-width: 150
+
+    - !Group
+        geometry: 350x0
+        border-width: 1
+        border-color: *black
+        margins: 5x0x5x5
+        
+        children:
+            - !Apply:SectionHeader { label: "Setup" }
+            
+            - !HCenter:VFlow
+                geometry: 0x34 x 0x0
+                padding: 10
+                
+                children:
+                    - !Vrepeat 
+                        repeat-over: "{items}"
+                        padding: 5
+                        children:
+                            - !Apply:PVReadWrite
+                    
+                    - !If:connect
+                        - !Group
+                            - !RelatedDisplay
+                                <<: *editable
+                                geometry: 35x30 x 100x20
+                                text: "Debugging"
+                                links:
+                                    - { label: "asyn record", file: "asynRecord.ui", macros: "P=$(P),R=$(R)AsynIO" }
+                                    - { label: "save restore status", file: "save_restoreStatus_more.ui", macros: "P=$(P)" }
+                            
+                            - !Group
+                                geometry: 170x0 x 0x0
+                            
+                                children:
+                                    - !HCenter:Apply:OnOffText
+                                        width: 120
+                                    
+                                        on-label: "Connected"
+                                        off-label: "Disconnected"
+                                        
+                                        PV: "$(P)$(R)AsynIO.CNCT"
+                                    
+                                    - !Hflow
+                                        geometry: 0x30 x 0x0
+                                        padding: 5
+                                        children:
+                                            - !MessageButton { <<: *editable, geometry: 80x20, text: "Connect",    pv: "$(P)$(R)AsynIO.CNCT", value: 1 }
+                                            - !MessageButton { <<: *editable, geometry: 80x20, text: "Disconnect", pv: "$(P)$(R)AsynIO.CNCT", value: 0 }
+                                    
+                                    
+MyDisplay: !Apply:SetupSection
+    connect: True
+    items: 
+        - { label: "asyn port",        read-pv: "$(P)$(R)PortName_RBV" }
+        - { label: "Manufacturer",     read-pv: "$(P)$(R)Manufacturer_RBV" }
+        - { label: "Model",            read-pv: "$(P)$(R)Model_RBV" }
+        - { label: "Serial Number",    read-pv: "$(P)$(R)SerialNumber_RBV" }
+        - { label: "Firmware Version", read-pv: "$(P)$(R)FirmwareVersion_RBV" }
+        - { label: "SDK Version",      read-pv: "$(P)$(R)SDKVersion_RBV" }
+        - { label: "Driver Version",   read-pv: "$(P)$(R)DriverVersion_RBV" }
+        - { label: "ADCore Version",   read-pv: "$(P)$(R)ADCoreVersion_RBV" }

@@ -1,4 +1,12 @@
-{% include header.md title='TabbedGroupNode' parent='Nodes' nav_order=30 %}
+---
+layout: default
+title: TabbedGroupNode
+parent: Nodes
+nav_order: 30
+has_toc: false
+---
+
+
 <a id="TabbedGroupNode"></a>
 
 # TabbedGroupNode

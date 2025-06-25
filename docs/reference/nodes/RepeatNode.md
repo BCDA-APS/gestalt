@@ -1,4 +1,12 @@
-{% include header.md title='RepeatNode' parent='Nodes' nav_order=24 %}
+---
+layout: default
+title: RepeatNode
+parent: Nodes
+nav_order: 24
+has_toc: false
+---
+
+
 <a id="RepeatNode"></a>
 
 # RepeatNode

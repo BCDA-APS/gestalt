@@ -1,4 +1,12 @@
-{% include header.md title='TextEntryNode' parent='Nodes' nav_order=32 %}
+---
+layout: default
+title: TextEntryNode
+parent: Nodes
+nav_order: 32
+has_toc: false
+---
+
+
 <a id="TextEntryNode"></a>
 
 # TextEntryNode

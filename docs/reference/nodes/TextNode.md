@@ -1,4 +1,12 @@
-{% include header.md title='TextNode' parent='Nodes' nav_order=34 %}
+---
+layout: default
+title: TextNode
+parent: Nodes
+nav_order: 34
+has_toc: false
+---
+
+
 <a id="TextNode"></a>
 
 # TextNode

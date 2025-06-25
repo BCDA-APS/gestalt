@@ -1,4 +1,12 @@
-{% include header.md title='StretchNode' parent='Nodes' nav_order=29 %}
+---
+layout: default
+title: StretchNode
+parent: Nodes
+nav_order: 29
+has_toc: false
+---
+
+
 <a id="StretchNode"></a>
 
 # StretchNode

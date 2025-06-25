@@ -1,4 +1,12 @@
-{% include header.md title='PolygonNode' parent='Nodes' nav_order=20 %}
+---
+layout: default
+title: PolygonNode
+parent: Nodes
+nav_order: 20
+has_toc: false
+---
+
+
 <a id="PolygonNode"></a>
 
 # PolygonNode
