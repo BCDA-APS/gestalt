@@ -20,10 +20,11 @@ nav_order: 1
 Gestalt is a python application to interface with generative UI libraries.
 
 
-Established templates are combined with structured user data to create a 
+Established layouts are combined with structured user data to create a 
 series of command calls that will build up a screen, arrange widgets, and set
-their properties. Layouts are provided to repeat batches of widgets along
+their properties. Templates are provided to repeat batches of widgets along
 a variety of arrangements with specified macros being mapped to user-given 
 inputs.
 
-Currently, caQtDM and CSS-Phoebus are supported.
+Currently, caQtDM and CSS-Phoebus are fully supported, with pyDM support being
+mostly complete.

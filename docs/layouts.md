@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Creating a Template
+title: Creating a Layout
 nav_order: 4
 ---
 
@@ -11,19 +11,22 @@ nav_order: 4
 {:toc}
 
 
-## Template Files
+## Layout Files
 
-Templates are YAML files that describe the structure of the UI file to be generated.
-These files are parsed by Gestalt into a graph of nodes which can represent individual
-widgets to generate, structures of widgets, various means of laying out widgets, or
-logical statements that can affect the outcome of the previous types. Structured input 
-data can be combined with the graph to then generate the output screen.
+Layouts are YAML files that describe the structure of the UI file to be generated.
+These files are parsed by Gestalt into a tree of nodes, each of which can either
+directly represent one or more display widgets to generate, or they can represent 
+some sort of calculation to be performed on that node's children, like a layout,
+repositioning, or macro application.
+
+Structured input data can then be fed through the tree, which will write out a
+resulting UI file in the format of your choice.
 
 
 ## Widgets
 
-The basic element of a template file is a Widget node. These are YAML elements that
-have been tagged with a supported widget type from the list in [widgets](reference/nodes/Widgets.md). 
+The basic element of a layout file is a Widget node. These are YAML elements that
+have been tagged with a supported widget type from the list in [nodes](reference/nodes/index.md). 
 Properties of the Widget can then be set within the element.
 
 ```yaml 

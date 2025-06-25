@@ -15,12 +15,12 @@ nav_order: 3
 ## Command Line
 
 Gestalt has a number of command line options to be able to generate screens beyond just
-the built-in templates. As well, users are able to provide input data in a variety of 
+the built-in layouts. As well, users are able to provide input data in a variety of 
 formats beyond just YAML. 
 
 The structure of calling Gestalt on the command line is:
 
-> gestalt.py [OPTIONS] [TEMPLATE]
+> gestalt.py [OPTIONS] [LAYOUT]
 
 
 ## Options
@@ -28,14 +28,14 @@ The structure of calling Gestalt on the command line is:
 
 ### -i, --input
 
-Input data to apply to the template file. Either a string containing data in a yaml 
+Input data to apply to the layout file. Either a string containing data in a yaml 
 format, or the path to a file to be parsed according to the input format.
 
 
 ### -f, -r, --from, --read
 
 Specifies which file parser should be used to read an input data file to generate the macros
-that will be fed to the template file. By default, Gestalt will attempt to determine the
+that will be fed to the layout file. By default, Gestalt will attempt to determine the
 parser automatically based on the file suffix of the input file.
 
 Recognized values for file parser are:
@@ -52,7 +52,7 @@ arranged into lists, which are linked with the name of the database file being s
 ### -o, --output
 
 Filepath for the output UI name. By default, if an output format is specified, this will be 
-generated based off of the template file name and the output format. If an output format is
+generated based off of the layout file name and the output format. If an output format is
 not specified, then you must specify an output filename.
 
 
@@ -71,7 +71,7 @@ Recognized values for file writer are:
 
 ### --include
 
-Additional folder to include in your search path for template files that may be included using
+Additional folder to include in your search path for layout files that may be included using
 '#include' statements. This option can be applied multiple times, each time specifying a new
 folder to append to the search path. By default, Gestalt's widgets folder is already included 
 in the search path (for widgets.yml and colors.yml).

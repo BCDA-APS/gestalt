@@ -8,15 +8,15 @@ import tempfile
 import traceback
 #import cProfile
 
-from templates import *
+from layouts import *
 from gestalt import Datasheet, Stylesheet
 
 
 curr_dir = str(pathlib.Path(__file__).resolve().parent.resolve())
 
-parser = argparse.ArgumentParser(prog='gestalt', usage='%(prog)s [OPTIONS] [TEMPLATE]', formatter_class=argparse.RawTextHelpFormatter, exit_on_error=False)
+parser = argparse.ArgumentParser(prog='gestalt', usage='%(prog)s [OPTIONS] [LAYOUT]', formatter_class=argparse.RawTextHelpFormatter, exit_on_error=False)
 
-parser.add_argument("template", nargs="?", metavar="TEMPLATE", type=str, help="The template file used in constructing the output")
+parser.add_argument("layout", nargs="?", metavar="LAYOUT", type=str, help="The layout file used in constructing the output")
 			
 parser.add_argument("-f", "-r", "--from", "--read", 
 	metavar="FORMAT", 
@@ -59,7 +59,7 @@ parser.add_argument("-o", "--output",
 	help="""
 Output file name
 
-(Default: Generate from template file and output format)
+(Default: Generate from layout file and output format)
 
 
 """,
@@ -70,11 +70,11 @@ parser.add_argument('-i', "--input",
 	dest='in_filename',
 	action='store', 
 	help="""
-Input data to apply to template file. Either a string
+Input data to apply to layout file. Either a string
 containing data in a yaml format, or the path to a
 file to be parsed according to the input format.
 
-(Default: Template will be applied with no macros)
+(Default: Layout will be applied with no macros)
 
 
 """,
@@ -85,11 +85,11 @@ parser.add_argument("--include",
 	dest="include_dirs", 
 	action="append", 
 help="""
-Folders to search for any files included by the template.
+Folders to search for any files included by the layout.
 Can be applied multiple times, one folder per argument.
 
 By default, the search path includes the current directory 
-and gestalt's template directory (for colors.yml).
+and gestalt's widgets directory (for colors.yml).
 	
 	
 """,
@@ -125,7 +125,7 @@ def doGenerate(args):
 			print("Unknown file extension: ", parse_format)
 			return
 	
-	styles = Stylesheet.parse(args.template, include_dirs)
+	styles = Stylesheet.parse(args.layout, include_dirs)
 	
 	if args.out_format == "auto":
 		if not args.out_filename:
@@ -143,7 +143,7 @@ def doGenerate(args):
 		
 	
 	if not args.out_filename:
-		args.out_filename = pathlib.PurePath(args.template).stem + "." + args.out_format
+		args.out_filename = pathlib.PurePath(args.layout).stem + "." + args.out_format
 	
 	if args.out_format == "ui":
 		from gestalt.convert.qt.QtGenerator import generateQtFile
@@ -174,8 +174,8 @@ if __name__ == "__main__":
 		window = UI(curr_dir, doGenerate, registry, parser)
 		app.exec_()
 		
-	elif args.template == None:
-		print("Template file required for command-line conversion")
+	elif args.layout == None:
+		print("Layout file required for command-line conversion")
 		
 	else:
 		#cProfile.run("doGenerate(args)")
