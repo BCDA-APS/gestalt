@@ -27,3 +27,9 @@ class IncludeNode(Node):
 		super(IncludeNode, self).__init__("Include", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "file", "")
+
+	def initApply(self, macros):
+		filename = str(self["file"])
+		
+		self["file"] = filename.removesuffix(pathlib.PurePath(filename).suffix)
+		

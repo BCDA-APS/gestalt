@@ -28,9 +28,3 @@ class ImageNode(Node):
 		super(ImageNode, self).__init__("Image", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "file", "")
-
-	def initApply(self, macros):
-		filename = str(self["file"])
-		
-		self["file"] = filename.removesuffix(pathlib.PurePath(filename).suffix)
-		
