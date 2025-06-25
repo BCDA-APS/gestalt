@@ -2,7 +2,7 @@
 layout: default
 title: TextNode
 parent: Nodes
-nav_order: 34
+nav_order: 35
 has_toc: false
 ---
 

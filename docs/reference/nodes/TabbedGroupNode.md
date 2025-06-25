@@ -2,7 +2,7 @@
 layout: default
 title: TabbedGroupNode
 parent: Nodes
-nav_order: 30
+nav_order: 31
 has_toc: false
 ---
 

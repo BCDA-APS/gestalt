@@ -2,7 +2,7 @@
 layout: default
 title: ScaleNode
 parent: Nodes
-nav_order: 25
+nav_order: 26
 has_toc: false
 ---
 

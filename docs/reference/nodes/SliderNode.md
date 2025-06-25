@@ -2,7 +2,7 @@
 layout: default
 title: SliderNode
 parent: Nodes
-nav_order: 27
+nav_order: 28
 has_toc: false
 ---
 
