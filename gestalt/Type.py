@@ -39,6 +39,10 @@ class DataType(object):
 		self.dict = False
 		self.list = False
 	
+		if val == None:
+			self.value = ""
+			return
+		
 		if json_like(val):
 			try:
 				check = yaml.safe_load(val)
@@ -51,7 +55,7 @@ class DataType(object):
 						
 			except:
 				pass
-			
+				
 		if isinstance(val, dict):
 			self.standard = False
 			self.value = val
@@ -112,11 +116,11 @@ class DataType(object):
 							check = yaml.safe_load(output)
 						
 							if len(check) > 0:
-								if isinstance(check, list) and check[0]:
+								if isinstance(check, list) and check[0] != None:
 									out = List(check)
 									out.macros = self.macros
 									return out.val()
-								elif isinstance(check, dict) and next(iter(check.values())):
+								elif isinstance(check, dict) and next(iter(check.values())) != None:
 									out = Dict(check)
 									out.macros = self.macros
 									return out.val()
@@ -196,7 +200,7 @@ class DataType(object):
 		self.updates[key] = data
 		
 	def __getitem__(self, key):
-		return self.val()[key]		
+		return self.val()[key]
 		
 		
 	def __bool__(self):
@@ -510,5 +514,5 @@ class Dict(DataType):
 	def __iter__(self):		
 		return self.val()
 		
-	def __str__(self):		
+	def __str__(self):
 		return yaml.dump(self.val())
