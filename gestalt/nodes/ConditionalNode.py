@@ -98,7 +98,9 @@ class ConditionalNode(GroupNode):
 					try:
 						widget = applier.send(child_macros)
 						yield widget
-					except:
+					except RuntimeError:
+						break
+					except StopIteration:
 						break
 				
 					data = yield

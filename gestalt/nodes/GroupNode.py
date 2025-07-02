@@ -138,7 +138,9 @@ class GroupNode(Node):
 						widget.placed_order = child.placed_order
 						self.positionNext(widget)
 						output.place(widget)
-				except Exception as e:
+				except RuntimeError as e:
+					break
+				except StopIteration:
 					break
 					
 		if not output["ignore-empty"] or placed:
