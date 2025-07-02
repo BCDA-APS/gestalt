@@ -38,7 +38,7 @@ class DataType(object):
 		self.standard = True
 		self.dict = False
 		self.list = False
-	
+		
 		if val == None:
 			self.value = ""
 			return
@@ -83,8 +83,11 @@ class DataType(object):
 			self.dict     = val.dict
 			self.list     = val.list
 			
-		else:
+		elif isinstance(val, (int, float)):
 			self.value = str(val)
+			
+		else:
+			self.value = val
 
 			
 	def copy(self):
