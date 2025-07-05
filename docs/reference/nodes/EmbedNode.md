@@ -17,6 +17,7 @@ sets of elements in the same style frame.
 
 * **Example**
 
+```yaml
 # Wrap elements in a black border and a title
 _Section: !Template:Section
     - !Defaults
