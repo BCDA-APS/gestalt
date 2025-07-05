@@ -1,7 +1,9 @@
 """
 An invisible widget which can perform a calculation on a set of input PVs and provides the output as a PV local to the screen.
 
-The 
+Since different UI tools use different syntax to configure their equivalent calc tools, the calculation attribute here should
+be written as a general python statement. The supported operators are bitwise, negation, comparators, basic math, exponents,
+and boolean operations.
 
 
 * **Special Attributes**
