@@ -30,7 +30,7 @@ _Section: !Template:Section
 				alignment: Center
 				text: "{title}"
 		
-            Flow: !HCenter:VFlow 
+			Flow: !HCenter:VFlow 
 				geometry: 0x34 x 0x0
 				padding: 10
 				children: 
