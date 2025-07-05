@@ -33,6 +33,8 @@ def generate(package):
 				the_file.write("nav_order: " + str(index) + "\n")
 				the_file.write("has_toc: false\n")
 				the_file.write("---\n\n\n")
+				the_file.write("# " + modulename)
+				the_file.write("\n\n")
 				
 				docstring = ast.get_docstring(module)
 				
