@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ArcNode"></a>
-
 # ArcNode
 
 A basic rectangle shape that can either be filled or an outline
@@ -36,8 +34,7 @@ direction.
 SimpleBox: !Arc
     geometry: 100x100
     border-width: 5
-
+    
     start-angle: 45
     span: 180
 ```
-

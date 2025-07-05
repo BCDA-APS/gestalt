@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="MenuNode"></a>
-
 # MenuNode
 
 A widget representing a menu that gets its options from an enumerable pv
@@ -35,4 +33,3 @@ A widget representing a menu that gets its options from an enumerable pv
     geometry: 355x0 x 80x20
     pv: $(P){Instance}:EnableCallbacks
 ```
-

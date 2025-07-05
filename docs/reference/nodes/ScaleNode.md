@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ScaleNode"></a>
-
 # ScaleNode
 
 A widget representing a bar filling up based on a pv's value versus its limits
@@ -34,4 +32,3 @@ A widget representing a bar filling up based on a pv's value versus its limits
     foreground: *burlywood
     pv: "xxx:yyy:zzz"
 ```
-

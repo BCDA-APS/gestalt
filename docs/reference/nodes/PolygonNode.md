@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="PolygonNode"></a>
-
 # PolygonNode
 
 A closed shape consisting of a set of points that can either be filled or an outline
@@ -32,7 +30,6 @@ A closed shape consisting of a set of points that can either be filled or an out
 SimpleBox: !Polygon
     geometry: 100x100
     border-width: 5
-
+    
     points: [ 10x10, 90x10, 90x90, 10x90 ]
 ```
-

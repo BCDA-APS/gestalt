@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ByteMonitorNode"></a>
-
 # ByteMonitorNode
 
 A widget displaying the individual bits of a pv value
@@ -32,8 +30,7 @@ A widget displaying the individual bits of a pv value
 ```yaml
 StatusBits: !ByteMonitor
     geometry: 165x12
-
+    
     pv: "$(P)m1.MSTA"
     bits: 15
 ```
-

@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ImageNode"></a>
-
 # ImageNode
 
 A widget that displays a given image file
@@ -29,4 +27,3 @@ A widget that displays a given image file
 ComplicatedStructure: !Image
     file: "/path/to/image/Beamline.png"
 ```
-

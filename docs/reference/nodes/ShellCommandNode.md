@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ShellCommandNode"></a>
-
 # ShellCommandNode
 
 A button that will trigger the running of a selected shell command
@@ -40,11 +38,10 @@ dictionaries. Within each dictionary, the following values can be defined:
 ```yaml
 ExampleCommand: !ShellCommand
     geometry: 10x10 x 80x20
-
+    
     text: "Say"
-
+    
     commands: 
         - { label: "Hello",   command: "echo 'Hello'"  }
         - { label: "Goodbye", command: "echo 'Goodbye'"}
 ```
-

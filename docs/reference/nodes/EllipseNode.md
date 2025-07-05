@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="EllipseNode"></a>
-
 # EllipseNode
 
 A basic ellipse shape that can either be filled or an outline
@@ -31,4 +29,3 @@ SimpleBox: !Ellipse
     geometry: 100x100
     border-width: 5
 ```
-

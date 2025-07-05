@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="RelatedDisplayNode"></a>
-
 # RelatedDisplayNode
 
 A widget representing a menu of other UI screens that can be opened by a user.
@@ -44,10 +42,9 @@ dictionaries. Within each dictionary, the following values can be defined:
     background: *edit_blue
 
     text: "Open xxx"
-
+    
     geometry: 10x200 x 100x20
 
     links:
         - { label: "File 1", file: "xxx.ui", macros: "P=1,R=A" }
 ```
-

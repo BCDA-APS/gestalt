@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="AnchorNode"></a>
-
 # AnchorNode
 
 A positioner used to place a widget along the edge of its parents area
@@ -71,4 +69,3 @@ BigGroup: !Group
             geometry: 50x20
             text: "I'm in the corner"
 ```
-

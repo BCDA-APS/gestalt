@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="PolylineNode"></a>
-
 # PolylineNode
 
 A set of contiguous line segments
@@ -32,4 +30,3 @@ Star: !PolyLine
     geometry: 40x40
     points: [ 20x0, 0x40, 40x10, 0x10, 40x40, 20x0 ]
 ```
-

@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="TextMonitorNode"></a>
-
 # TextMonitorNode
 
 A widget representing a text display field
@@ -34,9 +32,8 @@ A widget representing a text display field
 ```yaml
 - !TextMonitor
     geometry: 5x0 x 120x20
-
+    
     pv: "$(P)$(R)Description_RBV"
-
+    
     alignment: CenterRight
 ```
-

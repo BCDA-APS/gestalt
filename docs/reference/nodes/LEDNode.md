@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="LEDNode"></a>
-
 # LEDNode
 
 A widget that changes color based upon the value of a given pv. Has one of three states,
@@ -36,8 +34,7 @@ true, false, or undefined based upon a match with values given by the widget.
 ```yaml
 OnOff_Readback: !LED
     pv: "$(P)userCalcEnable.VAL"
-
+    
     geometry: 24x24
     square: true
 ```
-

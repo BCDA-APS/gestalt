@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ChoiceButtonNode"></a>
-
 # ChoiceButtonNode
 
 A widget representing a set of buttons that gets its options from an enumerable pv
@@ -32,9 +30,8 @@ A widget representing a set of buttons that gets its options from an enumerable 
 ```yaml
 OnOff: !ChoiceButton
     geometry: 215x20
-
+    
     pv: "$(P)userCalcEnable.VAL"
     foreground: *black
     background: *edit_blue
 ```
-

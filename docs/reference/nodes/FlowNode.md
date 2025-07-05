@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="FlowNode"></a>
-
 # FlowNode
 
 A layout tool to place widgets along a given axis, one after another.
@@ -41,22 +39,22 @@ changed.
 CIO_Title: !hflow
     geometry: 0x2 x 0x0
     padding: 5
-
+    
     children:
         - !Text { geometry: 70x20, text: "CIO 0-3" }
         - !TextMonitor
             geometry: 80x20
             background: *edit_blue
             foreground: *black
-
+            
             pv: "$(P)CIOIn"
-
+            
         - !Text { geometry: 90x20, text: "MIO 0-2" }
         - !TextMonitor
             geometry: 80x20
             background: *edit_blue
             foreground: *black
-
+            
             pv: "$(P)MIOIn"
 ```
 
@@ -93,23 +91,22 @@ NumberedLED: !flow
     children:
         - !caLabel
             font: -Sans Serif - Regular - 8
-
+            
             geometry: 50x15
-
+            
             alignment: Qt::AlignHCenter|Qt::AlignVCenter
             fontScaleMode: ESimpleLabel::None
-
+            
             text: "Input 1"
-
+        
         - !caLed
             channel: !string "$(P)Bi1.VAL"
             trueColor: *alarm_red
             falseColor: *alarm_green
-
+            
             borderColor: *transparent
-
+            
             gradientEnabled: false
-
+            
             geometry: 22x22
 ```
-

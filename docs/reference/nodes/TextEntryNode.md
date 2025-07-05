@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="TextEntryNode"></a>
-
 # TextEntryNode
 
 A widget representing a text entry field.
@@ -32,9 +30,8 @@ A widget representing a text entry field.
 ```yaml
 - !TextEntry
     geometry: 5x0 x 120x20
-
+    
     pv: "$(P)$(R)Description"
-
+    
     alignment: BottomLeft
 ```
-

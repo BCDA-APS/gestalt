@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="RepeatNode"></a>
-
 # RepeatNode
 
 A layout tool to repeat the same set of widgets along a given axis.
@@ -62,21 +60,21 @@ macro mentioned above will also be included.
 ```yaml
 UI_Row: !hrepeat
     repeat-over: "PLUGINS"
-
+    
     geometry: 0x71 x 0x0
-
+    
     padding: 6
-
+    
     children:
         - !TextMonitor
             geometry: 10x1 x 110x18
             pv: "$(P){Instance}:PortName_RBV"
-
+        
         - !RelatedDisplay            
             text: "More"
-
+            
             geometry: 865x0 x 60x20
-
+            
             links: 
                 - { label: "{Instance}", file: "{Displays}", arg: "{Args}" }
 ```
@@ -136,23 +134,22 @@ You may also use the alias "repeat" to reference the vrepeat node.
 UIRow: !repeat
     geometry: 0x20 x 0x0
     repeat-over: "NUM_CALCS"
-
+        
     children:
         - !RelatedDisplay
             geometry: 0x0 x 25x20
-
+            
             text: "{N}"
-
+            
             foreground: *white
             background: *menu_green
-
+            
             links:
                 - { label: "user Calc {N}", file: "userCalc.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
                 - { label: "user Calc {N} (full)", file: "userCalc_full.ui", macros: "P=$(P),N={N},C=userCalc{N}" }
-
+            
         - !ChoiceButton
             <<: *editable
             geometry: 25x0 x 40x20
             pv: "$(P)userCalc{N}Enable"
 ```
-

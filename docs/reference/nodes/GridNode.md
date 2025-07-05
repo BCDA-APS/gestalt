@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="GridNode"></a>
-
 # GridNode
 
 Iterates over a given macro in the input file named by the attribute `repeat-over`, generating 
@@ -70,7 +68,7 @@ LED_Grid: !Grid
     geometry: 160x170 x 0x0
     aspect-ratio: 1.5
     repeat-over: "LEDs"
-
+    
     padding: 10
 
     children:
@@ -78,4 +76,3 @@ LED_Grid: !Grid
             <<: *alarm_led
             geometry: 20x20
 ```
-

@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="IncludeNode"></a>
-
 # IncludeNode
 
 A widget that references and embeds another UI file
@@ -29,4 +27,3 @@ A widget that references and embeds another UI file
 EmbededDisplay: !Include
     file: "another_file"  # Can leave off file extension, will be appended with correct filetype for the output UI tool
 ```
-

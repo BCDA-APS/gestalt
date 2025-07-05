@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ApplyNode"></a>
-
 # ApplyNode
 
 Apply and Template are special tags that are used to save and restore sets of nodes and provide
@@ -32,10 +30,10 @@ For the Apply node, its definition is a dictionary with a set of macros you wish
 LblRbkTemplate: !Template:lbl_rbk
     - !Defaults
         spacing: 10
-
+        
     - !hflow
         padding: "{spacing}"
-
+        
         children:
             - !Text { geometry: 150x20, text: "{TITLE}" }
             - !TextMonitor
@@ -50,19 +48,18 @@ Status: !hcenter:hflow
     children:
         - !vflow
             padding: 5
-
+        
             children:
                 - !Apply:lbl_rbk { TITLE: "Model Name",  PV: "ModelName" }
                 - !Apply:lbl_rbk { TITLE: "Serial Num",  PV: "SerialNumber" }                            
                 - !Apply:lbl_rbk { TITLE: "LJM Version", PV: "LJMVersion" }
-
+                    
         - !vflow
             padding: 5
-
+        
             children:
                 - !Apply:lbl_rbk { TITLE: "Firmware Version", PV: "FirmwareVersion" }                    
                 - !Apply:lbl_rbk { TITLE: "Temperature (C)",  PV: "DeviceTemperature" }
                 - !Apply:lbl_rbk { TITLE: "Driver Version",   PV: "DriverVersion" }
 
 ```
-

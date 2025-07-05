@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="MessageButtonNode"></a>
-
 # MessageButtonNode
 
 A widget representing a button that writes a value to a pv when pressed
@@ -35,10 +33,9 @@ A widget representing a button that writes a value to a pv when pressed
     background: *edit_blue
 
     text: "Write Value"
-
+    
     geometry: 10x200 x 100x20
-
+    
     pv: "xxx:yyy:zzz"
     value: 1
 ```
-

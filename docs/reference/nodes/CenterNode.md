@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="CenterNode"></a>
-
 # CenterNode
 
 A positioner used to place a widget centered within its parent's area
@@ -31,7 +29,7 @@ MidPointGroup: !acenter:group
             background: *transparent
             alignment: CenterRight
             pv: "S:SRcurrentAI"
-
+            
         - !Text
             geometry: 55x0 x 25x20
             foreground: *alarm_yellow
@@ -53,7 +51,7 @@ with the midpoint of the widget's parent on the same axis.
 ```yaml
 OPSElements: !hcenter:group
     geometry: 0x7 x 0x0
-
+    
     children:
         - !TextMontor
             geometry: 50x20
@@ -61,7 +59,7 @@ OPSElements: !hcenter:group
             background: *transparent
             alignment: CenterRight
             pv: "S:SRcurrentAI"
-
+            
         - !Text
             geometry: 55x0 x 25x20
             foreground: *alarm_yellow
@@ -85,7 +83,7 @@ You may also use the alias "center" to reference the vcenter node.
 ```yaml
 OPSElements: !vcenter:group
     geometry: 7x0 x 0x0
-
+    
     children:
         - !TextMonitor
             geometry: 0x0 x 50x20
@@ -93,11 +91,10 @@ OPSElements: !vcenter:group
             background: *transparent
             alignment: CenterRight
             pv: "S:SRcurrentAI"
-
+            
         - !Text
             geometry: 55x0 x 25x20
             foreground: *alarm_yellow
             alignment: CenterLeft
             text: "mA"
 ```
-

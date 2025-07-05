@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="TextNode"></a>
-
 # TextNode
 
 A widget representing a basic text label.
@@ -34,12 +32,11 @@ A widget representing a basic text label.
 ```yaml
 - !Text
     geometry: 5x0 x 120x20
-
+    
     text: "Label Text"
     font: -Liberation Sans - bold - 12
-
+    
     alignment:
         horizontal: Center
         vertical: Center
 ```
-

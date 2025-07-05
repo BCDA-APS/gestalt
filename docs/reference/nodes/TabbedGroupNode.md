@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="TabbedGroupNode"></a>
-
 # TabbedGroupNode
 
 A widget representing a stack of display areas, with each only being displayed upon the user clicking a corresponding tab button.
@@ -48,38 +46,38 @@ pane, which will depend on the values of certain attributes.
 ```yaml
 - !TabbedGroup
     geometry: 570x200
-
+        
     inset: 5
     offset: 3
-
+    
     border-color: *header_blue
     tab-color: *header_blue
     foreground: *white
     selected: $3970C4
-
+    
     font: -DejaVu Sans Mono - Bold - 9
 
     children:
         Motors: !Tab
             children:
                 - !AStretch:Spacer
-
+            
         Optics: !Tab
             children:
                 - !AStretch:Spacer
-
+            
         Detectors: !Tab
             children:
                 - !AStretch:Spacer
-
+            
         Direct I/O: !Tab
             children:
                 - !AStretch:Spacer
-
+            
         Devices: !Tab
             children:
                 - !AStretch:Spacer
-
+            
         Tools: !Tab
             children:
                 - !AStretch:Spacer
@@ -90,34 +88,33 @@ To save space, the !Tab node type can be directly applied to the list of childre
 ```yaml
 - !TabbedGroup
     geometry: 570x200
-
+        
     inset: 5
     offset: 3
-
+    
     border-color: *header_blue
     tab-color: *header_blue
     foreground: *white
     selected: $3970C4
-
+    
     font: -DejaVu Sans Mono - Bold - 9
 
     children:
         Motors: !Tab
             - !AStretch:Spacer
-
+            
         Optics: !Tab
             - !AStretch:Spacer
-
+            
         Detectors: !Tab
             - !AStretch:Spacer
-
+            
         Direct I/O: !Tab
             - !AStretch:Spacer
-
+            
         Devices: !Tab
             - !AStretch:Spacer
-
+            
         Tools: !Tab
             - !AStretch:Spacer
 ```
-

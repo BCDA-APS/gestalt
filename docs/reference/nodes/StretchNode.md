@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="StretchNode"></a>
-
 # StretchNode
 
 A positioner used to stretch a widget to fill the space provided by its parent widget
@@ -41,7 +39,7 @@ Determines a widget's width to match up with the size of the widget's parent wid
 ```yaml
 UITitle: !hstretch:Text
     geometry: 0x32
-
+            
     text: "Middle"
     alignment: CenterLeft
 ```
@@ -62,8 +60,7 @@ You may also use the alias "stretch" to reference the vstretch node.
 ```yaml
 UITitle: !vstretch:Text
     geometry: 32x0
-
+            
     text: "Middle"
     alignment: CenterLeft
 ```
-

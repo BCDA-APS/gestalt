@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="SliderNode"></a>
-
 # SliderNode
 
 A widget that uses a slider to control output to a pv
@@ -30,4 +28,3 @@ A widget that uses a slider to control output to a pv
     geometry: 140x0 x 120x20
     pv: "$(P)Ao10"
 ```
-

@@ -7,8 +7,6 @@ has_toc: false
 ---
 
 
-<a id="ConditionalNode"></a>
-
 # ConditionalNode
 
 Conditionally adds children widgets into the final output based upon a specified macro in the
@@ -41,28 +39,27 @@ with the condition of '!Not "my-condition"'.
 ```yaml
 HaveLED: !conditional
     condition: "INCLUDE_LED"
-
+    
     geometry: 0x20 x 0x0
-
+    
     children:
         - !LED
             pv: "xxx:yyy:bi.VAL"
             true-color: *alarm_red
             false-color: *alarm_green
-
+            
             border-color: *transparent
-
+            
             geometry: 15x0 x 22x22
-
+            
 SimplerVersion: !If:INCLUDE_LED
     - !LED
         pv: "xxx:yyy:bi.VAL"
         true-color: *alarm_red
         false-color: *alarm_green
-
+        
         border-color: *transparent
-
+        
         geometry: 15x0 x 22x22
 
 ```
-

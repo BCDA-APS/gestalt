@@ -7,7 +7,5 @@ has_toc: false
 ---
 
 
-<a id="LayoutNode"></a>
-
 # LayoutNode
 
