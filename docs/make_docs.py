@@ -1,10 +1,10 @@
 #! /usr/bin/env python3
 
 import os
+import ast
 import glob
 	
 def generate(package):
-	
 	index = 1
 	
 	for file in sorted(glob.glob("../gestalt/" + package + "/*.py")):
@@ -19,17 +19,26 @@ def generate(package):
 		
 		output_path = "./reference/" + package + "/" + modulename + ".md"
 		
-		with open(output_path, "w") as the_file:
-			the_file.write("---\n")
-			the_file.write("layout: default\n")
-			the_file.write("title: " + modulename + "\n")
-			the_file.write("parent: " + package.capitalize() + "\n")
-			the_file.write("nav_order: " + str(index) + "\n")
-			the_file.write("has_toc: false\n")
-			the_file.write("---\n\n\n")
-			the_file.flush()
-			os.system("pydoc-markdown -m " + modulename + " --search-path ../gestalt/" + package + " >> " + output_path)
+		with open(file, "r") as the_module:
+			contents = the_module.read()
 			
+			module = ast.parse(contents)
+			
+		
+			with open(output_path, "w") as the_file:
+				the_file.write("---\n")
+				the_file.write("layout: default\n")
+				the_file.write("title: " + modulename + "\n")
+				the_file.write("parent: " + package.capitalize() + "\n")
+				the_file.write("nav_order: " + str(index) + "\n")
+				the_file.write("has_toc: false\n")
+				the_file.write("---\n\n\n")
+				
+				docstring = ast.get_docstring(module)
+				
+				if docstring:
+					the_file.write(docstring)
+				
 		index += 1
 			
 
