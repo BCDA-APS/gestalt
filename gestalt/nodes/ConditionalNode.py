@@ -87,8 +87,8 @@ class ConditionalNode(GroupNode):
 		except KeyError:
 			if "{" in my_condition.value:
 				conditional = str(my_condition)
-
-		if bool(conditional) != invert:
+				
+		if bool(Bool(conditional)) != invert:
 			for child in self.children:				
 				applier = child.apply(generator)
 				
