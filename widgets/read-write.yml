@@ -40,7 +40,7 @@ _ReadWrite: !Template:PVReadWrite
         
         label-alignment: CenterRight
         read-alignment:  BottomRight
-        units-alginment: BottomLeft
+        units-alignment: BottomLeft
         
         desc-pv:   False
         entry-pv:  False
