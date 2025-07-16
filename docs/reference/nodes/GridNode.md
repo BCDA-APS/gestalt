@@ -56,6 +56,7 @@ columns). If 'horizontal' is False, then the vertical constraints will be broken
 | background     | Color  | A fill color behind the entirety of each template copy |
 | border-color   | Color  | The color of the group's border surrounding each template copy |
 | border-width   | Number | The thickness of the group's border in pixels |
+| reverse        | Bool   | Iterate over repeat-over in a reversed order |
 | horizontal     | Bool   | Fill direction of the layout. Macros will be mapped to widgets across columns first, then proceed to the next row, rather than the reverse. True by default |
 | visibility     | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 | ignore-empty   | Bool   | Defines whether or not to adjust positioning of elements if a repeated instance is an empty group. Useful for dealing with Conditional nodes. default: False |

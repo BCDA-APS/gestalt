@@ -53,6 +53,7 @@ macro mentioned above will also be included.
 | border-width   | Number | The thickness of the group's border in pixels |
 | visibility     | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 | ignore-empty   | Bool   | Defines whether or not to adjust positioning of elements if a repeated instance is an empty group. Useful for dealing with Conditional nodes. default: False |
+| reverse        | Bool   | Iterate over repeat-over in a reversed order |
 
 
 * **Example**
@@ -125,7 +126,7 @@ You may also use the alias "repeat" to reference the vrepeat node.
 | border-width   | Number | The thickness of the group's border in pixels |
 | visibility     | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 | ignore-empty   | Bool   | Defines whether or not to adjust positioning of elements if a repeated instance is an empty group. Useful for dealing with Conditional nodes. default: False |
-
+| reverse        | Bool   | Iterate over repeat-over in a reversed order |
 
 * **Example**
 

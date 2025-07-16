@@ -18,6 +18,8 @@ class LayoutNode(GroupNode):
 		self.makeInternal(Number, "last-x",    0)
 		self.makeInternal(Number, "last-y",    0)
 		
+		self.makeInternal(Bool, "reverse", False)
+		
 	def initApply(self, data):
 		self["last-x"] = 0
 		self["last-y"] = 0
@@ -27,6 +29,8 @@ class LayoutNode(GroupNode):
 		self["start-at"].apply(data)
 		self["variable"].apply(data)
 		self["increment"].apply(data)
+		
+		self["reverse"].apply(data)
 		
 		self.data = data
 		
@@ -71,12 +75,17 @@ class LayoutNode(GroupNode):
 			except Exception as e:
 				pass
 				
-		if not self.iterating:				
+		if not self.iterating:
 			raise Exception("Could not resolve repeat-over (" + str(repeat) + ") into an iterable value")
 						
 		self["num-items"] = len(self.iterating)
 		
-		for key, val in self.iterating.items():
+		the_iter = self.iterating.items()
+		
+		if bool(self["reverse"]):
+			the_iter = reversed(the_iter)
+		
+		for key, val in the_iter:
 			self["index"] = key
 			self.curr_macros = {}
 			
