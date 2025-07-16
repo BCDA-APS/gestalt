@@ -207,11 +207,13 @@ class DataType(object):
 		
 		
 	def __bool__(self):
-		if self.val():
+		check = self.val()
+		
+		if check:
 			try:
-				return bool(int(self.value.lower()))
+				return bool(int(check.lower()))
 			except:
-				return not ( self.value.lower() == "false" )
+				return not ( check.lower() == "false" )
 				
 		return False
 		
