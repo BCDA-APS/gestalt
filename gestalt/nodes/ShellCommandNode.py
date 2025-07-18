@@ -42,7 +42,7 @@ from gestalt.nodes.Node import Node
 
 class ShellCommandNode(Node):
 	def __init__(self, name=None, layout={}, loc=None):
-		self.proto_commands = List(layout.pop("proto_commands", []))
+		self.proto_commands = List(layout.pop("commands", []))
 	
 		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout, loc=loc)
 		
