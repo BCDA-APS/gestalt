@@ -36,7 +36,7 @@ class TextEntryNode(Node):
 	
 		self.setDefault(String,    "pv",         "")
 		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
-		self.setDefault(String,    "format",     "Decimal")
+		self.setDefault(String,    "format",     "String")
 		self.setDefault(Alignment, "alignment",  "CenterLeft")
 		self.setDefault(Color,     "background", "$57CAE4")
 		self.setDefault(Color,     "foreground", "$000000")

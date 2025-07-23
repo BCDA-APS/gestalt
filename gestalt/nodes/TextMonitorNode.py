@@ -43,5 +43,5 @@ class TextMonitorNode(Node):
 		self.setDefault(Number,    "border-width", 0)
 		self.setDefault(String,    "border-style", "Solid")
 		self.setDefault(Font,      "font",         "-Liberation Sans - Regular - 12")
-		self.setDefault(String,    "format",       "Decimal")
+		self.setDefault(String,    "format",       "String")
 		self.setDefault(Alignment, "alignment",    "CenterLeft")
