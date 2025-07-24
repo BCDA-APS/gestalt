@@ -322,6 +322,7 @@ add_constructors("PolyLine",       (lambda l, n: read_special_node(PolylineNode,
 add_constructors("Slider",         (lambda l, n: read_special_node(SliderNode, l, n)))
 add_constructors("Scale",          (lambda l, n: read_special_node(ScaleNode, l, n)))
 add_constructors("Calc",           (lambda l, n: read_special_node(CalcNode, l, n)))
+add_constructors("Include",        (lambda l, n: read_special_node(IncludeNode, l, n)))
 
 
 #####################

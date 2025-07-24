@@ -22,14 +22,16 @@ EmbededDisplay: !Include
 from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
+import pathlib
+
 class IncludeNode(Node):
 	def __init__(self, name=None, layout={}, loc=None):
 		super(IncludeNode, self).__init__("Include", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "file", "")
+		self.setDefault(String, "macros", "")
 
 	def initApply(self, macros):
 		filename = str(self["file"])
 		
 		self["file"] = filename.removesuffix(pathlib.PurePath(filename).suffix)
-		

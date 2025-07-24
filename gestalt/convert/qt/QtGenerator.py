@@ -250,8 +250,9 @@ class QtGenerator(GestaltGenerator):
 	def generateInclude(self, node, macros={}):
 		output = QtWidget("caInclude", node=node, macros=macros)
 		
-		output["file"] = output["file"] + ".ui"
+		output["file"] = str(output["file"]) + ".ui"
 		output.link("filename", "file")
+		output.link("macro", "macros")
 		
 		return output
 		

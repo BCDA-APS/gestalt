@@ -12,6 +12,7 @@ from gestalt.nodes.FlowNode import FlowNode
 from gestalt.nodes.GridNode import GridNode
 from gestalt.nodes.GroupNode import GroupNode
 from gestalt.nodes.ImageNode import ImageNode
+from gestalt.nodes.IncludeNode import IncludeNode
 from gestalt.nodes.LayoutNode import LayoutNode
 from gestalt.nodes.LEDNode import LEDNode
 from gestalt.nodes.MenuNode import MenuNode
@@ -51,6 +52,7 @@ __all__ = [
 	"FlowNode",
 	"GridNode",
 	"ImageNode",
+	"IncludeNode",
 	"LayoutNode",
 	"LEDNode",
 	"MenuNode",
