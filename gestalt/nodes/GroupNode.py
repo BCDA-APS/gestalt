@@ -139,7 +139,10 @@ class GroupNode(Node):
 						self.positionNext(widget)
 						output.place(widget)
 				except RuntimeError as e:
-					break
+					if str(e) == "generator raised StopIteration":
+						break
+					else:
+						raise e
 				except StopIteration:
 					break
 					

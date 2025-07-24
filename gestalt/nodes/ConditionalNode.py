@@ -98,8 +98,11 @@ class ConditionalNode(GroupNode):
 					try:
 						widget = applier.send(child_macros)
 						yield widget
-					except RuntimeError:
-						break
+					except RuntimeError as e:
+						if str(e) == "generator raised StopIteration":
+							break
+						else:
+							raise e
 					except StopIteration:
 						break
 				
