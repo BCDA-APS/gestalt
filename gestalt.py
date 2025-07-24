@@ -6,7 +6,7 @@ import argparse
 import pathlib
 import tempfile
 import traceback
-#import cProfile
+import cProfile
 
 from layouts import *
 from gestalt import Datasheet, Stylesheet
@@ -94,6 +94,13 @@ and gestalt's widgets directory (for colors.yml).
 	
 """,
 	type=str)
+	
+parser.add_argument("--profile",
+	action="store_true",
+	dest="enable_profile",
+	help="""
+Enable the python profiler and output speed information
+""")
 
 
 
@@ -177,6 +184,7 @@ if __name__ == "__main__":
 	elif args.layout == None:
 		print("Layout file required for command-line conversion")
 		
+	elif args.enable_profile:
+		cProfile.run("doGenerate(args)")
 	else:
-		#cProfile.run("doGenerate(args)")
 		doGenerate(args)
