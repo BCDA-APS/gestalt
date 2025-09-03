@@ -1,14 +1,39 @@
 #include colors.yml
 
+#include on-off.yml
+#include tweak-control.yml
+
 _ReadWrite: !Template:PVReadWrite
     - !Defaults
         fontname: "Liberation Sans"
+        
         spacing: 15
+        
+        enable-spacing: "{spacing}"
+        desc-spacing:   "{spacing}"
+        label-spacing:  "{spacing}"
+        entry-spacing:  "{spacing}"
+        menu-spacing:   "{spacing}"
+        button-spacing: "{spacing}"
+        read-spacing:   "{spacing}"
+        units-spacing:  "{spacing}"
+        tweak-spacing:  "{spacing}"
         
         height: 20
         
-        element-width: 60
+        enable-height: "{height}"
+        desc-height:   "{height}"
+        label-height:  "{height}"
+        entry-height:  "{height}"
+        menu-height:   "{height}"
+        button-height: "{height}"
+        read-height:   "{height}"
+        units-height:  "{height}"
+        tweak-height:  "{height}"
         
+        element-width: 60
+
+        enable-width: "{element-width}"
         desc-width:   "{element-width}"
         label-width:  "{element-width}"
         entry-width:  "{element-width}"
@@ -16,6 +41,7 @@ _ReadWrite: !Template:PVReadWrite
         button-width: "{element-width}"
         read-width:   "{element-width}"
         units-width:  "{element-width}"
+        tweak-width:  "{element-width}"
         
         editable-color: *edit_blue
         
@@ -26,7 +52,7 @@ _ReadWrite: !Template:PVReadWrite
         button-background: "{editable-color}"
         read-background:   *transparent
         units-background:  *transparent
-        
+        tweak-background:  "{editable-color}"
         
         text-color: *black
         
@@ -37,16 +63,22 @@ _ReadWrite: !Template:PVReadWrite
         button-foreground: "{text-color}"
         read-foreground:   "{text-color}"
         units-foreground:  "{text-color}"
+        tweak-foreground:  "{text-color}"
         
         label-alignment: CenterRight
         read-alignment:  BottomRight
         units-alignment: BottomLeft
         
+        enable-pv: False
         desc-pv:   False
         entry-pv:  False
         menu-pv:   False
         button-pv: False
         read-pv:   False
+        
+        tweak-val-pv: False
+        tweak-pos-pv: False
+        tweak-neg-pv: False
         
         label: False
         units: False
@@ -56,84 +88,102 @@ _ReadWrite: !Template:PVReadWrite
         
         read-first: False
         
-    - !HFlow
-        padding: "{spacing}"
-        children:
-            - !If:label
-                - !Text
-                    geometry: "0x0x{label-width}x{height}"
-                    font: "-{fontname}"
-                    alignment: "{label-alignment}"
-                    background: "{label-background}"
-                    foreground: "{label-foreground}"
-                    text: "{label}"
-                    
-            - !If:desc-pv
-                - !TextEntry
-                    geometry: "0x0x{desc-width}x{height}"
-                    background: "{desc-background}"
-                    foreground: "{desc-foreground}"
-                    pv: "{desc-pv}"
-                    
-            - !If:read-first
-                - !If:read-pv
-                    - !TextMonitor
-                        geometry: "0x0x{read-width}x{height}"
-                        background: "{read-background}"
-                        foreground: "{read-foreground}"
-                        alignment: "{read-alignment}"
-                        font: "-{fontname}"
-                        pv: "{read-pv}"
-                        
-            - !If:read-first
-                - !If:units
-                    - !Text
-                        geometry: "0x0x{units-width}x{height}"
-                        background: "{units-background}"
-                        foreground: "{units-foreground}"
-                        alignment: "{units-alignment}"
-                        font: "-{fontname}"
-                        text: "{units}"
-                    
-            - !If:entry-pv
-                - !TextEntry
-                    geometry: "0x0x{entry-width}x{height}"
-                    background: "{entry-background}"
-                    foreground: "{entry-foreground}"
-                    pv: "{entry-pv}"
-                    
-            - !If:menu-pv
-                - !Menu
-                    geometry: "0x0x{menu-width}x{height}"
-                    background: "{menu-background}"
-                    foreground: "{menu-foreground}"
-                    pv: "{menu-pv}"
+        enable-default:
+            - !Apply:OnOffLED
+                geometry: "0x0x{enable-width}x{enable-height}"
+                control-pv: "{enable-pv}"
+                
+        label-default:
+            - !Text
+                geometry: "0x0x{label-width}x{label-height}"
+                font: "-{fontname}"
+                alignment: "{label-alignment}"
+                background: "{label-background}"
+                foreground: "{label-foreground}"
+                text: "{label}"
+                
+        desc-default:
+            - !TextEntry
+                geometry: "0x0x{desc-width}x{desc-height}"
+                background: "{desc-background}"
+                foreground: "{desc-foreground}"
+                pv: "{desc-pv}"
+                
+        read-default:
+            - !TextMonitor
+                geometry: "0x0x{read-width}x{read-height}"
+                background: "{read-background}"
+                foreground: "{read-foreground}"
+                alignment: "{read-alignment}"
+                font: "-{fontname}"
+                pv: "{read-pv}"
+                
+        units-default:
+            - !Text
+                geometry: "0x0x{units-width}x{units-height}"
+                background: "{units-background}"
+                foreground: "{units-foreground}"
+                alignment: "{units-alignment}"
+                font: "-{fontname}"
+                text: "{units}"
+                
+        entry-default:
+            - !TextEntry
+                geometry: "0x0x{entry-width}x{entry-height}"
+                background: "{entry-background}"
+                foreground: "{entry-foreground}"
+                pv: "{entry-pv}"
+                
+        tweak-default:
+            - !Apply:TweakControl
+                height: "{tweak-height}"
+                write-width: "{tweak-width}"
+                button-width: "{tweak-height}"
+                
+        menu-default:
+            - !Menu
+                geometry: "0x0x{menu-width}x{menu-height}"
+                background: "{menu-background}"
+                foreground: "{menu-foreground}"
+                pv: "{menu-pv}"
+                
+        button-default:
+            - !MessageButton
+                geometry: "0x0x{button-width}x{button-height}"
+                background: "{button-background}"
+                foreground: "{button-foreground}"
+                pv:    "{button-pv}"
+                value: "{button-value}"
+                text:  "{button-text}"
         
-            - !If:button-pv
-                - !MessageButton
-                    geometry: "0x0x{button-width}x{height}"
-                    background: "{button-background}"
-                    foreground: "{button-foreground}"
-                    pv:    "{button-pv}"
-                    value: "{button-value}"
-                    text:  "{button-text}"
+                
+        enable-element: [ !Embed:enable-default ]
+        label-element:  [ !Embed:label-default ]
+        desc-element:   [ !Embed:desc-default ]
+        read-element:   [ !Embed:read-default ]
+        units-element:  [ !Embed:units-default ]
+        entry-element:  [ !Embed:entry-default ]
+        tweak-element:  [ !Embed:tweak-default ]
+        menu-element:   [ !Embed:menu-default ]
+        button-element: [ !Embed:button-default ]
+                
+                
+    - !HFlow
+        geometry: "0x0x0x{height}"
+        children:
+            - !If:enable-pv    [ !VCenter:Embed:enable-element , !Spacer {geometry: "{enable-spacing}x0"} ]
+            - !If:label        [ !VCenter:Embed:label-element ,  !Spacer {geometry: "{label-spacing}x0"} ]
+            - !If:desc-pv      [ !VCenter:Embed:desc-element ,   !Spacer {geometry: "{desc-spacing}x0"} ]
+                    
+            - !If:read-first
+                - !If:read-pv  [ !VCenter:Embed:read-element ,   !Spacer {geometry: "{read-spacing}x0"} ]
+                - !If:units    [ !VCenter:Embed:units-element ,  !Spacer {geometry: "{units-spacing}x0"} ]
+                    
+            - !If:entry-pv     [ !VCenter:Embed:entry-element ,  !Spacer {geometry: "{entry-spacing}x0"} ]
+            - !If:tweak-val-pv [ !VCenter:Embed:tweak-element ,  !Spacer {geometry: "{tweak-spacing}x0"} ]
+            - !If:menu-pv      [ !VCenter:Embed:menu-element ,   !Spacer {geometry: "{menu-spacing}x0"} ]
+            - !If:button-pv    [ !VCenter:Embed:button-element , !Spacer {geometry: "{button-spacing}x0"} ]
             
             - !IfNot:read-first
-                - !If:read-pv
-                    - !TextMonitor
-                        geometry: "0x0x{read-width}x{height}"
-                        background: "{read-background}"
-                        foreground: "{read-foreground}"
-                        alignment: "{read-alignment}"
-                        font: "-{fontname}"
-                        pv: "{read-pv}"
-                    
-            - !IfNot:read-first
-                - !If:units
-                    - !Text
-                        geometry: "0x0x{units-width}x{height}"
-                        background: "{units-background}"
-                        foreground: "{units-foreground}"
-                        alignment: "{units-alignment}"
-                        font: "-{fontname}"
-                        text: "{units}"
+                - !If:read-pv  [ !VCenter:Embed:read-element ,   !Spacer {geometry: "{read-spacing}x0"} ]
+                - !If:units    [ !VCenter:Embed:units-element ,  !Spacer {geometry: "{units-spacing}x0"} ]

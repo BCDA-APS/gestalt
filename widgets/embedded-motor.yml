@@ -1,10 +1,14 @@
 #include colors.yml
 #include on-off.yml
+#include tweak-control.yml
 
 _EmbeddedMotor: !Template:EmbeddedMotor
+    - !Defaults
+        background: $00000000
+
     - !group
         geometry: 160x210
-        
+        background: "{background}"
         border-color: $00358
         border-width: 3
         
@@ -137,12 +141,12 @@ _EmbeddedMotor: !Template:EmbeddedMotor
                                         undefined-color: *alarm_green
                                         
                                         
-                    - !HCenter:HFlow
+                    - !HCenter:Apply:TweakControl
+                        height: 24
                         padding: 4
-                        children:
-                            - !MessageButton { background: *edit_blue, geometry: 24x24, pv: "{motor-pv}.TWR", value: "1", text: "<" }
-                            - !TextEntry     { background: *edit_blue, geometry: 84x24, pv: "{motor-pv}.TWV" }
-                            - !MessageButton { background: *edit_blue, geometry: 24x24, pv: "{motor-pv}.TWF", value: "1", text: ">" }
+                        write-width: 84
+                        button-width: 24
+                        control-pv: "{motor-pv}"
             
                     - !HCenter:MessageButton
                         background: *alarm_red

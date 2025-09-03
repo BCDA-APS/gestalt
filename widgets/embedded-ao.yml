@@ -3,10 +3,11 @@
 
 _EmbedAO: !Template:EmbeddedAO
     - !defaults
-        AO-rbv-pv:    "{AO-pv}"
-        tweak-pos-pv: "{AO-pv}TweakUp"
-        tweak-neg-pv: "{AO-pv}TweakDown"
-        tweak-val-pv: "{AO-pv}TweakVal"
+        control-pv:   ""
+        readback-pv:  "{control-pv}"
+        tweak-pos-pv: "{control-pv}TweakUp.PROC"
+        tweak-neg-pv: "{control-pv}TweakDown.PROC"
+        tweak-val-pv: "{control-pv}TweakVal"
         
 
     - !group
@@ -24,7 +25,7 @@ _EmbedAO: !Template:EmbeddedAO
                 
                 alignment: Center
                 
-                pv: "{AO-pv}.DESC"
+                pv: "{control-pv}.DESC"
                 
             - !HCenter:VFlow
                 padding: 5
@@ -34,37 +35,18 @@ _EmbedAO: !Template:EmbeddedAO
                         foreground: *header_blue
                         alignment: Center
                         
-                        pv: "{AO-rbv-pv}"
+                        pv: "{readback-pv}"
                         
                         geometry: 116x27
                 
                     - !HStretch:TextEntry
                         <<: *editable
                         geometry: 114x25
-                        pv: "{AO-pv}"
-                                        
-                    - !HCenter:HFlow
+                        pv: "{control-pv}"
+                    
+                    - !HCenter:Apply:TweakControl
+                        height: 24
                         padding: 4
-                        children:
-                            - !MessageButton
-                                background: *edit_blue
-                                
-                                geometry: 24x24
-                                value: "1"
-                                pv: "{tweak-neg-pv}.PROC"
-                                text: "<"
-                                
-                            - !TextEntry
-                                background: *edit_blue
-                                
-                                geometry: 84x24
-                                
-                                pv: "{tweak-val-pv}"
-                            
-                            - !MessageButton
-                                background: *edit_blue
-                                
-                                geometry: 24x24
-                                value: "1"
-                                pv: "{tweak-pos-pv}.PROC"
-                                text: ">"
+                        button-width: 24
+                        write-width: 84
+                    

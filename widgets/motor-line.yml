@@ -1,58 +1,61 @@
 #include colors.yml
+#include read-write.yml
 #include on-off.yml
+#include tweak-control.yml
 
 _MotorLine: !Template:MotorLine
     - !Defaults
         height: 30
-        name-width:  50
-        limit-width: 8
-        read-width:  100
-        write-width: 100
-        tweak-button-width: 25
-        tweak-width: 60
-        on-off-width: 20
-        N: 1
         
+        spacing: 0
+        
+        read-first: True
         read-only: False
-
-    - !HFlow
-        geometry: "0x{height}"
-        margins: 4x0x4x0
         
-        children:
-            EnableCalc: !Calc
+        link-screen: "motor1x1"
+        link-macros: "P={motor-pv},M1="
+        
+        enable-pv: "{motor-pv}.CNEN"
+        enable-width: 20
+        enable-height: 20
+        enable-element:
+            - !Calc
                 A:    "{motor-pv}.MSTA"
                 calc: "(A&2048)==2048"
-                pv:   "{motor-pv}:TorqueDisplay"
-            
-            EnableLED: !VStretch:Group
-                visibility: "{motor-pv}:TorqueDisplay"
-                children:
-                    - !VCenter:Group
-                        children:
-                            - !Apply:OnOffLED
-                                size: "{on-off-width}"
-                                control-pv: "{motor-pv}.CNEN"
-                                
-            Offset: !Spacer {geometry: 8x0}
+                pv:   "{motor-pv}TorqueDisplay"
                 
-            NameTag: !VStretch:Group
-                background: *white
+            - !Group
+                visibility: "{motor-pv}TorqueDisplay"
+                margins: 0x0x8x0
+                children: [ !Embed:enable-default ]
+        
+        desc-pv: "{motor-pv}.DESC"
+        desc-width: 200
+        desc-background: *white
+        desc-foreground: *header_blue
+        desc-element:
+            - !Group
+                geometry: "{desc-width}x{desc-height}"
+                background: "{desc-background}"
                 margins: 4x6x4x6
-                geometry: "{name-width} x 0"
                 children:
                     - !AStretch:TextMonitor
-                        foreground: *header_blue
+                        foreground: "{desc-foreground}"
                         pv: "{motor-pv}.DESC"
                         
                     - !AStretch:RelatedDisplay
                         background: *transparent
                         links:
-                            - { label: "motor", file: "motor1x1", macros: "P={motor-pv},M1=" }
-                            
-            Readback: !VStretch:Group
-                geometry: "{read-width} x 0"
-                children:                    
+                            - { label: "motor", file: "{link-screen}", macros: "{link-macros}" }
+        
+        read-pv: "{motor-pv}.RBV"
+        read-width: 120
+        read-foreground: *header_blue
+        read-alignment: CenterLeft
+        read-element:
+            - !Group
+                geometry: "{read-width}x{read-height}"
+                children:
                     - !AStretch:Group
                         border-width: 2
                         border-color: *black
@@ -64,76 +67,59 @@ _MotorLine: !Template:MotorLine
                                 visibility: "{motor-pv}.SET"
                                 
                     - !AStretch:Group
-                        margins: "{limit-width}x4x{limit-width}x4"
+                        margins: "8x4x8x4"
                         children:
                             - !AStretch:TextMonitor
-                                background: *grey_light
-                                pv: "{motor-pv}.RBV"
-                         
+                                foreground: "{read-foreground}"
+                                pv: "{read-pv}"
+                            
                     - !VStretch:Rectangle
-                        geometry: "{limit-width}x0"
+                        geometry: "8x0"
                         visibility: "{motor-pv}.LLS"
                         border-color: *transparent
                         background: *alarm_red
                                 
                     - !HAnchor:VStretch:Rectangle
-                        geometry: "{limit-width}x0"
+                        geometry: "8x0"
                         visibility: "{motor-pv}.HLS"
                         border-color: *transparent
                         background: *alarm_red
-                
         
-            SetValue: !IfNot:read-only
-                - !VStretch:Group
-                    geometry: "{write-width}x0"
-                    children:
-                        - !AStretch:Rectangle
-                            border-color: *transparent
-                            background: *alarm_green
-                            visibility: !Not "{motor-pv}.DMOV"
-                            
-                        - !AStretch:Rectangle
-                            border-color: *transparent
-                            background: *alarm_yellow
-                            visibility: "{motor-pv}.LVIO"
-                            
-                        - !AStretch:Group
-                            margins: 4x4x4x4
-                            children:
-                                - !AStretch:TextEntry
-                                    background: *edit_blue
-                                    pv: "{motor-pv}.VAL"
-            
-            
-            TweakArea: !IfNot:read-only
-                - !VStretch:HFlow
-                    margins: 0x4x0x4
-                    children:
-                        TweakLeft: !VStretch:Group
-                            geometry: "{tweak-button-width}x0"
-                            margins: 1x0x1x1
-                            children: 
-                                - !AStretch:MessageButton
-                                    background: *edit_blue
-                                    pv: "{motor-pv}.TWR"
-                                    text: "<"
-                                    value: "1"
-                            
-                        SlightSpacing1: !Spacer { geometry: 2x0 }
-                                    
-                        TweakField: !VStretch:TextEntry
-                            geometry: "{tweak-width}x0"
-                            background: *edit_blue
-                            pv: "{motor-pv}.TWV"
-                            
-                        SlightSpacing2: !Spacer { geometry: 2x0 }
-                            
-                        TweakRight: !VStretch:Group
-                            geometry: "{tweak-button-width}x0"
-                            margins: 1x0x1x1
-                            children: 
-                                - !AStretch:MessageButton
-                                    background: *edit_blue
-                                    pv: "{motor-pv}.TWF"
-                                    text: ">"
-                                    value: "1"
+        
+        entry-pv: "{motor-pv}.VAL"
+        entry-width: 100
+        entry-element:
+            - !Group
+                geometry: "{entry-width}x{entry-height}"
+                children:
+                    - !AStretch:Rectangle
+                        border-color: *transparent
+                        background: *alarm_green
+                        visibility: !Not "{motor-pv}.DMOV"
+                        
+                    - !AStretch:Rectangle
+                        border-color: *transparent
+                        background: *alarm_yellow
+                        visibility: "{motor-pv}.LVIO"
+                        
+                    - !AStretch:Group
+                        margins: 4x4x4x4
+                        children:
+                            - !AStretch:TextEntry
+                                background: "{entry-background}"
+                                pv: "{entry-pv}"
+        
+        
+        tweak-val-pv: "{motor-pv}.TWV"
+        tweak-pos-pv: "{motor-pv}.TWF"
+        tweak-neg-pv: "{motor-pv}.TWR"
+        tweak-width: 60
+        tweak-height: 22
+        tweak-element:
+            - !Group
+                margins: 5x4x0x4
+                children:
+                    - !Embed:tweak-default
+
+    - !Apply:PVReadWrite
+        
