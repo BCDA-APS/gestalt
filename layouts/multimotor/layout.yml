@@ -4,6 +4,7 @@
 Form: !Form
     title: "Motors"
     margins: 5x5x5x5
+    background: $757687
     
     
 motor_grid: !grid
@@ -17,4 +18,5 @@ motor_grid: !grid
     
     children:
         - !Apply:EmbeddedMotor
+            background: *grey_lighter
             motor-pv: "$(P)$(M{N})"
