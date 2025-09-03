@@ -1,46 +1,9 @@
 #include colors.yml
 #include color-schemes.yml
 
+#include grouping.yml
 #include on-off.yml
 #include read-write.yml
-
-_ADSectionHeader: !Template:ADSectionHeader
-    - !HCenter:Text
-        geometry: 0x1 x 110x22
-        background: $DADADA
-        foreground: *header_blue
-        alignment: Center
-        text: "{title}"
-
-    
-_ADReadWriteList: !Template:ADReadWriteList
-    - !Defaults
-        items: []
-        
-    - !VRepeat
-        repeat-over: "{items}"
-        padding: 5
-        children:
-            Output: !Apply:PVReadWrite
-    
-    
-_ADSection: !Template:ADSection
-    - !Defaults
-        title: ""
-        items: []
-        content: 
-            - !Apply:ADReadWriteList
-
-    - !Group
-        border-width: 1
-        border-color: *black
-        margins: 5x0x5x10
-        geometry: 350x0
-        
-        children:
-            Header: !Apply:ADSectionHeader { title: "{title}" }
-            Flow:   !HCenter:VFlow { geometry: 0x34 x 0x0, padding: 10, children: [ !Embed:content ] }
-
 
 _ADReadoutXY: !Template:ADReadoutXY
     - !Defaults
@@ -93,7 +56,7 @@ _ADSetupSection: !Template:ADSetup
             - { label: "Driver Version",   read-pv: "$(P)$(R)DriverVersion_RBV" }
             - { label: "ADCore Version",   read-pv: "$(P)$(R)ADCoreVersion_RBV" }
 
-    - !Apply:ADSection
+    - !Apply:TitledGroup
         title: "Setup"
         content:    
             - !VRepeat 
@@ -194,7 +157,7 @@ _ADPluginsSection: !Template:ADPlugins
               links:
                 - { label: "", file: "", macros: "" }
 
-    - !Apply:ADSection
+    - !Apply:TitledGroup
         title: "Plugins"
         content:
             - !HCenter:Grid
@@ -222,33 +185,35 @@ _ADCollectSection: !Template:ADCollect
         spacing:     15
         
         fontname: "Liberation Sans"
+        cam-pv: "$(P)$(R)"
+        title: "Collect"
         
         before-acquire:
-            - { label: "Exposure Time",  entry-pv: "$(P)$(R)AcquireTime",   read-pv: "$(P)$(R)AcquireTime_RBV" }
-            - { label: "Acquire Period", entry-pv: "$(P)$(R)AcquirePeriod", read-pv: "$(P)$(R)AcquirePeriod_RBV" }
-            - { label: "# Images",       entry-pv: "$(P)$(R)NumImages",     read-pv: "$(P)$(R)NumImages_RBV" }
-            - { label: "# Exp. / Image", entry-pv: "$(P)$(R)NumExposures",  read-pv: "$(P)$(R)NumExposures_RBV" }
+            - { label: "Exposure Time",  entry-pv: "{cam-pv}AcquireTime",   read-pv: "{cam-pv}AcquireTime_RBV" }
+            - { label: "Acquire Period", entry-pv: "{cam-pv}AcquirePeriod", read-pv: "{cam-pv}AcquirePeriod_RBV" }
+            - { label: "Num Images",       entry-pv: "{cam-pv}NumImages",     read-pv: "{cam-pv}NumImages_RBV" }
+            - { label: "Num Exp./Image", entry-pv: "{cam-pv}NumExposures",  read-pv: "{cam-pv}NumExposures_RBV" }
             - { spacer: 5 }
-            - { label: "Image Mode",  menu-pv: "$(P)$(R)ImageMode",  read-pv: "$(P)$(R)ImageMode_RBV", label-width: 115, menu-width: 120 }
-            - { label: "Trigger Mode",menu-pv: "$(P)$(R)TriggerMode",read-pv: "$(P)$(R)TriggerMode_RBV", label-width: 115, menu-width: 120 }
+            - { label: "Image Mode",  menu-pv: "{cam-pv}ImageMode",  read-pv: "{cam-pv}ImageMode_RBV", label-width: 115, menu-width: 120 }
+            - { label: "Trigger Mode",menu-pv: "{cam-pv}TriggerMode",read-pv: "{cam-pv}TriggerMode_RBV", label-width: 115, menu-width: 120 }
     
         after-acquire:
-            - { label: "Busy",   read-pv: "$(P)$(R)AcquireBusy",       label-width: 65, read-width: 259, read-background: $DADADA }
-            - { label: "State",  read-pv: "$(P)$(R)DetectorState_RBV", label-width: 65, read-width: 259, read-background: $DADADA }
-            - { label: "Status", read-pv: "$(P)$(R)StatusMessage_RBV", label-width: 65, read-width: 259, read-background: $DADADA }
+            - { label: "Busy",   read-pv: "{cam-pv}AcquireBusy",       label-width: 65, read-width: 259, read-background: $DADADA }
+            - { label: "State",  read-pv: "{cam-pv}DetectorState_RBV", label-width: 65, read-width: 259, read-background: $DADADA }
+            - { label: "Status", read-pv: "{cam-pv}StatusMessage_RBV", label-width: 65, read-width: 259, read-background: $DADADA }
             - { spacer: 10 }
-            - { label: "Image Counter",   entry-pv: "$(P)$(R)ArrayCounter", read-pv: "$(P)$(R)ArrayCounter_RBV", read-first: True }
-            - { label: "Images Complete", read-pv: "$(P)$(R)NumImagesCounter_RBV" }
-            - { label: "Queued Arrays",   read-pv: "$(P)$(R)NumQueuedArrays" }
-            - { label: "Image Rate",      read-pv: "$(P)$(R)ArrayRate_RBV" }
-            - { label: "Time Remaining",  read-pv: "$(P)$(R)TimeRemaining_RBV" }
+            - { label: "Image Counter",   entry-pv: "{cam-pv}ArrayCounter", read-pv: "{cam-pv}ArrayCounter_RBV", read-first: True }
+            - { label: "Images Complete", read-pv: "{cam-pv}NumImagesCounter_RBV" }
+            - { label: "Queued Arrays",   read-pv: "{cam-pv}NumQueuedArrays" }
+            - { label: "Image Rate",      read-pv: "{cam-pv}ArrayRate_RBV" }
+            - { label: "Time Remaining",  read-pv: "{cam-pv}TimeRemaining_RBV" }
             - { spacer: 5 }
-            - { label: "Array Callbacks",write-pv: "$(P)$(R)ArrayCallbacks",read-pv: "$(P)$(R)ArrayCallbacks_RBV", label-width: 115, write-width: 120 }
-            - { label: "Wait for Plugins", write-pv: "$(P)$(R)WaitForPlugins", label-width: 115, write-width: 120 }
+            - { label: "Array Callbacks", menu-pv: "{cam-pv}ArrayCallbacks", read-pv: "{cam-pv}ArrayCallbacks_RBV", label-width: 115, menu-width: 120 }
+            - { label: "Wait for Plugins", menu-pv: "{cam-pv}WaitForPlugins", label-width: 115, menu-width: 120 }
             
     
-    - !Apply:ADSection
-        title: "Collect"
+    - !Apply:TitledGroup
+        title: "{title}"
         content:
             - !VRepeat
                 padding: 5
@@ -265,9 +230,10 @@ _ADCollectSection: !Template:ADCollect
                 padding: 20
                 children:
                     - !Text          { geometry: 65x20, alignment: CenterRight, font: "-{fontname}", text: "Acquire" }
-                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Start", pv: "$(P)$(R)Acquire", value: 1 }
-                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Stop",  pv: "$(P)$(R)Acquire", value: 0 }
+                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Start", pv: "{cam-pv}Acquire", value: 1 }
+                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Stop",  pv: "{cam-pv}Acquire", value: 0 }
                     - !Apply:OnOffText
+                        border-width: 0
                         text-width: 94
                     
                         on-label: "Collecting"
@@ -276,7 +242,7 @@ _ADCollectSection: !Template:ADCollect
                         off-label: "Idle"
                         off-color: *menu_green
                         
-                        PV: "$(P)$(R)Acquire"
+                        PV: "{cam-pv}Acquire"
             
             - !Spacer { geometry: 0x10 }
             
@@ -295,7 +261,7 @@ _ADCollectSection: !Template:ADCollect
 ##############################
             
 _ADBuffersSection: !Template:ADBuffers
-    - !Apply:ADSection
+    - !Apply:TitledGroup
         title: "Buffers"
         label-width: 210
         element-width: 90
@@ -305,6 +271,13 @@ _ADBuffersSection: !Template:ADBuffers
             - { label: "Memory Max/Used (MB)",     read-pv: "$(P)$(R)PoolMaxMem" }
             - { label: "Buffer and Memory Pooling",menu-pv: "$(P)$(R)PoolUsedMem.SCAN" } 
             - { label: "Empty Free List",          button-pv: "$(P)$(R)EmptyFreeList", button-text: "Empty"}
+            
+        content:
+            - !VRepeat
+                repeat-over: "{items}"
+                padding: 5
+                children:
+                    Output: !Apply:PVReadWrite
                     
             
 
@@ -312,7 +285,7 @@ _ADBuffersSection: !Template:ADBuffers
 #       ADAttributes         #
 ##############################
 _ADAttributesSection: !Template:ADAttributes
-    - !Apply:ADSection
+    - !Apply:TitledGroup
         title: "Attributes"
         label-width: 60
         element-width: 260
@@ -320,13 +293,20 @@ _ADAttributesSection: !Template:ADAttributes
             - { label: "File",    entry-pv: "$(P)$(R)NDAttributesFile" }
             - { label: "Macros",  entry-pv: "$(P)$(R)NDAttributesMacros" }
             - { label: "Status",  read-pv: "$(P)$(R)NDAttributesStatus", read-background: $DADADA }
+            
+        content:
+            - !VRepeat
+                repeat-over: "{items}"
+                padding: 5
+                children:
+                    Output: !Apply:PVReadWrite
               
 
 ##############################
 #       ADAttributes         #
 ##############################
 _ADReadoutSection: !Template:ADReadout
-    - !Apply:ADSection
+    - !Apply:TitledGroup
         title: "Readout"
         content:
             - !vflow

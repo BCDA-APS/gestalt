@@ -1,0 +1,33 @@
+#include colors.yml
+
+_TitledGroup: !Template:TitledGroup
+    - !Defaults
+        title: ""
+        background: $00000000
+        
+        border-width: 1
+        border-color: *black
+        
+        content: 
+            - !Spacer
+            
+        margins: 5x0x5x10
+
+    - !Group
+        border-width: "{border-width}"
+        border-color: "{border-color}"
+        background:   "{background}"
+        
+        children:
+            Flow: !HCenter:VFlow 
+                geometry: 0x34 x 0x0
+                padding: 10
+                margins:      "{margins}"
+                children: [ !Embed:content ]
+            
+            Header: !HCenter:Text
+                geometry: 0x1 x 110x22
+                background: $DADADA
+                foreground: *header_blue
+                alignment: Center
+                text: "{title}"
