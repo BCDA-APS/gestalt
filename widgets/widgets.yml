@@ -3,6 +3,8 @@
 
 #include screen-header.yml
 #include on-off.yml
+#include grouping.yml
+#include tweak-control.yml
 #include embedded-ao.yml
 #include embedded-motor.yml
 #include motor-line.yml

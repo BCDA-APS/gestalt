@@ -1,0 +1,48 @@
+#include colors.yml
+
+_TweakController: !Template:TweakControl
+    - !Defaults
+        height: 25
+        button-width: 23
+        write-width:  60
+        
+        control-pv:   ""
+        tweak-val-pv: "{control-pv}.TWV"
+        tweak-neg-pv: "{control-pv}.TWR"
+        tweak-pos-pv: "{control-pv}.TWF"
+        
+        padding: 2
+        
+    - !HFlow
+        geometry: "0x{height}"
+        
+        children:
+            TweakLeft: !VStretch:Group
+                geometry: "{button-width}x0"
+                margins: 0x1x0x1
+                children: 
+                    - !AStretch:MessageButton
+                        background: *edit_blue
+                        pv: "{tweak-neg-pv}"
+                        text: "<"
+                        value: "1"
+                        
+            Padding1: !Spacer { geometry: "{padding}x0" }
+                        
+            TweakField: !VStretch:TextEntry
+                geometry: "{write-width}x0"
+                background: *edit_blue
+                pv: "{tweak-val-pv}"
+                
+            Padding2: !Spacer { geometry: "{padding}x0" }
+            Offset1px: !Spacer { geometry: 1x0 }
+                
+            TweakRight: !VStretch:Group
+                geometry: "{button-width}x0"
+                margins: 0x1x0x1
+                children: 
+                    - !AStretch:MessageButton
+                        background: *edit_blue
+                        pv: "{tweak-pos-pv}"
+                        text: ">"
+                        value: "1"
