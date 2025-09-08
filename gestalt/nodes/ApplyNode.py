@@ -89,8 +89,9 @@ class ApplyNode(GroupNode):
 		
 		to_apply = {}
 		to_apply.update(self.defaults)
-		to_apply.update(self.macros)
 		to_apply.update(self.data)
+		to_apply.update(self.macros)
+		
 		
 		for key, val in output.items():
 			to_assign = None
