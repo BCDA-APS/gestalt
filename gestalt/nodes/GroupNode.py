@@ -23,6 +23,7 @@ class GroupNode(Node):
 					
 			self.makeInternal(Rect, "margins", "0x0x0x0")
 			
+		self.setDefault(Color, "background", "$00000000")
 		self.setDefault(Rect, "margins", "0x0x0x0", internal=True)
 		self.setDefault(Bool, "ignore-empty", False, internal=True)
 		self.setDefault(Number, "border-width",   0)
