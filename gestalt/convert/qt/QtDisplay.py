@@ -24,6 +24,8 @@ class QtDisplay(QtWidget):
 	def setProperty(self, key, prop):
 		self.form.setProperty(key, prop)
 		
+	def updateMacros(self, output, macros):
+		super().updateMacros(self.form, macros)
 		
 	def writeQt(self, filename):		
 		if "styleSheet" not in self.form:
