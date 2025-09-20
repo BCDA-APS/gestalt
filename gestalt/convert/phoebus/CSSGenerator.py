@@ -46,7 +46,7 @@ class CSSGenerator(GestaltGenerator):
 		for item in node["links"]:
 			_file = item.get("file", "") + ".bob"
 			_desc = item.get("label","")
-			_args = item.get"macros", "")
+			_args = item.get("macros", "")
 			
 			_rep = "window"
 			
