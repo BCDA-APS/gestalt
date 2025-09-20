@@ -395,7 +395,7 @@ class CSSWidget(GroupNode):
 			if "border-style" in self:
 				if self["border-style"].val() == "Dashed":
 					self.widget.line_style_dashed()
-				else:
+				elif self["border-style"].val() == "Solid":
 					self.widget.line_style_solid()
 			
 			
