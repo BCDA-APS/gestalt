@@ -21,8 +21,17 @@ class CSSDisplay(CSSAnonymous):
 		
 		margins = Rect(self.pop("margins", "0x0x0x0"))
 		
-		self.form.width(int(self.content["geometry"]["width"] + margins["x"] + margins["width"]))
-		self.form.height(int(self.content["geometry"]["height"] + margins["y"] + margins["height"]))
+		check_width = self["geometry"]["width"] + margins["x"] + margins["width"]
+		check_height = self["geometry"]["height"] + margins["y"] + margins["height"]
+		
+		if check_width > self.content["geometry"]["width"]:
+			self.content["geometry"]["width"] = check_width
+		
+		if check_height > self.content["geometry"]["height"]:
+			self.content["geometry"]["height"] = check_height
+		
+		self.form.width(int(self["geometry"]["width"] + margins["x"] + margins["width"]))
+		self.form.height(int(self["geometry"]["height"] + margins["y"] + margins["height"]))
 		
 		self.content["geometry"]["x"] = margins["x"]
 		self.content["geometry"]["y"] = margins["y"]
