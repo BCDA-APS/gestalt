@@ -81,7 +81,7 @@ class EmbedNode(Node):
 					widget = applier.send(child_macros)
 					
 					yield widget
-				except:
+				except StopIteration:
 					break
 					
 				data = yield
