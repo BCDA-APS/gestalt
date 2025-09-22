@@ -6,50 +6,27 @@ from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtDisplay(QtWidget):
 	def __init__(self, layout={}):
-		super(QtDisplay, self).__init__("caFrame", name="content")
+		super(QtDisplay, self).__init__("caFrame", name="content", layout=layout)
 		
-		self.tocopy.append("form")
-		self.tocopy.append("widg")
-	
-		self.form = QtWidget("QMainWindow", name="Form", layout=layout)
-		self.widg = QtWidget("QWidget", name="centralwidget", layout={})
+	def writeQt(self, filename):	
+		form = QtWidget("QMainWindow", name="Form", layout={})
+		widg = QtWidget("QWidget", name="centralwidget", layout={})
 		
-		self.form.append(self.widg, keep_original=True)
-		self.widg.append(self, keep_original=True)	
+		widg.append(self, keep_original=True)	
+		form.append(widg, keep_original=True)
 
+		form["geometry"] = self["geometry"]
 		
-	def updateProperties(self, macros={}):
-		self.form.updateProperties(macros)
-		
-	def setProperty(self, key, prop):
-		self.form.setProperty(key, prop)
-		
-	def updateMacros(self, output, macros):
-		super().updateMacros(self.form, macros)
-		
-	def writeQt(self, filename):		
-		if "styleSheet" not in self.form:
-			bg_col = Color(self.form.pop("background", "$BBBBBB"))
+		if "styleSheet" not in self:
+			bg_col = Color(self.pop("background", "$BBBBBB"))
 			stylesheet_str = "QWidget#centralwidget {background: rgba(" + str(bg_col["red"]) + "," + str(bg_col["green"]) + "," + str(bg_col["blue"]) + "," + str(bg_col["alpha"]) + ");}"
 			stylesheet_str += "\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
-			self.form["styleSheet"] = String(stylesheet_str)
+			form["styleSheet"] = String(stylesheet_str)
+		else:
+			form["styleSheet"] = self.pop("styleSheet")
 			
 			
-		self.form["windowTitle"] = String(self.form.pop("title", ""))
-		
-		margins = Rect(self.form.pop("margins", "0x0x0x0"))
-		
-		check_width = self["geometry"]["width"] + margins["x"] + margins["width"]
-		check_height = self["geometry"]["height"] + margins["y"] + margins["height"]
-		
-		if check_width > self.form["geometry"]["width"]:
-			self.form["geometry"]["width"] = check_width
-		
-		if check_height > self.form["geometry"]["height"]:
-			self.form["geometry"]["height"] = check_height
-		
-		self["geometry"]["x"] = margins["x"]
-		self["geometry"]["y"] = margins["y"]
+		form["windowTitle"] = String(self.pop("title", ""))
 		
 		tree = TreeBuilder()
 		
@@ -58,7 +35,7 @@ class QtDisplay(QtWidget):
 		tree.data("Form")
 		tree.end("class")
 		
-		self.form.write(tree)
+		form.write(tree)
 		
 		tree.end("ui")
 		
