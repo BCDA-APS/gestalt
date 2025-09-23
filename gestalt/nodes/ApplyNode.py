@@ -81,18 +81,41 @@ class ApplyNode(GroupNode):
 		
 	def updateMacros(self, output, macros):		
 		super().updateMacros(output, macros)
-		
+
+		explicit_macros = copy.deepcopy(self.macros)
+		bound_macros = {}
+
+		for key, val in explicit_macros.items():
+			to_assign = None
+			
+			if isinstance(val, bool):
+				to_assign = Bool(val)
+			elif isinstance(val, int):
+				to_assign = Number(val)
+			elif isinstance(val, float):
+				to_assign = Double(val)
+			elif isinstance(val, str):
+				to_assign = String(val)
+			else:
+				to_assign = val
+			
+			if isinstance(to_assign, DataType):
+				to_assign.apply(self.data)
+				to_assign = to_assign.flatten()
+
+			bound_macros.update({key : to_assign})
+
 		output = {}
 		output.update(self.defaults)
 		output.update(self.data)
-		output.update(self.macros)
+		output.update(bound_macros)
 		
 		to_apply = {}
 		to_apply.update(self.defaults)
 		to_apply.update(self.data)
-		to_apply.update(self.macros)
+		to_apply.update(bound_macros)
 		
-		
+
 		for key, val in output.items():
 			to_assign = None
 			
@@ -113,5 +136,5 @@ class ApplyNode(GroupNode):
 				#to_assign.apply(self.data)
 				
 			macros.update({key : to_assign})
-					
+
 		return
