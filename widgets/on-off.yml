@@ -53,6 +53,8 @@ _OnOffLED: !Template:OnOffLED
         height: "{size}"
         geometry: "{width}x{height}"
         
+        border-color: *transparent
+
         on-text: "O"
         on-label: "{on-text}"
         on-color: *alarm_green
@@ -71,7 +73,7 @@ _OnOffLED: !Template:OnOffLED
         
         children:
             - !AStretch:LED
-                border-color: *transparent
+                border-color: "{border-color}"
                 pv: "{control-pv}"
                         
                 false-color: "{off-color}"
