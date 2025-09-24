@@ -124,6 +124,8 @@ class DMGenerator(GestaltGenerator):
 	def generateText(self, node, macros={}):
 		output = DMWidget("PyDMLabel", node=node, macros=macros)
 		
+		output["border-style"] = "Solid"
+
 		output.addStyleWriter(write_frameborder)
 		output.addStyleWriter(write_color)
 		

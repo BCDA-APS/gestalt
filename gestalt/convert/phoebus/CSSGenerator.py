@@ -98,7 +98,6 @@ class CSSGenerator(GestaltGenerator):
 		
 		output.link("border", "border-color")
 		output.link("border_width", "border-width")
-		output["border-style"] = ""
 		
 		output["transparent"] = Bool(False)
 		
