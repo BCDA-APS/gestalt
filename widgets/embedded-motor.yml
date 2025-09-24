@@ -6,34 +6,34 @@ _EmbeddedMotor: !Template:EmbeddedMotor
     - !Defaults
         background: $00000000
 
-    - !group
+    - !Calc
+        A: "{motor-pv}.LVIO"
+        B: "{motor-pv}.TDIR"
+        C: "{motor-pv}.HLS"
+        D: "{motor-pv}.DMOV"
+        calc: "((D==0) and (B==1))*3 + A*(B==1) + 2*C"
+        pv: "{motor-pv}:HighLimits"
+        
+    - !Calc
+        A: "{motor-pv}.LVIO"
+        B: "{motor-pv}.TDIR"
+        C: "{motor-pv}.LLS"
+        D: "{motor-pv}.DMOV"
+        calc: "((D==0) and (B==0))*3 + A*(B==0) + 2*C"
+        pv: "{motor-pv}:LowLimits"
+    
+    - !Calc
+        A:    "{motor-pv}.MSTA"
+        calc: "(A&2048)==2048"
+        pv:   "{motor-pv}:TorqueDisplay"
+
+    - !Group
         geometry: 160x210
         background: "{background}"
         border-color: $00358
         border-width: 3
         
-        children:
-            - !Calc
-                A: "{motor-pv}.LVIO"
-                B: "{motor-pv}.TDIR"
-                C: "{motor-pv}.HLS"
-                D: "{motor-pv}.DMOV"
-                calc: "((D==0) and (B==1))*3 + A*(B==1) + 2*C"
-                pv: "{motor-pv}:HighLimits"
-                
-            - !Calc
-                A: "{motor-pv}.LVIO"
-                B: "{motor-pv}.TDIR"
-                C: "{motor-pv}.LLS"
-                D: "{motor-pv}.DMOV"
-                calc: "((D==0) and (B==0))*3 + A*(B==0) + 2*C"
-                pv: "{motor-pv}:LowLimits"
-            
-            - !Calc
-                A:    "{motor-pv}.MSTA"
-                calc: "(A&2048)==2048"
-                pv:   "{motor-pv}:TorqueDisplay"
-                
+        children:   
             - !Group
                 geometry: 154x21
                 background: *header_blue
@@ -44,17 +44,11 @@ _EmbeddedMotor: !Template:EmbeddedMotor
                     - !AStretch:Group
                         visibility: "{motor-pv}:TorqueDisplay"
                         children:
-                            - !HAnchor:VCenter:HFlow
+                            - !HAnchor:VStretch:Group
                                 background: *header_blue
+                                margins: 5x0x5x0
                                 children:
-                                    - !Spacer { geometry: 5x0 }
-                                    
-                                    - !Apply:OnOffLED
-                                        size: 16
-                                        control-pv: "{motor-pv}.CNEN"
-                                        
-                                    - !Spacer { geometry: 5x0 }
-                
+                                    - !VCenter:Apply:OnOffLED { size: 16, control-pv: "{motor-pv}.CNEN" }
                     
             - !HCenter:VFlow
                 padding: 5
