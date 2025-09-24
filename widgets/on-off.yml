@@ -53,12 +53,12 @@ _OnOffLED: !Template:OnOffLED
         height: "{size}"
         geometry: "{width}x{height}"
         
-        on-text: "1"
+        on-text: "O"
         on-label: "{on-text}"
         on-color: *alarm_green
         on-value: 1
         
-        off-text: "0"
+        off-text: "X"
         off-label: "{off-text}"
         off-color: *alarm_red
         off-value: 0
