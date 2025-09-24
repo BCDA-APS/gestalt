@@ -2,9 +2,10 @@ from gestalt.Type import *
 
 from gestalt.nodes.GroupNode import GroupNode
 
-name_numbering = {}
+global name_numbering
 
 def reset_numbering():
+	global name_numbering 
 	name_numbering = {}
 
 class QtWidget(GroupNode):

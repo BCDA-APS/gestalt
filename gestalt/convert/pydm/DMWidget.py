@@ -13,7 +13,11 @@ name_numbering = {}
 local_pvs = []
 
 def reset_numbering():
+	global name_numbering
+	global local_pvs
+
 	name_numbering = {}
+	local_pvs = [] 
 	
 def add_local_pv(name):
 	global local_pvs

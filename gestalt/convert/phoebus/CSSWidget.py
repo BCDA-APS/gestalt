@@ -10,6 +10,9 @@ name_numbering = {}
 local_pvs = []
 
 def reset_css():
+	global name_numbering
+	global local_pvs
+
 	name_numbering = {}
 	local_pvs = []
 	
