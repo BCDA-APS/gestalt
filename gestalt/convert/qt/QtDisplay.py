@@ -7,6 +7,7 @@ from gestalt.convert.qt.QtWidget import QtWidget
 class QtDisplay(QtWidget):
 	def __init__(self, layout={}):
 		super(QtDisplay, self).__init__("caFrame", name="content", layout=layout)
+		self["background"] = Color("$BBBBBB")
 		
 	def writeQt(self, filename):	
 		form = QtWidget("QMainWindow", name="Form", layout={})
@@ -18,7 +19,7 @@ class QtDisplay(QtWidget):
 		form["geometry"] = self["geometry"]
 		
 		if "styleSheet" not in self:
-			bg_col = Color(self.pop("background", "$BBBBBB"))
+			bg_col = Color(self.pop("background"))
 			stylesheet_str = "QWidget#centralwidget {background: rgba(" + str(bg_col["red"]) + "," + str(bg_col["green"]) + "," + str(bg_col["blue"]) + "," + str(bg_col["alpha"]) + ");}"
 			stylesheet_str += "\nQPushButton::menu-indicator {image: url(none.png); width: 0}"
 			form["styleSheet"] = String(stylesheet_str)
