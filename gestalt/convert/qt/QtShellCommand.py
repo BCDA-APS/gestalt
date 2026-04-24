@@ -42,6 +42,11 @@ class QtShellCommand(QtWidget):
 		the_font = self.button.pop("font")
 		align = str(self.button.pop("alignment"))
 
+		style = the_font["style"].lower()
+
+		if "regular" in style:
+			style = ""
+
 		frame_align = "center"
 
 		if "AlignLeft" in align:
@@ -60,7 +65,7 @@ QPushButton
 }}
 """.format(
 	family = the_font["family"],
-	style  = the_font["style"].lower(),
+	style  = style,
 	size   = the_font["size"],
 	lcr    = frame_align))
 
