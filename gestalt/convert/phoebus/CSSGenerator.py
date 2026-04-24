@@ -344,10 +344,10 @@ class CSSGenerator(GestaltGenerator):
 		calc += evalNode(ast.parse(equation, mode="eval"))
 
 		calc = calc.format(
-			A = get_pv(str(output.pop("A"))),
-			B = get_pv(str(output.pop("B"))),
-			C = get_pv(str(output.pop("C"))),
-			D = get_pv(str(output.pop("D")))
+			A = get_pv(str(output.pop("A", ""))),
+			B = get_pv(str(output.pop("B", ""))),
+			C = get_pv(str(output.pop("C", ""))),
+			D = get_pv(str(output.pop("D", "")))
 		)
 
 		output.widget.embedded_python_script(script, { calc : True , name : False })
