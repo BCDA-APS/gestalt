@@ -1,6 +1,6 @@
 import copy
 import yaml
-from gestalt.Datasheet import *
+
 
 class PartialSubFormatter:
 	def __init__(self, macro):
