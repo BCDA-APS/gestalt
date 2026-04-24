@@ -30,7 +30,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class ByteMonitorNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(ByteMonitorNode, self).__init__("ByteMonitor", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String,  "pv",          "")

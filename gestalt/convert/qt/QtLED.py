@@ -3,7 +3,8 @@ from gestalt.Type import *
 from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtLED(QtWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None: macros = {}
 		super(QtLED, self).__init__("caLed", node=node, macros=macros)
 		
 		self.link("channel", "pv")

@@ -29,7 +29,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class MenuNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(MenuNode, self).__init__("Menu", name=name, layout=layout, loc=loc)
 	
 		self.setDefault(String, "pv", "")

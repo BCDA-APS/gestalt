@@ -107,7 +107,9 @@ from gestalt.Type import Number
 from gestalt.nodes.GroupNode import GroupNode
 
 class FlowNode(GroupNode):
-	def __init__(self, name=None, layout={}, flow="vertical", loc=None):
+	def __init__(self, name=None, layout=None, flow="vertical", loc=None):
+		if layout is None:
+			layout = {}
 		super(FlowNode, self).__init__("caFrame", name=name, layout=layout, loc=loc)
 	
 		self.makeInternal(Number, "padding",   0)

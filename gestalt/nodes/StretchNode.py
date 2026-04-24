@@ -61,7 +61,9 @@ import copy
 from gestalt.nodes.Node import Node
 
 class StretchNode(Node):
-	def __init__(self, name=None, layout={}, flow="vertical", subnode=None, loc=None):
+	def __init__(self, name=None, layout=None, flow="vertical", subnode=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(StretchNode, self).__init__("Stretch", name=name, layout=layout, loc=loc)
 				
 		self.setProperty("flow", flow, internal=True)

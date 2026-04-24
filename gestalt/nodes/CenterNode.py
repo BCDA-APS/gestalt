@@ -93,7 +93,9 @@ OPSElements: !vcenter:group
 from gestalt.nodes.Node import Node
 
 class CenterNode(Node):
-	def __init__(self, name=None, layout={}, flow="vertical", subnode=None, loc=None):
+	def __init__(self, name=None, layout=None, flow="vertical", subnode=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(CenterNode, self).__init__("Center", name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)

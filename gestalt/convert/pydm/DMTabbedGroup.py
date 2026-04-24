@@ -5,7 +5,9 @@ from gestalt.convert.pydm.DMWidget import DMWidget
 
 
 class DMTabbedGroup(DMWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None:
+			macros = {}
 		super(DMTabbedGroup, self).__init__("QTabWidget", node=node, macros=macros)
 		
 	def write(self, tree):

@@ -10,7 +10,9 @@ def write_group(node):
 	return stylesheet_str
 
 class DMGroup(DMWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None:
+			macros = {}
 		super(DMGroup, self).__init__("QFrame", node=node, macros=macros)
 		
 		#self["frameShape"] = Enum("QFrame::NoFrame")

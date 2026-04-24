@@ -16,31 +16,47 @@ from gestalt.convert.phoebus.CSSAnonymous   import CSSAnonymous
 
 
 class CSSGenerator(GestaltGenerator):
-	def generateWidget(self, original, macros={}):
+	def generateWidget(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return CSSWidget(original.classname, node=original, macros=macros)
 
-	def generateGroup(self, original, macros={}):
+	def generateGroup(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return CSSGroup(node=original, macros=macros)
 
-	def generateAnonymousGroup(self, macros={}):
+	def generateAnonymousGroup(self, macros=None):
+		if macros is None:
+			macros = {}
 		return CSSAnonymous()
 
-	def generateTabbedGroup(self, original, macros={}):
+	def generateTabbedGroup(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return CSSTabbedGroup(node=original, macros=macros)
 
-	def generateTextEntry(self, node, macros={}):
+	def generateTextEntry(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("TextEntry", node=node, macros=macros)
 		output["show_units"] = Bool("False")
 		return output
 
-	def generateMenu(self, node, macros={}):
+	def generateMenu(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return CSSWidget("ComboBox", node=node, macros=macros)
 
-	def generateChoiceButton(self, node, macros={}):
+	def generateChoiceButton(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return CSSWidget("ChoiceButton", node=node, macros=macros)
 
 
-	def generateRelatedDisplay(self, node, macros={}):
+	def generateRelatedDisplay(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("ActionButton", node=node, macros=macros)
 
 		for item in node["links"]:
@@ -65,7 +81,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateShellCommand(self, node, macros={}):
+	def generateShellCommand(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("ActionButton", node=node, macros=macros)
 
 		commands = String(node.commands)
@@ -85,7 +103,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateMessageButton(self, node, macros={}):
+	def generateMessageButton(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("ActionButton", node=node, macros=macros)
 
 		output.widget.action_write_pv(get_pv(str(output.pop("pv"))), str(output.pop("value")))
@@ -93,7 +113,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateText(self, node, macros={}):
+	def generateText(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Label", node=node, macros=macros)
 
 		output.link("border", "border-color")
@@ -104,7 +126,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateTextMonitor(self, node, macros={}):
+	def generateTextMonitor(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("TextUpdate", node=node, macros=macros)
 
 		output["show_units"] = Bool(False)
@@ -115,7 +139,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateLED(self, node, macros={}):
+	def generateLED(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("LEDMultiState", node=node, macros=macros)
 
 		output.link("line", "border-color")
@@ -136,7 +162,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateByteMonitor(self, node, macros={}):
+	def generateByteMonitor(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("ByteMonitor", node=node, macros=macros)
 
 		output.link("on", "on-color")
@@ -149,7 +177,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateRectangle(self, node, macros={}):
+	def generateRectangle(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Rectangle", node=node, macros=macros)
 
 		output.link("line", "border-color")
@@ -158,7 +188,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateEllipse(self, node, macros={}):
+	def generateEllipse(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Ellipse", node=node, macros=macros)
 
 		output.link("line", "border-color")
@@ -167,7 +199,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateArc(self, node, macros={}):
+	def generateArc(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Arc", node=node, macros=macros)
 
 		output.link("line", "border-color")
@@ -178,7 +212,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generatePolygon(self, node, macros={}):
+	def generatePolygon(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Polygon", node=node, macros=macros)
 
 		output.link("line", "border-color")
@@ -196,7 +232,9 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generatePolyline(self, node, macros={}):
+	def generatePolyline(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Polyline", node=node, macros=macros)
 
 		output.link("line", "border-color")
@@ -214,14 +252,18 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateImage(self, node, macros={}):
+	def generateImage(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Picture", node=node, macros=macros)
 
 		output["stretch_image"] = Bool(True)
 
 		return output
 
-	def generateInclude(self, node, macros={}):
+	def generateInclude(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("EmbeddedDisplay", node=node, macros=macros)
 
 		output["file"] = output["file"] + ".bob"
@@ -229,13 +271,17 @@ class CSSGenerator(GestaltGenerator):
 		return output
 
 
-	def generateSlider(self, node, macros={}):
+	def generateSlider(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Scrollbar", node=node, macros=macros)
 
 		return output
 
 
-	def generateScale(self, node, macros={}):
+	def generateScale(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("Tank", node=node, macros=macros)
 
 		output.link("empty", "background")
@@ -245,7 +291,9 @@ class CSSGenerator(GestaltGenerator):
 
 		return output
 
-	def generateCalc(self, node, macros={}):
+	def generateCalc(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = CSSWidget("TextUpdate", node=node, macros=macros)
 
 		script = "from org.csstudio.display.builder.runtime.script import PVUtil\n"

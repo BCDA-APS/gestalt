@@ -38,7 +38,9 @@ def write_form(node):
 
 
 class DMDisplay(DMWidget):
-	def __init__(self, layout={}):
+	def __init__(self, layout=None):
+		if layout is None:
+			layout = {}
 		super(DMDisplay, self).__init__("QFrame", name="content")
 		
 		self.widg = DMWidget("QFrame", name="background")
@@ -50,7 +52,9 @@ class DMDisplay(DMWidget):
 		self.tocopy.append("form")
 		self.tocopy.append("widg")
 
-	def updateProperties(self, macros={}):
+	def updateProperties(self, macros=None):
+		if macros is None:
+			macros = {}
 		self.form.updateProperties(macros)
 		
 	def setProperty(self, key, prop):

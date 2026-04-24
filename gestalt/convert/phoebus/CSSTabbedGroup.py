@@ -8,7 +8,9 @@ from gestalt.convert.phoebus.CSSGroup import CSSGroup
 
 class CSSTabbedGroup(CSSWidget):
 	
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None:
+			macros = {}
 		super(CSSTabbedGroup, self).__init__("Group", node=node, macros=macros)
 		
 		self.widget.transparent(True)

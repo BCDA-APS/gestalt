@@ -3,7 +3,8 @@ from gestalt.Type import *
 from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtShellCommand(QtWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None: macros = {}
 		super(QtShellCommand, self).__init__("QFrame", loc=node.location)
 
 		self.button = QtWidget("caShellCommand", node=node, macros=macros)

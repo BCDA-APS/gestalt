@@ -6,7 +6,9 @@ from gestalt.nodes.GroupNode import GroupNode
 from gestalt.convert.phoebus.CSSAnonymous   import CSSAnonymous
 
 class CSSDisplay(CSSAnonymous):
-	def __init__(self, layout={}):
+	def __init__(self, layout=None):
+		if layout is None:
+			layout = {}
 		super(CSSDisplay, self).__init__()
 		
 		self.tocopy.append("content")

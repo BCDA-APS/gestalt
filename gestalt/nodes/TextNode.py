@@ -36,7 +36,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class TextNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(TextNode, self).__init__("Text", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,     "foreground",   "$000000")

@@ -62,7 +62,9 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class ConditionalNode(GroupNode):
-	def __init__(self, layout={}, loc=None):
+	def __init__(self, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(ConditionalNode, self).__init__("caFrame", layout=layout, loc=loc)
 		
 		self.condition = self.pop("condition", "")

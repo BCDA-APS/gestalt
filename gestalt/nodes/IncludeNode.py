@@ -27,7 +27,9 @@ from gestalt.nodes.Node import Node
 import pathlib
 
 class IncludeNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(IncludeNode, self).__init__("Include", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "file", "")

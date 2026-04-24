@@ -43,7 +43,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class ShellCommandNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		self.proto_commands = List(layout.pop("commands", []))
 	
 		super(ShellCommandNode, self).__init__("ShellCommand", name=name, layout=layout, loc=loc)

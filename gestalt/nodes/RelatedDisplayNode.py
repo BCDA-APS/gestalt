@@ -47,7 +47,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class RelatedDisplayNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		self.proto_links = List(layout.pop("links", []))
 		
 		super(RelatedDisplayNode, self).__init__("RelatedDisplay", name=name, layout=layout, loc=loc)

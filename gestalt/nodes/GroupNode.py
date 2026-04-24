@@ -4,7 +4,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class GroupNode(Node):
-	def __init__(self, classname="Group", name=None, node=None, layout={}, loc=None, anonymous=False):
+	def __init__(self, classname="Group", name=None, node=None, layout=None, loc=None, anonymous=False):
+		if layout is None:
+			layout = {}
 		super(GroupNode, self).__init__(classname, name=name, node=node, layout=layout, loc=loc)
 
 		self.children = []

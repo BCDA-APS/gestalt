@@ -5,7 +5,9 @@ from gestalt.Generator import GestaltGenerator
 from gestalt.Type import *
 
 class Node(object):
-	def __init__(self, classname, name=None, node=None, layout={}, loc=None):
+	def __init__(self, classname, name=None, node=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		self.classname = classname
 		self.name = name
 		self.location = loc
@@ -76,7 +78,9 @@ class Node(object):
 		else:
 			return self.properties["attrs"].pop(key, default)
 		
-	def updateProperties(self, macros={}):
+	def updateProperties(self, macros=None):
+		if macros is None:
+			macros = {}
 		if len(macros) == 0: return
 		
 		self.log("Updating macros\n" + pprint.pformat(macros))

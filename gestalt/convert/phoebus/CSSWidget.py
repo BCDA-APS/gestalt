@@ -32,7 +32,11 @@ def get_pv(pvname):
 	return output
 
 class CSSWidget(GroupNode):
-	def __init__(self, classname, node=None, name=None, layout={}, macros={}):
+	def __init__(self, classname, node=None, name=None, layout=None, macros=None):
+		if layout is None:
+			layout = {}
+		if macros is None:
+			macros = {}
 		super(CSSWidget, self).__init__(classname, name=name, node=node, layout=layout)
 		CSSWidget.updateProperties(self,macros)
 		

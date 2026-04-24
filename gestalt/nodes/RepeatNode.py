@@ -149,7 +149,9 @@ UIRow: !repeat
 from gestalt.nodes.LayoutNode import LayoutNode
 
 class RepeatNode(LayoutNode):
-	def __init__(self, name=None, layout={}, flow="vertical", loc=None):
+	def __init__(self, name=None, layout=None, flow="vertical", loc=None):
+		if layout is None:
+			layout = {}
 		super(RepeatNode, self).__init__(name=name, layout=layout, loc=loc)
 		
 		self.setProperty("flow", flow, internal=True)

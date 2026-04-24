@@ -35,31 +35,49 @@ line_conversion = {
 }
 
 class QtGenerator(GestaltGenerator):
-	def generateWidget(self, original, macros={}):
+	def generateWidget(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return QtWidget(original.classname, node=original, macros=macros)
 		
-	def generateGroup(self, original, macros={}):
+	def generateGroup(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return QtGroup(node=original, macros=macros)
 	
-	def generateAnonymousGroup(self, macros={}):
+	def generateAnonymousGroup(self, macros=None):
+		if macros is None:
+			macros = {}
 		return QtAnonymous()
 		
-	def generateTabbedGroup(self, original, macros={}):
+	def generateTabbedGroup(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return QtTabbedGroup(node=original, macros=macros)
 		
-	def generateRelatedDisplay(self, node, macros={}):
+	def generateRelatedDisplay(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return QtRelatedDisplay(node=node, macros=macros)
 		
-	def generateShellCommand(self, node, macros={}):
+	def generateShellCommand(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return QtShellCommand(node=node, macros=macros)
 		
-	def generateMessageButton(self, node, macros={}):
+	def generateMessageButton(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return QtMessageButton(node=node, macros=macros)
 		
-	def generateLED(self, node, macros={}):
+	def generateLED(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return QtLED(node=node, macros=macros)
 		
-	def generateText(self, node, macros={}):
+	def generateText(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caLabel", node=node, macros=macros)
 		
 		output.link("borderColor", "border-color")
@@ -70,7 +88,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateTextEntry(self, node, macros={}):
+	def generateTextEntry(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caTextEntry", node=node, macros=macros)
 		
 		output.link("channel", "pv")
@@ -82,7 +102,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateTextMonitor(self, node, macros={}):
+	def generateTextMonitor(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caLineEdit", node=node, macros=macros)
 		
 		output.link("channel",        "pv")
@@ -96,7 +118,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateMenu(self, node, macros={}):
+	def generateMenu(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caMenu", node=node, macros=macros)
 		
 		output.link("channel", "pv")
@@ -107,7 +131,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateChoiceButton(self, node, macros={}):
+	def generateChoiceButton(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caChoice", node=node, macros=macros)
 		
 		output.link("channel", "pv")
@@ -123,7 +149,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateByteMonitor(self, node, macros={}):
+	def generateByteMonitor(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caByteController", node=node, macros=macros)
 		
 		output.link("channel", "pv")
@@ -143,7 +171,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateRectangle(self, node, macros={}):
+	def generateRectangle(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caGraphics", node=node, macros=macros)
 		
 		output.link("foreground", "background")
@@ -157,7 +187,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 	
-	def generateEllipse(self, node, macros={}):
+	def generateEllipse(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caGraphics", node=node, macros=macros)
 		
 		output.link("foreground", "background")
@@ -171,7 +203,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateArc(self, node, macros={}):
+	def generateArc(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caGraphics", node=node, macros=macros)
 		
 		output.link("foreground", "background")
@@ -187,7 +221,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 	
-	def generatePolygon(self, node, macros={}):
+	def generatePolygon(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caPolyLine", node=node, macros=macros)
 		
 		output.link("foreground", "background")
@@ -214,7 +250,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generatePolyline(self, node, macros={}):
+	def generatePolyline(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caPolyLine", node=node, macros=macros)
 		
 		output.link("lineSize",   "border-width")
@@ -240,14 +278,18 @@ class QtGenerator(GestaltGenerator):
 		return output
 	
 
-	def generateImage(self, node, macros={}):
+	def generateImage(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caImage", node=node, macros=macros)
 		
 		output.link("filename", "file")
 		
 		return output
 		
-	def generateInclude(self, node, macros={}):
+	def generateInclude(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caInclude", node=node, macros=macros)
 		
 		output["file"] = str(output["file"]) + ".ui"
@@ -257,7 +299,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 		
-	def generateSlider(self, node, macros={}):
+	def generateSlider(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caSlider", node=node, macros=macros)
 		
 		output.link("channel", "pv")
@@ -274,7 +318,9 @@ class QtGenerator(GestaltGenerator):
 		return output
 		
 	
-	def generateScale(self, node, macros={}):
+	def generateScale(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caThermo", node=node, macros=macros)
 		
 		output.link("channel", "pv")
@@ -288,7 +334,9 @@ class QtGenerator(GestaltGenerator):
 					
 		return output
 
-	def generateCalc(self, node, macros={}):
+	def generateCalc(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = QtWidget("caCalc", node=node, macros=macros)
 		
 		output.link("variable", "pv")

@@ -61,7 +61,15 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class ApplyNode(GroupNode):
-	def __init__(self, template="", layout={}, defaults={}, macros={}, subnodes=[], loc=None):
+	def __init__(self, template="", layout=None, defaults=None, macros=None, subnodes=None, loc=None):
+		if layout is None:
+			layout = {}
+		if defaults is None:
+			defaults = {}
+		if macros is None:
+			macros = {}
+		if subnodes is None:
+			subnodes = []
 		super(ApplyNode, self).__init__("Apply", layout=layout, loc=loc, anonymous=True)
 				
 		self.defaults = defaults

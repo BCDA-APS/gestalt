@@ -5,7 +5,8 @@ from gestalt.Type import *
 from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtDisplay(QtWidget):
-	def __init__(self, layout={}):
+	def __init__(self, layout=None):
+		if layout is None: layout = {}
 		super(QtDisplay, self).__init__("caFrame", name="content", layout=layout)
 		self["background"] = Color("$BBBBBB")
 		

@@ -3,7 +3,8 @@ from gestalt.Type import *
 from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtGroup(QtWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None: macros = {}
 		super(QtGroup, self).__init__("caFrame", node=node, macros=macros)
 	
 		self["frameShape"] = Enum("QFrame::NoFrame")

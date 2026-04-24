@@ -35,7 +35,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class MessageButtonNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(MessageButtonNode, self).__init__("MessageButton", name=name, layout=layout, loc=loc)
 		self.setDefault(String,    "text",       "")
 		self.setDefault(String,    "pv",         "")

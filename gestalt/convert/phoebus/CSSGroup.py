@@ -3,7 +3,9 @@ from gestalt.Type import *
 from gestalt.convert.phoebus.CSSWidget import CSSWidget
 
 class CSSGroup(CSSWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None:
+			macros = {}
 		super(CSSGroup, self).__init__("Group", node=node, macros=macros)
 		
 		self.widget.transparent(True)

@@ -4,7 +4,9 @@ from gestalt.Type import *
 from gestalt.nodes.LayoutNode import LayoutNode
 
 class TabbedRepeatNode(LayoutNode):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(TabbedRepeatNode, self).__init__("TabbedRepeatNode", name=name, layout=layout, loc=loc)
 
 		self.setDefault(Color,  "foreground",     "$000000")

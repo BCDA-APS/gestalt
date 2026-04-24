@@ -28,7 +28,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class ScaleNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(ScaleNode, self).__init__("Scale", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(String, "pv",          "")

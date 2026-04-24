@@ -81,74 +81,74 @@ class GestaltGenerator:
 		return _width_cache[cache_key]
 	
 	
-	def generateWidget(self, original, macros={}):
+	def generateWidget(self, original, macros=None):
 		pass
 		
-	def generateGroup(self, original, macros={}):
+	def generateGroup(self, original, macros=None):
 		pass
 	
-	def generateAnonymousGroup(self, macros={}):
+	def generateAnonymousGroup(self, macros=None):
 		pass		
 	
-	def generateRelatedDisplay(self, node, macros={}):
+	def generateRelatedDisplay(self, node, macros=None):
 		pass
 
-	def generateMessageButton(self, node, macros={}):
+	def generateMessageButton(self, node, macros=None):
 		pass
 
-	def generateText(self, node, macros={}):
+	def generateText(self, node, macros=None):
 		pass
 		
-	def generateTextEntry(self, node, macros={}):
+	def generateTextEntry(self, node, macros=None):
 		pass
 		
-	def generateTextMonitor(self, node, macros={}):
+	def generateTextMonitor(self, node, macros=None):
 		pass
 
-	def generateMenu(self, node, macros={}):
+	def generateMenu(self, node, macros=None):
 		pass
 
-	def generateChoiceButton(self, node, macros={}):
+	def generateChoiceButton(self, node, macros=None):
 		pass
 
-	def generateLED(self, node, macros={}):
+	def generateLED(self, node, macros=None):
 		pass
 
-	def generateByteMonitor(self, node, macros={}):
+	def generateByteMonitor(self, node, macros=None):
 		pass
 
-	def generateRectangle(self, node, macros={}):
+	def generateRectangle(self, node, macros=None):
 		pass
 
-	def generateEllipse(self, node, macros={}):
+	def generateEllipse(self, node, macros=None):
 		pass
 
-	def generateArc(self, node, macros={}):
+	def generateArc(self, node, macros=None):
 		pass
 		
-	def generatePolygon(self, node, macros={}):
+	def generatePolygon(self, node, macros=None):
 		pass
 		
-	def generatePolyline(self, node, macros={}):
+	def generatePolyline(self, node, macros=None):
 		pass
 
-	def generateImage(self, node, macros={}):
+	def generateImage(self, node, macros=None):
 		pass
 
-	def generateSlider(self, node, macros={}):
+	def generateSlider(self, node, macros=None):
 		pass
 
-	def generateScale(self, node, macros={}):
+	def generateScale(self, node, macros=None):
 		pass
 
-	def generateShellCommand(self, node, macros={}):
+	def generateShellCommand(self, node, macros=None):
 		pass
 
-	def generateTabbedGroup(self, node, macros={}):
+	def generateTabbedGroup(self, node, macros=None):
 		pass
 
-	def generateCalc(self, node, macros={}):
+	def generateCalc(self, node, macros=None):
 		pass
 
-	def generateInclude(self, node, macros={}):
+	def generateInclude(self, node, macros=None):
 		pass

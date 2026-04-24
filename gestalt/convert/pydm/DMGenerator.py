@@ -40,19 +40,29 @@ border_conversion = {
 }
 
 class DMGenerator(GestaltGenerator):
-	def generateWidget(self, original, macros={}):
+	def generateWidget(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return DMWidget(original.classname, node=original, macros=macros)
 
-	def generateGroup(self, original, macros={}):
+	def generateGroup(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return DMGroup(node=original, macros=macros)
 
-	def generateAnonymousGroup(self, macros={}):
+	def generateAnonymousGroup(self, macros=None):
+		if macros is None:
+			macros = {}
 		return DMAnonymous()
 
-	def generateTabbedGroup(self, original, macros={}):
+	def generateTabbedGroup(self, original, macros=None):
+		if macros is None:
+			macros = {}
 		return DMTabbedGroup(node=original, macros=macros)
 
-	def generateRelatedDisplay(self, node, macros={}):
+	def generateRelatedDisplay(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMRelatedDisplayButton", node=node, macros=macros)
 
 		output["showIcon"] = Bool(False)
@@ -77,7 +87,9 @@ class DMGenerator(GestaltGenerator):
 
 		return output
 
-	def generateShellCommand(self, node, macros={}):
+	def generateShellCommand(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMShellCommand", node=node, macros=macros)
 
 		the_list = String(node.commands)
@@ -101,7 +113,9 @@ class DMGenerator(GestaltGenerator):
 
 		return output
 
-	def generateLED(self, node, macros={}):
+	def generateLED(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMMultiStateIndicator", node=node, macros=macros)
 
 		output.link("renderAsRectangle", "square")
@@ -123,7 +137,9 @@ class DMGenerator(GestaltGenerator):
 
 		return output
 
-	def generateText(self, node, macros={}):
+	def generateText(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMLabel", node=node, macros=macros)
 
 		output["border-style"] = "Solid"
@@ -134,7 +150,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateTextEntry(self, node, macros={}):
+	def generateTextEntry(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMLineEdit", node=node, macros=macros)
 
 		output.addStyleWriter(style_textentry)
@@ -146,7 +164,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateTextMonitor(self, node, macros={}):
+	def generateTextMonitor(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMLabel", node=node, macros=macros)
 
 		output.addStyleWriter(write_frameborder)
@@ -158,7 +178,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateMenu(self, node, macros={}):
+	def generateMenu(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMEnumComboBox", node=node, macros=macros)
 
 		output.link("channel", "pv")
@@ -166,7 +188,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateMessageButton(self, node, macros={}):
+	def generateMessageButton(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMPushButton", node=node, macros=macros)
 
 		output.link("channel", "pv")
@@ -179,7 +203,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateChoiceButton(self, node, macros={}):
+	def generateChoiceButton(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMEnumButton", node=node, macros=macros)
 
 		output.link("channel", "pv")
@@ -192,7 +218,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateByteMonitor(self, node, macros={}):
+	def generateByteMonitor(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMByteIndicator", node=node, macros=macros)
 
 		output.link("channel", "pv")
@@ -209,7 +237,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateRectangle(self, node, macros={}):
+	def generateRectangle(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMDrawingRectangle", node=node, macros=macros)
 
 		output["brush"] = Brush(output.pop("background"))
@@ -221,7 +251,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateEllipse(self, node, macros={}):
+	def generateEllipse(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMDrawingEllipse", node=node, macros=macros)
 
 		output["brush"] = Brush(output.pop("background"))
@@ -233,7 +265,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateArc(self, node, macros={}):
+	def generateArc(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMDrawingChord", node=node, macros=macros)
 
 		output["brush"] = Brush(output.pop("background"))
@@ -247,7 +281,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generatePolygon(self, node, macros={}):
+	def generatePolygon(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMDrawingIrregularPolygon", node=node, macros=macros)
 
 		output["brush"] = Brush(output.pop("background"))
@@ -272,7 +308,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generatePolyline(self, node, macros={}):
+	def generatePolyline(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMDrawingPolyline", node=node, macros=macros)
 
 		output.link("penWidth",   "border-width")
@@ -295,7 +333,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateImage(self, node, macros={}):
+	def generateImage(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMDrawingImage", node=node, macros=macros)
 
 		output.link("filename", "file")
@@ -304,7 +344,9 @@ class DMGenerator(GestaltGenerator):
 
 		return output
 
-	def generateInclude(self, node, macros={}):
+	def generateInclude(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMEmbeddedDisplay", node=node, macros=macros)
 
 		output["file"] = output["file"] + ".ui"
@@ -314,7 +356,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateSlider(self, node, macros={}):
+	def generateSlider(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMSlider", node=node, macros=macros)
 
 		output.link("channel", "pv")
@@ -327,7 +371,9 @@ class DMGenerator(GestaltGenerator):
 		return output
 
 
-	def generateScale(self, node, macros={}):
+	def generateScale(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		output = DMWidget("PyDMAnalogIndicator", node=node, macros=macros)
 
 		output.link("channel", "pv")
@@ -344,7 +390,9 @@ class DMGenerator(GestaltGenerator):
 
 		return output
 
-	def generateCalc(self, node, macros={}):
+	def generateCalc(self, node, macros=None):
+		if macros is None:
+			macros = {}
 		return None
 
 		output = DMWidget("PyDMLabel", node=node, macros=macros)

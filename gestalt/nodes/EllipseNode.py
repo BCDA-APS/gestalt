@@ -25,7 +25,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class EllipseNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(EllipseNode, self).__init__("Ellipse", name=name, layout=layout, loc=loc)
 		
 		self.setDefault(Color,  "background",   "$00000000")

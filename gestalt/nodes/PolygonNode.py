@@ -29,7 +29,9 @@ from gestalt.Type import *
 from gestalt.nodes.Node import Node
 
 class PolygonNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		self.points = layout.pop("points", [])
 		
 		super(PolygonNode, self).__init__("Polygon", name=name, layout=layout, loc=loc)

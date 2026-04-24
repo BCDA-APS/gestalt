@@ -116,7 +116,9 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class TabbedGroupNode(GroupNode):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(TabbedGroupNode, self).__init__("TabbedGroup", name=name, layout=layout, loc=loc)
 
 		self.setDefault(Color,  "foreground",     "$000000")

@@ -36,7 +36,11 @@ def get_pv(pvname):
 
 
 class DMWidget(GroupNode):
-	def __init__(self, classname, node=None, name=None, layout={}, macros={}, loc=None):		
+	def __init__(self, classname, node=None, name=None, layout=None, macros=None, loc=None):		
+		if layout is None:
+			layout = {}
+		if macros is None:
+			macros = {}
 		super(DMWidget, self).__init__(classname, name=name, node=node, layout=layout, loc=loc)
 		DMWidget.updateProperties(self, macros)
 		

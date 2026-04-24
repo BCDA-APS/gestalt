@@ -1,7 +1,9 @@
 from gestalt.nodes.Node import Node
 
 class SpacerNode(Node):
-	def __init__(self, layout={}, loc=None):
+	def __init__(self, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(SpacerNode, self).__init__("Spacer", layout=layout, loc=loc)
 	
 	

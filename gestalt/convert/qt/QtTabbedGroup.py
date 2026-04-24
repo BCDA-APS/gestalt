@@ -4,7 +4,8 @@ from gestalt.Type import *
 from gestalt.convert.qt.QtWidget import QtWidget
 
 class QtTabbedGroup(QtWidget):
-	def __init__(self, node=None, macros={}):
+	def __init__(self, node=None, macros=None):
+		if macros is None: macros = {}
 		super(QtTabbedGroup, self).__init__("QTabWidget", node=node, macros=macros)
 		
 	def write(self, tree):		

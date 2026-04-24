@@ -4,7 +4,9 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class LayoutNode(GroupNode):
-	def __init__(self, classname="Layout", name=None, layout={}, loc=None):
+	def __init__(self, classname="Layout", name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(LayoutNode, self).__init__(classname, name=name, layout=layout, loc=loc)
 		
 		self.makeInternal(String, "repeat-over",  "")

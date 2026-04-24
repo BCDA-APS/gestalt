@@ -61,7 +61,9 @@ from gestalt.nodes.Node import Node
 from gestalt.nodes.GroupNode import GroupNode
 
 class EmbedNode(Node):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(EmbedNode, self).__init__("Embed", name=name, layout=layout, loc=loc)
 	
 	def apply(self, generator):

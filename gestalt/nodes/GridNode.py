@@ -75,7 +75,9 @@ from gestalt.Type import *
 from gestalt.nodes.LayoutNode import LayoutNode
 
 class GridNode(LayoutNode):
-	def __init__(self, name=None, layout={}, loc=None):
+	def __init__(self, name=None, layout=None, loc=None):
+		if layout is None:
+			layout = {}
 		super(GridNode, self).__init__(name=name, layout=layout, loc=loc)
 	
 		self.makeInternal(Number, "min-rows", 0)
