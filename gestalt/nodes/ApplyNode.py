@@ -55,6 +55,8 @@ Status: !hcenter:hflow
 ```
 """
 
+import copy
+
 from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 

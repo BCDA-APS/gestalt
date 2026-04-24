@@ -55,6 +55,8 @@ SimplerVersion: !If:INCLUDE_LED
 ```
 """
 
+import copy
+
 from gestalt.Type import *
 
 from gestalt.nodes.GroupNode import GroupNode

@@ -37,6 +37,8 @@ ExampleCommand: !ShellCommand
 ```
 """
 
+import copy
+
 from gestalt.Type import *
 from gestalt.nodes.Node import Node
 

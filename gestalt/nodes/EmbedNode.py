@@ -54,6 +54,8 @@ Plugins: !Apply:Section
 ```
 """
 
+import copy
+
 from gestalt.Type import *
 from gestalt.nodes.Node import Node
 from gestalt.nodes.GroupNode import GroupNode
