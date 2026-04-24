@@ -108,7 +108,7 @@ class Node(object):
 		else:
 			to_assign = copy.deepcopy(input)
 
-		which = "internal" if key in self.properties["internal"] else "attrs"
+		which = "internal" if (internal or key in self.properties["internal"]) else "attrs"
 			
 		if isinstance(to_assign, DataType):
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + str(to_assign.value))
