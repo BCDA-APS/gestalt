@@ -197,7 +197,7 @@ def doGenerate(args):
 		generateDMFile(styles, data, outputfile=args.out_filename)
 
 	else:
-		print("Unknown file extension: ", write_format)
+		print("Unknown file extension: ", args.out_format)
 
 
 if __name__ == "__main__":
