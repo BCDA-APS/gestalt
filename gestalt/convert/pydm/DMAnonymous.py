@@ -1,5 +1,3 @@
-from gestalt.Type import *
-
 from gestalt.convert.pydm.DMWidget import DMWidget
 
 class DMAnonymous(DMWidget):

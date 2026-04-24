@@ -1,5 +1,3 @@
-from gestalt.Type import *
-
 from gestalt.convert.phoebus.CSSWidget import CSSWidget
 
 class CSSAnonymous(CSSWidget):
