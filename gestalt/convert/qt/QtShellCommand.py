@@ -29,11 +29,6 @@ class QtShellCommand(QtWidget):
 
 		self.tocopy.append("button")
 
-
-	def updateProperties(self, macros={}):
-		super(QtShellCommand, self).updateProperties(macros)
-		self.button.updateProperties(macros)
-
 	def setProperty(self, key, prop):
 		if key == "geometry":
 			super(QtShellCommand, self).setProperty(key, prop)
