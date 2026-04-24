@@ -114,7 +114,7 @@ class DataType(object):
 					except TypeError:
 						pass
 
-					if json_like(output):
+					if last_output != output and json_like(output):
 						try:
 							check = yaml.safe_load(output)
 
