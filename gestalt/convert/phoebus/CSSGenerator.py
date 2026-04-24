@@ -55,7 +55,7 @@ class CSSGenerator(GestaltGenerator):
 
 			_macros = {}
 
-			if _args[0]:
+			if _args and _args[0]:
 				for arg in _args:
 					key, val = arg.split("=")
 					_macros[key.strip()] = val.strip()
@@ -131,7 +131,7 @@ class CSSGenerator(GestaltGenerator):
 		output.widget.state(trueval.val(), "", truecol.val()["red"], truecol.val()["green"], truecol.val()["blue"], truecol.val()["alpha"])
 
 		output.widget.fallback_label("")
-		output.widget.fallback_color(undefcol.val()["red"], undefcol["green"], undefcol.val()["blue"], undefcol.val()["alpha"])
+		output.widget.fallback_color(undefcol.val()["red"], undefcol.val()["green"], undefcol.val()["blue"], undefcol.val()["alpha"])
 
 		return output
 
