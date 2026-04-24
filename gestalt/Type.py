@@ -53,7 +53,7 @@ class DataType(object):
 					elif isinstance(check, dict) and next(iter(check.values())):
 						val = check
 
-			except:
+			except Exception:
 				pass
 
 		if isinstance(val, dict):
@@ -154,7 +154,7 @@ class DataType(object):
 
 					else:
 						raise Exception
-				except:
+				except Exception:
 					temp_val = DataType(None, val)
 					temp_val.macros = self.macros
 					output[key] = temp_val.val()
@@ -181,7 +181,7 @@ class DataType(object):
 						output[index] = index_val.val()
 					else:
 						raise Exception
-				except:
+				except Exception:
 					index_val = DataType(None, output[index])
 					index_val.macros = self.macros
 					output[index] = index_val.val()
@@ -212,7 +212,7 @@ class DataType(object):
 		if check:
 			try:
 				return bool(int(check.lower()))
-			except:
+			except (ValueError, AttributeError):
 				return not ( check.lower() == "false" )
 
 		return False
@@ -320,7 +320,7 @@ class Rect(DataType):
 			output.update(self.updates)
 
 			return output
-		except:
+		except Exception:
 			raise Exception("Error resolving Rect datatype from value: " + self.value)
 
 	def __getitem__(self, key):
@@ -378,7 +378,7 @@ class Color(DataType):
 
 		try:
 			return output.format(**input)
-		except:
+		except (KeyError, TypeError, ValueError):
 			return ""
 
 
@@ -410,7 +410,7 @@ class Font(DataType):
 			output.update(self.updates)
 
 			return output
-		except:
+		except Exception:
 			raise Exception("Error resolving Font datatype from value: " + self.value)
 
 
@@ -458,7 +458,7 @@ class Alignment(DataType):
 				temp.update(self.updates)
 
 				return temp
-		except:
+		except Exception:
 			raise Exception("Error resolving Alignment datatype from value: " + self.value)
 
 	def __str__(self):

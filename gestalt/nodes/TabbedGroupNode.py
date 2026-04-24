@@ -36,38 +36,38 @@ pane, which will depend on the values of certain attributes.
 ```yaml
 - !TabbedGroup
     geometry: 570x200
-        
+
     inset: 5
     offset: 3
-    
+
     border-color: *header_blue
     tab-color: *header_blue
     foreground: *white
     selected: $3970C4
-    
+
     font: -DejaVu Sans Mono - Bold - 9
 
     children:
         Motors: !Tab
             children:
                 - !AStretch:Spacer
-            
+
         Optics: !Tab
             children:
                 - !AStretch:Spacer
-            
+
         Detectors: !Tab
             children:
                 - !AStretch:Spacer
-            
+
         Direct I/O: !Tab
             children:
                 - !AStretch:Spacer
-            
+
         Devices: !Tab
             children:
                 - !AStretch:Spacer
-            
+
         Tools: !Tab
             children:
                 - !AStretch:Spacer
@@ -78,33 +78,33 @@ To save space, the !Tab node type can be directly applied to the list of childre
 ```yaml
 - !TabbedGroup
     geometry: 570x200
-        
+
     inset: 5
     offset: 3
-    
+
     border-color: *header_blue
     tab-color: *header_blue
     foreground: *white
     selected: $3970C4
-    
+
     font: -DejaVu Sans Mono - Bold - 9
 
     children:
         Motors: !Tab
             - !AStretch:Spacer
-            
+
         Optics: !Tab
             - !AStretch:Spacer
-            
+
         Detectors: !Tab
             - !AStretch:Spacer
-            
+
         Direct I/O: !Tab
             - !AStretch:Spacer
-            
+
         Devices: !Tab
             - !AStretch:Spacer
-            
+
         Tools: !Tab
             - !AStretch:Spacer
 ```
@@ -116,9 +116,9 @@ from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
 class TabbedGroupNode(GroupNode):
-	def __init__(self, name=None, layout={}, loc=None):		
+	def __init__(self, name=None, layout={}, loc=None):
 		super(TabbedGroupNode, self).__init__("TabbedGroup", name=name, layout=layout, loc=loc)
-		
+
 		self.setDefault(Color,  "foreground",     "$000000")
 		self.setDefault(Color,  "background",     "$00000000")
 		self.setDefault(Color,  "tab-color",      "$D2D2D2")
@@ -131,50 +131,50 @@ class TabbedGroupNode(GroupNode):
 		self.setDefault(Number, "offset",         0)
 		self.setDefault(Number, "tabbar-height",  0, internal = True)
 		self.setDefault(Font,   "font",           "-Liberation Sans - Regular - 12")
-	
+
 	def apply(self, generator):
 		data = yield
-		
+
 		self.initApply(data)
-		
+
 		self.log("Generating Tabbed Group")
 		output = generator.generateTabbedGroup(self, macros=data)
-		
+
 		border_size = int(output["border-width"])
-		
+
 		if output["border-color"]["alpha"] == 0:
 			border_size = 0
-			
+
 		tab_bar_height = int(output["tabbar-height"])
-		
+
 		if tab_bar_height == 0:
 			tab_bar_height = int(int(output["geometry"]["height"]) * 0.1)
-			
+
 		output["tabbar-height"] = Number(tab_bar_height)
-		
+
 		placed = False
-		
+
 		for childnode in self.children:
 			geom = output["geometry"].val()
-			
+
 			childnode["geometry"]["width"] = int(geom["width"]) - 2 * border_size
 			childnode["geometry"]["height"] = int(geom["height"]) - tab_bar_height - 2 * border_size
-			
+
 			applier = childnode.apply(generator)
-			
+
 			for increment in applier:
 				child_macros = copy.copy(data)
 				self.updateMacros(output, child_macros)
-				
+
 				try:
 					widget = applier.send(child_macros)
-						
+
 					if widget:
 						placed = True
 						self.positionNext(widget)
 						output.place(widget)
-				except:
+				except StopIteration:
 					break
-					
+
 		if placed:
 			yield output

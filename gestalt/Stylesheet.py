@@ -22,7 +22,7 @@ def read_type(cls, loader, node):
 		params = loader.construct_mapping(node)
 		return cls(params)
 
-	except:
+	except ConstructorError:
 
 		# Parse Sequence
 		try:
@@ -30,7 +30,7 @@ def read_type(cls, loader, node):
 			return cls(data)
 
 		# Parse Scalar
-		except:
+		except ConstructorError:
 			data = loader.construct_scalar(node)
 			return cls(data)
 
@@ -73,7 +73,7 @@ def read_node(typ, loader, node):
 
 	try:
 		params = loader.construct_mapping(node, deep=True)
-	except:
+	except ConstructorError:
 		pass
 
 	return Node(typ, loc=node.start_mark, layout=params)
@@ -116,7 +116,7 @@ def read_embed_multi(loader, suffix, node):
 
 	try:
 		params = loader.construct_mapping(node, deep=True)
-	except:
+	except ConstructorError:
 		loader.construct_scalar(node)
 
 	params["embedding"] = String(suffix)
@@ -145,7 +145,7 @@ def read_apply_multi(loader, suffix, node):
 
 	try:
 		macros = loader.construct_mapping(node, deep=True)
-	except:
+	except ConstructorError:
 		pass
 
 	if suffix not in my_templates:
@@ -180,7 +180,7 @@ def read_stretch_node(loader, node, flow="vertical"):
 	try:
 		params = loader.construct_mapping(node, deep=True)
 		return StretchNode(flow=flow, subnode=next(iter(params.values())), loc=node.start_mark)
-	except:
+	except ConstructorError:
 		params = loader.construct_sequence(node, deep=True)
 		return StretchNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 
@@ -194,7 +194,7 @@ def read_center_node(loader, node, flow="vertical"):
 	try:
 		params = loader.construct_mapping(node, deep=True)
 		return CenterNode(flow=flow, subnode=next(iter(params.values())), loc=node.start_mark)
-	except:
+	except ConstructorError:
 		params = loader.construct_sequence(node, deep=True)
 		return CenterNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 
@@ -207,7 +207,7 @@ def read_anchor_node(loader, node, flow="vertical"):
 	try:
 		params = loader.construct_mapping(node, deep=True)
 		return AnchorNode(flow=flow, subnode=next(iter(params.values())), loc=node.start_mark)
-	except:
+	except ConstructorError:
 		params = loader.construct_sequence(node, deep=True)
 		return AnchorNode(flow=flow, subnode=next(iter(params)), loc=node.start_mark)
 
@@ -215,7 +215,7 @@ def read_tab_node(loader, node):
 	try:
 		params = loader.construct_sequence(node, deep=True)
 		return GroupNode("TabNode", layout={"children" : params}, loc=node.start_mark)
-	except:
+	except ConstructorError:
 		params = loader.construct_mapping(node, deep=True)
 		return GroupNode("TabNode", layout=params, loc=node.start_mark)
 
