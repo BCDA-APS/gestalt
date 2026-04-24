@@ -3,79 +3,82 @@ import tkinter.font as tkfont
 
 DEFAULT_DPI = 96.0
 
-size_cache = {}
+_tk_root = None
+_dpi_scale = None
+_height_cache = {}
+_width_cache = {}
+
+def _get_tk_root():
+	global _tk_root, _dpi_scale
+	if _tk_root is None:
+		_tk_root = tk.Tk()
+		_tk_root.withdraw()
+		_dpi_scale = DEFAULT_DPI / _tk_root.winfo_fpixels("1i")
+	return _tk_root
 
 class GestaltGenerator:
 	def get_font_height(font_name, font_size):
-		if font_name not in size_cache:
-			size_cache[font_name] = {}
-			
-		if font_size in size_cache[font_name]:
-			return size_cache[font_name][font_size]
-		
-		tk_root = tk.Tk()
-		tk_root.withdraw()
-		
-		tk_font = tkfont.Font(family=font_name, size=font_size)
-		
-		dpi_scale = DEFAULT_DPI / tk_root.winfo_fpixels("1i")
-		
-		ascent = round(tk_font.metrics("ascent") * dpi_scale)
-		descent = round(tk_font.metrics("descent") * dpi_scale)
-		
-		tk_root.destroy()
-		
-		size_cache[font_name][font_size] = int(ascent + descent)
-		
-		return int(ascent + descent)
-		
+		cache_key = (font_name, font_size)
+
+		if cache_key in _height_cache:
+			return _height_cache[cache_key]
+
+		root = _get_tk_root()
+		tk_font = tkfont.Font(root=root, family=font_name, size=font_size)
+
+		ascent = round(tk_font.metrics("ascent") * _dpi_scale)
+		descent = round(tk_font.metrics("descent") * _dpi_scale)
+
+		_height_cache[cache_key] = int(ascent + descent)
+
+		return _height_cache[cache_key]
+
 	def get_size_for_height(font_name, height):
 		needed_height = int(height * 0.75)
-		
+
 		lower_bound = 6
 		upper_bound = -1
-		
+
 		while True:
 			upper_bound = lower_bound * 2
-			
+
 			estimated_size = GestaltGenerator.get_font_height(font_name, upper_bound)
-			
+
 			if estimated_size == needed_height:
 				return upper_bound
-			
+
 			if estimated_size > needed_height:
 				break
-				
+
 			lower_bound = upper_bound
-		
+
 		while True:
 			check = int((lower_bound + upper_bound) / 2)
-			
+
 			if check == lower_bound:
 				return lower_bound
-				
+
 			estimated_size = GestaltGenerator.get_font_height(font_name, check)
-				
+
 			if estimated_size == needed_height:
 				return check
 			elif estimated_size < needed_height:
 				lower_bound = check
 			else:
 				upper_bound = check
-		
+
 	def get_text_width(font_name, font_size, text):
-		tk_root = tk.Tk()
-		tk_root.withdraw()
-		
-		tk_font = tkfont.Font(family=font_name, size=font_size)
-		
-		dpi_scale = DEFAULT_DPI / tk_root.winfo_fpixels("1i")
-		
-		output = tk_font.measure(text) * dpi_scale
-		
-		tk_root.destroy()
-		
-		return output
+		cache_key = (font_name, font_size, text)
+
+		if cache_key in _width_cache:
+			return _width_cache[cache_key]
+
+		root = _get_tk_root()
+		tk_font = tkfont.Font(root=root, family=font_name, size=font_size)
+
+		_width_cache[cache_key] = tk_font.measure(text) * _dpi_scale
+
+		return _width_cache[cache_key]
 	
 	
 	def generateWidget(self, original, macros={}):
