@@ -74,7 +74,7 @@ class LayoutNode(GroupNode):
 		else:
 			try:
 				self.iterating = dict( enumerate( range(start_at, start_at + (int(check) * inc_val), inc_val)))
-			except Exception as e:
+			except (ValueError, TypeError):
 				pass
 				
 		if not self.iterating:

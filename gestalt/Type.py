@@ -53,7 +53,7 @@ class DataType(object):
 					elif isinstance(check, dict) and next(iter(check.values())):
 						val = check
 
-			except Exception:
+			except (yaml.YAMLError, TypeError, StopIteration):
 				pass
 
 		if isinstance(val, dict):
@@ -127,7 +127,7 @@ class DataType(object):
 									out = Dict(check)
 									out.macros = self.macros
 									return out.val()
-						except Exception as e:
+						except (yaml.YAMLError, TypeError, StopIteration):
 							pass
 
 			return output
