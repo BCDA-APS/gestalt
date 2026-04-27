@@ -6,6 +6,11 @@ import configparser
 
 from gestalt.Utils import expand_yaml
 
+try:
+	_SafeLoader = yaml.CSafeLoader
+except AttributeError:
+	_SafeLoader = yaml.SafeLoader
+
 
 def rows(filename):
 	output = []
@@ -28,10 +33,10 @@ def parseJSONString(data):
 
 
 def parseYAMLFile(filename):
-	return yaml.safe_load(expand_yaml(filename, [str(Path(filename).resolve().parent)], []))
+	return yaml.load(expand_yaml(filename, [str(Path(filename).resolve().parent)], []), Loader=_SafeLoader)
 
 def parseYAMLString(data):
-	return yaml.safe_load(data) or {}
+	return yaml.load(data, Loader=_SafeLoader) or {}
 
 
 

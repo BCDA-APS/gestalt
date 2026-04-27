@@ -1,5 +1,6 @@
 import yaml
 
+from gestalt.Type import _SafeLoader
 from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
@@ -58,7 +59,7 @@ class LayoutNode(GroupNode):
 			check = DataType(None, self.data.get(check, check)).val()
 			
 		if isinstance(check, str):
-			check = yaml.safe_load(check)
+			check = yaml.load(check, Loader=_SafeLoader)
 			
 		if isinstance(check, dict):
 			check = Dict(check)

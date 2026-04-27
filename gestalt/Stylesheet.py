@@ -15,6 +15,13 @@ from gestalt.Utils import expand_yaml
 ##########################
 my_templates = {}
 
+try:
+	class GestaltLoader(yaml.CSafeLoader):
+		pass
+except AttributeError:
+	class GestaltLoader(yaml.SafeLoader):
+		pass
+
 def read_type(cls, loader, node):
 	# Parse Dictionary
 	try:
@@ -35,19 +42,19 @@ def read_type(cls, loader, node):
 
 
 def add_multi_constructors(typ_name, typ_func, regex=None):
-	yaml.add_multi_constructor("!" + typ_name,              typ_func, Loader=yaml.SafeLoader)
-	yaml.add_multi_constructor("!" + typ_name.lower(),      typ_func, Loader=yaml.SafeLoader)
-	yaml.add_multi_constructor("!" + typ_name.upper(),      typ_func, Loader=yaml.SafeLoader)
-	yaml.add_multi_constructor("!" + typ_name.capitalize(), typ_func, Loader=yaml.SafeLoader)
+	yaml.add_multi_constructor("!" + typ_name,              typ_func, Loader=GestaltLoader)
+	yaml.add_multi_constructor("!" + typ_name.lower(),      typ_func, Loader=GestaltLoader)
+	yaml.add_multi_constructor("!" + typ_name.upper(),      typ_func, Loader=GestaltLoader)
+	yaml.add_multi_constructor("!" + typ_name.capitalize(), typ_func, Loader=GestaltLoader)
 
 def add_constructors(typ_name, typ_func, regex=None):
-	yaml.add_constructor("!" + typ_name,              typ_func, Loader=yaml.SafeLoader)
-	yaml.add_constructor("!" + typ_name.lower(),      typ_func, Loader=yaml.SafeLoader)
-	yaml.add_constructor("!" + typ_name.upper(),      typ_func, Loader=yaml.SafeLoader)
-	yaml.add_constructor("!" + typ_name.capitalize(), typ_func, Loader=yaml.SafeLoader)
+	yaml.add_constructor("!" + typ_name,              typ_func, Loader=GestaltLoader)
+	yaml.add_constructor("!" + typ_name.lower(),      typ_func, Loader=GestaltLoader)
+	yaml.add_constructor("!" + typ_name.upper(),      typ_func, Loader=GestaltLoader)
+	yaml.add_constructor("!" + typ_name.capitalize(), typ_func, Loader=GestaltLoader)
 
 	if regex:
-		yaml.add_implicit_resolver(u"!" + typ_name, regex, Loader=yaml.SafeLoader)
+		yaml.add_implicit_resolver(u"!" + typ_name, regex, Loader=GestaltLoader)
 
 add_constructors("string", (lambda l, n: read_type(String, l, n)))
 add_constructors("number", (lambda l, n: read_type(Number, l, n)))
@@ -105,9 +112,9 @@ def read_default_node(loader, node):
 def construct_from_suffix(loader, suffix, node):
 	if ":" in suffix:
 		cls, sub_suffix = suffix.split(":", maxsplit=1)
-		return yaml.SafeLoader.yaml_multi_constructors["!" + cls + ":"](loader, sub_suffix, node)
+		return GestaltLoader.yaml_multi_constructors["!" + cls + ":"](loader, sub_suffix, node)
 	else:
-		return yaml.SafeLoader.yaml_constructors["!" + suffix](loader, node)
+		return GestaltLoader.yaml_constructors["!" + suffix](loader, node)
 
 def read_embed_multi(loader, suffix, node):
 	# Should be nothing, but might be useful in the future
@@ -239,7 +246,7 @@ recognized_types = (
 )
 
 for widget_type in recognized_types:
-	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=yaml.SafeLoader)
+	yaml.add_constructor("!" + widget_type, (lambda l, n, t=widget_type: read_node(t, l, n)), Loader=GestaltLoader)
 
 add_constructors("Group", (lambda l, n: read_special_group(GroupNode, l, n)))
 add_constructors("Anon", (lambda l, n: read_special_group(GroupNode, l, n, anonymous=True)))
@@ -338,4 +345,4 @@ def render_sort(item):
 
 def parse(filename, includes_dirs):
 	my_templates.clear()
-	return dict(sorted(yaml.safe_load(expand_yaml(filename, includes_dirs, [])).items(), key=render_sort))
+	return dict(sorted(yaml.load(expand_yaml(filename, includes_dirs, []), Loader=GestaltLoader).items(), key=render_sort))

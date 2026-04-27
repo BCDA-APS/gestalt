@@ -1,6 +1,11 @@
 import copy
 import yaml
 
+try:
+	_SafeLoader = yaml.CSafeLoader
+except AttributeError:
+	_SafeLoader = yaml.SafeLoader
+
 
 class PartialSubFormatter:
 	def __init__(self, macro):
@@ -45,7 +50,7 @@ class DataType(object):
 
 		if json_like(val):
 			try:
-				check = yaml.safe_load(val)
+				check = yaml.load(val, Loader=_SafeLoader)
 
 				if len(check) > 0:
 					if isinstance(check, list) and check[0]:
@@ -118,7 +123,7 @@ class DataType(object):
 
 					if last_output != output and json_like(output):
 						try:
-							check = yaml.safe_load(output)
+							check = yaml.load(output, Loader=_SafeLoader)
 
 							if len(check) > 0:
 								if isinstance(check, list) and check[0] != None:
@@ -149,7 +154,7 @@ class DataType(object):
 
 				if isinstance(val, str) and json_like(val):
 					try:
-						temp = yaml.safe_load(val)
+						temp = yaml.load(val, Loader=_SafeLoader)
 					except yaml.YAMLError:
 						temp = None
 
@@ -178,7 +183,7 @@ class DataType(object):
 
 				if isinstance(output[index], str) and json_like(output[index]):
 					try:
-						temp = yaml.safe_load(output[index])
+						temp = yaml.load(output[index], Loader=_SafeLoader)
 					except yaml.YAMLError:
 						temp = None
 
@@ -488,7 +493,7 @@ class List(DataType):
 			data = super().val()
 
 			if isinstance(data, str) or (self.standard and hasattr(data, 'read')):
-				data = yaml.safe_load(data)
+				data = yaml.load(data, Loader=_SafeLoader)
 
 			if isinstance(data, list):
 				return data
@@ -513,7 +518,7 @@ class Dict(DataType):
 			data = super().val()
 
 			if isinstance(data, str) or (self.standard and hasattr(data, 'read')):
-				data = yaml.safe_load(data)
+				data = yaml.load(data, Loader=_SafeLoader)
 
 			if isinstance(data, dict):
 				return data
