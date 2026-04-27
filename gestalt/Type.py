@@ -138,7 +138,7 @@ class DataType(object):
 			return output
 
 		elif self.dict:
-			output = copy.deepcopy(self.value)
+			output = dict(self.value)
 
 			for key, val in output.items():
 				if key in self.updates:
@@ -167,7 +167,7 @@ class DataType(object):
 			return output
 
 		elif self.list:
-			output = copy.deepcopy(self.value)
+			output = list(self.value)
 
 			for index in range(len(output)):
 				if index in self.updates:
