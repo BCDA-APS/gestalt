@@ -140,21 +140,21 @@ class DataType(object):
 					output[key] = self.updates[key]
 					continue
 
-				try:
-					if isinstance(val, str):
+				parsed = False
+
+				if isinstance(val, str):
+					try:
 						temp = yaml.safe_load(val)
+					except yaml.YAMLError:
+						temp = None
 
-						if isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None:
-							raise Exception
-
+					if temp is not None and not (isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None):
 						temp_val = DataType(None, temp)
 						temp_val.macros = self.macros
-
 						output[key] = temp_val.val()
+						parsed = True
 
-					else:
-						raise Exception
-				except Exception:
+				if not parsed:
 					temp_val = DataType(None, val)
 					temp_val.macros = self.macros
 					output[key] = temp_val.val()
@@ -169,19 +169,21 @@ class DataType(object):
 					output[index] = self.updates[index]
 					continue
 
-				try:
-					if isinstance(output[index], str):
+				parsed = False
+
+				if isinstance(output[index], str):
+					try:
 						temp = yaml.safe_load(output[index])
+					except yaml.YAMLError:
+						temp = None
 
-						if isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None:
-							raise Exception
-
+					if temp is not None and not (isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None):
 						index_val = DataType(None, temp)
 						index_val.macros = self.macros
 						output[index] = index_val.val()
-					else:
-						raise Exception
-				except Exception:
+						parsed = True
+
+				if not parsed:
 					index_val = DataType(None, output[index])
 					index_val.macros = self.macros
 					output[index] = index_val.val()
