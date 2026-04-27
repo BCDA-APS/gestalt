@@ -337,4 +337,5 @@ def render_sort(item):
 		return int(check["render-order"])
 
 def parse(filename, includes_dirs):
+	my_templates.clear()
 	return dict(sorted(yaml.safe_load(expand_yaml(filename, includes_dirs, [])).items(), key=render_sort))
