@@ -17,20 +17,20 @@ def reset_css():
 
 	name_numbering = {}
 	local_pvs = []
-	
+
 def add_local_pv(name):
 	global local_pvs
-	
+
 	local_pvs.append(name)
-	
+
 def get_pv(pvname):
 	global local_pvs
-	
+
 	output = pvname
-	
+
 	if pvname in local_pvs:
 		output = "loc://pv_" + pvname
-		
+
 	return output
 
 class CSSWidget(GroupNode):
@@ -41,45 +41,45 @@ class CSSWidget(GroupNode):
 			macros = {}
 		super(CSSWidget, self).__init__(classname, name=name, node=node, layout=layout)
 		CSSWidget.updateProperties(self,macros)
-		
+
 		if "alignment" in self:
 			data = str(Alignment(self.pop("alignment")))
-			
+
 			# Split into two strings based on capitalization
 			data = "".join([(" "+i if i.isupper() else i) for i in data]).strip().split()
-			
-			
+
+
 			self["vertical_alignment"] = String(data[0])
 			self["horizontal_alignment"] = String(data[1])
-			
-			
+
+
 		if "vertical_alignment" in self:
 			if isinstance(self["vertical_alignment"], Alignment) or str(self["vertical_alignment"]).lower() == "center":
-				self["vertical_alignment"] = String("Middle")		
-		
+				self["vertical_alignment"] = String("Middle")
+
 		if not self.name:
 			num = name_numbering.get(classname, 0)
 			num += 1
 			name_numbering[classname] = num
-			
+
 			self.name = classname + str(num)
-			
+
 		else:
 			num = name_numbering.get(self.name, 0)
 			num += 1
 			name_numbering[self.name] = num
-			
+
 			if (num > 1):
 				self.name = self.name + str(num)
-		
+
 		self.tocopy.append("widget")
-				
+
 		widget_cls = getattr(widget, self.classname, None)
 		if widget_cls is None:
 			raise Exception("Unknown widget type: " + self.classname)
-		
+
 		n_params = len(inspect.signature(widget_cls.__init__).parameters)
-		
+
 		if   n_params == 6:
 			self.widget = widget_cls(self.name, 0, 0, 0, 0)
 		elif n_params == 7:
@@ -88,31 +88,31 @@ class CSSWidget(GroupNode):
 			self.widget = widget_cls(self.name, "", "", 0, 0, 0, 0)
 		else:
 			raise Exception("Unexpected constructor for widget type: " + self.classname)
-			
-			
+
+
 		vis_pv = self.pop("visibility", None)
 		vis_zero = isinstance(vis_pv, Not)
-				
+
 		if vis_pv and vis_zero:
 			self.widget.rule("set_visibility", "visible", { get_pv(str(vis_pv)) : True }, { "pv0==0" : True })
 		elif vis_pv and not vis_zero:
 			self.widget.rule("set_visibility", "visible", { get_pv(str(vis_pv)) : True }, { "pv0==0" : False })
-			
-	
+
+
 	def setPV(self):
 		global local_pvs
 		pvname = ""
-		
+
 		if "pv" in self:
 			pvname = str(self["pv"])
 		elif "pv_name" in self:
 			pvname = str(self["pv_name"])
 		else:
 			return
-			
+
 		if isinstance(self.widget, _p._PVName):
 			self.widget.pv_name(get_pv(pvname))
-				
+
 	def setBasicParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self:
 			getattr(self.widget, set_fun)(self[attribute].val())
@@ -120,52 +120,52 @@ class CSSWidget(GroupNode):
 	def setColorParam(self, set_fun, attribute, check_class=object):
 		if isinstance(self.widget, check_class):
 			col = None
-			
+
 			if attribute + "_color" in self:
 				col = self[attribute + "_color"]
 			elif attribute in self:
 				col = self[attribute]
 			else:
 				return
-			
+
 			if isinstance(col, Color):
 				getattr(self.widget, set_fun)(col.val()["red"], col.val()["green"], col.val()["blue"], col.val()["alpha"])
 			elif isinstance(col, String):
 				getattr(self.widget, "predefined_" + set_fun)(col.val())
-		
+
 	def setEnumParam(self, set_fun, attribute, enum_class, check_class=object):
 		if isinstance(self.widget, check_class) and attribute in self:
 			enumer = self[attribute]
-			
+
 			if isinstance(enumer, Number):
 				# self.widget.<function>(<enumeration>(<given value>))
 				getattr(self.widget, set_fun)(getattr(self.widget._shared, enum_class)(int(enumer.val())))
 			elif isinstance(enumer, String):
 				# self.widget.<function>((getattr(<enumeration>, <given value>)
 				getattr(self.widget, set_fun)(getattr(getattr(self.widget._shared, enum_class), enumer.val().lower()))
-			
+
 	def setFontParam(self, attribute, prefix, check_class=object):
 		if isinstance(self.widget, check_class):
 			my_font = None
-			
+
 			if attribute + "_font" in self:
 				my_font = self[attribute + "_font"]
 			elif attribute in self:
 				my_font = self[attribute]
 			else:
 				return
-				
+
 			getattr(self.widget, prefix + "font_family")(my_font["family"])
-			
+
 			font_size = GestaltGenerator.get_size_for_height(my_font["family"], int(self["geometry"]["height"]))
-			
+
 			if my_font["size"]:
 				getattr(self.widget, prefix + "font_size")(int(font_size))
-				
+
 			if my_font["style"]:
 				getattr(self.widget, prefix + "font_style_" + my_font["style"].lower())()
-				
-		
+
+
 	def write(self, screen):
 		if self.widget:
 			self.widget.name(self.name)
@@ -173,15 +173,15 @@ class CSSWidget(GroupNode):
 			self.widget.y(self["geometry"]["y"])
 			self.widget.width(self["geometry"]["width"])
 			self.widget.height(self["geometry"]["height"])
-			
-			
+
+
 			##############
 			#  Booleans  #
 			##############
-			
+
 			self.setBasicParam("visible",  "visible")
 			self.setBasicParam("tool_tip", "tool_tip")
-		 	
+
 			self.setBasicParam("auto_size",        "auto_size",          check_class=_p._AutoSize)
 			self.setBasicParam("auto_scale",       "auto_scale",         check_class=_p._AutoScale)
 			self.setBasicParam("transparent",      "transparent",        check_class=_p._Transparent)
@@ -217,17 +217,17 @@ class CSSWidget(GroupNode):
 			self.setBasicParam("show_low",         "show_low",           check_class=_p._LevelsAndShow)
 			self.setBasicParam("show_lolo",        "show_lolo",          check_class=_p._LevelsAndShow)
 			self.setBasicParam("cursor_crosshair", "cursor_crosshair",   check_class=_p._Cursor)
-			
-			
+
+
 			self.setBasicParam("buttons_on_left", "buttons_on_left",           check_class=_p._ButtonsOnLeft)
 			self.setBasicParam("alarm_border",    "border_alarm_sensitive",    check_class=_p._AlarmBorder)
-				
+
 			#############
 			#  Strings  #
 			#############
-			
+
 			self.setPV()
-			
+
 			self.setBasicParam("tab",            "tab",            check_class=_p._Tabs)
 			self.setBasicParam("text",           "text",           check_class=_p._Text)
 			self.setBasicParam("format",         "format",         check_class=_p._Format)
@@ -243,17 +243,17 @@ class CSSWidget(GroupNode):
 			self.setBasicParam("label",          "label",          check_class=_p._Label)
 			self.setBasicParam("group_name",     "group_name",     check_class=_p._GroupName)
 			self.setBasicParam("selection_pv",   "selection_pv",   check_class=_p._SelectionPV)
-			self.setBasicParam("fallback_label", "fallback_label", check_class=_p._Fallback)  
+			self.setBasicParam("fallback_label", "fallback_label", check_class=_p._Fallback)
 			self.setBasicParam("cursor_info_pv", "cursor_info_pv", check_class=_p._Cursor)
 			self.setBasicParam("cursor_x_pv",    "x_pv",           check_class=_p._Cursor)
 			self.setBasicParam("cursor_y_pv",    "y_pv",           check_class=_p._Cursor)
-			
+
 			self.setBasicParam("selection_value_pv", "selection_value_pv", check_class=_p._SelectionValuePV)
-			
+
 			#############
 			#  Numbers  #
 			#############
-				
+
 			self.setBasicParam("precision",     "precision",     check_class=_p._Precision)
 			self.setBasicParam("bit",           "bit",           check_class=_p._Bit)
 			self.setBasicParam("num_bits",      "numBits",       check_class=_p._NumBits)
@@ -281,13 +281,13 @@ class CSSWidget(GroupNode):
 			self.setBasicParam("level_high",    "level_high",    check_class=_p._LevelsAndShow)
 			self.setBasicParam("level_low",     "level_low",     check_class=_p._LevelsAndShow)
 			self.setBasicParam("level_lolo",    "level_lolo",    check_class=_p._LevelsAndShow)
-			
+
 			self.setBasicParam("major_ticks_pixel_dist", "major_tick_step_hint", check_class=_p._MajorTicksPixelDist)
-				
+
 			############
 			#  Colors  #
 			############
-				
+
 			self.setColorParam("foreground_color", "foreground", check_class=_p._ForegroundColor)
 			self.setColorParam("background_color", "background", check_class=_p._BackgroundColor)
 			self.setColorParam("on_color",         "on",         check_class=_p._OnColor)
@@ -302,12 +302,12 @@ class CSSWidget(GroupNode):
 			self.setColorParam("grid_color",       "grid",       check_class=_p._GridColor)
 			self.setColorParam("border_color",     "border",     check_class=_p._Border)
 			self.setColorParam("fallback_color",   "fallback",   check_class=_p._Fallback)
-			
-			
+
+
 			###########
 			#  Enums  #
 			###########
-			
+
 			self.setEnumParam("_add_horizontal_alignment", "horizontal_alignment", "HorizontalAlignment", check_class=_p._HorizontalAlignment)
 			self.setEnumParam("_add_vertical_alignment",   "vertical_alignment",   "VerticalAlignment",   check_class=_p._VerticalAlignment)
 			self.setEnumParam("_add_rotation_step",        "rotation_step",        "RotationStep",        check_class=_p._RotationStep)
@@ -315,30 +315,30 @@ class CSSWidget(GroupNode):
 			self.setEnumParam("_add_style",                "style",                "GroupStyle",          check_class=_p._Style)
 			self.setEnumParam("_add_resize_behavior",      "resize",               "Resize",              check_class=_p._ResizeBehavior)
 			self.setEnumParam("_add_file_component",       "component",            "FileComponent",       check_class=_p._FileComponent)
-			self.setEnumParam("_add_interpolation",        "interpolation",        "Interpolation",       check_class=_p._Interpolation)			
+			self.setEnumParam("_add_interpolation",        "interpolation",        "Interpolation",       check_class=_p._Interpolation)
 
-			
+
 			###########
 			#  Fonts  #
 			###########
-			
+
 			self.setFontParam("font",       "", check_class=_p._Font)
 			self.setFontParam("title", "title_", check_class=_p._TitleFont)
 			self.setFontParam("scale", "scale_", check_class=_p._ScaleFont)
 			self.setFontParam("label", "label_", check_class=_p._LabelFont)
-			
+
 			##############
 			# Line Style #
 			##############
-			
-			if "border-style" in self:
-				if self["border-style"].val() == "Dashed":
-					self.widget.line_style_dashed()
-				elif self["border-style"].val() == "Solid":
-					self.widget.line_style_solid()
-			
-			
+
+			#if "border-style" in self:
+			#	if self["border-style"].val() == "Dashed":
+			#		self.widget.line_style_dashed()
+			#	elif self["border-style"].val() == "Solid":
+			#		self.widget.line_style_solid()
+
+
 		for child in self.write_order():
 			child.write(self.widget)
-			
+
 		screen.add_widget(self.widget)
