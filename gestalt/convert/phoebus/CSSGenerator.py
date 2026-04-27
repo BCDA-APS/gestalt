@@ -71,10 +71,11 @@ class CSSGenerator(GestaltGenerator):
 
 			_macros = {}
 
-			if _args and _args[0]:
-				for arg in _args:
-					key, val = arg.split("=")
-					_macros[key.strip()] = val.strip()
+			if _args:
+				for arg in _args.split(","):
+					if "=" in arg:
+						key, val = arg.split("=", 1)
+						_macros[key.strip()] = val.strip()
 
 			output.widget.action_open_display(_file, _rep, description=_desc, macros=_macros)
 
@@ -266,7 +267,7 @@ class CSSGenerator(GestaltGenerator):
 			macros = {}
 		output = CSSWidget("EmbeddedDisplay", node=node, macros=macros)
 
-		output["file"] = output["file"] + ".bob"
+		output["file"] = str(output["file"]) + ".bob"
 
 		return output
 
