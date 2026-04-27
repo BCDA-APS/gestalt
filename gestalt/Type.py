@@ -144,7 +144,7 @@ class DataType(object):
 					if isinstance(val, str):
 						temp = yaml.safe_load(val)
 
-						if isinstance(temp, dict) and len(temp) == 1 and temp[temp.keys()[0]] == None:
+						if isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None:
 							raise Exception
 
 						temp_val = DataType(None, temp)
@@ -173,7 +173,7 @@ class DataType(object):
 					if isinstance(output[index], str):
 						temp = yaml.safe_load(output[index])
 
-						if isinstance(temp, dict) and len(temp) == 1 and temp[temp.keys()[0]] == None:
+						if isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None:
 							raise Exception
 
 						index_val = DataType(None, temp)
