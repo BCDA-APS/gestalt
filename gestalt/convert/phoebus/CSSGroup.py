@@ -8,6 +8,11 @@ class CSSGroup(CSSWidget):
 			macros = {}
 		super(CSSGroup, self).__init__("Group", node=node, macros=macros)
 		
+		self.setDefault(Color, "background", "$00000000")
+		self.setDefault(Color, "border-color", "$000000")
+		self.setDefault(Number, "border-width", 0)
+		self.setDefault(String, "border-style", "Solid")
+		
 		self.widget.transparent(True)
 		self.widget.no_style()
 	
