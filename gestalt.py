@@ -33,7 +33,7 @@ Recognized values are ['yml', 'yaml', 'string', 'str',
 """,
 	type=str,
 	default="auto",
-	choices=["yml", "yaml", "string", "str", "JSON", "json", "substitutions", "msi", "auto"])
+	choices=["yml", "yaml", "string", "str", "JSON", "json", "substitutions", "msi", "ini", "cfg", "auto"])
 
 parser.add_argument("-t", "-w", "--to", "--write",
 	metavar="FORMAT",
