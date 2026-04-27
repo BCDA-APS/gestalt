@@ -1,5 +1,5 @@
 """
-A basic rectangle shape that can either be filled or an outline
+A basic arc that can either be filled or an outline
 
 Angles are defined in relation to the positive x axis. With 0 degrees
 following that axis, and angles proceeding in the counter-clockwise
@@ -24,7 +24,7 @@ direction.
 SimpleBox: !Arc
     geometry: 100x100
     border-width: 5
-    
+
     start-angle: 45
     span: 180
 ```
@@ -39,7 +39,7 @@ class ArcNode(Node):
 		if layout is None:
 			layout = {}
 		super(ArcNode, self).__init__("Arc", name=name, layout=layout, loc=loc)
-		
+
 		self.setDefault(Color,  "background",   "$00000000")
 		self.setDefault(Color,  "border-color", "$000000")
 		self.setDefault(Number, "border-width", 2)
