@@ -17,6 +17,7 @@ class CSSDisplay(CSSAnonymous):
 		
 	def place(self, child, x=None, y=None, keep_original=False):
 		self.content.place(child, x=x, y=y, keep_original=keep_original)
+		self["geometry"] = self.content["geometry"]
 		
 	def writeCSS(self, filename):
 		self.form = screen.Screen(str(String(self.pop("title", ""))))
