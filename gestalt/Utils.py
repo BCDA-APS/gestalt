@@ -1,6 +1,6 @@
-import os
 import re
 import copy
+from pathlib import Path
 
 
 include_regex = re.compile(r'^#include\s*(.*)$')
@@ -15,19 +15,19 @@ def _process_includes(filename, includes_locations, included_files, collect_cont
 			check = include_regex.match(line)
 			check_locations = copy.copy(includes_locations)
 
-			current_dir = os.path.dirname(filename)
+			current_dir = str(Path(filename).parent)
 
 			if current_dir not in check_locations:
-				check_locations.append(os.path.dirname(filename))
+				check_locations.append(current_dir)
 
 			if check:
 				include_file = check.group(1).strip()
 				include_file_fullpath = ""
 
 				for check_dir in check_locations:
-					path = os.path.abspath(check_dir + "/" + include_file)
+					path = str((Path(check_dir) / include_file).resolve())
 
-					if os.path.exists(path):
+					if Path(path).exists():
 						include_file_fullpath = path
 						break
 

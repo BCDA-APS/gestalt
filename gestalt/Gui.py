@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from PyQt5 import uic
 from PyQt5 import QtGui
 
@@ -14,7 +16,7 @@ class UI(QMainWindow):
 		self.parser = parser
 		self.curr_dir = curr_dir
 
-		uic.loadUi(curr_dir + "/.data/Form.ui", self)
+		uic.loadUi(str(Path(curr_dir) / ".data" / "Form.ui"), self)
 
 		self.setWindowTitle("GESTALT")
 
@@ -116,7 +118,7 @@ class UI(QMainWindow):
 
 			args = self.parser.parse_args(constructed_args)
 
-			args.include_dirs = [".", self.curr_dir, self.curr_dir + "/widgets", module_selected["path"]]
+			args.include_dirs = [".", self.curr_dir, str(Path(self.curr_dir) / "widgets"), module_selected["path"]]
 
 			self.genfunc(args)
 

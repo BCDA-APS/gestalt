@@ -1,8 +1,7 @@
-import os
-from os.path import join, isdir, dirname
+from pathlib import Path
 
-all_files = os.listdir(dirname(__file__))
+_package_dir = Path(__file__).parent
 
-__all__ = [ f for f in all_files if isdir(join(dirname(__file__), f)) and (f != "__pycache__") ]
+__all__ = [ f.name for f in _package_dir.iterdir() if f.is_dir() and f.name != "__pycache__" ]
 
 __all__.append("registry")

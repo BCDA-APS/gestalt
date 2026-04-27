@@ -1,5 +1,3 @@
-import pathlib
-
 from gestalt.Type import *
 
 from gestalt.convert.qt.QtWidget import QtWidget

@@ -19,7 +19,6 @@ ComplicatedStructure: !Image
 ```
 """
 
-import pathlib
 from gestalt.Type import *
 from gestalt.nodes.Node import Node
 

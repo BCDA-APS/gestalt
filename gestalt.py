@@ -1,18 +1,15 @@
 #! /usr/bin/env python3
 
-import os
 import sys
 import argparse
-import pathlib
-import tempfile
-import traceback
 import cProfile
+from pathlib import Path, PurePath
 
 from layouts import *
 from gestalt import Datasheet, Stylesheet, Utils
 
 
-curr_dir = str(pathlib.Path(__file__).resolve().parent.resolve())
+curr_dir = str(Path(__file__).resolve().parent)
 
 parser = argparse.ArgumentParser(prog='gestalt', usage='%(prog)s [OPTIONS] [LAYOUT]', formatter_class=argparse.RawTextHelpFormatter, exit_on_error=False)
 
@@ -111,7 +108,7 @@ List all includes of provided input and layout
 
 
 def listDepends(args):
-	include_dirs = [".", curr_dir + "/widgets"]
+	include_dirs = [".", str(Path(curr_dir) / "widgets")]
 
 	output_files = []
 	output_files.append(args.layout)
@@ -125,7 +122,7 @@ def listDepends(args):
 		parse_format = args.in_format
 
 		if args.in_format == "auto":
-			parse_format = pathlib.PurePath(args.in_filename).suffix.lstrip('.')
+			parse_format = PurePath(args.in_filename).suffix.lstrip('.')
 
 		if parse_format == "yaml" or parse_format == "yml":
 			output_files.extend(Utils.get_includes(args.in_filename, include_dirs, []))
@@ -136,7 +133,7 @@ def listDepends(args):
 
 
 def doGenerate(args):
-	include_dirs = [".", curr_dir + "/widgets"]
+	include_dirs = [".", str(Path(curr_dir) / "widgets")]
 
 	if args.include_dirs:
 		include_dirs.extend(args.include_dirs)
@@ -147,7 +144,7 @@ def doGenerate(args):
 		parse_format = args.in_format
 
 		if args.in_format == "auto":
-			parse_format = pathlib.PurePath(args.in_filename).suffix.lstrip('.')
+			parse_format = PurePath(args.in_filename).suffix.lstrip('.')
 
 		if parse_format == "string" or parse_format == "str" or parse_format=="":
 			data = Datasheet.parseYAMLString(args.in_filename)
@@ -170,7 +167,7 @@ def doGenerate(args):
 			print("Must specify either output file type or output file name")
 			return
 
-		args.out_format = pathlib.PurePath(args.out_filename).suffix.lstrip('.')
+		args.out_format = PurePath(args.out_filename).suffix.lstrip('.')
 
 	if args.out_format == "qt":
 		args.out_format = "ui"
@@ -181,7 +178,7 @@ def doGenerate(args):
 
 
 	if not args.out_filename:
-		args.out_filename = pathlib.PurePath(args.layout).stem + "." + args.out_format
+		args.out_filename = PurePath(args.layout).stem + "." + args.out_format
 
 	if args.out_format == "ui":
 		from gestalt.convert.qt.QtGenerator import generateQtFile

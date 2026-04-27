@@ -1,6 +1,4 @@
-import os
-import re
-import copy
+from pathlib import Path
 import yaml
 import json
 import csv
@@ -30,7 +28,7 @@ def parseJSONString(data):
 
 
 def parseYAMLFile(filename):
-	return yaml.safe_load(expand_yaml(filename, [os.path.abspath(os.path.dirname(filename))], []))
+	return yaml.safe_load(expand_yaml(filename, [str(Path(filename).resolve().parent)], []))
 
 def parseYAMLString(data):
 	return yaml.safe_load(data) or {}

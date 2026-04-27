@@ -1,14 +1,14 @@
 #! /usr/bin/env python3
 
-import os
 import ast
 import glob
+from pathlib import Path
 	
 def generate(package):
 	index = 1
 	
-	for file in sorted(glob.glob("../gestalt/" + package + "/*.py")):
-		modulename = os.path.splitext(os.path.basename(file))[0]
+	for file in sorted(glob.glob(str(Path("../gestalt") / package / "*.py"))):
+		modulename = Path(file).stem
 		
 		if modulename == "__init__":
 			continue
@@ -17,7 +17,7 @@ def generate(package):
 			
 		info = "title='{}' parent='{}' nav_order={}".format(modulename, package.capitalize(), index)
 		
-		output_path = "./reference/" + package + "/" + modulename + ".md"
+		output_path = str(Path("./reference") / package / (modulename + ".md"))
 		
 		with open(file, "r") as the_module:
 			contents = the_module.read()

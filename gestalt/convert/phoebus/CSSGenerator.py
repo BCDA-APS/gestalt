@@ -1,6 +1,4 @@
-import re
 import ast
-import pathlib
 
 from gestalt.nodes.Node import Node
 from gestalt.Type import *
