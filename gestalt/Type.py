@@ -103,10 +103,12 @@ class DataType(object):
 	def val(self):
 		if self.standard:
 			output = self.value
-			index = 0
+
+			if "{" not in output:
+				return output
+
 			for macrolist in reversed(self.macros):
 				for macro, macro_val in reversed(macrolist.items()):
-					index += 1
 					last_output = output
 					try:
 						output = output.format_map(PartialSubDict({macro : macro_val }))
@@ -129,6 +131,9 @@ class DataType(object):
 									return out.val()
 						except (yaml.YAMLError, TypeError, StopIteration):
 							pass
+
+				if "{" not in output:
+					break
 
 			return output
 
