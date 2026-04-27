@@ -60,6 +60,17 @@ import copy
 from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
+def _wrap_datatype(val):
+	if isinstance(val, bool):
+		return Bool(val)
+	elif isinstance(val, int):
+		return Number(val)
+	elif isinstance(val, float):
+		return Double(val)
+	elif isinstance(val, str):
+		return String(val)
+	return val
+
 class ApplyNode(GroupNode):
 	def __init__(self, template="", layout=None, defaults=None, macros=None, subnodes=None, loc=None):
 		if layout is None:
@@ -96,55 +107,30 @@ class ApplyNode(GroupNode):
 		bound_macros = {}
 
 		for key, val in explicit_macros.items():
-			to_assign = None
-			
-			if isinstance(val, bool):
-				to_assign = Bool(val)
-			elif isinstance(val, int):
-				to_assign = Number(val)
-			elif isinstance(val, float):
-				to_assign = Double(val)
-			elif isinstance(val, str):
-				to_assign = String(val)
-			else:
-				to_assign = val
-			
+			to_assign = _wrap_datatype(val)
+
 			if isinstance(to_assign, DataType):
 				to_assign.apply(self.data)
 				to_assign = to_assign.flatten()
 
-			bound_macros.update({key : to_assign})
+			bound_macros[key] = to_assign
 
-		output = {}
-		output.update(self.defaults)
-		output.update(self.data)
-		output.update(bound_macros)
-		
-		to_apply = {}
-		to_apply.update(self.defaults)
-		to_apply.update(self.data)
-		to_apply.update(bound_macros)
-		
+		merged = {}
+		merged.update(self.defaults)
+		merged.update(self.data)
+		merged.update(bound_macros)
 
-		for key, val in output.items():
-			to_assign = None
-			
-			if isinstance(val, bool):
-				to_assign = Bool(val)
-			elif isinstance(val, int):
-				to_assign = Number(val)
-			elif isinstance(val, float):
-				to_assign = Double(val)
-			elif isinstance(val, str):
-				to_assign = String(val)
-			else:
-				to_assign = val
-			
+		for key, val in merged.items():
+			if key in bound_macros:
+				macros[key] = bound_macros[key]
+				continue
+
+			to_assign = _wrap_datatype(val)
+
 			if isinstance(to_assign, DataType):
-				to_assign.apply(to_apply)
+				to_assign.apply(merged)
 				to_assign = to_assign.flatten()
-				#to_assign.apply(self.data)
-				
-			macros.update({key : to_assign})
+
+			macros[key] = to_assign
 
 		return
