@@ -222,14 +222,14 @@ def read_tab_node(loader, node):
 
 recognized_types = (
 	'caLabel', 'caLineEdit', 'caTextEntry', 'caMenu', 'caRelatedDisplay',
-	'caNumeric', 'caApplyNumeric', 'caSlider', 'caChoice', 'caTextEntry',
-	'caMessageButton', 'caToggleButton', 'caSpinbox', 'caByteController',
-	'caLabelVertical', 'caGraphics', 'caPolyLine', 'caImage', 'caInclude',
-	'caDoubleTabWidget', 'caClock', 'caLed', 'caLinearGauge', 'caMeter',
-	'caCircularGauge', 'caMultiLineString', 'caThermo', 'caCartesianPlot',
-	'caStripPlot', 'caByte', 'caTable', 'caWaveTable', 'caBitnames',
-	'caCamera', 'caCalc', 'caWaterfallPlot', 'caScan2D', 'caLineDraw',
-	'caShellCommand', 'caScriptButton', 'caMimeDisplay', 'Form',
+	'caNumeric', 'caApplyNumeric', 'caSlider', 'caChoice', 'caMessageButton',
+	'caToggleButton', 'caSpinbox', 'caByteController', 'caLabelVertical',
+	'caGraphics', 'caPolyLine', 'caImage', 'caInclude', 'caDoubleTabWidget',
+	'caClock', 'caLed', 'caLinearGauge', 'caMeter', 'caCircularGauge',
+	'caMultiLineString', 'caThermo', 'caCartesianPlot', 'caStripPlot',
+	'caByte', 'caTable', 'caWaveTable', 'caBitnames', 'caCamera', 'caCalc',
+	'caWaterfallPlot', 'caScan2D', 'caLineDraw', 'caShellCommand',
+	'caScriptButton', 'caMimeDisplay', 'Form',
 
 	"ActionButton", "Array", "BooleanButton", "CheckBox", "ComboBox",
 	"DataBrowser", "EmbeddedDisplay", "FileSelector", "Label",
