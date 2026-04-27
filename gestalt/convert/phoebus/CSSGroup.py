@@ -7,15 +7,15 @@ class CSSGroup(CSSWidget):
 		if macros is None:
 			macros = {}
 		super(CSSGroup, self).__init__("Group", node=node, macros=macros)
-		
+
 		self.setDefault(Color, "background", "$00000000")
 		self.setDefault(Color, "border-color", "$000000")
 		self.setDefault(Number, "border-width", 0)
-		self.setDefault(String, "border-style", "Solid")
-		
+		#self.setDefault(String, "border-style", "Solid")
+
 		self.widget.transparent(True)
 		self.widget.no_style()
-	
+
 	def write(self, screen):
 		frame = CSSWidget("Rectangle")
 		frame["geometry"]["width"] = self["geometry"]["width"]
@@ -23,14 +23,14 @@ class CSSGroup(CSSWidget):
 		frame["background"] = Color("$00000000")
 		frame["line"] = Color("$000000FF")
 		frame["line_width"] = Number(0)
-		
+
 		frame["line"] = Color(self.pop("border-color", "$000000"))
 		frame["line_width"] = Number(self.pop("border-width", 0))
 		#frame["border-style"] = String(self.pop("border-style", "Solid"))
 		frame["background"] = Color(self.pop("background", "$00000000"))
-		
+
 		if ( (int(frame["line_width"]) != 0 and frame["line"].val()["alpha"] != 0) or frame["background"].val()["alpha"] != 0):
 			self.children.insert(0, frame)
-		
+
 		super(CSSGroup, self).write(screen)
-		
+
