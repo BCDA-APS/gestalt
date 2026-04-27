@@ -147,7 +147,7 @@ class DataType(object):
 
 				parsed = False
 
-				if isinstance(val, str):
+				if isinstance(val, str) and json_like(val):
 					try:
 						temp = yaml.safe_load(val)
 					except yaml.YAMLError:
@@ -176,7 +176,7 @@ class DataType(object):
 
 				parsed = False
 
-				if isinstance(output[index], str):
+				if isinstance(output[index], str) and json_like(output[index]):
 					try:
 						temp = yaml.safe_load(output[index])
 					except yaml.YAMLError:
