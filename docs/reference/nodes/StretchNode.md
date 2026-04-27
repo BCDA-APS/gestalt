@@ -11,7 +11,7 @@ has_toc: false
 
 A positioner used to stretch a widget to fill the space provided by its parent widget
 
-### AStrech
+### AStretch
 
 ---
 
@@ -20,7 +20,7 @@ Determines a widget's width and height to match up respectively with the widget'
 * **Example**
 
 ```yaml
-Fill_Parent: !astretch:Text            
+Fill_Parent: !astretch:Text
     text: "Middle"
     alignment: CenterLeft
 ```
@@ -39,7 +39,7 @@ Determines a widget's width to match up with the size of the widget's parent wid
 ```yaml
 UITitle: !hstretch:Text
     geometry: 0x32
-            
+
     text: "Middle"
     alignment: CenterLeft
 ```
@@ -50,7 +50,7 @@ UITitle: !hstretch:Text
 
 ---
 
-Determines a widget's width to match up with the size of the widget's parent width.
+Determines a widget's height to match up with the size of the widget's parent height.
 
 You may also use the alias "stretch" to reference the vstretch node.
 
@@ -60,7 +60,7 @@ You may also use the alias "stretch" to reference the vstretch node.
 ```yaml
 UITitle: !vstretch:Text
     geometry: 32x0
-            
+
     text: "Middle"
     alignment: CenterLeft
 ```
