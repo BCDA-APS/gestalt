@@ -16,6 +16,20 @@ def _get_tk_root():
 		_dpi_scale = DEFAULT_DPI / _tk_root.winfo_fpixels("1i")
 	return _tk_root
 
+def assign_unique_name(numbering, classname, current_name):
+	if not current_name:
+		num = numbering.get(classname, 0) + 1
+		numbering[classname] = num
+		return classname + str(num)
+	else:
+		num = numbering.get(current_name, 0) + 1
+		numbering[current_name] = num
+		
+		if num > 1:
+			return current_name + str(num)
+		
+		return current_name
+
 class GestaltGenerator:
 	def get_font_height(font_name, font_size):
 		cache_key = (font_name, font_size)

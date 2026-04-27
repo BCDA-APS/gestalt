@@ -1,7 +1,7 @@
 from gestalt.Type import *
 from gestalt.convert.pydm.DMTypes import *
 
-from gestalt.Generator import GestaltGenerator
+from gestalt.Generator import GestaltGenerator, assign_unique_name
 from gestalt.nodes.GroupNode import GroupNode
 
 import json
@@ -67,20 +67,7 @@ class DMWidget(GroupNode):
 				
 			self["alignment"] = Set(halign + "|" + valign)				
 	
-		if not self.name:
-			num = name_numbering.get(classname, 0)
-			num += 1
-			name_numbering[classname] = num
-			
-			self.name = classname + str(num)
-			
-		else:
-			num = name_numbering.get(self.name, 0)
-			num += 1
-			name_numbering[self.name] = num
-			
-			if (num > 1):
-				self.name = self.name + str(num)
+		self.name = assign_unique_name(name_numbering, classname, self.name)
 
 	def addStyleWriter(self, writer):
 		self.styleWriters.append(writer)

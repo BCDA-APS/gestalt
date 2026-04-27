@@ -1,6 +1,7 @@
 from gestalt.Type import *
 
 from gestalt.nodes.GroupNode import GroupNode
+from gestalt.Generator import assign_unique_name
 
 global name_numbering
 
@@ -45,20 +46,7 @@ class QtWidget(GroupNode):
 				self["visibility"] = Enum(classname + "::IfNotZero")
 			
 	
-		if not self.name:
-			num = name_numbering.get(classname, 0)
-			num += 1
-			name_numbering[classname] = num
-			
-			self.name = classname + str(num)
-			
-		else:
-			num = name_numbering.get(self.name, 0)
-			num += 1
-			name_numbering[self.name] = num
-			
-			if (num > 1):
-				self.name = self.name + str(num)
+		self.name = assign_unique_name(name_numbering, classname, self.name)
 			
 	def write(self, tree):
 		# Border-width is default in GroupNode
