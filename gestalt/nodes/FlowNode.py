@@ -26,26 +26,24 @@ changed.
 * **Example**
 
 ```yaml
-CIO_Title: !hflow
+ReadbackRow: !HFlow
     geometry: 0x2 x 0x0
     padding: 5
     
     children:
-        - !Text { geometry: 70x20, text: "CIO 0-3" }
+        - !Text { geometry: 70x20, text: "Input 1" }
         - !TextMonitor
             geometry: 80x20
             background: *edit_blue
             foreground: *black
+            pv: "$(P)$(R)Input1"
             
-            pv: "$(P)CIOIn"
-            
-        - !Text { geometry: 90x20, text: "MIO 0-2" }
+        - !Text { geometry: 70x20, text: "Input 2" }
         - !TextMonitor
             geometry: 80x20
             background: *edit_blue
             foreground: *black
-            
-            pv: "$(P)MIOIn"
+            pv: "$(P)$(R)Input2"
 ```
 
 <br>
@@ -77,28 +75,25 @@ You may also use the alias "flow" to reference the vflow node.
 * **Example**
 
 ```yaml
-NumberedLED: !flow
+StatusColumn: !VFlow
+    padding: 5
+    
     children:
-        - !caLabel
-            font: -Sans Serif - Regular - 8
+        - !Text
+            geometry: 80x20
+            text: "Status"
+            alignment: Center
             
-            geometry: 50x15
+        - !LED
+            geometry: 20x20
+            pv: "$(P)$(R)Status_RBV"
+            true-color: *alarm_green
+            false-color: *grey_dark
             
-            alignment: Qt::AlignHCenter|Qt::AlignVCenter
-            fontScaleMode: ESimpleLabel::None
-            
-            text: "Input 1"
-        
-        - !caLed
-            channel: !string "$(P)Bi1.VAL"
-            trueColor: *alarm_red
-            falseColor: *alarm_green
-            
-            borderColor: *transparent
-            
-            gradientEnabled: false
-            
-            geometry: 22x22
+        - !TextMonitor
+            geometry: 80x20
+            foreground: *header_blue
+            pv: "$(P)$(R)Value_RBV"
 ```
 """
 

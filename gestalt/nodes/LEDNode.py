@@ -19,14 +19,30 @@ true, false, or undefined based upon a match with values given by the widget.
 | visibility      | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
 OnOff_Readback: !LED
-    pv: "$(P)userCalcEnable.VAL"
-    
+    pv: "$(P)$(R)Enable.VAL"
     geometry: 24x24
     square: true
+```
+
+LEDs support three states with distinct colors for true, false, and undefined values:
+
+```yaml
+LimitIndicator: !LED
+    geometry: 20x20
+    pv: "$(P)$(M):LimitStatus"
+    border-color: *transparent
+
+    false-value: 1
+    false-color: *alarm_yellow
+
+    true-value: 2
+    true-color: *alarm_red
+
+    undefined-color: *alarm_green
 ```
 """
 

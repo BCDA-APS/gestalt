@@ -24,34 +24,36 @@ with the condition of '!Not "my-condition"'.
 | visibility   | String | A pv that determines the visibility of the layout, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
-HaveLED: !conditional
+HaveLED: !Conditional
     condition: "INCLUDE_LED"
     
     geometry: 0x20 x 0x0
     
     children:
         - !LED
-            pv: "xxx:yyy:bi.VAL"
+            pv: "$(P)$(R)Status.VAL"
             true-color: *alarm_red
             false-color: *alarm_green
-            
             border-color: *transparent
-            
             geometry: 15x0 x 22x22
-            
+```
+
+The `!If` and `!IfNot` aliases provide a more compact syntax:
+
+```yaml
 SimplerVersion: !If:INCLUDE_LED
     - !LED
-        pv: "xxx:yyy:bi.VAL"
+        pv: "$(P)$(R)Status.VAL"
         true-color: *alarm_red
         false-color: *alarm_green
-        
         border-color: *transparent
-        
         geometry: 15x0 x 22x22
 
+Inverted: !IfNot:INCLUDE_LED
+    - !Text { geometry: 100x20, text: "LED Disabled" }
 ```
 """
 

@@ -15,16 +15,14 @@ The embed tag notes the name of a macro that should contain a section of UI layo
 included directly alongside the rest of the template when applied. Allowing for uses like wrapping arbitrary
 sets of elements in the same style frame.
 
-* **Example**
+* **Examples**
 
 ```yaml
-# Wrap elements in a black border and a title
-_Section: !Template:Section
+_TitledSection: !Template:TitledSection
     - !Defaults
         title: ""
-        items: []
         content:
-                        - !Text { geometry: 20x20 }
+            - !Spacer
 
     - !Group
         border-width: 1
@@ -33,32 +31,29 @@ _Section: !Template:Section
         geometry: 350x0
         
         children:
-                        Title: !HCenter:Text
-                                geometry: 0x1 x 110x22
-                                background: $DADADA
-                                foreground: *header_blue
-                                alignment: Center
-                                text: "{title}"
-                
-                        Flow: !HCenter:VFlow 
-                                geometry: 0x34 x 0x0
-                                padding: 10
-                                children: 
-                                        - !Embed:content
+            Title: !HCenter:Text
+                geometry: 0x1 x 110x22
+                background: $DADADA
+                foreground: *header_blue
+                alignment: Center
+                text: "{title}"
+        
+            Flow: !HCenter:VFlow 
+                geometry: 0x34 x 0x0
+                padding: 10
+                children: 
+                    - !Embed:content
+```
 
-Plugins: !Apply:Section
-        title: "plugins"
-        content:
-                - !HCenter:Grid
-                        max-cols: 3
-                        padding: 10
-                        repeat-over: "buttons"
-                
-                        children:
-                                - !RelatedDisplay
-                                        geometry: 80x20
-                                        background: *menu_green
-                                        foreground: *white
-                                        text: "{name:^10s}"
-                                        links: "{links}"
+The caller provides content to fill the embed slot:
+
+```yaml
+Status: !Apply:TitledSection
+    title: "Device Status"
+    content:
+        - !VFlow
+            padding: 5
+            children:
+                - !TextMonitor { geometry: 120x20, pv: "$(P)$(R)Status_RBV" }
+                - !TextMonitor { geometry: 120x20, pv: "$(P)$(R)Value_RBV" }
 ```

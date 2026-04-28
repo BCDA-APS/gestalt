@@ -20,7 +20,7 @@ A widget representing a bar filling up based on a pv's value versus its limits
 - !Scale
     geometry: 0x0 x 50x200
     foreground: *burlywood
-    pv: "xxx:yyy:zzz"
+    pv: "$(P)$(R)FillLevel"
 ```
 """
 

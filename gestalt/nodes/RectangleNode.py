@@ -12,12 +12,22 @@ A basic rectangle shape that can either be filled or an outline
 | visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
-SimpleBox: !Rectangle
+FilledBox: !Rectangle
     geometry: 100x100
-    border-width: 5
+    background: $CCCCCC
+    border-color: *black
+    border-width: 2
+```
+
+Rectangles are commonly used as separator lines in layouts:
+
+```yaml
+- !HStretch:Rectangle
+    geometry: 0x0x0x2
+    background: *grey_darker
 ```
 """
 

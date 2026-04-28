@@ -18,25 +18,28 @@ and boolean operations.
 | calc       | String | The calculation to perform, provided in python syntax |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
+LimitCalc: !Calc
+    A: "$(P)$(M).LVIO"
+    B: "$(P)$(M).HLS"
+    calc: "A + 2*B"
+    pv: "$(P)$(M):LimitStatus"
+```
 
-# If the motor reports having GAIN_SUPPORT, show enable/disable LED
-EnableCalc: !Calc
-	A:    "{motor-pv}.MSTA"
-	calc: "(A&2048)==2048"
-	pv:   "{motor-pv}:TorqueDisplay"
-	
-EnableLED: !VStretch:Group
-	visibility: "{motor-pv}:TorqueDisplay"
-	children:
-		- !VCenter:Group
-			children:
-				- !Apply:OnOffLED
-					size: "{on-off-width}"
-					control-pv: "{motor-pv}.CNEN"
+A Calc node's output PV can be referenced by other widgets using the `visibility` attribute:
 
+```yaml
+BitCheck: !Calc
+    A: "$(P)$(M).MSTA"
+    calc: "(A & 2048) == 2048"
+    pv: "$(P)$(M):HasFeature"
+
+FeatureControls: !Group
+    visibility: "$(P)$(M):HasFeature"
+    children:
+        - !LED { geometry: 20x20, pv: "$(P)$(M).CNEN" }
 ```
 """
 

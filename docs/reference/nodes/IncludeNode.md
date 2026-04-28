@@ -25,7 +25,11 @@ A widget that references and embeds another UI file
 * **Example**
 
 ```yaml
-EmbededDisplay: !Include
-    file: "another_file"  # Can leave off file extension, will be appended with correct filetype for the output UI tool
-        macros: "P=40idIoc:,R=instance1:"
+EmbeddedDisplay: !Include
+    geometry: 490x125
+    file: "motorx_all"
+    macros: "P=$(P),M=$(M)"
 ```
+
+The file extension is automatically appended based on the output format
+(.ui for Qt, .bob for Phoebus).

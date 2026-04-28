@@ -21,14 +21,14 @@ widget's parent.
 * **Example**
 
 ```yaml
-MidPointGroup: !acenter:group    
+MidPointGroup: !ACenter:Group    
     children:
-        - !TextMontor
+        - !TextMonitor
             geometry: 50x20
             foreground: *alarm_yellow
             background: *transparent
             alignment: CenterRight
-            pv: "S:SRcurrentAI"
+            pv: "$(P)$(R)Current"
             
         - !Text
             geometry: 55x0 x 25x20
@@ -49,16 +49,16 @@ with the midpoint of the widget's parent on the same axis.
 * **Example**
 
 ```yaml
-OPSElements: !hcenter:group
+ReadbackRow: !HCenter:Group
     geometry: 0x7 x 0x0
     
     children:
-        - !TextMontor
+        - !TextMonitor
             geometry: 50x20
             foreground: *alarm_yellow
             background: *transparent
             alignment: CenterRight
-            pv: "S:SRcurrentAI"
+            pv: "$(P)$(R)Current"
             
         - !Text
             geometry: 55x0 x 25x20
@@ -81,7 +81,7 @@ You may also use the alias "center" to reference the vcenter node.
 * **Example**
 
 ```yaml
-OPSElements: !vcenter:group
+ReadbackRow: !VCenter:Group
     geometry: 7x0 x 0x0
     
     children:
@@ -90,7 +90,7 @@ OPSElements: !vcenter:group
             foreground: *alarm_yellow
             background: *transparent
             alignment: CenterRight
-            pv: "S:SRcurrentAI"
+            pv: "$(P)$(R)Current"
             
         - !Text
             geometry: 55x0 x 25x20

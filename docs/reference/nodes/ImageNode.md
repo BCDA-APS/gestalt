@@ -21,9 +21,17 @@ A widget that displays a given image file
 | visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
-ComplicatedStructure: !Image
-    file: "/path/to/image/Beamline.png"
+DiagramImage: !Image
+    geometry: 400x200
+    file: "/path/to/screens/img/Diagram.png"
+```
+
+A conditional image using visibility:
+
+```yaml
+StatusIcon: !If:show-image
+    - !Image { geometry: 40x60, file: "{image}" }
 ```

@@ -34,17 +34,29 @@ dictionaries. Within each dictionary, the following values can be defined:
 | visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
 - !RelatedDisplay
-    foreground: *black
-    background: *edit_blue
-
-    text: "Open xxx"
-    
-    geometry: 10x200 x 100x20
+    geometry: 120x30
+    background: *menu_green
+    foreground: *white
+    text: "Motor Details"
 
     links:
-        - { label: "File 1", file: "xxx.ui", macros: "P=1,R=A" }
+        - { label: "Help",  file: "motorx_help",  macros: "P=$(P),M=$(M)" }
+        - { label: "More",  file: "motorx_more",  macros: "P=$(P),M=$(M)" }
+        - { label: "Setup", file: "motorx_setup", macros: "P=$(P),M=$(M)" }
+        - { label: "All",   file: "motorx_all",   macros: "P=$(P),M=$(M)" }
+```
+
+The file extension is automatically appended based on the output format.
+The `replace` option can be used to open the display in the same window:
+
+```yaml
+- !RelatedDisplay
+    geometry: 100x20
+    text: "Open"
+    links:
+        - { label: "Main", file: "main_screen", macros: "P=$(P)", replace: true }
 ```

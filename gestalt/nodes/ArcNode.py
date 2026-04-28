@@ -21,7 +21,7 @@ direction.
 * **Example**
 
 ```yaml
-SimpleBox: !Arc
+SimpleArc: !Arc
     geometry: 100x100
     border-width: 5
 

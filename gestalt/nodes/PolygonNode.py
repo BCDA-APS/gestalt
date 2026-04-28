@@ -17,7 +17,7 @@ A closed shape consisting of a set of points that can either be filled or an out
 * **Example**
 
 ```yaml
-SimpleBox: !Polygon
+SimplePolygon: !Polygon
     geometry: 100x100
     border-width: 5
     

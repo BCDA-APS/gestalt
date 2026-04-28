@@ -25,7 +25,9 @@ A basic ellipse shape that can either be filled or an outline
 * **Example**
 
 ```yaml
-SimpleBox: !Ellipse
-    geometry: 100x100
-    border-width: 5
+SimpleCircle: !Ellipse
+    geometry: 40x40
+    background: $00FF00
+    border-color: *black
+    border-width: 2
 ```

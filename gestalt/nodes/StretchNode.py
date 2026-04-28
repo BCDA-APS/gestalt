@@ -10,9 +10,10 @@ Determines a widget's width and height to match up respectively with the widget'
 * **Example**
 
 ```yaml
-Fill_Parent: !astretch:Text
-    text: "Middle"
-    alignment: CenterLeft
+Fill_Parent: !AStretch:TextMonitor
+    foreground: *white
+    alignment: Center
+    pv: "$(P)$(R).DESC"
 ```
 
 
@@ -27,11 +28,15 @@ Determines a widget's width to match up with the size of the widget's parent wid
 * **Example**
 
 ```yaml
-UITitle: !hstretch:Text
-    geometry: 0x32
-
-    text: "Middle"
-    alignment: CenterLeft
+ScreenTitle: !HStretch:Text
+    geometry: 0x0 x 0x45
+    foreground: *white
+    background: *header_blue
+    border-color: *black
+    border-width: 3
+    text: "Screen Title"
+    font: "-Liberation Sans -Bold -16"
+    alignment: Center
 ```
 
 
@@ -48,11 +53,10 @@ You may also use the alias "stretch" to reference the vstretch node.
 * **Example**
 
 ```yaml
-UITitle: !vstretch:Text
-    geometry: 32x0
-
-    text: "Middle"
-    alignment: CenterLeft
+SideIndicator: !VStretch:Rectangle
+    geometry: 8x0
+    background: *alarm_red
+    border-color: *transparent
 ```
 """
 

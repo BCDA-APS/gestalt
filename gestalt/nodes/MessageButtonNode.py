@@ -15,18 +15,35 @@ A widget representing a button that writes a value to a pv when pressed
 | visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
+
+```yaml
+StopButton: !MessageButton
+    geometry: 140x26
+    background: *alarm_red
+    foreground: *alarm_yellow
+    text: "STOP"
+    pv: "$(P)$(M).STOP"
+    value: 1
+```
+
+Message buttons are often used in pairs for open/close or enable/disable controls:
 
 ```yaml
 - !MessageButton
-    foreground: *black
-    background: *edit_blue
+    geometry: 100x25
+    background: $006400
+    foreground: $FFFFFF
+    text: "Open"
+    pv: "$(P)$(R)State"
+    value: 0
 
-    text: "Write Value"
-    
-    geometry: 10x200 x 100x20
-    
-    pv: "xxx:yyy:zzz"
+- !MessageButton
+    geometry: 100x25
+    background: $8B0000
+    foreground: $FFFFFF
+    text: "Close"
+    pv: "$(P)$(R)State"
     value: 1
 ```
 """
