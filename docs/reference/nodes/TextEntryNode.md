@@ -25,13 +25,21 @@ A widget representing a text entry field.
 | visibility | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
 - !TextEntry
     geometry: 5x0 x 120x20
-    
     pv: "$(P)$(R)Description"
-    
     alignment: BottomLeft
+```
+
+Entry fields are typically styled with a distinct background color to indicate they are editable:
+
+```yaml
+- !TextEntry
+    geometry: 120x20
+    background: *edit_blue
+    format: "String"
+    pv: "$(P)$(R)UserName"
 ```

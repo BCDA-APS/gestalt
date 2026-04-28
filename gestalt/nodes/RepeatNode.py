@@ -69,6 +69,43 @@ UI_Row: !hrepeat
             links: 
                 - { label: "{Instance}", file: "{Displays}", arg: "{Args}" }
 ```
+
+An inline list can be provided directly instead of referencing a macro:
+
+```yaml
+ShutterRow: !HRepeat
+    padding: 20
+    repeat-over: [ "A", "D", "E", "I" ]
+    variable: "ID"
+
+    children:
+        - !HFlow
+            padding: 5
+            children:
+                - !Text { geometry: 55x22, text: "Shutter" }
+                - !Text { geometry: 20x22, text: "{ID}:" }
+```
+
+A list of dictionaries can also be used, where each dictionary's entries
+become macros for that iteration:
+
+```yaml
+MotorControls: !HRepeat
+    padding: 10
+    repeat-over:
+        - { group: "h", motor: "Center" }
+        - { group: "h", motor: "Size" }
+        - { group: "v", motor: "Center" }
+        - { group: "v", motor: "Size" }
+
+    children:
+        - !VFlow
+            padding: 5
+            children:
+                - !Text { geometry: 160x28, text: "{motor}", alignment: Center }
+                - !TextMonitor { geometry: 160x20, pv: "$(P)$(SLITS):{group}{motor}.RBV" }
+```
+
 <br>
 
 ### VRepeat

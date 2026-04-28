@@ -27,13 +27,22 @@ A widget representing a text display field
 | visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
-* **Example**
+* **Examples**
 
 ```yaml
 - !TextMonitor
     geometry: 5x0 x 120x20
-    
     pv: "$(P)$(R)Description_RBV"
-    
     alignment: CenterRight
+```
+
+A format can be specified to control numeric display:
+
+```yaml
+- !TextMonitor
+    geometry: 100x20
+    background: *black
+    foreground: *alarm_green
+    format: "Engineering"
+    pv: "$(P)$(R)Pressure"
 ```

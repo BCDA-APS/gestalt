@@ -77,3 +77,21 @@ LED_Grid: !Grid
             <<: *alarm_led
             geometry: 20x20
 ```
+
+The grid shape can also be constrained with `max-rows` and `max-cols`:
+
+```yaml
+ButtonGrid: !HCenter:Grid
+    padding: 15
+    max-rows: 2
+    aspect-ratio: 1.5
+    repeat-over: "BUTTONS"
+
+    children:
+        - !RelatedDisplay
+            geometry: 114x45
+            background: *menu_green
+            foreground: *white
+            text: "{title}"
+            links: "{links}"
+```
