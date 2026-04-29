@@ -217,7 +217,7 @@ class TestListType(unittest.TestCase):
 	def test_from_python_list(self):
 		l = List([1, 2, 3])
 		v = l.val()
-		self.assertEqual(v, ["1", "2", "3"])
+		self.assertEqual(v, [1, 2, 3])
 
 	def test_from_json_like_string(self):
 		l = List("[1, 2, 3]")
@@ -251,8 +251,8 @@ class TestDictType(unittest.TestCase):
 	def test_from_python_dict(self):
 		d = Dict({"a": 1, "b": 2})
 		v = d.val()
-		self.assertEqual(v["a"], "1")
-		self.assertEqual(v["b"], "2")
+		self.assertEqual(v["a"], 1)
+		self.assertEqual(v["b"], 2)
 
 	def test_from_json_like_string(self):
 		d = Dict("{a: 1, b: 2}")

@@ -164,7 +164,9 @@ class DataType(object):
 						output[key] = temp_val.val()
 						parsed = True
 
-				if not parsed:
+				if not parsed and isinstance(val, (int, float)):
+					pass
+				elif not parsed:
 					temp_val = DataType(None, val)
 					temp_val.macros = self.macros
 					output[key] = temp_val.val()
@@ -193,7 +195,9 @@ class DataType(object):
 						output[index] = index_val.val()
 						parsed = True
 
-				if not parsed:
+				if not parsed and isinstance(output[index], (int, float)):
+					pass
+				elif not parsed:
 					index_val = DataType(None, output[index])
 					index_val.macros = self.macros
 					output[index] = index_val.val()
