@@ -128,11 +128,11 @@ class DMGenerator(GestaltGenerator):
 
 		expression = "1*" + fcheck + "+2*" + tcheck
 
-		channel = "calc://" + output.name + "?var=ca://" + str(output.pop("pv")) + "?expr=" + expression
+		channel = "calc://" + output.name + "?var=ca://" + str(output.pop("pv")) + "&expr=" + expression
 
-		output["channel"] = channel
+		output["channel"] = String(channel)
 
-		output.pop("border-color")
+		output.pop("border-color", None)
 
 		return output
 
