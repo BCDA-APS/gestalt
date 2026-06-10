@@ -30,20 +30,12 @@ class QtMessageButton(QtWidget):
 		self.button.position(x=0,y=0)
 
 		the_font = self.button.pop("font")
+		self.button.pop("alignment")
 
 		style = the_font["style"].lower()
 
 		if "regular" in style:
 			style = ""
-
-		align = str(self.button.pop("alignment"))
-
-		frame_align = "center"
-
-		if "AlignLeft" in align:
-			frame_align = "left"
-		elif "AlignRight" in align:
-			frame_align = "right"
 
 		self.properties["attrs"]["styleSheet"] = String(
 """\
@@ -51,14 +43,10 @@ QPushButton
 {{
     font-family: {family};
     font: {style};
-
-    text-align: {lcr};
 }}
 """.format(
 	family = the_font["family"],
-	style  = style,
-	size   = the_font["size"],
-	lcr    = frame_align))
+	style  = style))
 
 		self.children.append(self.button)
 

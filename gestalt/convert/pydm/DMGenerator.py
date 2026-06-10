@@ -64,6 +64,7 @@ class DMGenerator(GestaltGenerator):
 
 		output["showIcon"] = Bool(False)
 		output["openInNewWindow"] = Bool(True)
+		output.pop("alignment")
 
 		output.addStyleWriter(write_font)
 		output.addStyleWriter(write_color)
@@ -104,6 +105,7 @@ class DMGenerator(GestaltGenerator):
 
 		output["showIcon"] = Bool(False)
 		output["stdout"] = Enum("PyDMShellCommand::SHOW")
+		output.pop("alignment")
 
 		output.addStyleWriter(write_font)
 		output.addStyleWriter(write_color)
@@ -200,6 +202,7 @@ class DMGenerator(GestaltGenerator):
 
 		output.link("channel", "pv")
 		output.link("pressValue", "value")
+		output.pop("alignment")
 
 		output.addStyleWriter(write_font)
 		output.addStyleWriter(write_color)

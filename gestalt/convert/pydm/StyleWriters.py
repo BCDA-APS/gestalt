@@ -125,33 +125,24 @@ def write_font(node):
 	if "regular" in style:
 		style = ""
 
-	align = str(node["alignment"])
-
-	frame_align = "center"
-
-	if "AlignLeft" in align:
-		frame_align = "left"
-	elif "AlignRight" in align:
-		frame_align = "right"
-
 	stylesheet = """\
 {my_class}#{my_name}
 {{
     font-family: {family};
     font: {style} {size}pt;
-
-    text-align: {lcr};
 }}
 """.format(
 	my_class = node.classname,
 	my_name = node.name,
 	family = the_font["family"],
 	style  = style,
-	size   = the_font["size"],
-	lcr    = frame_align)
+	size   = the_font["size"])
 
 	node.toRemove.append("font")
-	node.toRemove.append("alignment")
+
+	if "alignment" in node:
+		node.toRemove.append("alignment")
+
 	return stylesheet
 
 
