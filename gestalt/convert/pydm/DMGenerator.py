@@ -1,5 +1,3 @@
-import ast
-
 from gestalt.nodes.Node import Node
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
@@ -400,104 +398,32 @@ class DMGenerator(GestaltGenerator):
 	def generateCalc(self, node, macros=None):
 		if macros is None:
 			macros = {}
-		return None
-
 		output = DMWidget("PyDMLabel", node=node, macros=macros)
 
 		output.addStyleWriter(write_frameborder)
 		output.addStyleWriter(write_color)
 
 		pvname = str(output.pop("pv"))
-
-		name = "calc://pv_" + pvname
 		add_local_pv(pvname)
 
 		equation = str(output.pop("calc"))
-		calc = ""
 
-		def evalNode(node):
-			if isinstance(node, ast.Expression):
-				return evalNode(node.body)
+		# Build calc:// channel URL
+		# PyDM calc plugin: calc://name?var=ca://pv&expr=python_expression
+		params = []
+		for var in ["A", "B", "C", "D"]:
+			if var in output:
+				pv = str(output.pop(var))
+				params.append(var + "=ca://" + pv)
 
-			elif isinstance(node, ast.Constant):
-				return str(node.value)
+		channel = "calc://pv_" + pvname + "?" + "&".join(params) + "&expr=" + equation
 
-			elif isinstance(node, ast.Name):
-				return str(node.id)
+		output["channel"] = String(channel)
 
-			elif isinstance(node, ast.Compare):
-				output = "(" + evalNode(node.left)
-				ops_check = {
-					ast.Eq: "==",
-					ast.NotEq: "!=",
-					ast.Lt: "<",
-					ast.LtE: "<=",
-					ast.Gt: ">",
-					ast.GtE: ">=",
-					ast.Is: "==",
-					ast.IsNot: "!="
-				}
+		output["foreground"] = Color("$00000000")
+		output["background"] = Color("$00000000")
 
-				for i in range(len(node.ops)):
-					output += ops_check[type(node.ops[i])]
-					output += evalNode(node.comparators[i])
-
-				return output + ")"
-
-			elif isinstance(node, ast.BoolOp):
-				output = "(" + evalNode(node.values[0])
-
-				for i in range(len(node.values) - 1):
-					if isinstance(node.op, ast.And):
-						output += "&&"
-					elif isinstance(node.op, ast.Or):
-						output += "||"
-
-					output += evalNode(node.values[i+1])
-
-				return output + ")"
-
-			elif isinstance(node, ast.BinOp):
-				if isinstance(node.op, ast.Pow):
-					return "pow(" + evalNode(node.left) + "," + evalNode(node.right) + ")"
-				else:
-					ops_check = {
-						ast.Add:  "+",
-						ast.Sub:  "-",
-						ast.Mult: "*",
-						ast.Div:  "/",
-						ast.BitOr: "|",
-						ast.BitAnd: "&",
-						ast.BitXor: "^",
-						ast.LShift: "<<",
-						ast.RShift: ">>"
-					}
-
-					return evalNode(node.left) + ops_check[type(node.op)] + evalNode(node.right)
-
-			elif isinstance(node, ast.UnaryOp):
-				if isinstance(node.op, ast.Not):
-					return "not(" + evalNode(node.operand) + ")"
-				elif isinstance(node.op, ast.Invert):
-					return "~(" + evalNode(node.operand) + ")"
-				elif isinstance(node.op, ast.USub):
-					return "-" + evalNode(node.operand)
-			else:
-				print(ast.dump(node, indent=4))
-
-
-			calc += evalNode(ast.parse(equation, mode="eval"))
-
-			full = name + "?A={A}&B={B}&C={C}&D={D}&expr=" + calc
-
-			output["channel"] = full.format(
-				A = get_pv(str(output.pop("A"))),
-				B = get_pv(str(output.pop("B"))),
-				C = get_pv(str(output.pop("C"))),
-				D = get_pv(str(output.pop("D")))
-			)
-
-			return output
+		return output
 
 
 
