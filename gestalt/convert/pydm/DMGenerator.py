@@ -214,6 +214,7 @@ class DMGenerator(GestaltGenerator):
 		output = DMWidget("PyDMEnumButton", node=node, macros=macros)
 
 		output.link("channel", "pv")
+		output.addStyleWriter(style_selected)
 
 		if output.pop("horizontal"):
 			output["orientation"] = Enum("Qt::Horizontal")

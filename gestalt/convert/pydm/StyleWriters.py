@@ -153,3 +153,26 @@ def write_font(node):
 	node.toRemove.append("font")
 	node.toRemove.append("alignment")
 	return stylesheet
+
+
+def style_selected(node):
+	if "selected" not in node:
+		return ""
+
+	col = Color(node["selected"]).val()
+
+	stylesheet = """\
+{my_class}#{my_name} QPushButton:checked
+{{
+    background-color: rgba({r},{g},{b},{a});
+}}
+""".format(
+	my_class=node.classname,
+	my_name=node.name,
+	r=col["red"],
+	g=col["green"],
+	b=col["blue"],
+	a=col["alpha"])
+
+	node.toRemove.append("selected")
+	return stylesheet
