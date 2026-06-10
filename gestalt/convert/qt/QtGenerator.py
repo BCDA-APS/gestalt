@@ -99,6 +99,10 @@ class QtGenerator(GestaltGenerator):
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+			output["precisionMode"] = Enum("caLineEdit::User")
+		
 		return output
 		
 		
@@ -114,6 +118,10 @@ class QtGenerator(GestaltGenerator):
 		
 		output["colorMode"]     = Enum("caLineEdit::Static")
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
+		
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+			output["precisionMode"] = Enum("caLineEdit::User")
 		
 		return output
 		

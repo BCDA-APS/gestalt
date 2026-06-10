@@ -160,6 +160,10 @@ class DMGenerator(GestaltGenerator):
 		output.link("channel", "pv")
 		output.link("displayFormat", "format", conversion=edit_conversion)
 
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+			output["precisionFromPV"] = Bool(False)
+
 		return output
 
 
@@ -173,6 +177,10 @@ class DMGenerator(GestaltGenerator):
 
 		output.link("channel",        "pv")
 		output.link("displayFormat",  "format", conversion=label_conversion)
+
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+			output["precisionFromPV"] = Bool(False)
 
 		return output
 

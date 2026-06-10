@@ -39,6 +39,10 @@ class CSSGenerator(GestaltGenerator):
 			macros = {}
 		output = CSSWidget("TextEntry", node=node, macros=macros)
 		output["show_units"] = Bool("False")
+		
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+		
 		return output
 
 	def generateMenu(self, node, macros=None):
@@ -134,6 +138,9 @@ class CSSGenerator(GestaltGenerator):
 
 		output.link("border", "border-color")
 		output.link("border_width", "border-width")
+
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
 
 		return output
 

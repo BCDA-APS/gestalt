@@ -150,6 +150,75 @@ MyMenu: !Menu
 """)
 		self.assertGreaterEqual(counts.get("caMenu", 0), 1)
 
+	def test_text_monitor_with_precision(self):
+		layout = """
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Monitor: !TextMonitor
+    geometry: 100x20
+    pv: "TEST:PV"
+    format: "Decimal"
+    precision: 3
+"""
+		path = self._write_layout(layout, "test_monitor_prec.yml")
+		output = self._generate_qt(path)
+		counts = self._count_widgets(output)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 1)
+
+		# Verify precisionMode is set to User
+		tree = etree.parse(output)
+		for prop in tree.iter("property"):
+			if prop.get("name") == "precisionMode":
+				enum_el = prop.find("enum")
+				self.assertEqual(enum_el.text, "caLineEdit::User")
+
+	def test_text_entry_with_precision(self):
+		layout = """
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Entry: !TextEntry
+    geometry: 100x20
+    pv: "TEST:PV"
+    format: "Decimal"
+    precision: 2
+"""
+		path = self._write_layout(layout, "test_entry_prec.yml")
+		output = self._generate_qt(path)
+		counts = self._count_widgets(output)
+		self.assertGreaterEqual(counts.get("caTextEntry", 0), 1)
+
+		# Verify precisionMode is set to User
+		tree = etree.parse(output)
+		for prop in tree.iter("property"):
+			if prop.get("name") == "precisionMode":
+				enum_el = prop.find("enum")
+				self.assertEqual(enum_el.text, "caLineEdit::User")
+
+	def test_text_monitor_without_precision(self):
+		layout = """
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Monitor: !TextMonitor
+    geometry: 100x20
+    pv: "TEST:PV"
+"""
+		path = self._write_layout(layout, "test_monitor_no_prec.yml")
+		output = self._generate_qt(path)
+
+		# Verify precisionMode is NOT set (default channel mode)
+		tree = etree.parse(output)
+		precision_modes = [p for p in tree.iter("property") if p.get("name") == "precisionMode"]
+		self.assertEqual(len(precision_modes), 0)
+
 
 class TestSmokeLayouts(RegressionTestBase):
 	"""Smoke tests for layout containers."""
