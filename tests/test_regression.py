@@ -150,6 +150,36 @@ MyMenu: !Menu
 """)
 		self.assertGreaterEqual(counts.get("caMenu", 0), 1)
 
+	def test_spinner(self):
+		counts = self._assert_generates("""
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Setpoint: !Spinner
+    geometry: 120x30
+    pv: "TEST:PV"
+    precision: 2
+""")
+		self.assertGreaterEqual(counts.get("caNumeric", 0), 1)
+
+	def test_spinner_with_limits(self):
+		counts = self._assert_generates("""
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Setpoint: !Spinner
+    geometry: 120x30
+    pv: "TEST:PV"
+    precision: 1
+    minimum: 0
+    maximum: 100
+""")
+		self.assertGreaterEqual(counts.get("caNumeric", 0), 1)
+
 	def test_text_monitor_with_precision(self):
 		layout = """
 #include colors.yml

@@ -161,6 +161,9 @@ class GestaltGenerator:
 	def generateTabbedGroup(self, node, macros=None):
 		pass
 
+	def generateSpinner(self, node, macros=None):
+		pass
+
 	def generateCalc(self, node, macros=None):
 		pass
 

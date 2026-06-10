@@ -342,6 +342,30 @@ class QtGenerator(GestaltGenerator):
 					
 		return output
 
+	def generateSpinner(self, node, macros=None):
+		if macros is None:
+			macros = {}
+		output = QtWidget("caNumeric", node=node, macros=macros)
+
+		output.link("channel", "pv")
+
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+			output["precisionMode"] = Enum("caNumeric::User")
+
+		if int(node["minimum"]) >= 0 or int(node["maximum"]) >= 0:
+			output["limitsMode"] = Enum("caNumeric::User")
+
+			if int(node["minimum"]) >= 0:
+				output["minValue"] = Double(node["minimum"])
+			if int(node["maximum"]) >= 0:
+				output["maxValue"] = Double(node["maximum"])
+
+		output.pop("minimum")
+		output.pop("maximum")
+
+		return output
+
 	def generateCalc(self, node, macros=None):
 		if macros is None:
 			macros = {}

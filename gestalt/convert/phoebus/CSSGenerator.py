@@ -304,6 +304,24 @@ class CSSGenerator(GestaltGenerator):
 
 		return output
 
+	def generateSpinner(self, node, macros=None):
+		if macros is None:
+			macros = {}
+		output = CSSWidget("Spinner", node=node, macros=macros)
+
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+
+		if int(node["minimum"]) >= 0:
+			output["minimum"] = Double(node["minimum"])
+		output.pop("minimum")
+
+		if int(node["maximum"]) >= 0:
+			output["maximum"] = Double(node["maximum"])
+		output.pop("maximum")
+
+		return output
+
 	def generateCalc(self, node, macros=None):
 		if macros is None:
 			macros = {}

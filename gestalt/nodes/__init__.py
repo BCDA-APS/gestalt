@@ -27,6 +27,7 @@ from gestalt.nodes.ScaleNode import ScaleNode
 from gestalt.nodes.ShellCommandNode import ShellCommandNode
 from gestalt.nodes.SliderNode import SliderNode
 from gestalt.nodes.SpacerNode import SpacerNode
+from gestalt.nodes.SpinnerNode import SpinnerNode
 from gestalt.nodes.StretchNode import StretchNode
 from gestalt.nodes.TabbedGroupNode import TabbedGroupNode
 from gestalt.nodes.TabbedRepeatNode import TabbedRepeatNode
@@ -66,6 +67,7 @@ __all__ = [
 	"ShellCommandNode",
 	"SliderNode",
 	"SpacerNode",
+	"SpinnerNode",
 	"StretchNode",
 	"TabbedGroupNode",
 	"TabbedRepeatNode",

@@ -400,6 +400,27 @@ class DMGenerator(GestaltGenerator):
 
 		return output
 
+	def generateSpinner(self, node, macros=None):
+		if macros is None:
+			macros = {}
+		output = DMWidget("PyDMSpinbox", node=node, macros=macros)
+
+		output.link("channel", "pv")
+
+		if int(node["precision"]) >= 0:
+			output["precision"] = node["precision"]
+			output["precisionFromPV"] = Bool(False)
+
+		if int(node["minimum"]) >= 0:
+			output["userMinimum"] = Double(node["minimum"])
+		output.pop("minimum")
+
+		if int(node["maximum"]) >= 0:
+			output["userMaximum"] = Double(node["maximum"])
+		output.pop("maximum")
+
+		return output
+
 	def generateCalc(self, node, macros=None):
 		if macros is None:
 			macros = {}
