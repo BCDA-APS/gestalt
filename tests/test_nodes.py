@@ -236,6 +236,22 @@ class TestGroupNode(unittest.TestCase):
 		self.assertEqual(g.children[-1]["geometry"]["x"], 10)
 		self.assertEqual(g.children[-1]["geometry"]["y"], 10)
 
+	def test_place_with_border(self):
+		g = GroupNode()
+		g["geometry"] = Rect("0x0x0x0")
+		g["border-width"] = Number(3)
+		child = Node("Widget")
+		child["geometry"] = Rect("0x0x100x50")
+		g.place(child)
+		# Child offset by border on left/top
+		self.assertEqual(g.children[-1]["geometry"]["x"], 3)
+		self.assertEqual(g.children[-1]["geometry"]["y"], 3)
+		# Group auto-sizes to include border on all sides
+		# right_edge = 3 (border) + 100 (width) + 0 (margin) + 3 (border) = 106
+		# bottom_edge = 3 (border) + 50 (height) + 0 (margin) + 3 (border) = 56
+		self.assertEqual(g["geometry"]["width"], 106)
+		self.assertEqual(g["geometry"]["height"], 56)
+
 	def test_place_none_child(self):
 		g = GroupNode()
 		g.place(None)

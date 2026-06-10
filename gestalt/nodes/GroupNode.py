@@ -134,8 +134,8 @@ class GroupNode(Node):
 			child_node["geometry"]["y"] = int(child_geom["y"]) + int(margins["y"]) + border
 
 		# Don't use child_geom for x/y as the value may have updated
-		right_edge  = int(child_node["geometry"]["x"]) + int(child_geom["width"]) + int(margins["width"])
-		bottom_edge = int(child_node["geometry"]["y"]) + int(child_geom["height"]) + int(margins["height"])
+		right_edge  = int(child_node["geometry"]["x"]) + int(child_geom["width"]) + int(margins["width"]) + border
+		bottom_edge = int(child_node["geometry"]["y"]) + int(child_geom["height"]) + int(margins["height"]) + border
 
 		if right_edge > int(my_geom["width"]):
 			self.log("Resizing width to " + str(right_edge))
