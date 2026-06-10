@@ -361,6 +361,7 @@ class DMGenerator(GestaltGenerator):
 		output["file"] = output["file"] + ".ui"
 
 		output.link("filename", "file")
+		output.link("macros", "macros")
 
 		return output
 

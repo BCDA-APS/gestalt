@@ -274,6 +274,13 @@ class CSSGenerator(GestaltGenerator):
 
 		output["file"] = str(output["file"]) + ".bob"
 
+		_macros = str(output.pop("macros", ""))
+		if _macros:
+			for arg in _macros.split(","):
+				if "=" in arg:
+					key, val = arg.split("=", 1)
+					output.widget.macro(key.strip(), val.strip())
+
 		return output
 
 
