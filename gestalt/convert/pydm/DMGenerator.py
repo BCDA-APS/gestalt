@@ -1,8 +1,7 @@
-from gestalt.nodes.Node import Node
 from gestalt.Type import *
-from gestalt.Generator import GestaltGenerator
+from gestalt.Generator import GestaltGenerator, add_local_pv, get_pv
 
-from gestalt.convert.pydm.DMWidget  import DMWidget, reset_numbering
+from gestalt.convert.pydm.DMWidget  import DMWidget
 from gestalt.convert.pydm.DMGroup   import DMGroup
 from gestalt.convert.pydm.DMDisplay import DMDisplay
 from gestalt.convert.pydm.DMTabbedGroup    import DMTabbedGroup
@@ -455,31 +454,5 @@ class DMGenerator(GestaltGenerator):
 
 
 def generateDMFile(template, data, outputfile=""):
-	reset_numbering()
-
-	a_display = DMDisplay()
-	the_generator = DMGenerator()
-
-	for key, item in template.items():
-		if isinstance(item, Node):
-			item.name = key
-
-			if item.classname == "Form":
-				for key, val in item.properties["attrs"].items():
-					a_display.setProperty(key, val)
-				a_display.updateProperties(data)
-			else:
-				applier = item.apply(the_generator)
-
-				while True:
-					a_display.updateMacros(a_display, data)
-
-					try:
-						next(applier)
-						a_display.place(applier.send(data))
-					except StopIteration:
-						break
-
-
-	a_display.writeDM(outputfile)
+	DMGenerator().generateFile(template, data, DMDisplay(), outputfile)
 

@@ -1,10 +1,9 @@
 import ast
 
-from gestalt.nodes.Node import Node
 from gestalt.Type import *
 from gestalt.Generator import GestaltGenerator
 
-from gestalt.convert.qt.QtWidget  import QtWidget, reset_numbering
+from gestalt.convert.qt.QtWidget  import QtWidget
 from gestalt.convert.qt.QtGroup   import QtGroup
 from gestalt.convert.qt.QtDisplay import QtDisplay
 from gestalt.convert.qt.QtTabbedGroup    import QtTabbedGroup
@@ -457,30 +456,5 @@ class QtGenerator(GestaltGenerator):
 		
 	
 def generateQtFile(template, data, outputfile=""):
-	reset_numbering()
-	
-	a_display = QtDisplay()
-	the_generator = QtGenerator()
-	
-	for key, item in template.items():
-		if isinstance(item, Node):
-			item.name = key
-			
-			if item.classname == "Form":
-				for key, val in item.properties["attrs"].items():
-					a_display.setProperty(key, val)
-				a_display.updateProperties(data)
-			else:
-				applier = item.apply(the_generator)
-				
-				while True:
-					a_display.updateMacros(a_display, data)
-										
-					try:
-						next(applier)
-						a_display.place(applier.send(data))
-					except StopIteration:
-						break
-						
-	a_display.writeQt(outputfile)
+	QtGenerator().generateFile(template, data, QtDisplay(), outputfile)
 

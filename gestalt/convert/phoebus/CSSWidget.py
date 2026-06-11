@@ -3,35 +3,10 @@ import inspect
 from gestalt.Type import *
 
 from gestalt.nodes.GroupNode import GroupNode
-from gestalt.Generator import GestaltGenerator, assign_unique_name
+from gestalt.Generator import GestaltGenerator, assign_unique_name, get_pv
 
 from phoebusgen import widget
 from phoebusgen.widget import properties as _p
-
-name_numbering = {}
-local_pvs = []
-
-def reset_css():
-	global name_numbering
-	global local_pvs
-
-	name_numbering = {}
-	local_pvs = []
-
-def add_local_pv(name):
-	global local_pvs
-
-	local_pvs.append(name)
-
-def get_pv(pvname):
-	global local_pvs
-
-	output = pvname
-
-	if pvname in local_pvs:
-		output = "loc://pv_" + pvname
-
-	return output
 
 class CSSWidget(GroupNode):
 	def __init__(self, classname, node=None, name=None, layout=None, macros=None):
@@ -57,7 +32,7 @@ class CSSWidget(GroupNode):
 			if isinstance(self["vertical_alignment"], Alignment) or str(self["vertical_alignment"]).lower() == "center":
 				self["vertical_alignment"] = String("Middle")
 
-		self.name = assign_unique_name(name_numbering, classname, self.name)
+		self.name = assign_unique_name(classname, self.name)
 
 		self.tocopy.append("widget")
 

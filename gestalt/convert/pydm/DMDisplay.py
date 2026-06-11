@@ -61,7 +61,7 @@ class DMDisplay(DMWidget):
 		self.form.setProperty(key, prop)
 		
 		
-	def writeDM(self, filename):
+	def write_output(self, filename):
 		self.widg["background"] = self.form.pop("background")
 		self.widg.addStyleWriter(write_form)
 		

@@ -10,7 +10,7 @@ class QtDisplay(QtWidget):
 		super(QtDisplay, self).__init__("caFrame", name="content", layout=layout)
 		self["background"] = Color("$BBBBBB")
 		
-	def writeQt(self, filename):	
+	def write_output(self, filename):	
 		form = QtWidget("QMainWindow", name="Form", layout={})
 		widg = QtWidget("QWidget", name="centralwidget", layout={})
 		

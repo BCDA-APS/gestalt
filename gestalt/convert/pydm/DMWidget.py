@@ -1,38 +1,13 @@
 from gestalt.Type import *
 from gestalt.convert.pydm.DMTypes import *
 
-from gestalt.Generator import GestaltGenerator, assign_unique_name
+from gestalt.Generator import GestaltGenerator, assign_unique_name, get_pv
 from gestalt.nodes.GroupNode import GroupNode
 
 import json
 
 stdset = [ "channel", "filename", "pressValue" ]
 notr   = [ "styleSheet" ]
-
-name_numbering = {}
-local_pvs = []
-
-def reset_numbering():
-	global name_numbering
-	global local_pvs
-
-	name_numbering = {}
-	local_pvs = [] 
-	
-def add_local_pv(name):
-	global local_pvs
-	
-	local_pvs.append(name)
-	
-def get_pv(pvname):
-	global local_pvs
-	
-	output = pvname
-	
-	if pvname in local_pvs:
-		output = "calc://pv_" + pvname
-		
-	return output
 
 
 class DMWidget(GroupNode):
@@ -67,7 +42,7 @@ class DMWidget(GroupNode):
 				
 			self["alignment"] = Set(halign + "|" + valign)				
 	
-		self.name = assign_unique_name(name_numbering, classname, self.name)
+		self.name = assign_unique_name(classname, self.name)
 
 	def addStyleWriter(self, writer):
 		self.styleWriters.append(writer)
@@ -113,7 +88,7 @@ class DMWidget(GroupNode):
 				channel = {}
 				channel["trigger"] = True
 				channel["use_enum"] = False
-				channel["channel"] = get_pv(str(vis_pv))
+				channel["channel"] = get_pv(str(vis_pv), prefix="calc://pv_")
 				
 				output["channel"] = [channel]
 					

@@ -1,12 +1,11 @@
 import ast
 
-from gestalt.nodes.Node import Node
 from gestalt.Type import *
-from gestalt.Generator import GestaltGenerator
+from gestalt.Generator import GestaltGenerator, add_local_pv, get_pv
 
 from phoebusgen import screen
 
-from gestalt.convert.phoebus.CSSWidget      import CSSWidget, reset_css, add_local_pv, get_pv
+from gestalt.convert.phoebus.CSSWidget      import CSSWidget
 from gestalt.convert.phoebus.CSSGroup       import CSSGroup
 from gestalt.convert.phoebus.CSSDisplay     import CSSDisplay
 from gestalt.convert.phoebus.CSSTabbedGroup import CSSTabbedGroup
@@ -437,29 +436,4 @@ class CSSGenerator(GestaltGenerator):
 
 
 def generateCSSFile(template, data, outputfile=""):
-	reset_css()
-
-	a_display = CSSDisplay()
-	the_generator = CSSGenerator()
-
-	for key, item in template.items():
-		if isinstance(item, Node):
-			item.name = key
-
-			if item.classname == "Form":
-				for key, val in item.properties["attrs"].items():
-					a_display.setProperty(key, val)
-				a_display.updateProperties(data)
-			else:
-				applier = item.apply(the_generator)
-
-				while True:
-					a_display.updateMacros(a_display, data)
-
-					try:
-						next(applier)
-						a_display.place(applier.send(data))
-					except StopIteration:
-						break
-
-	a_display.writeCSS(outputfile)
+	CSSGenerator().generateFile(template, data, CSSDisplay(), outputfile)

@@ -8,6 +8,10 @@ _dpi_scale = None
 _height_cache = {}
 _width_cache = {}
 
+# Generation-scoped state, reset at the start of each file generation
+name_numbering = {}
+local_pvs = []
+
 def _get_tk_root():
 	global _tk_root, _dpi_scale
 	if _tk_root is None:
@@ -16,21 +20,62 @@ def _get_tk_root():
 		_dpi_scale = DEFAULT_DPI / _tk_root.winfo_fpixels("1i")
 	return _tk_root
 
-def assign_unique_name(numbering, classname, current_name):
+def reset_generation():
+	global name_numbering, local_pvs
+	name_numbering = {}
+	local_pvs = []
+
+def assign_unique_name(classname, current_name):
 	if not current_name:
-		num = numbering.get(classname, 0) + 1
-		numbering[classname] = num
+		num = name_numbering.get(classname, 0) + 1
+		name_numbering[classname] = num
 		return classname + str(num)
 	else:
-		num = numbering.get(current_name, 0) + 1
-		numbering[current_name] = num
+		num = name_numbering.get(current_name, 0) + 1
+		name_numbering[current_name] = num
 		
 		if num > 1:
 			return current_name + str(num)
 		
 		return current_name
 
+def add_local_pv(name):
+	global local_pvs
+	local_pvs.append(name)
+
+def get_pv(pvname, prefix="loc://pv_"):
+	if pvname in local_pvs:
+		return prefix + pvname
+	return pvname
+
 class GestaltGenerator:
+	def generateFile(self, template, data, display, outputfile=""):
+		from gestalt.nodes.Node import Node
+		
+		reset_generation()
+		
+		for key, item in template.items():
+			if isinstance(item, Node):
+				item.name = key
+				
+				if item.classname == "Form":
+					for key, val in item.properties["attrs"].items():
+						display.setProperty(key, val)
+					display.updateProperties(data)
+				else:
+					applier = item.apply(self)
+					
+					while True:
+						display.updateMacros(display, data)
+						
+						try:
+							next(applier)
+							display.place(applier.send(data))
+						except StopIteration:
+							break
+		
+		display.write_output(outputfile)
+	
 	def get_font_height(font_name, font_size):
 		cache_key = (font_name, font_size)
 
