@@ -25,8 +25,9 @@ true, false, or undefined based upon a match with values given by the widget.
 | true-color      | Color     | The display color for a true value, $00FF00 by default |
 | undefined-color | Color     | The display color for any other value, $A0A0A4 by default |
 | border-color    | Color     | Widget border color, $000000 by default |
+| alarm-border    | Bool      | Change border color based on PV alarm severity, False by default |
 | pv              | String    | The PV to read data from |
-| visibility      | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| visibility      | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Examples**

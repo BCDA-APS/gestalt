@@ -20,6 +20,7 @@ dictionaries. Within each dictionary, the following values can be defined:
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
 | commands   | List   | A list of dictionaries describing the commands that can be run |
+| enabled    | Bool   | Whether the widget is interactive, True by default |
 | visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
@@ -55,6 +56,7 @@ class ShellCommandNode(Node):
 		self.setDefault(Color,     "background", "$57CAE4")
 		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
 		self.setDefault(Alignment, "alignment",  "Center")
+		self.setDefault(Bool,      "enabled",    True)
 		
 		self.makeInternal(List, "commands", [])
 		

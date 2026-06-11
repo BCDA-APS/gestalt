@@ -16,6 +16,7 @@ class QtLED(QtWidget):
 		self.link("undefinedColor", "undefined-color")
 		self.link("borderColor", "border-color")
 	
+		self.pop("alarm-border")
 		self["gradientEnabled"] = Bool(False)
 		self["scaleContents"]   = Bool(True)
 		

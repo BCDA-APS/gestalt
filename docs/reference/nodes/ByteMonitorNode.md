@@ -21,8 +21,9 @@ A widget displaying the individual bits of a pv value
 | bits       | Number | The number of bits to display, increments from the start-bit, defaults to displaying till the end of the word |
 | off-color  | Color  | The display color for a bit being 0, $3C643C by default |
 | on-color   | Color  | The display color for a bit being 1, $00FF00 by default |
-| horizontal | Bool   | Whether to arrange the display horizontally, defaults to True |
-| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| horizontal   | Bool   | Whether to arrange the display horizontally, defaults to True |
+| alarm-border | Bool   | Change border color based on PV alarm severity, False by default |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Example**

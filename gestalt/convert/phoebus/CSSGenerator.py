@@ -37,7 +37,7 @@ class CSSGenerator(GestaltGenerator):
 		if macros is None:
 			macros = {}
 		output = CSSWidget("TextEntry", node=node, macros=macros)
-		output["show_units"] = Bool("False")
+		output.link("show_units", "show-units")
 		
 		if int(node["precision"]) >= 0:
 			output["precision"] = node["precision"]
@@ -133,7 +133,7 @@ class CSSGenerator(GestaltGenerator):
 			macros = {}
 		output = CSSWidget("TextUpdate", node=node, macros=macros)
 
-		output["show_units"] = Bool(False)
+		output.link("show_units", "show-units")
 
 		output.link("border", "border-color")
 		output.link("border_width", "border-width")
@@ -287,6 +287,14 @@ class CSSGenerator(GestaltGenerator):
 		if macros is None:
 			macros = {}
 		output = CSSWidget("Scrollbar", node=node, macros=macros)
+
+		if int(node["minimum"]) >= 0:
+			output["minimum"] = Double(node["minimum"])
+		output.pop("minimum")
+
+		if int(node["maximum"]) >= 0:
+			output["maximum"] = Double(node["maximum"])
+		output.pop("maximum")
 
 		return output
 

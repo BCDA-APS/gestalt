@@ -20,6 +20,7 @@ A widget representing a bar filling up based on a pv's value versus its limits
 | background   | Color     | Color of the unfilled portion of bar, $C9C9C9 by default |
 | foreground   | Color     | Color of the filled portion of bar, $0000FF by default |
 | horizontal   | Bool      | Whether to align the bar horizontally, defaults to False |
+| alarm-border | Bool      | Change border color based on PV alarm severity, False by default |
 | pv           | String    | The PV being monitored |
 | visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 

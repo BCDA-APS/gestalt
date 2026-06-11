@@ -158,6 +158,7 @@ class DMGenerator(GestaltGenerator):
 
 		output.link("channel", "pv")
 		output.link("displayFormat", "format", conversion=edit_conversion)
+		output.link("showUnits", "show-units")
 
 		if int(node["precision"]) >= 0:
 			output["precision"] = node["precision"]
@@ -176,6 +177,7 @@ class DMGenerator(GestaltGenerator):
 
 		output.link("channel",        "pv")
 		output.link("displayFormat",  "format", conversion=label_conversion)
+		output.link("showUnits",      "show-units")
 
 		if int(node["precision"]) >= 0:
 			output["precision"] = node["precision"]
@@ -376,6 +378,14 @@ class DMGenerator(GestaltGenerator):
 			output["orientation"] = Enum("Qt::Horizontal")
 		else:
 			output["orientation"] = Enum("Qt::Vertical")
+
+		if int(node["minimum"]) >= 0:
+			output["userMinimum"] = Double(node["minimum"])
+		output.pop("minimum")
+
+		if int(node["maximum"]) >= 0:
+			output["userMaximum"] = Double(node["maximum"])
+		output.pop("maximum")
 
 		return output
 

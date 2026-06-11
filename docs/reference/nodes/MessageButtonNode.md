@@ -21,8 +21,10 @@ A widget representing a button that writes a value to a pv when pressed
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
 | pv         | String | The PV that will be written to |
-| value      | String | The value to write to the PV |
-| visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| value        | String | The value to write to the PV |
+| enabled      | Bool   | Whether the widget is interactive, True by default |
+| alarm-border | Bool   | Change border color based on PV alarm severity, False by default |
+| visibility   | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Examples**

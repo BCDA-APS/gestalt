@@ -249,6 +249,72 @@ Monitor: !TextMonitor
 		precision_modes = [p for p in tree.iter("property") if p.get("name") == "precisionMode"]
 		self.assertEqual(len(precision_modes), 0)
 
+	def test_alarm_border(self):
+		layout = """
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Monitor: !TextMonitor
+    geometry: 100x20
+    pv: "TEST:PV"
+    alarm-border: true
+"""
+		path = self._write_layout(layout, "test_alarm_border.yml")
+		output = self._generate_qt(path)
+
+		tree = etree.parse(output)
+		for prop in tree.iter("property"):
+			if prop.get("name") == "colorMode":
+				enum_el = prop.find("enum")
+				self.assertEqual(enum_el.text, "caLineEdit::Alarm")
+
+	def test_show_units(self):
+		counts = self._assert_generates("""
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Monitor: !TextMonitor
+    geometry: 100x20
+    pv: "TEST:PV"
+    show-units: true
+""")
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 1)
+
+	def test_enabled_false(self):
+		counts = self._assert_generates("""
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Button: !MessageButton
+    geometry: 100x30
+    text: "Disabled"
+    pv: "TEST:PV"
+    value: 1
+    enabled: false
+""")
+		self.assertGreaterEqual(counts.get("caMessageButton", 0), 1)
+
+	def test_slider_with_limits(self):
+		counts = self._assert_generates("""
+#include colors.yml
+
+Form: !Form
+    title: "Test"
+
+Control: !Slider
+    geometry: 200x30
+    pv: "TEST:PV"
+    minimum: 0
+    maximum: 100
+""")
+		self.assertGreaterEqual(counts.get("caSlider", 0), 1)
+
 
 class TestSmokeLayouts(RegressionTestBase):
 	"""Smoke tests for layout containers."""

@@ -11,9 +11,12 @@ A widget representing a text entry field.
 | font       | Font      | Widget display font |
 | alignment  | Alignment | Display text alignment |
 | format     | String    | Text display format, value is one of "String, Decimal, Engineering, Exponential, Compact, Hexadecimal, Binary" |
-| precision  | Number    | Number of decimal places to display. When set, overrides the PV's default precision. -1 by default (uses PV precision) |
-| pv         | String    | The PV that will be written to |
-| visibility | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
+| precision    | Number    | Number of decimal places to display. When set, overrides the PV's default precision. -1 by default (uses PV precision) |
+| show-units   | Bool      | Display engineering units from the PV, False by default |
+| enabled      | Bool      | Whether the widget is interactive, True by default |
+| alarm-border | Bool      | Change border color based on PV alarm severity, False by default |
+| pv           | String    | The PV that will be written to |
+| visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 
 * **Examples**
@@ -49,6 +52,9 @@ class TextEntryNode(Node):
 		self.setDefault(Font,      "font",       "-Liberation Sans - Regular - 12")
 		self.setDefault(String,    "format",     "String")
 		self.setDefault(Number,    "precision",  -1)
+		self.setDefault(Bool,      "show-units", False)
 		self.setDefault(Alignment, "alignment",  "CenterLeft")
 		self.setDefault(Color,     "background", "$57CAE4")
 		self.setDefault(Color,     "foreground", "$000000")
+		self.setDefault(Bool,      "enabled",    True)
+		self.setDefault(Bool,      "alarm-border", False)

@@ -52,6 +52,9 @@ class CSSWidget(GroupNode):
 			raise Exception("Unexpected constructor for widget type: " + self.classname)
 
 
+		if "alarm-border" in self:
+			self.link("border_alarm_sensitive", "alarm-border")
+
 		vis_pv = self.pop("visibility", None)
 		vis_zero = isinstance(vis_pv, Not)
 

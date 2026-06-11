@@ -42,6 +42,9 @@ class DMWidget(GroupNode):
 				
 			self["alignment"] = Set(halign + "|" + valign)				
 	
+		if "alarm-border" in self:
+			self.link("alarmSensitiveBorder", "alarm-border")
+
 		self.name = assign_unique_name(classname, self.name)
 
 	def addStyleWriter(self, writer):

@@ -94,8 +94,13 @@ class QtGenerator(GestaltGenerator):
 		
 		output.link("channel", "pv")
 		output.link("formatType", "format", conversion=format_conversion)
+		output.link("unitsEnabled", "show-units")
 		
-		output["colorMode"]     = Enum("caLineEdit::Static")
+		if bool(output.pop("alarm-border")):
+			output["colorMode"] = Enum("caLineEdit::Alarm")
+		else:
+			output["colorMode"] = Enum("caLineEdit::Static")
+		
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
 		if int(node["precision"]) >= 0:
@@ -114,8 +119,13 @@ class QtGenerator(GestaltGenerator):
 		output.link("frameColor",     "border-color")
 		output.link("frameLineWidth", "border-width")
 		output.link("formatType",     "format", conversion=format_conversion)
+		output.link("unitsEnabled",   "show-units")
 		
-		output["colorMode"]     = Enum("caLineEdit::Static")
+		if bool(output.pop("alarm-border")):
+			output["colorMode"] = Enum("caLineEdit::Alarm")
+		else:
+			output["colorMode"] = Enum("caLineEdit::Static")
+		
 		output["fontScaleMode"] = Enum("caLineEdit::Height")
 		
 		if int(node["precision"]) >= 0:
@@ -131,8 +141,12 @@ class QtGenerator(GestaltGenerator):
 		output = QtWidget("caMenu", node=node, macros=macros)
 		
 		output.link("channel", "pv")
-			
-		output["colorMode"]     = Enum("caMenu::Static")
+		
+		if bool(output.pop("alarm-border")):
+			output["colorMode"] = Enum("caMenu::Alarm")
+		else:
+			output["colorMode"] = Enum("caMenu::Static")
+		
 		output["elevation"]     = Enum("caMenu::as_is")
 		
 		return output
@@ -150,8 +164,11 @@ class QtGenerator(GestaltGenerator):
 			output["stackingMode"] = Enum("Column")
 		else:
 			output["stackingMode"] = Enum("Row")
-			
-		output["colorMode"] = Enum("caChoice::Static")
+		
+		if bool(output.pop("alarm-border")):
+			output["colorMode"] = Enum("caChoice::Alarm")
+		else:
+			output["colorMode"] = Enum("caChoice::Static")
 		
 		return output
 		
@@ -174,6 +191,7 @@ class QtGenerator(GestaltGenerator):
 		num_bits = output.pop("bits")
 		
 		output["endBit"] = Number(int(output["startBit"]) + int(num_bits) - 1)
+		output.pop("alarm-border")
 		
 		return output
 		
@@ -320,8 +338,23 @@ class QtGenerator(GestaltGenerator):
 		
 		output["background"] = Color("$C4C4C4")
 		output["borderWidth"] = Number(2)
-		output["colorMode"] = Enum("caSlider::Alarm_Static")
 		
+		if bool(output.pop("alarm-border")):
+			output["colorMode"] = Enum("caSlider::Alarm")
+		else:
+			output["colorMode"] = Enum("caSlider::Alarm_Static")
+
+		if int(node["minimum"]) >= 0 or int(node["maximum"]) >= 0:
+			output["limitsMode"] = Enum("caSlider::User")
+
+			if int(node["minimum"]) >= 0:
+				output["minValue"] = Double(node["minimum"])
+			if int(node["maximum"]) >= 0:
+				output["maxValue"] = Double(node["maximum"])
+
+		output.pop("minimum")
+		output.pop("maximum")
+
 		return output
 		
 	
@@ -338,7 +371,9 @@ class QtGenerator(GestaltGenerator):
 			output["direction"] = Enum("Right")
 		else:
 			output["direction"] = Enum("Up")
-					
+		
+		output.pop("alarm-border")
+		
 		return output
 
 	def generateSpinner(self, node, macros=None):
@@ -362,6 +397,7 @@ class QtGenerator(GestaltGenerator):
 
 		output.pop("minimum")
 		output.pop("maximum")
+		output.pop("alarm-border")
 
 		return output
 

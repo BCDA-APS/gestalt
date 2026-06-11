@@ -31,6 +31,7 @@ dictionaries. Within each dictionary, the following values can be defined:
 | background | Color  | Widget background color |
 | font       | Font   | Widget display font |
 | links      | List   | A list of dictionaries describing the linked UI screens |
+| enabled    | Bool   | Whether the widget is interactive, True by default |
 | visibility | String | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 

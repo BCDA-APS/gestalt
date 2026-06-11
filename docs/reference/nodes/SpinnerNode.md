@@ -25,8 +25,11 @@ On PyDM, this renders as a PyDMSpinbox with standard up/down controls.
 | foreground   | Color     | Widget foreground color |
 | background   | Color     | Widget background color |
 | precision    | Number    | Number of decimal places, -1 by default (uses PV precision) |
+| font         | Font      | Widget display font |
 | minimum      | Number    | Minimum allowed value, uses PV limits by default |
 | maximum      | Number    | Maximum allowed value, uses PV limits by default |
+| enabled      | Bool      | Whether the widget is interactive, True by default |
+| alarm-border | Bool      | Change border color based on PV alarm severity, False by default |
 | visibility   | String    | A pv that determines the visibility of the widget, visibility is turned off if the PV's value is zero. This logic is inverted if the !Not tag is used instead of String |
 
 

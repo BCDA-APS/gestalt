@@ -14,7 +14,10 @@ class QtMessageButton(QtWidget):
 		self.button.link("channel", "pv")
 		self.button.link("pressMessage", "value")
 
-		self.button["colorMode"] = Enum("caMessageButton::Static")
+		if bool(self.button.pop("alarm-border")):
+			self.button["colorMode"] = Enum("caMessageButton::Alarm")
+		else:
+			self.button["colorMode"] = Enum("caMessageButton::Static")
 		self.button["fontScaleMode"] = Enum("EPushButton::Height")
 
 		self.tocopy.append("button")
