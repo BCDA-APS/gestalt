@@ -5,6 +5,57 @@
 #include on-off.yml
 #include read-write.yml
 
+_AcquireControl: !Template:AcquireControl
+    - !Defaults
+        acquire-pv: ""
+        label: "Acquire"
+        start-text: "Start"
+        stop-text: "Stop"
+        active-label: "Collecting"
+        idle-label: "Idle"
+        active-color: *alarm_yellow
+        idle-color: *menu_green
+        button-foreground: *black
+        button-background: *edit_blue
+        label-width: 65
+        button-width: 60
+        status-width: 94
+        height: 20
+        spacing: 20
+        fontname: "Liberation Sans"
+
+    - !HFlow
+        padding: "{spacing}"
+        children:
+            - !Text
+                geometry: "0x0x{label-width}x{height}"
+                alignment: CenterRight
+                font: "-{fontname}"
+                text: "{label}"
+            - !MessageButton
+                geometry: "0x0x{button-width}x{height}"
+                foreground: "{button-foreground}"
+                background: "{button-background}"
+                text: "{start-text}"
+                pv: "{acquire-pv}"
+                value: 1
+            - !MessageButton
+                geometry: "0x0x{button-width}x{height}"
+                foreground: "{button-foreground}"
+                background: "{button-background}"
+                text: "{stop-text}"
+                pv: "{acquire-pv}"
+                value: 0
+            - !Apply:OnOffText
+                border-width: 0
+                text-width: "{status-width}"
+                on-label: "{active-label}"
+                on-color: "{active-color}"
+                off-label: "{idle-label}"
+                off-color: "{idle-color}"
+                PV: "{acquire-pv}"
+
+
 _ADReadoutXY: !Template:ADReadoutXY
     - !Defaults
         Writable: False
@@ -226,23 +277,8 @@ _ADCollectSection: !Template:ADCollect
             
             - !Spacer { geometry: 0x10 }
             
-            - !HFlow
-                padding: 20
-                children:
-                    - !Text          { geometry: 65x20, alignment: CenterRight, font: "-{fontname}", text: "Acquire" }
-                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Start", pv: "{cam-pv}Acquire", value: 1 }
-                    - !MessageButton { <<: *editable, geometry: 60x20, text: "Stop",  pv: "{cam-pv}Acquire", value: 0 }
-                    - !Apply:OnOffText
-                        border-width: 0
-                        text-width: 94
-                    
-                        on-label: "Collecting"
-                        on-color: *alarm_yellow
-                        
-                        off-label: "Idle"
-                        off-color: *menu_green
-                        
-                        PV: "{cam-pv}Acquire"
+            - !Apply:AcquireControl
+                acquire-pv: "{cam-pv}Acquire"
             
             - !Spacer { geometry: 0x10 }
             

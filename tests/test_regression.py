@@ -612,6 +612,22 @@ Toggle: !Apply:OnOffText
 		total = sum(counts.values())
 		self.assertGreater(total, 0)
 
+	def test_acquire_control(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+#include area-detector.yml
+
+Form: !Form
+    title: "Test"
+
+Acquire: !Apply:AcquireControl
+    acquire-pv: "TEST:Acquire"
+""")
+		# Label + 2 MessageButtons + OnOffText (2 overlaid labels)
+		self.assertGreaterEqual(counts.get("caLabel", 0), 1)
+		self.assertGreaterEqual(counts.get("caMessageButton", 0), 2)
+
 	def test_readback_list(self):
 		counts = self._assert_generates("""
 #include colors.yml
