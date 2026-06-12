@@ -39,8 +39,9 @@ class CSSGenerator(GestaltGenerator):
 		output = CSSWidget("TextEntry", node=node, macros=macros)
 		output.link("show_units", "show-units")
 		
-		if int(node["precision"]) >= 0:
-			output["precision"] = node["precision"]
+		precision = int(output.pop("precision"))
+		if precision >= 0:
+			output["precision"] = Number(precision)
 		
 		return output
 
@@ -138,8 +139,9 @@ class CSSGenerator(GestaltGenerator):
 		output.link("border", "border-color")
 		output.link("border_width", "border-width")
 
-		if int(node["precision"]) >= 0:
-			output["precision"] = node["precision"]
+		precision = int(output.pop("precision"))
+		if precision >= 0:
+			output["precision"] = Number(precision)
 
 		return output
 
@@ -316,8 +318,9 @@ class CSSGenerator(GestaltGenerator):
 			macros = {}
 		output = CSSWidget("Spinner", node=node, macros=macros)
 
-		if int(node["precision"]) >= 0:
-			output["precision"] = node["precision"]
+		precision = int(output.pop("precision"))
+		if precision >= 0:
+			output["precision"] = Number(precision)
 
 		if int(node["minimum"]) >= 0:
 			output["minimum"] = Double(node["minimum"])
