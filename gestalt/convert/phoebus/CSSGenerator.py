@@ -88,7 +88,7 @@ class CSSGenerator(GestaltGenerator):
 			macros = {}
 		output = CSSWidget("ActionButton", node=node, macros=macros)
 
-		commands = String(node.commands)
+		commands = String(node["commands"])
 		commands.apply(macros)
 
 		for item in List(commands):
