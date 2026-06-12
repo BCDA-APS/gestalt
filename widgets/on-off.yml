@@ -65,6 +65,8 @@ _OnOffLED: !Template:OnOffLED
         off-color: *alarm_red
         off-value: 0
         
+        square: false
+        
         fontname: "Liberation Sans"
         
     
@@ -74,6 +76,7 @@ _OnOffLED: !Template:OnOffLED
         children:
             - !AStretch:LED
                 border-color: "{border-color}"
+                square: "{square}"
                 pv: "{control-pv}"
                         
                 false-color: "{off-color}"

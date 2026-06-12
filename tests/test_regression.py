@@ -702,6 +702,97 @@ Info: !Apply:ReadbackList
 		self.assertGreaterEqual(counts.get("caLabel", 0), 3)
 		self.assertGreaterEqual(counts.get("caLineEdit", 0), 3)
 
+	def test_pvreadwrite_with_choice_pv(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Row: !Apply:PVReadWrite
+    label: "Mode:"
+    choice-pv: "TEST:Mode"
+    choice-width: 120
+    read-pv: "TEST:Mode:RBV"
+""")
+		self.assertGreaterEqual(counts.get("caLabel", 0), 1)
+		self.assertGreaterEqual(counts.get("caChoice", 0), 1)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 1)
+
+	def test_pvreadwrite_with_led_pv(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Row: !Apply:PVReadWrite
+    label: "Status:"
+    read-pv: "TEST:Value:RBV"
+    led-pv: "TEST:Active"
+""")
+		self.assertGreaterEqual(counts.get("caLabel", 0), 1)
+		self.assertGreaterEqual(counts.get("caLed", 0), 1)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 1)
+
+	def test_pvreadwrite_with_choice_and_led(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Row: !Apply:PVReadWrite
+    label: "Channel:"
+    choice-pv: "TEST:Mode"
+    choice-width: 100
+    led-pv: "TEST:Active"
+    led-square: true
+    read-pv: "TEST:Mode:RBV"
+""")
+		self.assertGreaterEqual(counts.get("caLabel", 0), 1)
+		self.assertGreaterEqual(counts.get("caChoice", 0), 1)
+		self.assertGreaterEqual(counts.get("caLed", 0), 1)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 1)
+
+	def test_pvreadwrite_with_enable_square(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Row: !Apply:PVReadWrite
+    label: "Output:"
+    enable-pv: "TEST:Enable"
+    enable-square: true
+    entry-pv: "TEST:Value"
+    read-pv: "TEST:Value:RBV"
+""")
+		self.assertGreaterEqual(counts.get("caLabel", 0), 1)
+		self.assertGreaterEqual(counts.get("caLed", 0), 1)
+		self.assertGreaterEqual(counts.get("caTextEntry", 0), 1)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 1)
+
+	def test_onoff_led_square(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include on-off.yml
+
+Form: !Form
+    title: "Test"
+
+Toggle: !Apply:OnOffLED
+    size: 20
+    control-pv: "TEST:Toggle"
+    square: true
+""")
+		self.assertGreaterEqual(counts.get("caLed", 0), 1)
+
 	def test_readback_list_with_format(self):
 		counts = self._assert_generates("""
 #include colors.yml

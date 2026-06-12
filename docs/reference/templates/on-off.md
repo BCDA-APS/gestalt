@@ -66,6 +66,7 @@ A circular colored button that toggles state when pressed.
 | off-label    | String | Text to display on top of LED when control-pv is zero, can be referenced as off-text for backwards compatibility, default: "0" |
 | on-color     | Color  | Color of LED when control-pv is non-zero, default: *alarm_green |
 | off-color    | Color  | Color of LED when control-pv is zero, default: *alarm_red  |
+| square       | Bool   | Use a square LED shape instead of circular, default: false |
 | fontname     | String | Name of font for display text, default: "Liberation Sans" |
 
 * **Example**

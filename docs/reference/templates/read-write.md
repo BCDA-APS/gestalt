@@ -26,8 +26,10 @@ The possible elements that are included are:
 * a TextEntry input field, if the pv would use user-defined text/number values  
 * a Menu input field, for if the pv is a selectable enum  
 * a MessageButton input field, for if the pv is just something that needs to be PROC'd or similar
+* a ChoiceButton input field, for if the pv is an enum to be shown as radio buttons
 * a TextMonitor readback field, for displaying a readback pv value
 * a Text label for appending units onto the readback
+* an LED status indicator
 
 Each of the elements are disabled by default and enabled by providing a value for their text (for labels) or pv (for input/output fields).
 By default, enabled elements are displayed in a horizontal row in the order shown above. The attribute "read-first" will move the readback
@@ -44,8 +46,10 @@ and units label before the input fields, but still after the description.
 | entry-width     | Number | Width for the basic text entry element, default: "{element-width}" |
 | menu-width      | Number | Width for the menu input element, default: "{element-width}" |
 | button-width    | Number | Width for the MessageButton element, default: "{element-width}" |
+| choice-width    | Number | Width for the ChoiceButton element, default: "{element-width}" |
 | read-width      | Number | Width for the readback element, default: "{element-width}" |
 | units-width     | Number | Width for the units element, default: "{element-width}" |
+| led-width       | Number | Width for the LED element, default: "{height}" |
 | spacing         | Number | Spacing between any two enabled elements, default: 15   |
 | /////////////// | ////// | /////////////////////////////////////////////////////// |
 | editable-color  | Color  | Default color for the general input fields (entry, menu, button), default: *edit_blue |
@@ -54,6 +58,7 @@ and units label before the input fields, but still after the description.
 | entry-background| Color  | Background color for the basic text entry element, default: "{editable-color}" |
 | menu-background | Color  | Background color for the menu input element, default: "{editable-color}" |
 | button-background|Color  | Background color for the MessageButton element, default: "{editable-color}" |
+| choice-background|Color  | Background color for the ChoiceButton element, default: "{editable-color}" |
 | read-background | Color  | Background color for the readback element, default: *transparent |
 | units-background| Color  | Background color for the units element, default: *transparent |
 | /////////////// | ////// | /////////////////////////////////////////////////////// |
@@ -63,6 +68,7 @@ and units label before the input fields, but still after the description.
 | entry-foreground| Color  | Text color for the basic text entry element, default: "{text-color}" |
 | menu-foreground | Color  | Text color for the menu input element, default: "{text-color}" |
 | button-foreground|Color  | Text color for the MessageButton element, default: "{text-color}" |
+| choice-foreground|Color  | Text color for the ChoiceButton element, default: "{text-color}" |
 | read-foreground | Color  | Text color for the readback element, default: "{text-color}" |
 | units-foreground| Color  | Text color for the units element, default: "{text-color}" |
 | /////////////// | ////// | /////////////////////////////////////////////////////// |
@@ -70,11 +76,18 @@ and units label before the input fields, but still after the description.
 | desc-pv         | String | Connected pv for description element | 
 | entry-pv        | String | Connected pv for basic text entry element | 
 | menu-pv         | String | Connected pv for menu input element | 
-| button-pv       | String | Connected pv for MessageButton element | 
+| button-pv       | String | Connected pv for MessageButton element |
+| choice-pv       | String | Connected pv for ChoiceButton element |
 | read-pv         | String | Connected pv for readback element |
 | units           | String | Display text for units element | 
 | button-text     | String | Display text for MessageButton element | 
 | button-value    | String | Value to send MessageButton pv |
+| /////////////// | ////// | /////////////////////////////////////////////////////// |
+| led-pv          | String | Connected pv for LED status indicator |
+| led-true-color  | Color  | LED color when pv is non-zero, default: *alarm_green |
+| led-false-color | Color  | LED color when pv is zero, default: $3C643C |
+| led-square      | Bool   | Use a square LED shape instead of circular, default: false |
+| enable-square   | Bool   | Use a square LED shape for the enable toggle, default: false |
 | /////////////// | ////// | /////////////////////////////////////////////////////// |
 | read-first      | Bool   | Swaps the location of the output fields and the readback |
 
@@ -86,6 +99,28 @@ SelectFunction: !Apply:PVReadWrite
     label: "Function:"
     menu-pv: "$(P)$(R)1:FUNC"
     read-pv: "$(P)$(R)1:FUNC:RBV"
+```
+
+With a ChoiceButton and LED status indicator:
+
+```yaml
+ChannelMode: !Apply:PVReadWrite
+    label: "Mode:"
+    choice-pv: "$(P)$(R)Mode"
+    choice-width: 120
+    led-pv: "$(P)$(R)Active"
+    read-pv: "$(P)$(R)Mode:RBV"
+```
+
+With a square enable toggle:
+
+```yaml
+OutputCtrl: !Apply:PVReadWrite
+    label: "Output:"
+    enable-pv: "$(P)$(R)Enable"
+    enable-square: true
+    entry-pv: "$(P)$(R)Value"
+    read-pv: "$(P)$(R)Value:RBV"
 ```
 
 ---
