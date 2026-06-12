@@ -612,6 +612,42 @@ Toggle: !Apply:OnOffText
 		total = sum(counts.values())
 		self.assertGreater(total, 0)
 
+	def test_readback_list(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Info: !Apply:ReadbackList
+    label-width: 120
+    read-width: 150
+    rows:
+        - { label: "Model",    pv: "TEST:Model" }
+        - { label: "Serial",   pv: "TEST:Serial" }
+        - { label: "Firmware", pv: "TEST:Firmware" }
+""")
+		# 3 labels + 3 readbacks
+		self.assertGreaterEqual(counts.get("caLabel", 0), 3)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 3)
+
+	def test_readback_list_with_format(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Readings: !Apply:ReadbackList
+    rows:
+        - { label: "Name",  pv: "TEST:Name" }
+        - { label: "Value", pv: "TEST:Value", format: "Decimal" }
+""")
+		self.assertGreaterEqual(counts.get("caLabel", 0), 2)
+		self.assertGreaterEqual(counts.get("caLineEdit", 0), 2)
+
 
 class TestSmokeCaseInsensitive(RegressionTestBase):
 	"""Verify case-insensitive tag handling."""

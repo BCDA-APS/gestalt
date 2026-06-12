@@ -26,7 +26,7 @@ The available template files built into Gestalt are:
 similar in size and function to the motorx screen provided by the motor module.  
 * [on-off.yml](on-off.md) - Contains paired widgets where only one will be visibile based off
 the value of a control-pv.  
-* [read-write.yml](read-write.md) - Contains a generic setup for having an input with readback.  
+* [read-write.yml](read-write.md) - Contains PVReadWrite (a generic input with readback row) and ReadbackList (a vertical list of labeled readbacks from a data list).  
 * [screen-header.yml](screen-header.yml) - Contains a template for a simple title bar at the top
 of the screen.
 * [link-grid.yml](link-grid.yml) - Contains a simple grid of Related Display widgets

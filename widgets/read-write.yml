@@ -187,3 +187,44 @@ _ReadWrite: !Template:PVReadWrite
             - !IfNot:read-first
                 - !If:read-pv  [ !VCenter:Embed:read-element ,   !Spacer {geometry: "{read-spacing}x0"} ]
                 - !If:units    [ !VCenter:Embed:units-element ,  !Spacer {geometry: "{units-spacing}x0"} ]
+
+
+_ReadbackList: !Template:ReadbackList
+    - !Defaults
+        rows: []
+        label-width: 100
+        read-width: 120
+        height: 20
+        padding: 5
+        spacing: 5
+        read-foreground: *header_blue
+        read-background: *transparent
+        label-foreground: *black
+        label-background: *transparent
+        label-alignment: CenterRight
+        read-alignment: CenterRight
+        fontname: "Liberation Sans"
+        format: "String"
+
+    - !VRepeat
+        repeat-over: "rows"
+        padding: "{padding}"
+        children:
+            - !HFlow
+                padding: "{spacing}"
+                children:
+                    - !Text
+                        geometry: "0x0x{label-width}x{height}"
+                        text: "{label}"
+                        font: "-{fontname}"
+                        alignment: "{label-alignment}"
+                        foreground: "{label-foreground}"
+                        background: "{label-background}"
+                    - !TextMonitor
+                        geometry: "0x0x{read-width}x{height}"
+                        pv: "{pv}"
+                        font: "-{fontname}"
+                        alignment: "{read-alignment}"
+                        foreground: "{read-foreground}"
+                        background: "{read-background}"
+                        format: "{format}"

@@ -87,3 +87,59 @@ SelectFunction: !Apply:PVReadWrite
     menu-pv: "$(P)$(R)1:FUNC"
     read-pv: "$(P)$(R)1:FUNC:RBV"
 ```
+
+---
+
+### ReadbackList
+
+A vertical list of labeled readback rows. Takes a list of `{label, pv}` dictionaries and renders
+each as a horizontal pair of a text label and a TextMonitor readback widget. Useful for status
+panels, device info displays, and any read-only summary of PV values.
+
+Each row dictionary must have `label` and `pv` keys. Rows can optionally include `format` and
+`precision` keys to override the template-level defaults for individual rows.
+
+* **Attributes**
+
+|     Name          |  Type     | Description|
+|-------------------|-----------|------------|
+| rows              | List      | A list of dictionaries, each with `label` and `pv` keys. Optional `format` key per row |
+| label-width       | Number    | Width of the label column, default: 100 |
+| read-width        | Number    | Width of the readback column, default: 120 |
+| height            | Number    | Height of each row, default: 20 |
+| padding           | Number    | Vertical spacing between rows, default: 5 |
+| spacing           | Number    | Horizontal spacing between label and readback, default: 5 |
+| read-foreground   | Color     | Text color for readback values, default: *header_blue |
+| read-background   | Color     | Background color for readback values, default: *transparent |
+| label-foreground  | Color     | Text color for labels, default: *black |
+| label-background  | Color     | Background color for labels, default: *transparent |
+| label-alignment   | Alignment | Text alignment for labels, default: CenterRight |
+| read-alignment    | Alignment | Text alignment for readback values, default: CenterRight |
+| fontname          | String    | Font family for all text, default: "Liberation Sans" |
+| format            | String    | Default display format for readback values, default: "String" |
+
+
+* **Examples**
+
+```yaml
+DeviceInfo: !Apply:ReadbackList
+    label-width: 120
+    read-width: 150
+    rows:
+        - { label: "Model",    pv: "$(P)$(R)Model_RBV" }
+        - { label: "Serial",   pv: "$(P)$(R)SerialNumber_RBV" }
+        - { label: "Firmware", pv: "$(P)$(R)FirmwareVersion_RBV" }
+        - { label: "Temp (C)", pv: "$(P)$(R)Temperature_RBV" }
+```
+
+With per-row format overrides:
+
+```yaml
+MixedReadbacks: !Apply:ReadbackList
+    label-width: 100
+    read-width: 100
+    rows:
+        - { label: "Name",  pv: "$(P)$(R)Name_RBV" }
+        - { label: "Value", pv: "$(P)$(R)Value_RBV", format: "Decimal" }
+        - { label: "Temp",  pv: "$(P)$(R)Temp_RBV",  format: "Engineering" }
+```
