@@ -612,6 +612,60 @@ Toggle: !Apply:OnOffText
 		total = sum(counts.values())
 		self.assertGreater(total, 0)
 
+	def test_digital_bit_list_horizontal(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Bits: !Apply:DigitalBitList
+    prefix: "$(P)"
+    bits: 4
+    horizontal: true
+    show-direction: true
+""")
+		self.assertGreaterEqual(counts.get("caLed", 0), 4)
+		self.assertGreaterEqual(counts.get("caChoice", 0), 4)
+
+	def test_digital_bit_list_vertical(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Bits: !Apply:DigitalBitList
+    prefix: "$(P)"
+    bits: 4
+    horizontal: false
+    show-direction: false
+    show-output: false
+""")
+		self.assertGreaterEqual(counts.get("caLed", 0), 4)
+		self.assertGreaterEqual(counts.get("caTextEntry", 0), 4)
+
+	def test_digital_bit_list_custom_pvs(self):
+		counts = self._assert_generates("""
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "Test"
+
+Bits: !Apply:DigitalBitList
+    prefix: "$(P)myDev:"
+    bits: 2
+    input-pv: "{prefix}DI{N}"
+    output-pv: "{prefix}DO{N}"
+    desc-pv: "{prefix}DI{N}.DESC"
+    horizontal: false
+    show-direction: false
+""")
+		self.assertGreaterEqual(counts.get("caLed", 0), 2)
+
 	def test_acquire_control(self):
 		counts = self._assert_generates("""
 #include colors.yml

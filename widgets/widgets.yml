@@ -9,6 +9,7 @@
 #include embedded-motor.yml
 #include motor-line.yml
 #include read-write.yml
+#include digital-io.yml
 
 
 ##############

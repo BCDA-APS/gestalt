@@ -1,0 +1,131 @@
+#include colors.yml
+
+
+_HDigitalBit: !Template:HDigitalBit
+    - !Defaults
+        prefix: "$(P)"
+        bit-label: "{N}"
+        input-pv: "{prefix}Bi{N}"
+        output-pv: "{prefix}Bo{N}"
+        direction-pv: "{prefix}Bd{N}"
+        desc-pv: "{prefix}Bi{N}.DESC"
+        show-output: true
+        show-direction: true
+        bit-width: 50
+        height: 20
+
+    - !VFlow
+        padding: 5
+        children:
+            - !Text
+                geometry: "{bit-width}x{height}"
+                text: "{bit-label}"
+                alignment: Center
+
+            - !HCenter:LED
+                geometry: "{height}x{height}"
+                pv: "{input-pv}.VAL"
+                true-color: $00FF00
+                false-color: $3C643C
+                border-color: $00000000
+
+            - !If:show-output
+                - !ChoiceButton
+                    geometry: "{bit-width}x35"
+                    pv: "{output-pv}"
+                    background: $57CAE4
+                    foreground: $000000
+                    horizontal: false
+
+            - !If:show-direction
+                - !ChoiceButton
+                    geometry: "{bit-width}x35"
+                    pv: "{direction-pv}"
+                    background: $57CAE4
+                    foreground: $000000
+                    horizontal: false
+
+            - !TextEntry
+                geometry: "{bit-width}x18"
+                pv: "{desc-pv}"
+                foreground: $000000
+                background: $F0F0F0
+
+
+_VDigitalBit: !Template:VDigitalBit
+    - !Defaults
+        prefix: "$(P)"
+        bit-label: "{N}"
+        input-pv: "{prefix}Bi{N}"
+        output-pv: "{prefix}Bo{N}"
+        direction-pv: "{prefix}Bd{N}"
+        desc-pv: "{prefix}Bi{N}.DESC"
+        show-output: true
+        show-direction: true
+        label-width: 30
+        led-width: 25
+        choice-width: 80
+        desc-width: 120
+        height: 20
+        spacing: 5
+
+    - !HFlow
+        padding: "{spacing}"
+        children:
+            - !Text
+                geometry: "{label-width}x{height}"
+                text: "{bit-label}"
+                alignment: Center
+
+            - !LED
+                geometry: "{led-width}x{height}"
+                pv: "{input-pv}.VAL"
+                true-color: $00FF00
+                false-color: $3C643C
+                border-color: $00000000
+
+            - !If:show-output
+                - !ChoiceButton
+                    geometry: "{choice-width}x{height}"
+                    pv: "{output-pv}"
+                    background: $57CAE4
+                    foreground: $000000
+
+            - !If:show-direction
+                - !ChoiceButton
+                    geometry: "{choice-width}x{height}"
+                    pv: "{direction-pv}"
+                    background: $57CAE4
+                    foreground: $000000
+
+            - !TextEntry
+                geometry: "{desc-width}x{height}"
+                pv: "{desc-pv}"
+                foreground: $000000
+                background: $F0F0F0
+
+
+_DigitalBitList: !Template:DigitalBitList
+    - !Defaults
+        bits: 8
+        start-at: 0
+        horizontal: true
+        show-output: true
+        show-direction: true
+        padding: 5
+
+    - !If:horizontal
+        - !HRepeat
+            repeat-over: "{bits}"
+            start-at: "{start-at}"
+            padding: "{padding}"
+            children:
+                - !Apply:HDigitalBit
+
+    - !IfNot:horizontal
+        - !VRepeat
+            repeat-over: "{bits}"
+            start-at: "{start-at}"
+            padding: "{padding}"
+            children:
+                - !Apply:VDigitalBit

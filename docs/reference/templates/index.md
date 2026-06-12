@@ -29,4 +29,5 @@ the value of a control-pv.
 * [read-write.yml](read-write.md) - Contains PVReadWrite (a generic input with readback row) and ReadbackList (a vertical list of labeled readbacks from a data list).  
 * [screen-header.yml](screen-header.yml) - Contains a template for a simple title bar at the top
 of the screen.
+* [digital-io.yml](digital-io.md) - Contains HDigitalBit (vertical column per bit), VDigitalBit (horizontal row per bit), and DigitalBitList (repeated digital I/O bits with selectable orientation).
 * [link-grid.yml](link-grid.yml) - Contains a simple grid of Related Display widgets
