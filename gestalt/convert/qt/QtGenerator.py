@@ -97,7 +97,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("unitsEnabled", "show-units")
 		
 		if bool(output.pop("alarm-border")):
-			output["colorMode"] = Enum("caLineEdit::Alarm")
+			output["colorMode"] = Enum("caLineEdit::Alarm_Static")
 		else:
 			output["colorMode"] = Enum("caLineEdit::Static")
 		
@@ -122,7 +122,7 @@ class QtGenerator(GestaltGenerator):
 		output.link("unitsEnabled",   "show-units")
 		
 		if bool(output.pop("alarm-border")):
-			output["colorMode"] = Enum("caLineEdit::Alarm")
+			output["colorMode"] = Enum("caLineEdit::Alarm_Static")
 		else:
 			output["colorMode"] = Enum("caLineEdit::Static")
 		
@@ -166,7 +166,7 @@ class QtGenerator(GestaltGenerator):
 			output["stackingMode"] = Enum("Row")
 		
 		if bool(output.pop("alarm-border")):
-			output["colorMode"] = Enum("caChoice::Alarm")
+			output["colorMode"] = Enum("caChoice::Alarm_Static")
 		else:
 			output["colorMode"] = Enum("caChoice::Static")
 		

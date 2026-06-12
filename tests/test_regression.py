@@ -268,7 +268,7 @@ Monitor: !TextMonitor
 		for prop in tree.iter("property"):
 			if prop.get("name") == "colorMode":
 				enum_el = prop.find("enum")
-				self.assertEqual(enum_el.text, "caLineEdit::Alarm")
+				self.assertEqual(enum_el.text, "caLineEdit::Alarm_Static")
 
 	def test_show_units(self):
 		counts = self._assert_generates("""
