@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Using the Command Line
-nav_order: 3
+parent: Guides
+nav_order: 2
 ---
 
 ## Table of contents
@@ -67,6 +68,7 @@ Recognized values for file writer are:
 
 * **qt**, **ui** - Output file is for caQtDM  
 * **css**, **bob** - Output file is for CSS-Phoebus  
+* **pydm**, **dm** - Output file is for PyDM
 
 
 ### --include
@@ -75,5 +77,3 @@ Additional folder to include in your search path for layout files that may be in
 '#include' statements. This option can be applied multiple times, each time specifying a new
 folder to append to the search path. By default, Gestalt's widgets folder is already included 
 in the search path (for widgets.yml and colors.yml).
-
-

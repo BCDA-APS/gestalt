@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Using the GUI
-nav_order: 2
+parent: Guides
+nav_order: 3
 ---
 
 ## Table of contents
@@ -29,7 +30,7 @@ filename and will run Gestalt to generate the file.
 
 ## Adding a New Layout
 
-Once you have learned about how to [write a Gestalt Layout file](layouts.md), you may 
+Once you have learned about how to [write a Gestalt Layout file](../learn/building-a-screen), you may 
 want to expose that layout to users of the GUI. Allowing them to use it to generate their 
 own files.
 
