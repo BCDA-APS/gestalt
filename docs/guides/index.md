@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Guides
-nav_order: 3
+nav_order: 4
 has_children: true
 has_toc: false
 ---
@@ -17,7 +17,6 @@ Goal-oriented guides for common tasks.
 
 - [Installation](installation) -- Prerequisites, dependencies, and verifying your setup.
 - [Using the Command Line](commandline) -- Generate screens from the command line.
-- [Using the GUI](gui) -- Launch the interactive GUI mode.
 
 ### Layout techniques
 

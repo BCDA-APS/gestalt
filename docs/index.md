@@ -54,14 +54,14 @@ python gestalt.py --to bob --output status.bob layout.yml
 
 ## Documentation
 
-[Learn](learn/){: .btn .mr-2 }
+[Learn](learn/){: .btn .btn-primary .mr-2 }
 Quick start tutorial and guided screen-building walkthrough.
+
+[Concepts](concepts/){: .btn .mr-2 }
+Core concepts, macro resolution, and architecture.
 
 [Guides](guides/){: .btn .mr-2 }
 Installation, command-line usage, custom templates, and build integration.
 
 [Reference](reference/){: .btn .mr-2 }
 Complete reference for all node types and built-in templates.
-
-[Concepts](concepts/){: .btn .mr-2 }
-Core concepts, macro resolution, and architecture.

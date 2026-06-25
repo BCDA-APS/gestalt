@@ -2,7 +2,7 @@
 layout: default
 title: Building a Screen
 parent: Learn
-nav_order: 1
+nav_order: 3
 ---
 
 # Building a Screen

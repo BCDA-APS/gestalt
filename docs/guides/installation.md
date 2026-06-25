@@ -126,5 +126,5 @@ statements -- you do not need to specify it with `--include`.
 ## Next steps
 
 - [Quick Start](../learn/) -- Generate your first screen in five minutes.
+- [Using the GUI](../learn/gui) -- Launch the interactive GUI mode.
 - [Using the Command Line](commandline) -- Generate screens from the command line.
-- [Using the GUI](gui) -- Launch the interactive GUI mode.
