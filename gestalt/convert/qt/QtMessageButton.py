@@ -1,6 +1,7 @@
 from gestalt.Type import *
 
 from gestalt.convert.qt.QtWidget import QtWidget
+from gestalt.convert.StyleUtils import qss_font
 
 class QtMessageButton(QtWidget):
 	def __init__(self, node=None, macros=None):
@@ -35,21 +36,7 @@ class QtMessageButton(QtWidget):
 		the_font = self.button.pop("font")
 		self.button.pop("alignment")
 
-		style = the_font["style"].lower()
-
-		if "regular" in style:
-			style = ""
-
-		self.properties["attrs"]["styleSheet"] = String(
-"""\
-QPushButton
-{{
-    font-family: {family};
-    font: {style};
-}}
-""".format(
-	family = the_font["family"],
-	style  = style))
+		self.properties["attrs"]["styleSheet"] = String(qss_font("QPushButton", the_font))
 
 		self.children.append(self.button)
 

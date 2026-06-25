@@ -1,87 +1,34 @@
+# PyDM-specific adapters for the shared QSS utilities in StyleUtils.
+# Each function constructs a scoped CSS selector from the node, delegates
+# to the corresponding StyleUtils function for QSS generation, and manages
+# the node's toRemove list for property cleanup during write.
+
 from gestalt.Type import *
+from gestalt.convert.StyleUtils import qss_textentry, qss_button, qss_border, qss_color, qss_font, qss_selected
+
 
 def style_textentry(node):
-	stylesheet = """\
-{my_class}#{my_name}
-{{
-    border: 2px;
-    padding: 0px;
-    border-style:inset;
-    border-color: rgba(43, 101, 114, 255) rgba(185, 242, 255, 255)  rgba(185, 242, 255, 255) rgba(43, 101, 114, 255);
-}}
-""".format(my_class=node.classname, my_name=node.name)
-	return stylesheet
+	selector = "{}#{}".format(node.classname, node.name)
+	return qss_textentry(selector)
+
 
 def style_button(node):
+	selector = "{}#{}".format(node.classname, node.name)
 	col = Color(node["background"]).val()
 
-	r = col["red"]
-	g = col["green"]
-	b = col["blue"]
-
-	dr = int(r/255.0 * 170)
-	dg = int(g/255.0 * 170)
-	db = int(b/255.0 * 170)
-
-	lr = int(min(1.2 * r, 255))
-	lg = int(min(1.2 * g, 255))
-	lb = int(min(1.2 * b, 255))
-
-	stylesheet = """\
-{my_class}#{my_name}
-{{
-	border-color: rgba({dr}, {dg}, {db}, 255);
-	border-radius: 1px;
-	padding: 0px;
-	border-width: 3px;
-	border-style: outset;
-	margin:0px
-}}
-{my_class}#{my_name}:pressed
-{{
-	background-color: rgba({dr}, {dg}, {db}, 255);
-}}
-{my_class}#{my_name}:hover
-{{
-	background-color: rgba({lr}, {lg}, {lb}, 255);
-}}
-""".format(
-	my_class=node.classname,
-	my_name=node.name,
-	dr = dr,
-	dg = dg,
-	db = db,
-	lr = lr,
-	lg = lg,
-	lb = lb)
+	stylesheet = qss_button(selector, col)
 
 	node.toRemove.append("background")
 	return stylesheet
 
-def write_frameborder(node):
-	stylesheet = ""
 
+def write_frameborder(node):
+	selector = "{}#{}".format(node.classname, node.name)
 	col = Color(node["border-color"]).val()
 	wid = Number(node["border-width"]).val()
 	style = String(node["border-style"]).val()
 
-	if (int(wid) != 0) and (col["alpha"] != 0):
-		stylesheet += """
-{my_class}#{my_name}
-{{
-    border-width: {width}px;
-    border-style: {style};
-    border-color: rgba({red},{green},{blue},{alpha});
-}}
-""".format(
-		red=col["red"],
-		green=col["green"],
-		blue=col["blue"],
-		alpha=col["alpha"],
-		width=wid,
-		style=style.lower(),
-		my_name=node.name,
-		my_class=node.classname)
+	stylesheet = qss_border(selector, col, wid, style)
 
 	node.toRemove.append("border-color")
 	node.toRemove.append("border-width")
@@ -91,52 +38,23 @@ def write_frameborder(node):
 
 
 def write_color(node):
+	selector = "{}#{}".format(node.classname, node.name)
 	background = node["background"]
-	text_color = node["foreground"]
+	foreground = node["foreground"]
 
-	stylesheet = """\
-{my_class}#{my_name}
-{{
-    background: rgba({br},{bg},{bb},{ba});
-    color: rgba({tr},{tg},{tb},{ta});
-}}
-""".format(
-	my_class = node.classname,
-	my_name = node.name,
-	br = int(background["red"]),
-	bg = int(background["green"]),
-	bb = int(background["blue"]),
-	ba = int(background["alpha"]),
-	tr = int(text_color["red"]),
-	tg = int(text_color["green"]),
-	tb = int(text_color["blue"]),
-	ta = int(text_color["alpha"]))
+	stylesheet = qss_color(selector, background, foreground)
 
 	node.toRemove.append("background")
 	node.toRemove.append("foreground")
 
 	return stylesheet
 
+
 def write_font(node):
+	selector = "{}#{}".format(node.classname, node.name)
 	the_font = node["font"]
 
-	style = the_font["style"].lower()
-
-	if "regular" in style:
-		style = ""
-
-	stylesheet = """\
-{my_class}#{my_name}
-{{
-    font-family: {family};
-    font: {style} {size}pt;
-}}
-""".format(
-	my_class = node.classname,
-	my_name = node.name,
-	family = the_font["family"],
-	style  = style,
-	size   = the_font["size"])
+	stylesheet = qss_font(selector, the_font)
 
 	node.toRemove.append("font")
 
@@ -150,20 +68,10 @@ def style_selected(node):
 	if "selected" not in node:
 		return ""
 
+	selector = "{}#{}".format(node.classname, node.name)
 	col = Color(node["selected"]).val()
 
-	stylesheet = """\
-{my_class}#{my_name} QPushButton:checked
-{{
-    background-color: rgba({r},{g},{b},{a});
-}}
-""".format(
-	my_class=node.classname,
-	my_name=node.name,
-	r=col["red"],
-	g=col["green"],
-	b=col["blue"],
-	a=col["alpha"])
+	stylesheet = qss_selected(selector, col)
 
 	node.toRemove.append("selected")
 	return stylesheet

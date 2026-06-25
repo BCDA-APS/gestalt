@@ -1,6 +1,7 @@
 from gestalt.Type import *
 
 from gestalt.convert.qt.QtWidget import QtWidget
+from gestalt.convert.StyleUtils import qss_border
 
 class QtGroup(QtWidget):
 	def __init__(self, node=None, macros=None):
@@ -21,27 +22,13 @@ class QtGroup(QtWidget):
 		wid = Number(self.pop("border-width")).val()
 		style = String(self.pop("border-style")).val()
 		
-		if (int(wid) != 0) and (col["alpha"] != 0):
+		border_css = qss_border("QFrame", col, wid, style)
+		
+		if border_css:
 			border = QtWidget("QFrame")
 			border["geometry"]["width"] = self["geometry"]["width"]
 			border["geometry"]["height"] = self["geometry"]["height"]
-		
-			border["styleSheet"] = String(
-"""\
-QFrame
-{{
-    border-width: {width}px;
-    border-style: {style};
-    border-color: rgba({red},{green},{blue},{alpha});
-}}
-""".format(
-			red=col["red"],
-			green=col["green"],
-			blue=col["blue"],
-			alpha=col["alpha"],
-			width=wid,
-			style=style.lower()))
-
+			border["styleSheet"] = String(border_css)
 			self.children.insert(0, border)
 		
 		super(QtGroup, self).write(tree)
