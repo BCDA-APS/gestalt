@@ -28,7 +28,7 @@ Goal-oriented guides for common tasks.
 
 - [Custom Templates](custom-templates) -- Write your own reusable widget groups with `!Template` and `!Apply`.
 - [Conditional Elements](conditionals) -- Optionally show or hide elements with `!If` and `!IfNot`.
-- [Overridable Defaults](embed-override) -- Let callers replace entire widgets using `!Embed`.
+- [Overridable Elements](embed-override) -- Let callers replace entire widgets using `!Embed`.
 
 ### Build system
 

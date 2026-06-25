@@ -174,6 +174,6 @@ based on the `read-first` flag.
 
 ## Next steps
 
-- [Overridable Defaults](embed-override) -- Let callers replace entire widgets using `!Embed`.
+- [Overridable Elements](embed-override) -- Let callers replace entire widgets using `!Embed`.
 - [Custom Templates](custom-templates) -- Fundamentals of writing templates.
 - [ConditionalNode Reference](../reference/nodes/ConditionalNode) -- Full node documentation.

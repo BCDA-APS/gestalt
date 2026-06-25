@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Overridable Defaults
+title: Overridable Elements
 parent: Guides
 nav_order: 6
 ---
 
-# Overridable Defaults
+# Overridable Elements
 {: .no_toc}
 
 ## Table of contents

@@ -255,5 +255,5 @@ always searched first.
 ## Next steps
 
 - [Conditional Elements](conditionals) -- Optionally show or hide elements with `!If` and `!IfNot`.
-- [Overridable Defaults](embed-override) -- Let callers replace entire widgets using `!Embed`.
+- [Overridable Elements](embed-override) -- Let callers replace entire widgets using `!Embed`.
 - [Template Reference](../reference/templates/) -- Documentation for Gestalt's built-in templates.
