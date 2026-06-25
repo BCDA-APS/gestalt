@@ -54,7 +54,7 @@ python gestalt.py --to bob --output status.bob layout.yml
 
 ## Documentation
 
-[Learn](learn/){: .btn .btn-primary .mr-2 }
+[Learn](learn/){: .btn .mr-2 }
 Quick start tutorial and guided screen-building walkthrough.
 
 [Guides](guides/){: .btn .mr-2 }
