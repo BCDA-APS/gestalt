@@ -50,9 +50,11 @@ _StatusIndicator: !Template:StatusIndicator
 
 Key points:
 
-- **Naming convention**: The top-level YAML key uses a `_` prefix (`_StatusIndicator`).
-  Keys starting with `_` are anchor-only definitions -- Gestalt will not render them
-  as widgets. The name after `!Template:` is the name used with `!Apply`.
+- **Naming convention**: The top-level YAML key uses a `_` prefix (`_StatusIndicator`)
+  by convention to visually distinguish template definitions from rendered content.
+  The `_` is not functionally required -- template definitions are not rendered because
+  `!Template` registers the template and produces no output. The name after `!Template:`
+  is the name used with `!Apply`.
 
 - **`!Defaults` block**: Every parameter used in the template body should have a default
   value here, except parameters that are required (like `pv` above, which has no default

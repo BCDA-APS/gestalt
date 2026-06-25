@@ -216,8 +216,9 @@ Ind2: !Apply:MyIndicator { pv: "$(P)Status2", label: "Valve" }
 ```
 
 Key points:
-- Template names are prefixed with `_` at the top level -- this tells Gestalt they are
-  definitions, not widgets to render.
+- Template names are conventionally prefixed with `_` at the top level to distinguish
+  definitions from rendered content. The `!Template` tag itself registers the template
+  and produces no output, so the prefix is a readability convention, not a requirement.
 - `!Defaults` sets default values for template parameters.
 - Parameters are referenced with `{name}` syntax in property values.
 - `!Apply:TemplateName` creates an instance, overriding any defaults with provided values.
