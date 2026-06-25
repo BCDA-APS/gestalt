@@ -128,8 +128,9 @@ Readbacks: !VFlow
 ```
 
 Each `!Apply:PVReadWrite` produces the same label + readback + units row as before,
-but in a few lines instead of many. And because each element is only shown when its
-parameter is set, you can easily add setpoint controls just by providing more PVs.
+but with named parameters that make the intent clear at a glance. And because each
+element is only shown when its parameter is set, you can easily add setpoint controls
+just by providing more PVs.
 
 
 ## Step 4: Add setpoint controls
@@ -295,17 +296,6 @@ python gestalt.py --to bob --input device_data.yml --output device.bob device.ym
 # PyDM
 python gestalt.py --to pydm --input device_data.yml --output device_pydm.ui device.yml
 ```
-
----
-
-## What you learned
-
-- **Screen setup**: `!Form` with margins and background, `!Apply:ScreenHeader` for a title banner.
-- **Layout containers**: `!VFlow` and `!HFlow` for automatic widget arrangement.
-- **Templates**: `!Apply:PVReadWrite` to replace repetitive manual widget groups.
-- **Setpoint controls**: Adding entry fields and menus by providing PV parameters.
-- **Data-driven repetition**: `!VRepeat` with `repeat-over` to generate rows from a data list.
-- **Multi-platform output**: Same layout produces caQtDM, Phoebus, and PyDM screens.
 
 ---
 
