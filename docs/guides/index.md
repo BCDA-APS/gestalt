@@ -16,7 +16,6 @@ Goal-oriented guides for common tasks.
 ### Getting set up
 
 - [Installation](installation) -- Prerequisites, dependencies, and verifying your setup.
-- [Using the Command Line](commandline) -- Generate screens from the command line.
 
 ### Layout techniques
 

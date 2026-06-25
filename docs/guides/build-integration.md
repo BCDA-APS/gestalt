@@ -148,4 +148,4 @@ clean:
 ## Next steps
 
 - [Architecture](../concepts/architecture) -- How Gestalt processes layout files internally.
-- [Using the Command Line](commandline) -- Full command-line reference.
+- [Command Line Options](../reference/commandline) -- Full command-line option reference.

@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Using the Command Line
-parent: Guides
-nav_order: 2
+title: Command Line Options
+parent: Reference
+nav_order: 3
 ---
 
 ## Table of contents
@@ -13,18 +13,11 @@ nav_order: 2
 
 
 
-## Command Line
-
-Gestalt has a number of command line options to be able to generate screens beyond just
-the built-in layouts. As well, users are able to provide input data in a variety of 
-formats beyond just YAML. 
+## Command Line Options
 
 The structure of calling Gestalt on the command line is:
 
 > gestalt.py [OPTIONS] [LAYOUT]
-
-
-## Options
 
 
 ### -i, --input

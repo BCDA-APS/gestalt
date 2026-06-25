@@ -172,6 +172,6 @@ If the extension is not recognized, use `--from` to specify the format explicitl
 
 ## Next steps
 
-- [Using the Command Line](commandline) -- Full command-line option reference.
+- [Command Line Options](../reference/commandline) -- Full command-line option reference.
 - [Repeat and Grid](repeat-and-grid) -- How to use repeated data in layouts.
 - [Macro Resolution](../concepts/macros) -- How macros are substituted in property values.
