@@ -239,6 +239,40 @@ VerticalGrid: !Grid
 ```
 
 
+## Tabbed repeat
+
+`!TabbedRepeat` combines a tabbed display with repeat iteration. Each iteration
+produces a new tab containing a copy of the children widgets:
+
+```yaml
+ChannelTabs: !TabbedRepeat
+    geometry: 400x300
+    repeat-over: "CHANNELS"
+    variable: "ch"
+
+    tab-color: *header_blue
+    foreground: *white
+    selected: $3970C4
+    border-color: *header_blue
+    font: -DejaVu Sans Mono - Bold - 9
+
+    children:
+        - !VFlow
+            padding: 5
+            children:
+                - !TextMonitor { geometry: 120x20, pv: "$(P)$(R){ch}:Value_RBV" }
+                - !TextEntry   { geometry: 120x20, pv: "$(P)$(R){ch}:Setpoint", background: *edit_blue }
+```
+
+Tab names are set from `{__index__}` (the 0-based iteration counter), so tabs for a
+list of 4 items would be labeled `0`, `1`, `2`, `3`.
+
+The same `repeat-over` modes are supported: numbers, lists of values, and lists of
+dictionaries. Tab-specific styling attributes include `tab-color`, `selected` (the
+active tab color), `foreground`, `font`, `border-color`, `inset` (horizontal offset
+of the tab bar), and `offset` (vertical gap between tabs and content).
+
+
 ## Reversing the order
 
 Set `reverse: true` on any repeat or grid node to iterate in reverse order:
@@ -276,6 +310,7 @@ FilteredList: !VRepeat
 
 ## Next steps
 
-- [Node Reference](../reference/nodes/RepeatNode) -- Full attribute reference for HRepeat and VRepeat.
-- [Node Reference](../reference/nodes/GridNode) -- Full attribute reference for Grid.
+- [RepeatNode Reference](../reference/nodes/RepeatNode) -- Full attribute reference for HRepeat and VRepeat.
+- [GridNode Reference](../reference/nodes/GridNode) -- Full attribute reference for Grid.
+- [TabbedRepeatNode Reference](../reference/nodes/TabbedRepeatNode) -- Full attribute reference for TabbedRepeat.
 - [Using Data Files](data-files) -- How to provide input data in different formats.
