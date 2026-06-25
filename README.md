@@ -1,51 +1,86 @@
-**G** enerating
-**E** PICS
-**S** creens
-**T** hrough
-**A** ssembling
-**L** ayout
-**T** emplates
+# GESTALT
 
+**G**enerating **E**PICS **S**creens **T**hrough **A**ssembling **L**ayout **T**emplates
 
-
-Gestalt is a python application to interface with generative UI libraries.
-
-
-Established templates are combined with structured user data to create a
-series of command calls that will build up a screen, arrange widgets, and set
-their properties. Layouts are provided to repeat batches of widgets along
-a variety of arrangements with specified macros being mapped to user-given
-inputs.
-
-Currently, caQtDM and CSS-Phoebus are supported.
+Gestalt is a Python tool that generates EPICS control system GUI screens from YAML
+layout files. Write your screen layout once, then generate output for caQtDM, CSS-Phoebus,
+or PyDM.
 
 
 ## Requirements
 
-The following python packages are required in order to run gestalt:
-
 * Python >= 3.9
 * lxml
-* PyQT5
-* phoebusgen
+* PyYAML
+
+Optional:
+
+* phoebusgen -- required for generating CSS-Phoebus `.bob` files
+* PyQt5 -- required for the GUI mode
+* tkinter -- used for font measurement (included with most Python installations)
 
 
-## Using Gestalt
+## Quick Start
 
-Running the top-level gestalt.py will load up all the existing templates
-and provide them for you to use and generate files. When you select an
-option from the drop-down menu, it will provide you with a description
-of the parameters that a given template needs, an existing example, and
-the capability to edit said example in-app.
+Install dependencies:
 
-If you would like to load in an existing file outside of the app, you can
-click "Load Existing Data" and select the file you wish to use. You may
-then change the data within that file using the editor, as well.
+```bash
+pip install lxml pyyaml
+```
 
-When you are satisfied and wish to generate a screen, press the button at
-the bottom of the screen labeled "Write Output File" and choose the location
-and name for saving. If everything is correct, you'll see a status message
-saying that the file has been generated.
+Create a layout file (`hello.yml`):
 
+```yaml
+#include colors.yml
+#include widgets.yml
+
+Form: !Form
+    title: "$(P) Status"
+
+Header: !Apply:ScreenHeader { title: "Device Status" }
+
+Controls: !VFlow
+    geometry: 0x35 x 0x0
+    padding: 5
+    children:
+        - !Apply:PVReadWrite
+            label: "Setpoint:"
+            entry-pv: "$(P)$(R)Setpoint"
+            read-pv:  "$(P)$(R)Setpoint:RBV"
+            units: "mm"
+
+        - !Apply:PVReadWrite
+            label: "Speed:"
+            menu-pv:  "$(P)$(R)Speed"
+            read-pv:  "$(P)$(R)Speed:RBV"
+```
+
+Generate a screen:
+
+```bash
+# caQtDM
+python gestalt.py --to ui --output hello.ui hello.yml
+
+# CSS-Phoebus (requires phoebusgen)
+python gestalt.py --to bob --output hello.bob hello.yml
+
+# PyDM
+python gestalt.py --to pydm --output hello_pydm.ui hello.yml
+```
+
+
+## Using the GUI
+
+Running gestalt without arguments launches the GUI, which provides a set of predefined
+layouts with interactive data editing and file generation:
+
+```bash
+python gestalt.py
+```
+
+The GUI requires PyQt5 (`pip install pyqt5`).
+
+
+## Documentation
 
 [Full Documentation](https://bcda-aps.github.io/gestalt/)

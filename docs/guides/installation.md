@@ -41,10 +41,11 @@ pip install lxml pyyaml
 | Package       | Purpose |
 |---------------|---------|
 | **phoebusgen** | Required for generating CSS-Phoebus `.bob` files |
-| **tkinter**    | Required for the GUI mode (included with most Python installations) |
+| **PyQt5**      | Required for the GUI mode |
+| **tkinter**    | Used for font measurement (included with most Python installations) |
 
 ```bash
-pip install phoebusgen
+pip install phoebusgen pyqt5
 ```
 
 `tkinter` is typically bundled with Python. If it is missing on your system, install it
