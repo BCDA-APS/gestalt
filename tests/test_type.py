@@ -291,6 +291,56 @@ class TestDataTypeVal(unittest.TestCase):
 		result = d.val()
 		self.assertIsInstance(result["macros"], str)
 
+	def test_scoped_dict_resolution(self):
+		# When accessing {dict[key]}, macros in the result should resolve
+		# against the dict's other keys
+		device = {
+			"link": {"label": "{prefix} motors", "macros": "P={prefix},M1=m1"},
+			"prefix": "IOC1:"
+		}
+		d = DataType("string", "{device[link][macros]}")
+		d.apply({"device": device})
+		self.assertEqual(d.val(), "P=IOC1:,M1=m1")
+
+	def test_scoped_dict_resolution_label(self):
+		device = {
+			"link": {"label": "{prefix} motors", "macros": "P={prefix}"},
+			"prefix": "IOC1:"
+		}
+		d = DataType("string", "{device[link][label]}")
+		d.apply({"device": device})
+		self.assertEqual(d.val(), "IOC1: motors")
+
+	def test_scoped_dict_no_interference_with_non_dict(self):
+		# Non-dict macro values should not trigger scoped resolution
+		d = DataType("string", "{A}_{B}")
+		d.apply({"A": "hello", "B": "world"})
+		self.assertEqual(d.val(), "hello_world")
+
+	def test_scoped_dict_partial_resolution(self):
+		# Unresolvable macros in the scoped result should be preserved
+		device = {
+			"link": {"macros": "P={prefix},R={record}"},
+			"prefix": "IOC1:"
+		}
+		d = DataType("string", "{device[link][macros]}")
+		d.apply({"device": device})
+		self.assertEqual(d.val(), "P=IOC1:,R={record}")
+
+	def test_scoped_dict_with_yaml_merge_pattern(self):
+		# Simulates YAML anchor + merge: shared template with per-instance prefix
+		shared = {"label": "{prefix} m1-m8", "file": "motors8", "macros": "P={prefix},M1=m1"}
+		device_a = {"link": dict(shared), "prefix": "28ida:"}
+		device_b = {"link": dict(shared), "prefix": "28idb:"}
+
+		d1 = DataType("string", "{dev[link][macros]}")
+		d1.apply({"dev": device_a})
+		self.assertEqual(d1.val(), "P=28ida:,M1=m1")
+
+		d2 = DataType("string", "{dev[link][macros]}")
+		d2.apply({"dev": device_b})
+		self.assertEqual(d2.val(), "P=28idb:,M1=m1")
+
 
 class TestDataTypeApply(unittest.TestCase):
 	def test_apply_stacks_layers(self):

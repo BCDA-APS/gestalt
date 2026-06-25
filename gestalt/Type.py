@@ -121,6 +121,14 @@ class DataType(object):
 					except TypeError:
 						pass
 
+					# Scoped resolution: if the substituted value came from a dict,
+					# resolve remaining macros against that dict's keys
+					if last_output != output and isinstance(macro_val, dict) and "{" in output:
+						try:
+							output = output.format_map(PartialSubDict(macro_val))
+						except TypeError:
+							pass
+
 					if last_output != output and json_like(output):
 						try:
 							check = yaml.load(output, Loader=_SafeLoader)

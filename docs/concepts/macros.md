@@ -101,6 +101,40 @@ data, without needing conditional nodes in the layout. Changing `device_type` in
 data file selects a different set of properties at generation time. If the inner macro
 does not resolve, the entire expression is left as literal text in the output.
 
+**Scoped resolution** -- when a value is retrieved from a dictionary via
+`{dict[key]}`, macros within that value are automatically resolved against the
+dictionary's other keys. This enables shared templates with per-instance overrides:
+
+```yaml
+# data.yml
+_motor_links: &motor_links
+    m1-m8:  {label: "{prefix} m1-m8",  file: "motors8", macros: "P={prefix},M1=m1,M2=m2"}
+    m9-m16: {label: "{prefix} m9-m16", file: "motors8", macros: "P={prefix},M1=m9,M2=m10"}
+
+motor_a:
+    <<: *motor_links
+    prefix: "IOC_A:"
+
+motor_b:
+    <<: *motor_links
+    prefix: "IOC_B:"
+```
+
+```yaml
+# layout
+- !RelatedDisplay
+    links:
+        - "{motor_a[m1-m8]}"
+```
+
+When `{motor_a[m1-m8][macros]}` resolves to `"P={prefix},M1=m1,M2=m2"`, the
+`{prefix}` macro is resolved against `motor_a`'s own keys -- finding
+`prefix: "IOC_A:"` -- producing `"P=IOC_A:,M1=m1,M2=m2"`.
+
+This allows you to define shared link structures using YAML anchors, with
+per-instance values like PV prefixes provided as sibling keys in each device
+dictionary.
+
 
 ## EPICS macros
 
