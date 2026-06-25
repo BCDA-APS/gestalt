@@ -69,6 +69,38 @@ text: "{channel[label]}"         # channel={label: "Temp", pv: "T1"} --> "Temp"
 pv:   "{channel[pv]}:RBV"       # --> "T1:RBV"
 ```
 
+**Dictionary lookup tables** -- combine dictionary access with recursive resolution
+to use data dictionaries as lookup tables. The inner macro resolves first, producing
+a key that is then used for the outer dictionary access:
+
+```yaml
+# data.yml
+DEVICES:
+    detector: { label: "Area Detector", pv_prefix: "det1" }
+    counter:  { label: "Scaler",       pv_prefix: "scaler1" }
+    mca:      { label: "MCA Spectrum", pv_prefix: "mca1" }
+
+device_type: "detector"
+```
+
+```yaml
+# layout
+- !Text
+    text: "{DEVICES[{device_type}][label]}"
+
+- !TextMonitor
+    pv: "$(P){DEVICES[{device_type}][pv_prefix]}:Value"
+```
+
+Gestalt resolves this in two passes. First, `{device_type}` resolves to `"detector"`,
+producing `"{DEVICES[detector][label]}"`. The string still contains `{`, so resolution
+continues -- `{DEVICES[detector][label]}` resolves to `"Area Detector"`.
+
+This pattern lets you parameterize a layout by a configuration choice purely through
+data, without needing conditional nodes in the layout. Changing `device_type` in the
+data file selects a different set of properties at generation time. If the inner macro
+does not resolve, the entire expression is left as literal text in the output.
+
 
 ## EPICS macros
 

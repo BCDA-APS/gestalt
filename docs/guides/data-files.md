@@ -168,6 +168,59 @@ extension:
 
 If the extension is not recognized, use `--from` to specify the format explicitly.
 
+
+## Structuring data with dictionaries
+
+When a screen controls multiple devices of the same kind, you can use dictionaries
+in your data file so that each device shares the same attribute names:
+
+```yaml
+# data.yml
+slit1:
+    h_center: "Slit1:HCenter"
+    h_size: "Slit1:HSize"
+    v_center: "Slit1:VCenter"
+    v_size: "Slit1:VSize"
+
+slit2:
+    h_center: "Slit2:HCenter"
+    h_size: "Slit2:HSize"
+    v_center: "Slit2:VCenter"
+    v_size: "Slit2:VSize"
+```
+
+Because both slits use the same attribute names, a single template can work with
+either one:
+
+```yaml
+_SlitControl: !Template:SlitControl
+    - !Defaults
+        label-width: 80
+    - !VFlow
+        padding: 5
+        children:
+            - !Apply:PVReadWrite
+                label: "H Center:"
+                label-width: "{label-width}"
+                entry-pv: "$(P){slit[h_center]}"
+                read-pv:  "$(P){slit[h_center]}:RBV"
+            - !Apply:PVReadWrite
+                label: "H Size:"
+                label-width: "{label-width}"
+                entry-pv: "$(P){slit[h_size]}"
+                read-pv:  "$(P){slit[h_size]}:RBV"
+
+Slit1: !Apply:SlitControl { slit: "{slit1}" }
+Slit2: !Apply:SlitControl { slit: "{slit2}" }
+```
+
+The template accesses `{slit[h_center]}`, `{slit[h_size]}`, etc. without knowing
+which slit it's working with. Adding a third slit is just another dictionary in the
+data file and another `!Apply` in the layout.
+
+See [Macro Resolution](../concepts/macros#python-format-string-syntax) for more
+on dictionary access and lookup table patterns.
+
 ---
 
 ## Next steps
