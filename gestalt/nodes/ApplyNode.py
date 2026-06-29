@@ -88,6 +88,11 @@ class ApplyNode(GroupNode):
 		
 		self.template = template
 		
+		# Propagate the apply-site location to copied template nodes so that
+		# errors point to where !Apply was used, not where the template was defined
+		if self.location:
+			self._propagate_location(self.location)
+		
 		for item in self:
 			self["render-order"] = max(int(item["render-order"]), int(self["render-order"]))
 			self["z-order"]      = max(int(item["z-order"]), int(self["z-order"]))
@@ -96,6 +101,26 @@ class ApplyNode(GroupNode):
 		self.tocopy.append("defaults")
 		self.tocopy.append("template")
 		
+	def _propagate_location(self, location):
+		"""Set the location on all child nodes recursively."""
+		for child in self.children:
+			self._set_location(child, location)
+	
+	@staticmethod
+	def _set_location(node, location):
+		node.location = location
+		for prop in node.properties.get("attrs", {}).values():
+			if isinstance(prop, DataType):
+				prop.location = location
+		for prop in node.properties.get("internal", {}).values():
+			if isinstance(prop, DataType):
+				prop.location = location
+		if hasattr(node, "children"):
+			for child in node.children:
+				ApplyNode._set_location(child, location)
+		if hasattr(node, "subnode") and node.subnode:
+			ApplyNode._set_location(node.subnode, location)
+
 	def initApply(self, data):
 		super().initApply(data)
 		self.data = data

@@ -50,7 +50,9 @@ class Node(object):
 
 	def setDefault(self, datatype, key, default, internal=False):
 		which = "internal" if internal else "attrs"
-		self.properties[which][key] = datatype(self.properties[which].pop(key, default))
+		val = datatype(self.properties[which].pop(key, default))
+		val.location = self.location
+		self.properties[which][key] = val
 
 	def makeInternal(self, datatype, key, default=None):
 		self.setDefault(datatype, key, self.properties["attrs"].pop(key, default), internal=True)
@@ -116,6 +118,7 @@ class Node(object):
 		which = "internal" if (internal or key in self.properties["internal"]) else "attrs"
 
 		if isinstance(to_assign, DataType):
+			to_assign.location = self.location
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + str(to_assign.value))
 		else:
 			self.log("Setting Property " + key + " from " + str(self.properties[which].get(key)) + " to " + pprint.pformat(to_assign))

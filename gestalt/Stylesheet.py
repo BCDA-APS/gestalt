@@ -8,7 +8,7 @@ import pprint
 
 from gestalt.nodes import *
 from gestalt.Type import *
-from gestalt.Utils import expand_yaml
+from gestalt.Utils import expand_yaml, resolve_location
 
 ##########################
 #    Data Type Parsing   #
@@ -155,7 +155,9 @@ def read_apply_multi(loader, suffix, node):
 		pass
 
 	if suffix not in my_templates:
-		raise ValueError("Could not find template with name: " + suffix)
+		loc = resolve_location(node.start_mark)
+		loc_str = "{} -- ".format(loc) if loc else ""
+		raise ValueError("{}Template not found: '{}'".format(loc_str, suffix))
 
 	template_nodes, defaults = my_templates.get(suffix)
 
@@ -344,6 +346,34 @@ def render_sort(item):
 	else:
 		return int(check["render-order"])
 
+def _resolve_node_location(node):
+	"""Recursively resolve a node's YAML mark to a SourceLocation."""
+	if node.location:
+		node.location = resolve_location(node.location)
+
+	if hasattr(node, "children"):
+		for child in node.children:
+			if isinstance(child, Node):
+				_resolve_node_location(child)
+
+	if hasattr(node, "subnode") and node.subnode:
+		_resolve_node_location(node.subnode)
+
+
+def _resolve_locations(template):
+	"""Walk the parsed node tree and resolve all YAML marks to SourceLocations."""
+	for key, item in template.items():
+		if isinstance(item, Node):
+			_resolve_node_location(item)
+
+	for name, (nodes, defaults) in my_templates.items():
+		for node in nodes:
+			if isinstance(node, Node):
+				_resolve_node_location(node)
+
+
 def parse(filename, includes_dirs):
 	my_templates.clear()
-	return dict(sorted(yaml.load(expand_yaml(filename, includes_dirs, []), Loader=GestaltLoader).items(), key=render_sort))
+	result = dict(sorted(yaml.load(expand_yaml(filename, includes_dirs, []), Loader=GestaltLoader).items(), key=render_sort))
+	_resolve_locations(result)
+	return result

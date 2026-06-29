@@ -106,6 +106,13 @@ parser.add_argument("--depends",
 List all includes of provided input and layout
 """)
 
+parser.add_argument("--debug",
+	action="store_true",
+	dest="enable_debug",
+	help="""
+Show full Python tracebacks on errors
+""")
+
 
 def listDepends(args):
 	include_dirs = [".", str(Path(curr_dir) / "widgets")]
@@ -219,4 +226,11 @@ if __name__ == "__main__":
 		listDepends(args)
 
 	else:
-		doGenerate(args)
+		try:
+			doGenerate(args)
+		except Exception as e:
+			print("Error: " + str(e), file=sys.stderr)
+			if args.enable_debug:
+				import traceback
+				traceback.print_exc()
+			sys.exit(1)

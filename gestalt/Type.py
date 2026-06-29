@@ -1,6 +1,8 @@
 import copy
 import yaml
 
+from gestalt.Utils import SourceLocation, resolve_location
+
 try:
 	_SafeLoader = yaml.CSafeLoader
 except AttributeError:
@@ -39,6 +41,7 @@ class DataType(object):
 		self.typ = typ
 		self.macros = []
 		self.updates = {}
+		self.location = None
 
 		self.standard = True
 		self.dict = False
@@ -87,6 +90,7 @@ class DataType(object):
 			self.standard = val.standard
 			self.dict     = val.dict
 			self.list     = val.list
+			self.location = val.location
 
 		elif isinstance(val, (int, float)):
 			self.value = str(val)
@@ -102,6 +106,7 @@ class DataType(object):
 			output.macros.append(copy.copy(item))
 
 		output.updates = copy.copy(self.updates)
+		output.location = self.location
 
 		return output
 
@@ -345,7 +350,9 @@ class Rect(DataType):
 
 			return output
 		except Exception:
-			raise Exception("Error resolving Rect datatype from value: " + self.value)
+			resolved = resolve_location(self.location) if self.location else None
+			loc = "{} -- ".format(resolved) if resolved else ""
+			raise Exception("{}Could not resolve Rect from value: {}".format(loc, self.value))
 
 	def __getitem__(self, key):
 		return int(self.val()[key])
@@ -394,7 +401,9 @@ class Color(DataType):
 			return output
 
 		except Exception as e:
-			raise Exception("Error resolving Color datatype from value: " + self.value)
+			resolved = resolve_location(self.location) if self.location else None
+			loc = "{} -- ".format(resolved) if resolved else ""
+			raise Exception("{}Could not resolve Color from value: {}".format(loc, self.value))
 
 	def __str__(self):
 		input = self.val()
@@ -435,7 +444,9 @@ class Font(DataType):
 
 			return output
 		except Exception:
-			raise Exception("Error resolving Font datatype from value: " + self.value)
+			resolved = resolve_location(self.location) if self.location else None
+			loc = "{} -- ".format(resolved) if resolved else ""
+			raise Exception("{}Could not resolve Font from value: {}".format(loc, self.value))
 
 
 
@@ -483,7 +494,9 @@ class Alignment(DataType):
 
 				return temp
 		except Exception:
-			raise Exception("Error resolving Alignment datatype from value: " + self.value)
+			resolved = resolve_location(self.location) if self.location else None
+			loc = "{} -- ".format(resolved) if resolved else ""
+			raise Exception("{}Could not resolve Alignment from value: {}".format(loc, self.value))
 
 	def __str__(self):
 		output = self.val()
@@ -512,7 +525,9 @@ class List(DataType):
 
 			return None
 		except Exception as e:
-			raise Exception("Error resolving List datatype from value: " + self.value)
+			resolved = resolve_location(self.location) if self.location else None
+			loc = "{} -- ".format(resolved) if resolved else ""
+			raise Exception("{}Could not resolve List from value: {}".format(loc, self.value))
 
 	def __iter__(self):
 		return self.val().__iter__()
@@ -537,7 +552,9 @@ class Dict(DataType):
 
 			return None
 		except Exception as e:
-			raise Exception("Error resolving Dict datatype from value: " + self.value)
+			resolved = resolve_location(self.location) if self.location else None
+			loc = "{} -- ".format(resolved) if resolved else ""
+			raise Exception("{}Could not resolve Dict from value: {}".format(loc, self.value))
 
 
 	def __iter__(self):
