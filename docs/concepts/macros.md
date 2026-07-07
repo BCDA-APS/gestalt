@@ -135,6 +135,39 @@ This allows you to define shared link structures using YAML anchors, with
 per-instance values like PV prefixes provided as sibling keys in each device
 dictionary.
 
+**Self-references** -- within a dictionary, `{self}` refers to the dictionary
+itself. Use `{self[key]}` to reference sibling values without needing to know
+the dictionary's external name:
+
+```yaml
+# data.yml
+_slit_template: &slit
+    motors: {label: "{self[name]}", file: "motor5x1", macros: "P={self[prefix]}"}
+    OPS:
+        links:
+            - "{self[motors]}"
+
+slit_a:
+    <<: *slit
+    name: "Slit A"
+    prefix: "IOC_A:"
+
+slit_b:
+    <<: *slit
+    name: "Slit B"
+    prefix: "IOC_B:"
+```
+
+The shared anchor uses `{self[name]}` and `{self[prefix]}` instead of
+hard-coding the device's top-level key name. This means copying a device
+definition only requires changing the top-level key and the instance-specific
+values -- the internal `{self}` references work automatically with the new
+dictionary.
+
+Values are resolved top-to-bottom within the dictionary, so `{self[key]}`
+accesses the already-resolved value if the referenced key appears earlier, or
+the raw value if it appears later.
+
 
 ## EPICS macros
 

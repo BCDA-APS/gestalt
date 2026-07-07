@@ -158,6 +158,9 @@ class DataType(object):
 		elif self.dict:
 			output = dict(self.value)
 
+			# Make the dict available as {self} for sibling references
+			self_ref = [{"self": output}]
+
 			for key, val in output.items():
 				if key in self.updates:
 					output[key] = self.updates[key]
@@ -173,7 +176,7 @@ class DataType(object):
 
 					if temp is not None and not (isinstance(temp, dict) and len(temp) == 1 and next(iter(temp.values())) is None):
 						temp_val = DataType(None, temp)
-						temp_val.macros = self.macros
+						temp_val.macros = self_ref + self.macros
 						output[key] = temp_val.val()
 						parsed = True
 
@@ -181,7 +184,7 @@ class DataType(object):
 					pass
 				elif not parsed:
 					temp_val = DataType(None, val)
-					temp_val.macros = self.macros
+					temp_val.macros = self_ref + self.macros
 					output[key] = temp_val.val()
 
 			return output

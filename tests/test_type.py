@@ -341,6 +341,61 @@ class TestDataTypeVal(unittest.TestCase):
 		d2.apply({"dev": device_b})
 		self.assertEqual(d2.val(), "P=28idb:,M1=m1")
 
+	def test_self_reference_basic(self):
+		# {self[key]} accesses sibling values within the same dict
+		device = {
+			"prefix": "IOC1:",
+			"label": "{self[prefix]} motors"
+		}
+		d = DataType(None, device)
+		result = d.val()
+		self.assertEqual(result["label"], "IOC1: motors")
+
+	def test_self_reference_nested_dict(self):
+		# {self[key]} works with dict-valued siblings
+		device = {
+			"prefix": "IOC1:",
+			"link": {"label": "{self[prefix]} m1", "macros": "P={self[prefix]}"}
+		}
+		d = DataType(None, device)
+		result = d.val()
+		self.assertEqual(result["link"]["macros"], "P=IOC1:")
+		self.assertEqual(result["link"]["label"], "IOC1: m1")
+
+	def test_self_reference_with_yaml_anchor_pattern(self):
+		# Simulates copy-paste device definitions with {self}
+		shared = {"label": "{self[name]} motors", "macros": "P={self[prefix]}"}
+		device_a = {"name": "Dev A", "prefix": "IOC_A:", "link": dict(shared)}
+		device_b = {"name": "Dev B", "prefix": "IOC_B:", "link": dict(shared)}
+
+		d_a = DataType(None, device_a)
+		result_a = d_a.val()
+		self.assertEqual(result_a["link"]["label"], "Dev A motors")
+		self.assertEqual(result_a["link"]["macros"], "P=IOC_A:")
+
+		d_b = DataType(None, device_b)
+		result_b = d_b.val()
+		self.assertEqual(result_b["link"]["label"], "Dev B motors")
+		self.assertEqual(result_b["link"]["macros"], "P=IOC_B:")
+
+	def test_self_reference_no_interference(self):
+		# Dicts without {self} should work normally
+		plain = {"key": "value", "other": "plain text"}
+		d = DataType(None, plain)
+		result = d.val()
+		self.assertEqual(result["key"], "value")
+		self.assertEqual(result["other"], "plain text")
+
+	def test_self_reference_nonexistent_key_raises(self):
+		# {self[key]} where key doesn't exist raises KeyError
+		device = {
+			"prefix": "IOC1:",
+			"label": "{self[nonexistent]} value"
+		}
+		d = DataType(None, device)
+		with self.assertRaises(KeyError):
+			d.val()
+
 
 class TestDataTypeApply(unittest.TestCase):
 	def test_apply_stacks_layers(self):
