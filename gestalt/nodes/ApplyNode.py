@@ -55,8 +55,6 @@ Status: !hcenter:hflow
 ```
 """
 
-import copy
-
 from gestalt.Type import *
 from gestalt.nodes.GroupNode import GroupNode
 
@@ -128,10 +126,11 @@ class ApplyNode(GroupNode):
 	def updateMacros(self, output, macros):		
 		super().updateMacros(output, macros)
 
-		explicit_macros = copy.deepcopy(self.macros)
 		bound_macros = {}
 
-		for key, val in explicit_macros.items():
+		for key, val in self.macros.items():
+			if isinstance(val, DataType):
+				val = val.copy()
 			to_assign = _wrap_datatype(val)
 
 			if isinstance(to_assign, DataType):
