@@ -6,7 +6,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from gestalt.Type import (
 	json_like, PartialSubFormatter, PartialSubDict,
-	DataType, String, Number, Double, Bool, Not, Enum, Set
+	DataType, String, Number, Double, Bool, Not, Enum, Set,
+	List, Dict
 )
 
 
@@ -474,6 +475,21 @@ class TestDataTypeBool(unittest.TestCase):
 
 	def test_random_string_is_true(self):
 		self.assertTrue(bool(String("hello")))
+
+	def test_nonempty_list_is_true(self):
+		self.assertTrue(bool(List(["a", "b"])))
+
+	def test_empty_list_is_false(self):
+		self.assertFalse(bool(List([])))
+
+	def test_nonempty_dict_is_true(self):
+		self.assertTrue(bool(Dict({"key": "val"})))
+
+	def test_empty_dict_is_false(self):
+		self.assertFalse(bool(Dict({})))
+
+	def test_none_is_false(self):
+		self.assertFalse(bool(DataType(None, None)))
 
 
 class TestDataTypeCopy(unittest.TestCase):

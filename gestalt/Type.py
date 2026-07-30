@@ -241,13 +241,16 @@ class DataType(object):
 	def __bool__(self):
 		check = self.val()
 
-		if check:
-			try:
-				return bool(int(check.lower()))
-			except (ValueError, AttributeError):
-				return not ( check.lower() == "false" )
+		if not check:
+			return False
 
-		return False
+		if not isinstance(check, str):
+			return bool(check)
+
+		try:
+			return bool(int(check.lower()))
+		except ValueError:
+			return check.lower() != "false"
 
 	def __int__(self):
 		return int(self.val())
